@@ -70,7 +70,7 @@ export function ProductCard({
   };
 
   return (
-    <Card className="group hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border-border/50 hover:border-primary/20">
+    <Card className="group hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border-0 shadow-lg bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-slate-800/90">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0">
