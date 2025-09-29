@@ -39,22 +39,6 @@ export const metadata: Metadata = {
     generator: 'v0.app'
 };
 
-function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <WagmiProvider config={wagmiAdapter.wagmiConfig}>
-        <SessionProvider>
-          <AppKitProvider>
-            {children}
-          </AppKitProvider>
-        </SessionProvider>
-      </WagmiProvider>
-    </QueryClientProvider>
-  );
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
