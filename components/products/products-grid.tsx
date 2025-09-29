@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Input } from "../ui/input";
-import { ProductCategory, ProductStatus } from "@/types/payments";
+import { ProductCategory, ProductStatus } from "../../types/payments";
 
 interface ProductsGridProps {
   products: Product[];
