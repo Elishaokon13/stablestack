@@ -174,7 +174,7 @@ export function DashboardSidebar({
           </SidebarGroupLabel>
           <SidebarGroupContent>
                   <div className="p-3">
-                    <div className="text-sm text-muted-foreground">Wallet integration coming soon</div>
+                    <WalletConnectButton />
                   </div>
           </SidebarGroupContent>
         </SidebarGroup>
