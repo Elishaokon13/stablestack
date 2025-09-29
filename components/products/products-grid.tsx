@@ -204,7 +204,7 @@ export function ProductsGrid({
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-2 h-10"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Create Your First Product
+              Create Your First Payment Link
             </Button>
           )}
         </div>
