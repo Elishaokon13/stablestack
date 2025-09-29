@@ -116,7 +116,7 @@ export function ProductsGrid({
             className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-2 h-10 shadow-lg hover:shadow-xl transition-all duration-200"
           >
             <Plus className="mr-2 h-4 w-4" />
-            Create Product
+            Create Payment Link
           </Button>
         )}
       </div>
