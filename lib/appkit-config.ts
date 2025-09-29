@@ -32,7 +32,7 @@ const metadata = {
 createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [b, sepolia],
+  networks: [base, sepolia],
   defaultNetwork: mainnet,
   metadata: metadata,
   features: {
