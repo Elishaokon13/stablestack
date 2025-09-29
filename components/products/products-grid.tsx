@@ -168,21 +168,29 @@ export function ProductsGrid({
 
       {/* Products Grid/List */}
       {filteredProducts.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="mx-auto w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-4">
-            <Plus className="h-8 w-8 text-muted-foreground" />
+        <div className="text-center py-16">
+          <div className="mx-auto w-32 h-32 bg-gradient-to-br from-primary/10 to-primary/5 rounded-full flex items-center justify-center mb-6">
+            <Plus className="h-12 w-12 text-primary/60" />
           </div>
-          <h3 className="text-lg font-semibold mb-2">No products found</h3>
-          <p className="text-muted-foreground mb-4">
+          <h3 className="text-xl font-semibold mb-3 text-foreground">
             {searchTerm || categoryFilter !== "all" || statusFilter !== "all"
-              ? "Try adjusting your filters"
-              : "Get started by creating your first product"
+              ? "No products match your filters"
+              : "No products yet"
+            }
+          </h3>
+          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+            {searchTerm || categoryFilter !== "all" || statusFilter !== "all"
+              ? "Try adjusting your search terms or filters to find what you're looking for."
+              : "Get started by creating your first product and start selling in the Web3 ecosystem."
             }
           </p>
           {onCreateProduct && (
-            <Button onClick={onCreateProduct}>
+            <Button 
+              onClick={onCreateProduct}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-2 h-10"
+            >
               <Plus className="mr-2 h-4 w-4" />
-              Create Product
+              Create Your First Product
             </Button>
           )}
         </div>
