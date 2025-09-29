@@ -50,6 +50,12 @@ const data = {
           isActive: true,
         },
         {
+          title: "Products",
+          url: "/products",
+          icon: Package,
+          isActive: false,
+        },
+        {
           title: "Laboratory",
           url: "/laboratory",
           icon: AtomIcon,
