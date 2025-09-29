@@ -12,7 +12,7 @@ import Widget from "../components/dashboard/widget";
 import Notifications from "../components/dashboard/notifications";
 import { MobileChat } from "../components/chat/mobile-chat";
 import Chat from "../components/chat";
-import { Providers } from "@/components/providers";
+import { Providers } from "../components/providers";
 import { headers } from "next/headers";
 import React from "react";
 
