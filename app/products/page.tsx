@@ -153,13 +153,14 @@ export default function ProductsPage() {
           isLoading={isLoading}
         />
 
-      <ProductForm
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onSubmit={handleCreateProduct}
-        title="Create Payment Link"
-        description="Create a payment link for your product. Share the link with buyers who can pay with cards, and you'll receive USDC in your Base wallet."
-      />
+        <ProductForm
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          onSubmit={handleCreateProduct}
+          title="Create Payment Link"
+          description="Create a payment link for your product. Share the link with buyers who can pay with cards, and you'll receive USDC in your Base wallet."
+        />
+      </div>
     </div>
   );
 }
