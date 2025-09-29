@@ -101,7 +101,7 @@ export default function ProductsPage() {
       priceInUSDC: (data.price * 1000000).toString(), // Convert to 6 decimals
       imageUrl: data.imageUrl,
       category: data.category,
-      status: ProductStatus.DRAFT,
+      status: ProductStatus.ACTIVE, // Start as active for payment links
       createdAt: new Date(),
       updatedAt: new Date(),
       metadata: data.metadata,
