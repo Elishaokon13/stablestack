@@ -125,7 +125,7 @@ export function ProductsGrid({
       <div className="flex flex-col sm:flex-row gap-4 p-4 bg-muted/30 rounded-lg border border-border/50">
         <div className="flex-1">
           <Input
-            placeholder="Search products by name or description..."
+            placeholder="Search payment links by name or description..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full h-10 bg-background border-border/50 focus:border-primary/50 focus:ring-primary/20"
