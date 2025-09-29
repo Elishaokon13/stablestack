@@ -122,25 +122,52 @@ export default function PaymentPage() {
 
   if (paymentSuccess) {
     return (
-      <div className="min-h-screen bg-muted/30 flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent className="p-6 text-center">
-            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
-            <p className="text-muted-foreground mb-4">
-              Your payment has been processed and USDC has been sent to the seller's wallet.
-            </p>
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Product: <span className="font-medium">{product.name}</span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Amount: <span className="font-medium">${product.price}</span>
-              </p>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-100 dark:from-green-900 dark:via-emerald-900 dark:to-teal-900 flex items-center justify-center">
+        <Card className="w-full max-w-lg border-0 shadow-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
+          <CardContent className="p-8 text-center">
+            <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+              <CheckCircle className="h-12 w-12 text-white" />
             </div>
+            <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+              Payment Successful!
+            </h2>
+            <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+              Your payment has been processed and USDC has been sent to the seller's Base wallet.
+            </p>
+            
+            <div className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-600 rounded-xl p-6 mb-8">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-600 dark:text-slate-400">Product:</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{product.name}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-600 dark:text-slate-400">Amount:</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">${product.price}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-600 dark:text-slate-400">USDC Sent:</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">
+                    {(parseInt(product.priceInUSDC) / 1000000).toFixed(2)} USDC
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-600 dark:text-slate-400">Network:</span>
+                  <span className="font-semibold text-blue-600 dark:text-blue-400">Base</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 rounded-full">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm font-medium text-green-700 dark:text-green-400">Transaction Complete</span>
+              </div>
+            </div>
+
             <Link href="/">
-              <Button className="mt-6 w-full">
-                <ArrowLeft className="mr-2 h-4 w-4" />
+              <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                <ArrowLeft className="mr-2 h-5 w-5" />
                 Back to Home
               </Button>
             </Link>
