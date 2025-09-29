@@ -150,7 +150,7 @@ export function ProductCard({
 
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <DollarSign className="h-4 w-4" />
-            <span>USDC: {product.priceInUSDC}</span>
+            <span>USDC: {(parseInt(product.priceInUSDC) / 1000000).toFixed(2)}</span>
           </div>
         </div>
       </CardContent>
