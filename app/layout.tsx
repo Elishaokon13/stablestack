@@ -12,8 +12,11 @@ import Widget from "@/components/dashboard/widget";
 import Notifications from "@/components/dashboard/notifications";
 import { MobileChat } from "@/components/chat/mobile-chat";
 import Chat from "@/components/chat";
-import { AppKitProvider } from "@/lib/appkit-config";
+import { AppKitProvider, wagmiAdapter } from "@/lib/appkit-config";
 import { SessionProvider } from "next-auth/react";
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 
 const mockData = mockDataJson as MockData;
 
