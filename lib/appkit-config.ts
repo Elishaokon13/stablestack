@@ -11,7 +11,7 @@ if (!projectId) {
 
 // Create the modal
 export const appKit = createAppKit({
-  adapters: [WagmiAdapter],
+  adapters: [WagmiAdapter()],
   projectId,
   networks: [mainnet, sepolia],
   defaultNetwork: mainnet,
