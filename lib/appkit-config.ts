@@ -11,7 +11,7 @@ if (!projectId) {
 }
 
 // Create Wagmi adapter
-export const wagmiAdapter = new WagmiAdapter({
+const wagmiAdapter = new WagmiAdapter({
   storage: createStorage({
     storage: cookieStorage,
   }),
