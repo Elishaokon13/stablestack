@@ -34,6 +34,7 @@ import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import Image from "next/image";
 import { useIsV0 } from "@/lib/v0-context";
+import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
 
 // This is sample data for the sidebar
 const data = {
