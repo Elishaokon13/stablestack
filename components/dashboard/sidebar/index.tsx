@@ -34,8 +34,6 @@ import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import Image from "next/image";
 import { useIsV0 } from "@/lib/v0-context";
-import WalletConnect from "@/components/wallet/wallet-connect";
-import { Wallet } from "lucide-react";
 
 // This is sample data for the sidebar
 const data = {
