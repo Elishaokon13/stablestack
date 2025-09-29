@@ -24,8 +24,8 @@ export default function DashboardOverview() {
   return (
     <DashboardPageLayout
       header={{
-        title: "Overview",
-        description: "Last updated 12:05",
+        title: "Web3 Payments Dashboard",
+        description: <WalletStatus />,
         icon: BracketsIcon,
       }}
     >
