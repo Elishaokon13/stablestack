@@ -181,18 +181,23 @@ export function ProductCard({
             <Button 
               size="sm" 
               className="ml-auto bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-4 py-2 h-8"
+              onClick={() => {
+                const paymentLink = `${window.location.origin}/pay/${product.id}`;
+                navigator.clipboard.writeText(paymentLink);
+                // TODO: Show toast notification
+              }}
             >
-              Buy Now
+              Copy Payment Link
             </Button>
           )}
-          {product.status === ProductStatus.SOLD_OUT && (
+          {product.status === ProductStatus.INACTIVE && (
             <Button 
               size="sm" 
               variant="outline" 
               disabled
               className="ml-auto opacity-50 cursor-not-allowed"
             >
-              Sold Out
+              Inactive
             </Button>
           )}
           {product.status === ProductStatus.DRAFT && (
@@ -201,7 +206,7 @@ export function ProductCard({
               variant="outline" 
               className="ml-auto"
             >
-              Preview
+              Preview Link
             </Button>
           )}
         </div>
