@@ -251,7 +251,7 @@ export function ProductForm({
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {initialData ? "Update Product" : "Create Product"}
+              {initialData ? "Update Payment Link" : "Create Payment Link"}
             </Button>
           </DialogFooter>
         </form>
