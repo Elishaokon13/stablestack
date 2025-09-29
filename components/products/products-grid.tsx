@@ -108,20 +108,20 @@ export function ProductsGrid({
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-4 p-4 bg-muted/30 rounded-lg border border-border/50">
         <div className="flex-1">
           <Input
-            placeholder="Search products..."
+            placeholder="Search products by name or description..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full"
+            className="w-full h-10 bg-background border-border/50 focus:border-primary/50 focus:ring-primary/20"
           />
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Category" />
+            <SelectTrigger className="w-[180px] h-10 bg-background border-border/50 focus:border-primary/50">
+              <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>
               {categoryOptions.map((option) => (
@@ -133,8 +133,8 @@ export function ProductsGrid({
           </Select>
 
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Status" />
+            <SelectTrigger className="w-[180px] h-10 bg-background border-border/50 focus:border-primary/50">
+              <SelectValue placeholder="All Status" />
             </SelectTrigger>
             <SelectContent>
               {statusOptions.map((option) => (
@@ -145,12 +145,12 @@ export function ProductsGrid({
             </SelectContent>
           </Select>
 
-          <div className="flex border rounded-md">
+          <div className="flex border border-border/50 rounded-lg overflow-hidden">
             <Button
               variant={viewMode === "grid" ? "default" : "ghost"}
               size="sm"
               onClick={() => setViewMode("grid")}
-              className="rounded-r-none"
+              className="rounded-none border-r border-border/50 h-10 px-3"
             >
               <Grid className="h-4 w-4" />
             </Button>
@@ -158,7 +158,7 @@ export function ProductsGrid({
               variant={viewMode === "list" ? "default" : "ghost"}
               size="sm"
               onClick={() => setViewMode("list")}
-              className="rounded-l-none"
+              className="rounded-none h-10 px-3"
             >
               <List className="h-4 w-4" />
             </Button>
