@@ -244,37 +244,62 @@ export default function PaymentPage() {
           </Card>
 
           {/* Payment Form */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CreditCard className="h-5 w-5" />
+          <Card className="border-0 shadow-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <CreditCard className="h-4 w-4 text-white" />
+                </div>
                 Payment
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-8">
               {/* Price Display */}
-              <div className="text-center p-6 bg-muted/50 rounded-lg">
-                <div className="text-4xl font-bold text-primary mb-2">
+              <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-200 dark:border-blue-800">
+                <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-3">
                   ${product.price}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-lg text-slate-600 dark:text-slate-400 font-medium">
                   ≈ {(parseInt(product.priceInUSDC) / 1000000).toFixed(2)} USDC on Base
+                </div>
+                <div className="mt-4 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                  <div className="w-1 h-1 bg-slate-400 rounded-full"></div>
+                  <span>Real-time conversion rate</span>
+                  <div className="w-1 h-1 bg-slate-400 rounded-full"></div>
                 </div>
               </div>
 
-              {/* Payment Info */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm">
-                  <DollarSign className="h-4 w-4 text-primary" />
-                  <span>Pay with any card via Stripe</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span>Instantly converted to USDC</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <ExternalLink className="h-4 w-4 text-blue-500" />
-                  <span>Sent to seller's Base wallet</span>
+              {/* Payment Features */}
+              <div className="space-y-4">
+                <h4 className="font-semibold text-slate-900 dark:text-white mb-4">Payment Features</h4>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                      <DollarSign className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-slate-900 dark:text-white">Pay with any card</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Visa, Mastercard, American Express</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
+                    <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                      <CheckCircle className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-slate-900 dark:text-white">Instant USDC conversion</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Automatic conversion to USDC</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
+                    <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <ExternalLink className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-slate-900 dark:text-white">Direct to seller's wallet</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Sent to Base network wallet</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -282,25 +307,34 @@ export default function PaymentPage() {
               <Button
                 onClick={handlePayment}
                 disabled={isProcessing}
-                className="w-full h-12 text-lg font-medium"
+                className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
               >
                 {isProcessing ? (
                   <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    <Loader2 className="mr-3 h-6 w-6 animate-spin" />
                     Processing Payment...
                   </>
                 ) : (
                   <>
-                    <CreditCard className="mr-2 h-5 w-5" />
-                    Pay ${product.price}
+                    <CreditCard className="mr-3 h-6 w-6" />
+                    Pay ${product.price} Now
                   </>
                 )}
               </Button>
 
               {/* Security Notice */}
-              <div className="text-xs text-muted-foreground text-center">
-                <p>🔒 Your payment is secured by Stripe's industry-leading security</p>
-                <p>💎 Funds are automatically converted to USDC and sent to the seller</p>
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-white text-xs">🔒</span>
+                  </div>
+                  <div className="text-sm">
+                    <p className="font-medium text-green-800 dark:text-green-300 mb-1">Bank-level security</p>
+                    <p className="text-green-700 dark:text-green-400">
+                      Your payment is protected by Stripe's industry-leading security and automatically converted to USDC.
+                    </p>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
