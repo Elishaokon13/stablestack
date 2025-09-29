@@ -169,18 +169,6 @@ export function DashboardSidebar({
         <SidebarGroup>
           <SidebarGroupLabel>
             <Bullet className="mr-2" />
-            Wallet
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <div className="p-2">
-              <WalletConnect className="w-full" />
-            </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        
-        <SidebarGroup>
-          <SidebarGroupLabel>
-            <Bullet className="mr-2" />
             User
           </SidebarGroupLabel>
           <SidebarGroupContent>
