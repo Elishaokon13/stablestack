@@ -12,27 +12,40 @@
 
 ## Key Challenges and Analysis
 
-### Architecture Overview
-- **Framework**: Next.js 15.2.4 with React 19
-- **Styling**: Tailwind CSS 4.1.9 with custom design system
-- **State Management**: Zustand for chat state management
-- **UI Components**: Radix UI primitives with custom styling
-- **Animation**: Framer Motion for smooth transitions
-- **TypeScript**: Full TypeScript implementation with strict typing
+### Paystack for Web3 - Project Requirements
 
-### Key Features Identified
-1. **Dashboard System**: Multi-panel dashboard with stats, charts, and rankings
-2. **Chat System**: Real-time chat interface with conversation management
-3. **Responsive Design**: Mobile-first approach with desktop enhancements
-4. **Theme System**: Dark theme with custom color palette
-5. **Mock Data**: Comprehensive mock data for development/demo purposes
+#### Core Functionality
+1. **Product Management**: Users can create, edit, and manage digital/physical products
+2. **Pricing System**: Set prices in fiat currency with automatic USDC conversion
+3. **Payment Processing**: Accept card payments (Visa, Mastercard, etc.)
+4. **Web3 Integration**: Convert fiat to USDC and send to seller's wallet
+5. **Wallet Connection**: Support for MetaMask, WalletConnect, and other wallets
+6. **Dashboard Analytics**: Track sales, earnings, and transaction history
 
-### Technical Stack Analysis
-- **Next.js App Router**: Using the new app directory structure
-- **Custom Fonts**: Local font loading (Rebels-Fett) and Google Fonts (Roboto Mono)
-- **Component Architecture**: Well-organized component structure with clear separation
-- **Type Safety**: Comprehensive TypeScript interfaces for all data structures
-- **State Management**: Zustand for chat state, React state for UI interactions
+#### Technical Challenges
+- **Payment Gateway Integration**: Stripe/Paystack for card processing
+- **Web3 Wallet Integration**: MetaMask, WalletConnect, Coinbase Wallet
+- **USDC Conversion**: Real-time fiat to USDC conversion rates
+- **Blockchain Transactions**: Automated USDC transfers to seller wallets
+- **Security**: Secure handling of private keys and payment data
+- **Compliance**: KYC/AML requirements for financial transactions
+
+#### Architecture Overview
+- **Framework**: Next.js 15.2.4 with React 19 (existing)
+- **Styling**: Tailwind CSS 4.1.9 with custom design system (existing)
+- **State Management**: Zustand for complex state, React state for UI (existing)
+- **Web3**: ethers.js or wagmi for blockchain interactions
+- **Payments**: Stripe SDK for card processing
+- **Database**: PostgreSQL/Supabase for product and transaction data
+- **Backend**: Next.js API routes for payment processing and Web3 operations
+
+### Key Features to Implement
+1. **Seller Dashboard**: Product management, analytics, earnings tracking
+2. **Buyer Interface**: Product discovery, payment flow, purchase history
+3. **Wallet Integration**: Connect and manage Web3 wallets
+4. **Payment Flow**: Secure card payment with USDC conversion
+5. **Transaction Management**: Real-time transaction tracking and status
+6. **Analytics**: Sales metrics, conversion rates, earnings reports
 
 ## High-level Task Breakdown
 
