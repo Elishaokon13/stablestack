@@ -2,7 +2,13 @@
 
 ## Background and Motivation
 
-The user requested a comprehensive study of the StableStack codebase. This is a Next.js-based dashboard application with a unique "M.O.N.K.Y OS" theme, featuring a rebel/cyberpunk aesthetic. The application appears to be a mock operating system interface with dashboard functionality, chat system, and various UI components.
+**Original Request**: The user requested a comprehensive study of the StableStack codebase. This is a Next.js-based dashboard application with a unique "M.O.N.K.Y OS" theme, featuring a rebel/cyberpunk aesthetic. The application appears to be a mock operating system interface with dashboard functionality, chat system, and various UI components.
+
+**New Project Vision**: Transform the StableStack codebase into a "Paystack for Web3" platform where:
+- Users can create products and set prices
+- Buyers pay with traditional cards (Visa, Mastercard, etc.)
+- Sellers receive payments converted to USDC and sent to their connected Web3 wallet
+- Bridge between traditional finance and Web3 ecosystems
 
 ## Key Challenges and Analysis
 
