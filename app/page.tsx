@@ -11,7 +11,7 @@ import ProcessorIcon from "@/components/icons/proccesor";
 import BoomIcon from "@/components/icons/boom";
 import { WalletStatus } from "../components/wallet/wallet-status";
 import mockDataJson from "../mock.json";
-import type { MockData } from "@/types/dashboard";
+import type { MockData } from "../types/dashboard";
 
 const mockData = mockDataJson as MockData;
 
