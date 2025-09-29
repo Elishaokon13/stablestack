@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
@@ -16,7 +17,6 @@ import { AppKitProvider, wagmiAdapter } from "@/lib/appkit-config";
 import { SessionProvider } from "next-auth/react";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
 
 const mockData = mockDataJson as MockData;
 
