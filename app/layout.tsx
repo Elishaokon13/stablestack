@@ -13,6 +13,7 @@ import Notifications from "@/components/dashboard/notifications";
 import { MobileChat } from "@/components/chat/mobile-chat";
 import Chat from "@/components/chat";
 import { Providers } from "@/components/providers";
+import { headers } from "next/headers";
 
 const mockData = mockDataJson as MockData;
 
