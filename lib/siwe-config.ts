@@ -36,15 +36,15 @@ export const siweConfig = createSIWEConfig({
 
     // Validate address and chainId types
     if (
-      typeof session.address !== "string" ||
-      typeof session.chainId !== "number"
+      typeof (session as any).address !== "string" ||
+      typeof (session as any).chainId !== "number"
     ) {
       return null;
     }
 
     return {
-      address: session.address,
-      chainId: session.chainId,
+      address: (session as any).address,
+      chainId: (session as any).chainId,
     } satisfies SIWESession;
   },
   verifyMessage: async ({ message, signature }: SIWEVerifyMessageArgs) => {
