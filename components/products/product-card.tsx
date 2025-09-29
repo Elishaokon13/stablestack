@@ -70,44 +70,48 @@ export function ProductCard({
   };
 
   return (
-    <Card className="group hover:shadow-lg transition-shadow duration-200">
+    <Card className="group hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border-border/50 hover:border-primary/20">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0">
-            <CardTitle className="text-lg font-semibold truncate">
+            <CardTitle className="text-lg font-semibold truncate text-foreground">
               {product.name}
             </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+            <p className="text-sm text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
               {product.description}
             </p>
           </div>
           {showActions && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-accent/50"
+                >
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="w-48">
                 {onView && (
-                  <DropdownMenuItem onClick={() => onView(product)}>
+                  <DropdownMenuItem onClick={() => onView(product)} className="cursor-pointer">
                     <Eye className="mr-2 h-4 w-4" />
-                    View
+                    View Details
                   </DropdownMenuItem>
                 )}
                 {onEdit && (
-                  <DropdownMenuItem onClick={() => onEdit(product)}>
+                  <DropdownMenuItem onClick={() => onEdit(product)} className="cursor-pointer">
                     <Edit className="mr-2 h-4 w-4" />
-                    Edit
+                    Edit Product
                   </DropdownMenuItem>
                 )}
                 {onDelete && (
                   <DropdownMenuItem 
                     onClick={() => onDelete(product)}
-                    className="text-destructive"
+                    className="text-destructive cursor-pointer focus:text-destructive"
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
-                    Delete
+                    Delete Product
                   </DropdownMenuItem>
                 )}
               </DropdownMenuContent>
