@@ -156,8 +156,8 @@ export default function ProductsPage() {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onSubmit={handleCreateProduct}
-        title="Create New Product"
-        description="Add a new product to your Web3 store. Buyers will pay with cards and you'll receive USDC in your wallet."
+        title="Create Payment Link"
+        description="Create a payment link for your product. Share the link with buyers who can pay with cards, and you'll receive USDC in your Base wallet."
       />
     </div>
   );
