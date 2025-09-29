@@ -113,8 +113,8 @@ export function ProductForm({
 
   const handleInputChange = (field: keyof CreateProductForm, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: "" }));
+    if (errors[field as string]) {
+      setErrors(prev => ({ ...prev, [field as string]: "" }));
     }
   };
 
