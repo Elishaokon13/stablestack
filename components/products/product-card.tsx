@@ -122,39 +122,51 @@ export function ProductCard({
 
       <CardContent className="pb-3">
         {product.imageUrl && (
-          <div className="aspect-video bg-muted rounded-lg mb-3 overflow-hidden">
+          <div className="aspect-video bg-muted rounded-lg mb-4 overflow-hidden relative group">
             <img
               src={product.imageUrl}
               alt={product.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
         )}
 
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-primary">
-              {formatPrice(product.price)}
-            </span>
-            <Badge className={statusColors[product.status]}>
+            <div className="flex flex-col">
+              <span className="text-3xl font-bold text-primary">
+                {formatPrice(product.price)}
+              </span>
+              <span className="text-xs text-muted-foreground">USD</span>
+            </div>
+            <Badge 
+              className={`${statusColors[product.status]} font-medium px-3 py-1`}
+              variant="secondary"
+            >
               {product.status.replace('_', ' ').toUpperCase()}
             </Badge>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <Package className="h-4 w-4" />
-              <span>{categoryLabels[product.category]}</span>
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Package className="h-4 w-4 text-primary/70" />
+              <span className="truncate">{categoryLabels[product.category]}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-              <span>{formatDate(product.createdAt)}</span>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Calendar className="h-4 w-4 text-primary/70" />
+              <span className="truncate">{formatDate(product.createdAt)}</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-1 text-sm text-muted-foreground">
-            <DollarSign className="h-4 w-4" />
-            <span>USDC: {(parseInt(product.priceInUSDC) / 1000000).toFixed(2)}</span>
+          <div className="flex items-center justify-between p-2 bg-accent/30 rounded-lg">
+            <div className="flex items-center gap-2 text-sm">
+              <DollarSign className="h-4 w-4 text-primary" />
+              <span className="font-medium">USDC</span>
+            </div>
+            <span className="font-mono text-sm font-semibold">
+              {(parseInt(product.priceInUSDC) / 1000000).toFixed(2)}
+            </span>
           </div>
         </div>
       </CardContent>
