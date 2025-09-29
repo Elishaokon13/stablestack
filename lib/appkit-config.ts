@@ -33,5 +33,4 @@ export const appKit = createAppKit({
 });
 
 // Export the providers and hooks
-export const AppKitProvider = appKit.AppKitProvider;
-export const useAppKit = appKit.useAppKit;
+export const { AppKitProvider, useAppKit } = appKit;
