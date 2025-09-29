@@ -195,7 +195,7 @@ export function ProductsGrid({
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
             {searchTerm || categoryFilter !== "all" || statusFilter !== "all"
               ? "Try adjusting your search terms or filters to find what you're looking for."
-              : "Get started by creating your first product and start selling in the Web3 ecosystem."
+              : "Get started by creating your first payment link and start accepting payments in USDC."
             }
           </p>
           {onCreateProduct && (
