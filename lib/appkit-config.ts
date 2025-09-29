@@ -19,6 +19,9 @@ export const wagmiAdapter = new WagmiAdapter({
   projectId,
 });
 
+// Debug: Log the project ID
+console.log('Project ID:', projectId);
+
 // Create the modal with minimal configuration
 export const appKit = createAppKit({
   adapters: [wagmiAdapter],
@@ -26,6 +29,11 @@ export const appKit = createAppKit({
   networks: [mainnet, sepolia],
   defaultNetwork: mainnet,
 });
+
+// Debug: Log the appKit object
+console.log('AppKit object:', appKit);
+console.log('AppKitProvider:', appKit.AppKitProvider);
+console.log('useAppKit:', appKit.useAppKit);
 
 // Export the providers and hooks
 export const { AppKitProvider, useAppKit } = appKit;
