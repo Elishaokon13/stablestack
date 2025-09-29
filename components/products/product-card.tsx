@@ -180,7 +180,7 @@ export function ProductCard({
           {product.status === ProductStatus.ACTIVE && (
             <Button 
               size="sm" 
-              className="ml-auto bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-4 py-2 h-8"
+              className="ml-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-4 py-2 h-8 shadow-lg hover:shadow-xl transition-all duration-300"
               onClick={() => {
                 const paymentLink = `${window.location.origin}/pay/${product.id}`;
                 navigator.clipboard.writeText(paymentLink);
