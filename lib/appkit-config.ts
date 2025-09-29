@@ -16,7 +16,7 @@ const wagmiAdapter = new WagmiAdapter({
     storage: cookieStorage,
   }),
   ssr: true,
-  networks: [mainnet, sepolia],
+  networks: [base, baseSepolia],
   projectId,
 });
 
