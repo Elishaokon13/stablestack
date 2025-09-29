@@ -7,18 +7,10 @@ import { useAccount, useDisconnect } from "wagmi";
 import { formatAddress } from "@/lib/utils";
 
 export function WalletConnectButton() {
-  const appKit = useAppKit();
+  const { open } = useAppKit();
   const { data: session } = useSession();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-
-  console.log('AppKit hook result:', appKit);
-
-  if (!appKit) {
-    return <div>Loading...</div>;
-  }
-
-  const { open } = appKit;
 
   const handleConnect = () => {
     open();
