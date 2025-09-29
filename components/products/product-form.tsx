@@ -46,8 +46,8 @@ export function ProductForm({
   onClose,
   onSubmit,
   initialData,
-  title = "Create Product",
-  description = "Add a new product to your store",
+  title = "Create Payment Link",
+  description = "Create a payment link for your product. Share the link with buyers who can pay with cards, and you'll receive USDC in your Base wallet.",
 }: ProductFormProps) {
   const [formData, setFormData] = useState<CreateProductForm>({
     name: initialData?.name || "",
