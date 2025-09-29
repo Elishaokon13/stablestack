@@ -40,11 +40,14 @@ export const metadata: Metadata = {
     generator: 'v0.app'
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersObj = await headers();
+  const cookies = headersObj.get('cookie');
+
   return (
     <html lang="en" className="dark">
       <head>
@@ -59,7 +62,7 @@ export default function RootLayout({
       <body
         className={`${rebelGrotesk.variable} ${robotoMono.variable} antialiased`}
       >
-        <Providers>
+        <Providers cookies={cookies}>
           <V0Provider isV0={isV0}>
             <SidebarProvider>
               {/* Mobile Header - only visible on mobile */}
