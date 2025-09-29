@@ -1,6 +1,3 @@
-'use client'
-
-import React, { useState } from "react";
 import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
@@ -15,10 +12,7 @@ import Widget from "@/components/dashboard/widget";
 import Notifications from "@/components/dashboard/notifications";
 import { MobileChat } from "@/components/chat/mobile-chat";
 import Chat from "@/components/chat";
-import { AppKitProvider, wagmiAdapter } from "@/lib/appkit-config";
-import { SessionProvider } from "next-auth/react";
-import { WagmiProvider } from "wagmi";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Providers } from "@/components/providers";
 
 const mockData = mockDataJson as MockData;
 
