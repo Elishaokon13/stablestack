@@ -1,8 +1,7 @@
 import { createAppKit } from "@reown/appkit/react";
-import { WagmiAdapter } from "@reown/appkit/adapters/wagmi";
 import { siweConfig } from "./siwe-config";
 
-// Define networks manually since we're having import issues
+// Define networks manually
 const mainnet = { id: 1, name: "Ethereum", currency: "ETH" };
 const sepolia = { id: 11155111, name: "Sepolia", currency: "ETH" };
 const arbitrum = { id: 42161, name: "Arbitrum One", currency: "ETH" };
@@ -16,7 +15,6 @@ if (!projectId) {
 
 // Create the AppKit instance
 export const appKit = createAppKit({
-  adapters: [WagmiAdapter],
   projectId,
   networks: [mainnet, sepolia, arbitrum, polygon],
   defaultNetwork: mainnet,
