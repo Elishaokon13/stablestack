@@ -29,7 +29,7 @@ const metadata = {
 };
 
 // Create the modal
-export const appKit = createAppKit({
+const appKit = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
   networks: [mainnet, sepolia],
@@ -41,5 +41,11 @@ export const appKit = createAppKit({
   siweConfig: siweConfig,
 });
 
+// Debug: Log what appKit contains
+console.log('AppKit object keys:', Object.keys(appKit));
+console.log('AppKitProvider:', appKit.AppKitProvider);
+console.log('useAppKit:', appKit.useAppKit);
+
 // Export the providers and hooks
-export const { AppKitProvider, useAppKit } = appKit;
+export const AppKitProvider = appKit.AppKitProvider;
+export const useAppKit = appKit.useAppKit;
