@@ -32,5 +32,8 @@ export const appKit = createAppKit({
   siweConfig: siweConfig,
 });
 
+// Debug: Log what appKit contains
+console.log('AppKit object:', appKit);
+
 // Export the providers and hooks
 export const { AppKitProvider, useAppKit } = appKit;
