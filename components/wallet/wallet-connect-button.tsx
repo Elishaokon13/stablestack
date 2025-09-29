@@ -1,20 +1,13 @@
 "use client";
 
-import { useAppKit } from "@/lib/appkit-config";
-import { Button } from "@/components/ui/button";
-import { useSession, signOut } from "next-auth/react";
 import { useAccount, useDisconnect } from "wagmi";
+import { useSession, signOut } from "next-auth/react";
 import { formatAddress } from "@/lib/utils";
 
 export function WalletConnectButton() {
-  const { open } = useAppKit();
   const { data: session } = useSession();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-
-  const handleConnect = () => {
-    open();
-  };
 
   const handleDisconnect = async () => {
     await signOut();
@@ -30,21 +23,15 @@ export function WalletConnectButton() {
             {formatAddress(address || "")}
           </span>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
+        <button
+          className="px-3 py-1 text-sm border rounded hover:bg-accent"
           onClick={handleDisconnect}
         >
           Disconnect
-        </Button>
+        </button>
       </div>
     );
   }
 
-  return (
-    <Button onClick={handleConnect} className="gap-2">
-      <div className="w-2 h-2 bg-primary rounded-full"></div>
-      Connect Wallet
-    </Button>
-  );
+  return <appkit-button />;
 }
