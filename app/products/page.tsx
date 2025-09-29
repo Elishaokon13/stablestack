@@ -6,8 +6,8 @@ import { ProductForm } from "../../components/products/product-form";
 import { Product, CreateProductForm, ProductCategory, ProductStatus } from "../../types/payments";
 import { useAccount } from "wagmi";
 import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "../../components/ui/button";
+import { Alert, AlertDescription } from "../../components/ui/alert";
 import { Wallet, Plus } from "lucide-react";
 
 // Mock data for demonstration
