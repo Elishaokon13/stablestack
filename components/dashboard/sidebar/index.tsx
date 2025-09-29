@@ -76,7 +76,7 @@ const data = {
         {
           title: "Wallet",
           url: "/wallet",
-          icon: GearIcon,
+          icon: Wallet,
           isActive: false,
         },
         {
