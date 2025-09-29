@@ -29,7 +29,7 @@ export const appKit = createAppKit({
   features: {
     analytics: true,
   },
-  siweConfig: siweConfig,
+  // siweConfig: siweConfig, // Temporarily disable SIWE to isolate the issue
 });
 
 // Export the providers and hooks
