@@ -151,31 +151,39 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/30 py-8">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-12">
           <Link href="/products">
-            <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+            <Button variant="ghost" className="mb-6 group">
+              <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Back to Payment Links
             </Button>
           </Link>
-          <div className="flex items-center gap-2 mb-2">
-            <h1 className="text-3xl font-bold">Payment Link</h1>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={copyPaymentLink}
-              className="flex items-center gap-2"
-            >
-              {copied ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              {copied ? "Copied!" : "Copy Link"}
-            </Button>
+          <div className="text-center">
+            <div className="inline-flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
+                <CreditCard className="h-6 w-6 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                Secure Payment
+              </h1>
+            </div>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+              Powered by Stripe • Funds instantly converted to USDC on Base network
+            </p>
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <div className="flex items-center gap-2 px-3 py-1 bg-green-100 dark:bg-green-900/30 rounded-full">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm font-medium text-green-700 dark:text-green-400">SSL Secured</span>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <span className="text-sm font-medium text-blue-700 dark:text-blue-400">USDC on Base</span>
+              </div>
+            </div>
           </div>
-          <p className="text-muted-foreground">
-            Secure payment powered by Stripe • Funds converted to USDC on Base
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
