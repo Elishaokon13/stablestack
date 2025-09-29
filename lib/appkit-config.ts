@@ -32,5 +32,5 @@ export const appKit = createAppKit({
   siweConfig: siweConfig,
 });
 
-export const AppKitProvider = appKit.AppKitProvider;
-export const useAppKit = appKit.useAppKit;
+// Export the providers and hooks
+export const { AppKitProvider, useAppKit } = appKit;
