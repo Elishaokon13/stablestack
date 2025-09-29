@@ -1,7 +1,6 @@
 import { createAppKit } from "@reown/appkit/react";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
 import { mainnet, sepolia } from "@reown/appkit/networks";
-import { siweConfig } from "./siwe-config";
 import { cookieStorage, createStorage } from "wagmi";
 
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID!;
@@ -20,16 +19,12 @@ export const wagmiAdapter = new WagmiAdapter({
   projectId,
 });
 
-// Create the modal
+// Create the modal with minimal configuration
 export const appKit = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
   networks: [mainnet, sepolia],
   defaultNetwork: mainnet,
-  features: {
-    analytics: true,
-  },
-  // siweConfig: siweConfig, // Temporarily disable SIWE to isolate the issue
 });
 
 // Export the providers and hooks
