@@ -20,12 +20,21 @@ export const wagmiAdapter = new WagmiAdapter({
   projectId,
 });
 
+// Set up metadata
+const metadata = {
+  name: "Paystack for Web3",
+  description: "The ultimate payment platform for Web3. Accept card payments, receive USDC in your wallet.",
+  url: "http://localhost:3000", // origin must match your domain & subdomain
+  icons: ["https://avatars.githubusercontent.com/u/179229932"]
+};
+
 // Create the modal
 export const appKit = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
   networks: [mainnet, sepolia],
   defaultNetwork: mainnet,
+  metadata: metadata,
   features: {
     analytics: true,
   },
@@ -33,5 +42,4 @@ export const appKit = createAppKit({
 });
 
 // Export the providers and hooks
-export const AppKitProvider = appKit.AppKitProvider;
-export const useAppKit = appKit.useAppKit;
+export const { AppKitProvider, useAppKit } = appKit;
