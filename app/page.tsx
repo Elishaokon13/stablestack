@@ -10,7 +10,7 @@ import GearIcon from "../components/icons/gear";
 import ProcessorIcon from "@/components/icons/proccesor";
 import BoomIcon from "@/components/icons/boom";
 import { WalletStatus } from "../components/wallet/wallet-status";
-import mockDataJson from "@/mock.json";
+import mockDataJson from "../mock.json";
 import type { MockData } from "@/types/dashboard";
 
 const mockData = mockDataJson as MockData;
