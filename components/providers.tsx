@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { AppKitProvider, wagmiAdapter } from "@/lib/appkit-config";
+import { wagmiAdapter } from "@/lib/appkit-config";
 import { SessionProvider } from "next-auth/react";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -21,9 +21,7 @@ export function Providers({
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={wagmiAdapter.wagmiConfig} initialState={initialState}>
         <SessionProvider>
-          <AppKitProvider>
-            {children}
-          </AppKitProvider>
+          {children}
         </SessionProvider>
       </WagmiProvider>
     </QueryClientProvider>
