@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { Product } from "@/types/payments";
+import { Product } from "../../types/payments";
 import { ProductCard } from "./product-card";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import { Plus, Grid, List } from "lucide-react";
 import {
   Select,
