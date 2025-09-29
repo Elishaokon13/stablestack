@@ -1,7 +1,7 @@
 "use client";
 import React from "react";  
-import DashboardPageLayout from "@/components/dashboard/layout";
-import DashboardStat from "@/components/dashboard/stat";
+import DashboardPageLayout from "../components/dashboard/layout";
+import DashboardStat from "../components/dashboard/stat";
 import DashboardChart from "../components/dashboard/chart";
 import RebelsRanking from "../components/dashboard/rebels-ranking";
 import SecurityStatus from "../components/dashboard/security-status";
