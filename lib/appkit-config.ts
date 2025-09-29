@@ -29,7 +29,7 @@ export const appKit = createAppKit({
   features: {
     analytics: true,
   },
-  siweConfig: siweConfig,
+  // siweConfig: siweConfig, // Temporarily disabled
 });
 
 // Debug: Log what appKit contains
