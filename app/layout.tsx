@@ -12,7 +12,7 @@ import Widget from "@/components/dashboard/widget";
 import Notifications from "@/components/dashboard/notifications";
 import { MobileChat } from "@/components/chat/mobile-chat";
 import Chat from "@/components/chat";
-import Web3Provider from "@/components/providers/web3-provider";
+import { SessionProvider } from "next-auth/react";
 
 const mockData = mockDataJson as MockData;
 
