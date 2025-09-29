@@ -1,6 +1,6 @@
 import { createAppKit } from "@reown/appkit/react";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
-import { mainnet, baseSepolia } from "@reown/appkit/networks";
+import { base, baseSepolia } from "@reown/appkit/networks";
 import { siweConfig } from "./siwe-config";
 import { cookieStorage, createStorage } from "wagmi";
 
