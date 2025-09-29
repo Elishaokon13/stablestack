@@ -8,10 +8,7 @@ const arbitrum = { id: 42161, name: "Arbitrum One", currency: "ETH" };
 const polygon = { id: 137, name: "Polygon", currency: "MATIC" };
 
 // Get project ID from environment
-const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
-if (!projectId) {
-  throw new Error("NEXT_PUBLIC_PROJECT_ID is not set");
-}
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || "development-project-id";
 
 // Create the AppKit instance
 export const appKit = createAppKit({
