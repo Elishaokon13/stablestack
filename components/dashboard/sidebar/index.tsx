@@ -34,6 +34,7 @@ import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import Image from "next/image";
 import { useIsV0 } from "@/lib/v0-context";
+import WalletConnect from "@/components/wallet/wallet-connect";
 
 // This is sample data for the sidebar
 const data = {
@@ -166,6 +167,18 @@ export function DashboardSidebar({
       </SidebarContent>
 
       <SidebarFooter className="p-0">
+        <SidebarGroup>
+          <SidebarGroupLabel>
+            <Bullet className="mr-2" />
+            Wallet
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <div className="p-2">
+              <WalletConnect className="w-full" />
+            </div>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        
         <SidebarGroup>
           <SidebarGroupLabel>
             <Bullet className="mr-2" />
