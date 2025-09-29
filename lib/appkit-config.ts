@@ -1,11 +1,35 @@
 import { createAppKit } from "@reown/appkit/react";
 import { siweConfig } from "./siwe-config";
 
-// Define networks manually
-const mainnet = { id: 1, name: "Ethereum", currency: "ETH" };
-const sepolia = { id: 11155111, name: "Sepolia", currency: "ETH" };
-const arbitrum = { id: 42161, name: "Arbitrum One", currency: "ETH" };
-const polygon = { id: 137, name: "Polygon", currency: "MATIC" };
+// Define networks manually with proper format
+const mainnet = { 
+  id: 1, 
+  name: "Ethereum", 
+  currency: "ETH",
+  rpcUrl: "https://rpc.ankr.com/eth",
+  blockExplorerUrl: "https://etherscan.io"
+};
+const sepolia = { 
+  id: 11155111, 
+  name: "Sepolia", 
+  currency: "ETH",
+  rpcUrl: "https://rpc.ankr.com/eth_sepolia",
+  blockExplorerUrl: "https://sepolia.etherscan.io"
+};
+const arbitrum = { 
+  id: 42161, 
+  name: "Arbitrum One", 
+  currency: "ETH",
+  rpcUrl: "https://rpc.ankr.com/arbitrum",
+  blockExplorerUrl: "https://arbiscan.io"
+};
+const polygon = { 
+  id: 137, 
+  name: "Polygon", 
+  currency: "MATIC",
+  rpcUrl: "https://rpc.ankr.com/polygon",
+  blockExplorerUrl: "https://polygonscan.com"
+};
 
 // Get project ID from environment
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || "development-project-id";
