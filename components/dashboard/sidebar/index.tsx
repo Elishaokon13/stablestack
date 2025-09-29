@@ -73,6 +73,12 @@ const data = {
           isActive: false,
         },
         {
+          title: "Wallet",
+          url: "/wallet",
+          icon: GearIcon,
+          isActive: false,
+        },
+        {
           title: "Admin Settings",
           url: "/admin",
           icon: GearIcon,
