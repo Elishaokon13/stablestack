@@ -88,15 +88,19 @@ export function ProductsGrid({
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold">Products</h2>
+        <div className="space-y-1">
+          <h2 className="text-3xl font-bold text-foreground">Products</h2>
           <p className="text-muted-foreground">
             {filteredProducts.length} of {products.length} products
+            {searchTerm && ` matching "${searchTerm}"`}
           </p>
         </div>
         
         {onCreateProduct && (
-          <Button onClick={onCreateProduct} className="w-full sm:w-auto">
+          <Button 
+            onClick={onCreateProduct} 
+            className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-2 h-10 shadow-lg hover:shadow-xl transition-all duration-200"
+          >
             <Plus className="mr-2 h-4 w-4" />
             Create Product
           </Button>
