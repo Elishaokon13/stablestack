@@ -71,12 +71,26 @@ export function ProductsGrid({
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Products</h2>
+          <div className="space-y-2">
+            <div className="h-8 w-32 bg-muted rounded animate-pulse"></div>
+            <div className="h-4 w-48 bg-muted rounded animate-pulse"></div>
+          </div>
+          <div className="h-10 w-40 bg-muted rounded animate-pulse"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="animate-pulse">
-              <div className="bg-muted rounded-lg h-64"></div>
+              <div className="bg-muted rounded-lg h-80">
+                <div className="p-4 space-y-4">
+                  <div className="h-6 bg-muted-foreground/20 rounded"></div>
+                  <div className="h-4 bg-muted-foreground/20 rounded w-3/4"></div>
+                  <div className="h-32 bg-muted-foreground/20 rounded"></div>
+                  <div className="space-y-2">
+                    <div className="h-8 bg-muted-foreground/20 rounded"></div>
+                    <div className="h-4 bg-muted-foreground/20 rounded w-1/2"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
