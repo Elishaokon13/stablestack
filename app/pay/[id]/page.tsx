@@ -188,38 +188,56 @@ export default function PaymentPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Product Details */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <ExternalLink className="h-5 w-5" />
+          <Card className="border-0 shadow-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                  <ExternalLink className="h-4 w-4 text-white" />
+                </div>
                 Product Details
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               {product.imageUrl && (
-                <div className="aspect-video bg-muted rounded-lg overflow-hidden">
+                <div className="aspect-video bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 rounded-2xl overflow-hidden shadow-lg">
                   <img
                     src={product.imageUrl}
                     alt={product.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </div>
               )}
               
-              <div>
-                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-                <p className="text-muted-foreground mb-4">{product.description}</p>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-2xl font-bold mb-3 text-slate-900 dark:text-white">{product.name}</h3>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{product.description}</p>
+                </div>
                 
-                <div className="flex items-center gap-2 mb-4">
-                  <Badge variant="secondary">{product.category.replace('_', ' ').toUpperCase()}</Badge>
-                  <Badge className="bg-green-100 text-green-800">ACTIVE</Badge>
+                <div className="flex items-center gap-3">
+                  <Badge className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-3 py-1 rounded-full">
+                    {product.category.replace('_', ' ').toUpperCase()}
+                  </Badge>
+                  <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full">
+                    ✓ ACTIVE
+                  </Badge>
                 </div>
               </div>
 
-              <div className="border-t pt-4">
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <span>Seller:</span>
-                  <span className="font-mono">{product.sellerId.slice(0, 6)}...{product.sellerId.slice(-4)}</span>
+              <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
+                <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-r from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">S</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Seller</p>
+                      <p className="font-mono text-sm text-slate-900 dark:text-white">
+                        {product.sellerId.slice(0, 6)}...{product.sellerId.slice(-4)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 </div>
               </div>
             </CardContent>
