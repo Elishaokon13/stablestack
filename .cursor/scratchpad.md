@@ -92,10 +92,6 @@
 - [x] **Architecture Overview** - Identified Next.js 15, React 19, Tailwind CSS 4, Zustand stack
 - [x] **Component Structure Analysis** - Mapped out dashboard, chat, and UI component organization
 - [x] **Comprehensive README Update** - Created detailed README with features, tech stack, and documentation
-- [x] **Web3 Wallet Connection** - Implemented WalletConnect with SIWE authentication
-- [x] **Wallet UI Components** - Created wallet connection and status components
-- [x] **AppKit Integration** - Set up AppKit with Wagmi and React Query
-- [x] **NextAuth Configuration** - Implemented SIWE authentication with NextAuth
 
 ### In Progress
 - [ ] **Component Deep Dive** - Currently analyzing individual component implementations
