@@ -103,9 +103,9 @@ export function ProductsGrid({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
-          <h2 className="text-3xl font-bold text-foreground">Products</h2>
+          <h2 className="text-3xl font-bold text-foreground">Payment Links</h2>
           <p className="text-muted-foreground">
-            {filteredProducts.length} of {products.length} products
+            {filteredProducts.length} of {products.length} payment links
             {searchTerm && ` matching "${searchTerm}"`}
           </p>
         </div>
