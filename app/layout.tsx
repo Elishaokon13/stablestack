@@ -14,6 +14,7 @@ import { MobileChat } from "@/components/chat/mobile-chat";
 import Chat from "@/components/chat";
 import { Providers } from "@/components/providers";
 import { headers } from "next/headers";
+import React from "react";
 
 const mockData = mockDataJson as MockData;
 
