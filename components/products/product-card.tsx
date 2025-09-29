@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { Product, ProductStatus, ProductCategory } from "@/types/payments";
-import { formatAddress } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Product, ProductStatus, ProductCategory } from "../../types/payments";
+import { formatAddress } from "../../lib/utils";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { 
   MoreHorizontal, 
   Edit, 
