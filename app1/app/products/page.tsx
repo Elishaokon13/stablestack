@@ -102,13 +102,7 @@ export default function ProductsPage() {
             <p className="text-muted-foreground mb-6">
               You need to connect your wallet to view and manage products
             </p>
-            <Button 
-              onClick={() => router.push("/test-wallet")} 
-              style={{ background: 'linear-gradient(to bottom, #ff6d41, #ff5420)' }}
-            >
-              <Wallet className="w-4 h-4 mr-2" />
-              Connect Wallet
-            </Button>
+            <AppKitButton />
           </CardContent>
         </Card>
       </DashboardPageLayout>
