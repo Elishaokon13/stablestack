@@ -22,7 +22,7 @@ export function AppKitButton({
   showAddress = true,
   showDisconnect = true
 }: AppKitButtonProps) {
-  const { open, close } = useAppKit()
+  const { open, close } = useAppKit() as { open: () => void; close: () => void }
   const { address, isConnected, isConnecting } = useAccount()
   const { disconnect } = useDisconnect()
 
