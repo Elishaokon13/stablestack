@@ -70,49 +70,40 @@ const getSidebarData = (currentPath: string) => ({
           icon: CreditCard,
           isActive: currentPath.startsWith("/payment-flow"),
         },
-        {
-          title: "Laboratory",
-          url: "/laboratory",
-          icon: AtomIcon,
-          isActive: currentPath.startsWith("/laboratory"),
-        },
-        {
-          title: "Devices",
-          url: "/devices",
-          icon: ProcessorIcon,
-          isActive: currentPath.startsWith("/devices"),
-        },
-        {
-          title: "Security",
-          url: "/security",
-          icon: CuteRobotIcon,
-          isActive: currentPath.startsWith("/security"),
-        },
-        {
-          title: "Communication",
-          url: "/communication",
-          icon: EmailIcon,
-          isActive: currentPath.startsWith("/communication"),
-        },
-        {
-          title: "Admin Settings",
-          url: "/admin",
-          icon: GearIcon,
-          isActive: currentPath.startsWith("/admin"),
-          locked: true,
-        },
+        // {
+        //   title: "Laboratory",
+        //   url: "/laboratory",
+        //   icon: AtomIcon,
+        //   isActive: currentPath.startsWith("/laboratory"),
+        // },
+        // {
+        //   title: "Devices",
+        //   url: "/devices",
+        //   icon: ProcessorIcon,
+        //   isActive: currentPath.startsWith("/devices"),
+        // },
+        // {
+        //   title: "Security",
+        //   url: "/security",
+        //   icon: CuteRobotIcon,
+        //   isActive: currentPath.startsWith("/security"),
+        // },
+        // {
+        //   title: "Communication",
+        //   url: "/communication",
+        //   icon: EmailIcon,
+        //   isActive: currentPath.startsWith("/communication"),
+        // },
+        // {
+        //   title: "Admin Settings",
+        //   url: "/admin",
+        //   icon: GearIcon,
+        //   isActive: currentPath.startsWith("/admin"),
+        //   locked: true,
+        // },
       ],
     },
   ],
-  desktop: {
-    title: "Desktop (Online)",
-    status: "online",
-  },
-  user: {
-    name: "KRIMSON",
-    email: "krimson@joyco.studio",
-    avatar: "/avatars/user_krimson.png",
-  },
 });
 
 export function DashboardSidebar({
@@ -122,7 +113,7 @@ export function DashboardSidebar({
   const isV0 = useIsV0();
   const pathname = usePathname();
   const data = getSidebarData(pathname);
-  const { isAuthenticated, address, user } = useAuth();
+  const { isAuthenticated, address } = useAuth();
 
   return (
     <Sidebar {...props} className={cn("py-sides", className)}>
