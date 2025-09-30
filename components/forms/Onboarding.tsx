@@ -119,7 +119,7 @@ export function OnboardingForm() {
       const result = await updateResponse.json()
       console.log("API success response:", result)
 
-      toast.success("Onboarding complete! Welcome to M.O.N.K.Y OS!")
+      toast.success("Onboarding complete! Welcome to Stablestack!")
       setStep(2) // Move to success step
       refreshUser() // Refresh user session from database
     } catch (error: any) {
@@ -189,7 +189,7 @@ export function OnboardingForm() {
         >
           <div className="text-center">
             <UserIcon className="mx-auto w-12 h-12 text-primary mb-4" style={{ color: '#ff5941' }} />
-            <h2 className="text-2xl font-display text-primary-foreground">Welcome to M.O.N.K.Y OS!</h2>
+            <h2 className="text-2xl font-display text-primary-foreground">Welcome to Stablestack!</h2>
             <p className="text-muted-foreground mt-2">Let's set up your profile to get started.</p>
           </div>
 
