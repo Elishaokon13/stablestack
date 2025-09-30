@@ -41,18 +41,26 @@ export function AppKitButton({
   // If connected, show the AppKit button that opens the modal
   if (isConnected && address) {
     return (
-      <Button
-        onClick={handleConnect}
-        size={size}
-        variant={variant}
-        className={`w-full ${className}`}
-        style={{ 
-          background: 'linear-gradient(to bottom, #ff6d41, #ff5420)'
-        }}
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.2 }}
       >
-        <CheckCircle2 className="w-4 h-4 mr-2" />
-        {formatAddress(address)}
-      </Button>
+        <Button
+          onClick={handleConnect}
+          size={size}
+          variant={variant}
+          className={`w-full ${className} cursor-pointer`}
+          style={{ 
+            background: 'linear-gradient(to bottom, #ff6d41, #ff5420)',
+            boxShadow: '0 4px 12px rgba(255, 89, 65, 0.3)'
+          }}
+        >
+          <CheckCircle2 className="w-4 h-4 mr-2" />
+          {formatAddress(address)}
+          <span className="ml-2 text-xs opacity-75">Click to manage</span>
+        </Button>
+      </motion.div>
     )
   }
 
