@@ -62,9 +62,6 @@ if (projectId) {
       collapseWallets: false,
       allWallets: false,
       walletFeatures: ['onramp', 'swaps', 'receive', 'send'],
-      walletConnectMethods: ['email', 'social'],
-      connectorTypeOrder: ['email', 'social'],
-      connectMethodsOrder: ['email', 'social'],
     },
     siweConfig: siweConfig,
     themeMode: 'dark', // Match our rebel/cyberpunk theme
