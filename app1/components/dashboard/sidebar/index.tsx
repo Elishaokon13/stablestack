@@ -202,11 +202,11 @@ export function DashboardSidebar({
                           </a>
                         )}
                       </SidebarMenuButton>
-                      {isLocked && (
+                      {isLocked ? (
                         <SidebarMenuBadge>
                           <LockIcon className="size-5 block" />
                         </SidebarMenuBadge>
-                      )}
+                      ) : null}
                     </SidebarMenuItem>
                   )
                 })}
