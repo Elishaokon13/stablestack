@@ -5,6 +5,7 @@ import { useUserSession } from "@/hooks/useUserSession"
 import { AppKitButtonFull } from "./AppKitButton"
 import { motion } from "framer-motion"
 import { Wallet, AlertCircle } from "lucide-react"
+import { useAppKit } from "@reown/appkit/react"
 
 export function WalletAuth() {
   const { 
