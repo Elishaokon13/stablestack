@@ -24,7 +24,7 @@ if (projectId) {
     }),
   });
 
-  // Set up metadata for M.O.N.K.Y OS theme
+  // Set up metadata for Stablestack theme
   const metadata = {
     name: "StableStack",
     description: "The ultimate rebel payment platform for Web3. Accept USDC payments with style.",
