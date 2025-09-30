@@ -8,7 +8,7 @@ import { Wallet, CheckCircle2, AlertCircle, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface AppKitButtonProps {
-  size?: "sm" | "md" | "lg"
+  size?: "sm" | "lg" | "default"
   variant?: "default" | "outline" | "ghost"
   className?: string
   showAddress?: boolean
