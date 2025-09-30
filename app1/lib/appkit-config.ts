@@ -32,7 +32,7 @@ if (projectId) {
     icons: ["/placeholder-logo.svg"] // Using our app1 logo
   };
 
-  // Create the AppKit with embedded wallet support
+  // Create the AppKit with full features like the demo
   createAppKit({
     adapters: [wagmiAdapter],
     projectId,
@@ -41,8 +41,30 @@ if (projectId) {
     metadata: metadata,
     features: {
       analytics: true,
-      // Email and social features are managed via Reown dashboard
-      // Remove local config to avoid conflicts with remote settings
+      emailShowWallets: true,
+      email: true,
+      socials: ['google', 'twitter', 'github'],
+      connect: {
+        showWallets: true,
+        showEmail: true,
+        showSocials: true,
+      },
+      receive: true,
+      send: true,
+      onramp: true,
+      swaps: true,
+      activity: true,
+      smartAccounts: false,
+      multiWallet: true,
+      emailCapture: false,
+      legal: false,
+      smartSessions: false,
+      collapseWallets: false,
+      allWallets: true,
+      walletFeatures: ['onramp', 'swaps', 'receive', 'send'],
+      walletConnectMethods: ['wallet', 'email', 'social'],
+      connectorTypeOrder: ['walletConnect', 'recent', 'injected', 'featured', 'custom', 'external', 'recommended'],
+      connectMethodsOrder: ['wallet', 'email', 'social'],
     },
     siweConfig: siweConfig,
     themeMode: 'dark', // Match our rebel/cyberpunk theme
@@ -50,6 +72,7 @@ if (projectId) {
       '--w3m-color-mix': '#ff5941', // Our signature orange color
       '--w3m-color-mix-strength': 20,
       '--w3m-border-radius-master': '12px', // Match our rounded corners
+      '--w3m-font-family': "'__Noto_Sans_50a98f', '__Noto_Sans_Fallback_50a98f'",
     },
   });
 }
