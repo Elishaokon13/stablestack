@@ -4,19 +4,10 @@ import { Metadata } from "next";
 import { V0Provider } from "../lib/v0-context";
 import localFont from "next/font/local";
 import { SidebarProvider } from "../components/ui/sidebar";
-import { MobileHeader } from "../components/dashboard/mobile-header";
 import { DashboardSidebar } from "../components/dashboard/sidebar";
-import mockDataJson from "../mock.json";
-import type { MockData } from "../types/dashboard";
-import Widget from "../components/dashboard/widget";
-import Notifications from "../components/dashboard/notifications";
-import { MobileChat } from "../components/chat/mobile-chat";
-import Chat from "../components/chat";
 import { Providers } from "../components/providers";
 import { headers } from "next/headers";
 import React from "react";
-
-const mockData = mockDataJson as MockData;
 
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
@@ -33,12 +24,12 @@ const isV0 = process.env["VERCEL_URL"]?.includes("vusercontent.net") ?? false;
 
 export const metadata: Metadata = {
   title: {
-    template: "%s – Paystack for Web3",
-    default: "Paystack for Web3",
+    template: "%s – M.O.N.K.Y OS",
+    default: "M.O.N.K.Y OS - Web3 Payments",
   },
   description:
-    "The ultimate payment platform for Web3. Accept card payments, receive USDC in your wallet.",
-    generator: 'v0.app'
+    "The ultimate rebel payment platform for Web3. Accept USDC payments with style.",
+  generator: 'v0.app'
 };
 
 export default async function RootLayout({
@@ -66,28 +57,16 @@ export default async function RootLayout({
         <Providers cookies={cookies}>
           <V0Provider isV0={isV0}>
             <SidebarProvider>
-              {/* Mobile Header - only visible on mobile */}
-              <MobileHeader mockData={mockData} />
-
-              {/* Desktop Layout */}
-              <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-gap lg:px-sides">
+              <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:px-6">
                 <div className="hidden lg:block col-span-2 top-0 relative">
                   <DashboardSidebar />
                 </div>
-                <div className="col-span-1 lg:col-span-7">{children}</div>
-                <div className="col-span-3 hidden lg:block">
-                  <div className="space-y-gap py-sides min-h-screen max-h-screen sticky top-0 overflow-clip">
-                    <Widget widgetData={mockData.widgetData} />
-                    <Notifications
-                      initialNotifications={mockData.notifications}
-                    />
-                    <Chat />
-                  </div>
+                <div className="col-span-1 lg:col-span-10">
+                  <main className="min-h-screen">
+                    {children}
+                  </main>
                 </div>
               </div>
-
-              {/* Mobile Chat - floating CTA with drawer */}
-              <MobileChat />
             </SidebarProvider>
           </V0Provider>
         </Providers>
