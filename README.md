@@ -1,4 +1,4 @@
-# M.O.N.K.Y OS - Web3 Payments Platform
+# Stable- Web3 Payments Platform
 
 > **The ultimate rebel payment platform for Web3. Accept USDC payments with style.**
 
