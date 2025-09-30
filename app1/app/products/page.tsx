@@ -1,166 +1,305 @@
 "use client";
 
-import React, { useState } from "react";
-import { ProductsGrid } from "../../components/products/products-grid";
-import { ProductForm } from "../../components/products/product-form";
-import { Product, CreateProductForm, ProductCategory, ProductStatus } from "../../types/payments";
-import { useAccount } from "wagmi";
-import { useSession } from "next-auth/react";
-import { Button } from "../../components/ui/button";
-import { Alert, AlertDescription } from "../../components/ui/alert";
-import { Wallet, Plus } from "lucide-react";
-
-// Mock data for demonstration
-const mockProducts: Product[] = [
-  {
-    id: "1",
-    sellerId: "0x1234567890123456789012345678901234567890",
-    name: "Premium Digital Art Collection",
-    description: "A stunning collection of digital artworks created by renowned artists. Perfect for NFT collectors and art enthusiasts.",
-    price: 299.99,
-    priceInUSDC: "299990000", // 299.99 USDC with 6 decimals
-    imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
-    category: ProductCategory.DIGITAL_GOODS,
-    status: ProductStatus.ACTIVE,
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
-  },
-  {
-    id: "2",
-    sellerId: "0x1234567890123456789012345678901234567890",
-    name: "Web3 Development Course",
-    description: "Complete course covering smart contracts, DeFi protocols, and blockchain development. Includes hands-on projects and certification.",
-    price: 199.00,
-    priceInUSDC: "199000000",
-    imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop",
-    category: ProductCategory.SERVICES,
-    status: ProductStatus.ACTIVE,
-    createdAt: new Date("2024-01-10"),
-    updatedAt: new Date("2024-01-10"),
-  },
-  {
-    id: "3",
-    sellerId: "0x1234567890123456789012345678901234567890",
-    name: "Crypto Trading Bot",
-    description: "Automated trading bot for cryptocurrency markets. Features advanced algorithms and risk management tools.",
-    price: 499.99,
-    priceInUSDC: "499990000",
-    imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-    category: ProductCategory.DIGITAL_GOODS,
-    status: ProductStatus.DRAFT,
-    createdAt: new Date("2024-01-05"),
-    updatedAt: new Date("2024-01-05"),
-  },
-  {
-    id: "4",
-    sellerId: "0x9876543210987654321098765432109876543210",
-    name: "Blockchain Consulting Session",
-    description: "One-on-one consultation with blockchain experts. Get personalized advice for your Web3 project.",
-    price: 150.00,
-    priceInUSDC: "150000000",
-    category: ProductCategory.SERVICES,
-    status: ProductStatus.ACTIVE,
-    createdAt: new Date("2024-01-12"),
-    updatedAt: new Date("2024-01-12"),
-  },
-  {
-    id: "5",
-    sellerId: "0x1234567890123456789012345678901234567890",
-    name: "DeFi Yield Farming Guide",
-    description: "Comprehensive guide to DeFi yield farming strategies. Learn how to maximize returns while managing risks.",
-    price: 79.99,
-    priceInUSDC: "79990000",
-    imageUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop",
-    category: ProductCategory.DIGITAL_GOODS,
-    status: ProductStatus.SOLD_OUT,
-    createdAt: new Date("2024-01-08"),
-    updatedAt: new Date("2024-01-08"),
-  },
-];
+import React, { useState, useEffect } from "react";
+import { useUserSession } from "@/hooks/useUserSession";
+import DashboardPageLayout from "@/components/dashboard/layout";
+import { ProductForm } from "@/components/forms";
+import { ProductCard } from "@/components/cards";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Wallet, Plus, Package, Loader2, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
+import { Product } from "@/lib/types";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const { address, isConnected } = useAccount();
-  const { data: session } = useSession();
+  const { user, isAuthenticated, isLoading: isUserSessionLoading, needsOnboarding } = useUserSession()
+  const router = useRouter()
+  const [products, setProducts] = useState<Product[]>([])
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false)
 
-  const handleCreateProduct = async (data: CreateProductForm) => {
-    setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const newProduct: Product = {
-      id: Date.now().toString(),
-      sellerId: address || "0x0000000000000000000000000000000000000000",
-      name: data.name,
-      description: data.description,
-      price: data.price,
-      priceInUSDC: (data.price * 1000000).toString(), // Convert to 6 decimals
-      imageUrl: data.imageUrl,
-      category: data.category,
-      status: ProductStatus.ACTIVE, // Start as active for payment links
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      metadata: data.metadata,
-    };
-    
-    setProducts(prev => [newProduct, ...prev]);
-    setIsLoading(false);
-  };
-
-  const handleEditProduct = (product: Product) => {
-    // TODO: Implement edit functionality
-    console.log("Edit product:", product);
-  };
-
-  const handleDeleteProduct = (product: Product) => {
-    if (confirm(`Are you sure you want to delete "${product.name}"?`)) {
-      setProducts(prev => prev.filter(p => p.id !== product.id));
+  useEffect(() => {
+    if (!isUserSessionLoading && !isAuthenticated) {
+      router.push("/test-wallet") // Redirect to wallet connect if not authenticated
     }
-  };
+  }, [isAuthenticated, isUserSessionLoading, router])
 
-  const handleViewProduct = (product: Product) => {
-    // TODO: Implement view functionality
-    console.log("View product:", product);
-  };
+  useEffect(() => {
+    if (isAuthenticated && user?.address) {
+      fetchProducts(user.address)
+    }
+  }, [isAuthenticated, user?.address])
 
-  if (!isConnected || !session) {
+  const fetchProducts = async (sellerId: string) => {
+    setIsLoadingProducts(true)
+    try {
+      const response = await fetch(`/api/products?sellerId=${sellerId}`)
+      if (!response.ok) {
+        throw new Error("Failed to fetch products")
+      }
+      const data = await response.json()
+      console.log("Products API response:", data)
+      if (data.success && data.products) {
+        setProducts(data.products)
+      } else {
+        setProducts([])
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Error fetching products.")
+      console.error("Error fetching products:", error)
+    } finally {
+      setIsLoadingProducts(false)
+    }
+  }
+
+  const handleCreateProduct = () => {
+    setIsCreateModalOpen(true)
+  }
+
+  const handleProductCreated = () => {
+    setIsCreateModalOpen(false)
+    if (user?.address) {
+      fetchProducts(user.address) // Refresh products list
+    }
+  }
+
+  if (isUserSessionLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <Alert>
-          <Wallet className="h-4 w-4" />
-          <AlertDescription>
-            Please connect your wallet to view and manage products.
-          </AlertDescription>
-        </Alert>
+      <DashboardPageLayout
+        header={{
+          title: "Loading Products",
+          description: "Please wait...",
+          icon: Loader2,
+        }}
+      >
+        <div className="flex flex-col items-center justify-center h-full text-center">
+          <Loader2 className="w-16 h-16 animate-spin text-primary mb-4" />
+          <h2 className="text-2xl font-display text-primary-foreground">Loading M.O.N.K.Y OS...</h2>
+          <p className="text-muted-foreground mt-2">Preparing your product management system.</p>
       </div>
-    );
+      </DashboardPageLayout>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <DashboardPageLayout
+        header={{
+          title: "Products",
+          description: "Connect your wallet to manage products",
+          icon: Package,
+        }}
+      >
+        <Card className="ring-2 ring-pop">
+          <CardContent className="p-8 text-center">
+            <Wallet className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-xl font-semibold mb-2">Connect Your Wallet</h3>
+            <p className="text-muted-foreground mb-6">
+              You need to connect your wallet to view and manage products
+            </p>
+            <Button 
+              onClick={() => router.push("/test-wallet")} 
+              style={{ background: 'linear-gradient(to bottom, #ff6d41, #ff5420)' }}
+            >
+              <Wallet className="w-4 h-4 mr-2" />
+              Connect Wallet
+            </Button>
+          </CardContent>
+        </Card>
+      </DashboardPageLayout>
+    )
+  }
+
+  if (needsOnboarding) {
+    return (
+      <DashboardPageLayout
+        header={{
+          title: "Products",
+          description: "Complete onboarding to manage products",
+          icon: Package,
+        }}
+      >
+        <Card className="ring-2 ring-pop">
+          <CardContent className="p-8 text-center">
+            <Package className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-xl font-semibold mb-2">Complete Onboarding First</h3>
+            <p className="text-muted-foreground mb-6">
+              Please complete your profile setup before managing products
+            </p>
+            <Button 
+              onClick={() => router.push("/dashboard")} 
+              style={{ background: 'linear-gradient(to bottom, #ff6d41, #ff5420)' }}
+            >
+              Complete Onboarding
+            </Button>
+          </CardContent>
+        </Card>
+      </DashboardPageLayout>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-      <div className="container mx-auto px-4 py-8">
-        <ProductsGrid
-          products={products}
-          onProductEdit={handleEditProduct}
-          onProductDelete={handleDeleteProduct}
-          onProductView={handleViewProduct}
-          onCreateProduct={() => setIsCreateModalOpen(true)}
-          showActions={true}
-          isLoading={isLoading}
-        />
+    <DashboardPageLayout
+      header={{
+        title: "Products",
+        description: "Manage your products and payment links",
+        icon: Package,
+      }}
+    >
+      <div className="space-y-6">
+        {/* Header with Create Button */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">Your Products</h2>
+            <p className="text-muted-foreground">
+              Create and manage products that accept USDC payments
+            </p>
+          </div>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button
+              onClick={handleCreateProduct}
+              style={{ background: 'linear-gradient(to bottom, #ff6d41, #ff5420)' }}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Create Product
+            </Button>
+          </motion.div>
+        </div>
 
-        <ProductForm
-          isOpen={isCreateModalOpen}
-          onClose={() => setIsCreateModalOpen(false)}
-          onSubmit={handleCreateProduct}
-          title="Create Payment Link"
-          description="Create a payment link for your product. Share the link with buyers who can pay with cards, and you'll receive USDC in your Base wallet."
-        />
+        {/* Products Grid */}
+        {isLoadingProducts ? (
+          <div className="flex items-center justify-center p-8">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        ) : products.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <motion.div
+                key={product._id?.toString() || product.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Card className="ring-2 ring-pop h-full flex flex-col">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-xl font-display text-primary-foreground">
+                        {product.name}
+                      </CardTitle>
+                      <Badge
+                        variant="outline"
+                        className={`px-2 py-1 text-xs ${
+                          product.isActive
+                            ? "bg-green-900/20 text-green-400 border-green-700/50"
+                            : "bg-red-900/20 text-red-400 border-red-700/50"
+                        }`}
+                      >
+                        {product.isActive ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
+                    <p className="text-muted-foreground text-sm">
+                      {product.description || "No description provided."}
+                    </p>
+                  </CardHeader>
+                  <CardContent className="flex-grow flex flex-col justify-between space-y-4">
+                    <div className="space-y-2">
+                      <p className="text-lg font-bold text-primary" style={{ color: '#ff5941' }}>
+                        ${product.priceUSD.toFixed(2)} USD
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {Number(product.priceUSDC).toFixed(6)} USDC (on Base)
+                      </p>
+                      {product.category && (
+                        <Badge variant="secondary" className="text-xs">
+                          {product.category}
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-2 mt-4">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const paymentLink = `${window.location.origin}/pay/${product.paymentLink}`
+                          navigator.clipboard.writeText(paymentLink)
+                          toast.success("Payment link copied to clipboard!")
+                        }}
+                        className="w-full justify-start text-left"
+                      >
+                        <Package className="w-4 h-4 mr-2" />
+                        Copy Payment Link
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.open(`/pay/${product.paymentLink}`, '_blank')}
+                        className="w-full justify-start text-left"
+                      >
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        View Payment Page
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <Card className="ring-2 ring-pop">
+            <CardContent className="p-8 text-center">
+              <Package className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-xl font-semibold mb-2">No Products Yet</h3>
+              <p className="text-muted-foreground mb-6">
+                Start by creating your first product to accept USDC payments
+              </p>
+              <Button
+                onClick={handleCreateProduct}
+                style={{ background: 'linear-gradient(to bottom, #ff6d41, #ff5420)' }}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Create Your First Product
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Create Product Modal */}
+        {isCreateModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-card rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            >
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-4">Create New Product</h3>
+                <ProductForm onSuccess={handleProductCreated} />
+                <div className="mt-4 flex justify-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsCreateModalOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
       </div>
-    </div>
-  );
+    </DashboardPageLayout>
+  )
 }
