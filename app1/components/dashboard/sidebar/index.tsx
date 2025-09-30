@@ -58,12 +58,12 @@ const getSidebarData = (currentPath: string) => ({
           icon: Package,
           isActive: currentPath.startsWith("/products"),
         },
-        {
-          title: "Wallet Test",
-          url: "/test-wallet",
-          icon: Wallet,
-          isActive: currentPath.startsWith("/test-wallet"),
-        },
+        // {
+        //   title: "Wallet Test",
+        //   url: "/test-wallet",
+        //   icon: Wallet,
+        //   isActive: currentPath.startsWith("/test-wallet"),
+        // },
         {
           title: "Payment Flow",
           url: "/payment-flow",

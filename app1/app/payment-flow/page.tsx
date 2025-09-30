@@ -87,13 +87,13 @@ export default function PaymentFlowPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-black py-8">
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2">
             Stripe + Blockradar Integration
           </h1>
-          <p className="text-gray-600">
+          <p className="text-white">
             Complete payment and crypto disbursement flow
           </p>
         </div>
@@ -110,12 +110,12 @@ export default function PaymentFlowPage() {
                         currentStep
                       ) >= index
                         ? "bg-blue-600 text-white"
-                        : "bg-gray-200 text-gray-600"
+                        : "bg-gray-200 text-white"
                     }`}
                   >
                     {index + 1}
                   </div>
-                  <span className="ml-2 text-sm font-medium capitalize">
+                  <span className="ml-2 text-sm font-medium capitalize text-white">
                     {step}
                   </span>
                   {index < 3 && <div className="w-8 h-0.5 bg-gray-200 mx-2" />}
@@ -194,13 +194,13 @@ export default function PaymentFlowPage() {
               <CardContent className="text-center space-y-4">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
                 <div className="space-y-2">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-white">
                     Processing Stripe payment...
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-white">
                     Preparing crypto disbursement...
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-white">
                     Creating Blockradar transaction...
                   </p>
                 </div>
@@ -255,10 +255,10 @@ export default function PaymentFlowPage() {
           <TabsContent value="wallet" className="space-y-6">
             <div className="space-y-6">
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-2xl font-bold text-white mb-2">
                   Wallet Dashboard
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-white">
                   Manage your crypto wallet and view transaction history
                 </p>
               </div>
@@ -286,7 +286,7 @@ export default function PaymentFlowPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="font-semibold mb-2">Stripe Integration</h3>
-                <ul className="text-sm text-gray-600 space-y-1">
+                <ul className="text-sm text-white space-y-1">
                   <li>• Payment Intents API</li>
                   <li>• Webhook handling</li>
                   <li>• Card payment processing</li>
@@ -295,7 +295,7 @@ export default function PaymentFlowPage() {
               </div>
               <div>
                 <h3 className="font-semibold mb-2">Blockradar Integration</h3>
-                <ul className="text-sm text-gray-600 space-y-1">
+                <ul className="text-sm text-white space-y-1">
                   <li>• Wallet management</li>
                   <li>• Transaction creation</li>
                   <li>• Balance monitoring</li>
