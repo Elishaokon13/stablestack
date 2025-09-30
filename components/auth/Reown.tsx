@@ -27,7 +27,7 @@ export function ReownProvider({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1a1a1a' }}>
         <div className="text-center">
           <div className="loading-spinner mx-auto mb-4 h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin" style={{ borderColor: '#ff5941' }}></div>
-          <p className="text-muted-foreground" style={{ color: '#6b7280' }}>Initializing M.O.N.K.Y OS...</p>
+          <p className="text-muted-foreground" style={{ color: '#6b7280' }}>Initializing Stablestack...</p>
         </div>
       </div>
     )
