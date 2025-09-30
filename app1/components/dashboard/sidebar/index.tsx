@@ -184,7 +184,7 @@ export function DashboardSidebar({
                       <SidebarMenuButton
                         asChild={!isLocked}
                         isActive={Boolean(item.isActive)}
-                        disabled={isLocked}
+                        disabled={isLocked ? true : false}
                         className={cn(
                           "disabled:cursor-not-allowed",
                           isLocked ? "pointer-events-none" : ""
