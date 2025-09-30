@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { WalletAuth } from "@/components/WalletAuth"
+import { WalletAuth } from "@/components/auth"
 import { useUserSession } from "@/hooks/useUserSession"
 import DashboardPageLayout from "@/components/dashboard/layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
