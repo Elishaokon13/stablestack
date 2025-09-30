@@ -7,6 +7,7 @@ import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cookieToInitialState } from "wagmi";
 import { AppKitProvider } from "@reown/appkit/react";
+import { AuthProvider } from "@/lib/auth-context";
 
 export function Providers({ 
   children, 
@@ -23,7 +24,9 @@ export function Providers({
       <WagmiProvider config={wagmiAdapter.wagmiConfig} initialState={initialState}>
         <AppKitProvider>
           <SessionProvider>
-            {children}
+            <AuthProvider>
+              {children}
+            </AuthProvider>
           </SessionProvider>
         </AppKitProvider>
       </WagmiProvider>

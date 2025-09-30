@@ -1,40 +1,59 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { PaymentForm } from '@/components/payment/payment-form';
-import { WalletDashboard } from '@/components/wallet/wallet-dashboard';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState, useEffect } from "react";
+import { PaymentForm } from "@/components/payment/payment-form";
+import { WalletDashboard } from "@/components/wallet/wallet-dashboard";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/lib/auth-context";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
-type PaymentStep = 'amount' | 'payment' | 'processing' | 'success' | 'wallet';
+type PaymentStep = "amount" | "payment" | "processing" | "success" | "wallet";
 
 export default function PaymentFlowPage() {
-  const [currentStep, setCurrentStep] = useState<PaymentStep>('amount');
+  const [currentStep, setCurrentStep] = useState<PaymentStep>("amount");
   const [amount, setAmount] = useState<number>(100);
   const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [userId] = useState('user_123'); // In real app, this would come from auth
+
+  const { isAuthenticated, isLoading: authLoading, address } = useAuth();
+  const router = useRouter();
+
+  const userId = address || "user_123"; // Use wallet address as user ID
+
+  useEffect(() => {
+    if (!isAuthenticated && !authLoading) {
+      router.push("/auth");
+    }
+  }, [isAuthenticated, authLoading, router]);
 
   const handleAmountSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
-      setCurrentStep('payment');
+      setCurrentStep("payment");
       setError(null);
     }
   };
 
   const handlePaymentSuccess = (paymentIntentId: string) => {
     setPaymentIntentId(paymentIntentId);
-    setCurrentStep('processing');
-    
+    setCurrentStep("processing");
+
     // Simulate processing time
     setTimeout(() => {
-      setCurrentStep('success');
+      setCurrentStep("success");
     }, 3000);
   };
 
@@ -43,14 +62,29 @@ export default function PaymentFlowPage() {
   };
 
   const resetFlow = () => {
-    setCurrentStep('amount');
+    setCurrentStep("amount");
     setPaymentIntentId(null);
     setError(null);
   };
 
   const viewWallet = () => {
-    setCurrentStep('wallet');
+    setCurrentStep("wallet");
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p>Loading payment flow...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null; // Will redirect to auth page
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -67,23 +101,27 @@ export default function PaymentFlowPage() {
         {/* Progress Indicator */}
         <div className="mb-8">
           <div className="flex items-center justify-center space-x-4">
-            {['amount', 'payment', 'processing', 'success'].map((step, index) => (
-              <div key={step} className="flex items-center">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    ['amount', 'payment', 'processing', 'success'].indexOf(currentStep) >= index
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-600'
-                  }`}
-                >
-                  {index + 1}
+            {["amount", "payment", "processing", "success"].map(
+              (step, index) => (
+                <div key={step} className="flex items-center">
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      ["amount", "payment", "processing", "success"].indexOf(
+                        currentStep
+                      ) >= index
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-200 text-gray-600"
+                    }`}
+                  >
+                    {index + 1}
+                  </div>
+                  <span className="ml-2 text-sm font-medium capitalize">
+                    {step}
+                  </span>
+                  {index < 3 && <div className="w-8 h-0.5 bg-gray-200 mx-2" />}
                 </div>
-                <span className="ml-2 text-sm font-medium capitalize">{step}</span>
-                {index < 3 && (
-                  <div className="w-8 h-0.5 bg-gray-200 mx-2" />
-                )}
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
 
@@ -112,7 +150,9 @@ export default function PaymentFlowPage() {
                       id="amount"
                       type="number"
                       value={amount}
-                      onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
+                      onChange={(e) =>
+                        setAmount(parseFloat(e.target.value) || 0)
+                      }
                       min="0.01"
                       step="0.01"
                       placeholder="100.00"
@@ -147,7 +187,8 @@ export default function PaymentFlowPage() {
               <CardHeader>
                 <CardTitle>Processing Payment</CardTitle>
                 <CardDescription>
-                  Your payment is being processed and crypto payout is being prepared
+                  Your payment is being processed and crypto payout is being
+                  prepared
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center space-y-4">
@@ -170,7 +211,9 @@ export default function PaymentFlowPage() {
           <TabsContent value="success" className="space-y-6">
             <Card className="max-w-md mx-auto">
               <CardHeader>
-                <CardTitle className="text-green-600">Payment Successful!</CardTitle>
+                <CardTitle className="text-green-600">
+                  Payment Successful!
+                </CardTitle>
                 <CardDescription>
                   Your payment has been processed and crypto payout initiated
                 </CardDescription>
@@ -187,15 +230,21 @@ export default function PaymentFlowPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm font-medium">Status:</span>
-                    <Badge className="bg-green-100 text-green-800">Completed</Badge>
+                    <Badge className="bg-green-100 text-green-800">
+                      Completed
+                    </Badge>
                   </div>
                 </div>
-                
+
                 <div className="pt-4 space-y-2">
                   <Button onClick={viewWallet} className="w-full">
                     View Wallet Dashboard
                   </Button>
-                  <Button onClick={resetFlow} variant="outline" className="w-full">
+                  <Button
+                    onClick={resetFlow}
+                    variant="outline"
+                    className="w-full"
+                  >
                     Make Another Payment
                   </Button>
                 </div>
@@ -213,9 +262,9 @@ export default function PaymentFlowPage() {
                   Manage your crypto wallet and view transaction history
                 </p>
               </div>
-              
+
               <WalletDashboard userId={userId} />
-              
+
               <div className="text-center">
                 <Button onClick={resetFlow} variant="outline">
                   Back to Payment Flow

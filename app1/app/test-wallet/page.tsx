@@ -1,22 +1,39 @@
-"use client"
+"use client";
 
-import React from "react"
-import { WalletAuth } from "@/components/WalletAuth"
-import { useUserSession } from "@/hooks/useUserSession"
-import DashboardPageLayout from "@/components/dashboard/layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Wallet, CheckCircle2, AlertCircle } from "lucide-react"
+import React, { useEffect } from "react";
+import { WalletAuth } from "@/components/WalletAuth";
+import { useAuth } from "@/lib/auth-context";
+import { useRouter } from "next/navigation";
+import DashboardPageLayout from "@/components/dashboard/layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Wallet, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 export default function TestWalletPage() {
-  const { 
-    user, 
-    address, 
-    isAuthenticated, 
-    isLoading, 
-    error, 
-    needsOnboarding 
-  } = useUserSession()
+  const { user, address, isAuthenticated, isLoading, error, needsOnboarding } =
+    useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      router.push("/auth");
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p>Loading wallet...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null; // Will redirect to auth page
+  }
 
   return (
     <DashboardPageLayout
@@ -38,19 +55,19 @@ export default function TestWalletPage() {
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Status:</span>
-              <Badge 
+              <Badge
                 variant="outline"
                 className="px-3 py-1"
-                style={{ 
-                  backgroundColor: isAuthenticated ? '#d1fae5' : '#fee2e2',
-                  borderColor: isAuthenticated ? '#059669' : '#dc2626',
-                  color: isAuthenticated ? '#059669' : '#dc2626'
+                style={{
+                  backgroundColor: isAuthenticated ? "#d1fae5" : "#fee2e2",
+                  borderColor: isAuthenticated ? "#059669" : "#dc2626",
+                  color: isAuthenticated ? "#059669" : "#dc2626",
                 }}
               >
-                {isAuthenticated ? 'Connected' : 'Disconnected'}
+                {isAuthenticated ? "Connected" : "Disconnected"}
               </Badge>
             </div>
-            
+
             {address && (
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Address:</span>
@@ -83,9 +100,7 @@ export default function TestWalletPage() {
         {/* Wallet Auth Component */}
         <Card className="ring-2 ring-pop">
           <CardHeader>
-            <CardTitle>
-              Wallet Connection
-            </CardTitle>
+            <CardTitle>Wallet Connection</CardTitle>
           </CardHeader>
           <CardContent>
             <WalletAuth />
@@ -93,29 +108,35 @@ export default function TestWalletPage() {
         </Card>
 
         {/* Debug Info */}
-        {process.env.NODE_ENV === 'development' && (
+        {process.env.NODE_ENV === "development" && (
           <Card className="ring-2 ring-pop">
             <CardHeader>
               <CardTitle>Debug Info</CardTitle>
             </CardHeader>
             <CardContent>
               <pre className="text-xs overflow-auto text-muted-foreground bg-muted p-4 rounded-lg">
-                {JSON.stringify({
-                  isAuthenticated,
-                  isLoading,
-                  hasAddress: !!address,
-                  needsOnboarding,
-                  hasError: !!error,
-                  user: user ? {
-                    address: user.address,
-                    isOnboardingComplete: user.isOnboardingComplete
-                  } : null
-                }, null, 2)}
+                {JSON.stringify(
+                  {
+                    isAuthenticated,
+                    isLoading,
+                    hasAddress: !!address,
+                    needsOnboarding,
+                    hasError: !!error,
+                    user: user
+                      ? {
+                          address: user.address,
+                          isOnboardingComplete: user.isOnboardingComplete,
+                        }
+                      : null,
+                  },
+                  null,
+                  2
+                )}
               </pre>
             </CardContent>
           </Card>
         )}
       </div>
     </DashboardPageLayout>
-  )
+  );
 }
