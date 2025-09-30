@@ -10,17 +10,17 @@ export function WalletConnectButton() {
   const { data: session } = useSession();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-  const { connectWallet } = useAuth();
+  const { connectWallet, isAuthenticated } = useAuth();
 
   const handleDisconnect = async () => {
     await signOut();
     disconnect();
   };
 
-  if (isConnected && session) {
+  if (isAuthenticated && address) {
     return (
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-3 px-4 py-3 bg-white/10 border border-white/20 rounded-xl backdrop-blur-sm">
+        <div className="flex items-center gap-3 px-4 py-3 bg-sidebar-accent/50 border border-white/20 rounded-xl backdrop-blur-sm">
           <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
           <span className="text-white font-medium">
             {formatAddress(address || "")}

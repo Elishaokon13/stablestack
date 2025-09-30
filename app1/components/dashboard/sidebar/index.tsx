@@ -37,6 +37,7 @@ import LockIcon from "@/components/icons/lock";
 import Image from "next/image";
 import { useIsV0 } from "@/lib/v0-context";
 import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
+import { useAuth } from "@/lib/auth-context";
 import Link from "next/link";
 
 // This is sample data for the sidebar
@@ -121,6 +122,7 @@ export function DashboardSidebar({
   const isV0 = useIsV0();
   const pathname = usePathname();
   const data = getSidebarData(pathname);
+  const { isAuthenticated, address, user } = useAuth();
 
   return (
     <Sidebar {...props} className={cn("py-sides", className)}>
@@ -140,10 +142,6 @@ export function DashboardSidebar({
             className={cn(i === 0 && "rounded-t-none")}
             key={group.title}
           >
-            <SidebarGroupLabel>
-              <Bullet className="mr-2" />
-              {group.title}
-            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => (
@@ -191,14 +189,19 @@ export function DashboardSidebar({
 
       <SidebarFooter className="p-0">
         <SidebarGroup>
-          <SidebarGroupLabel>
-            <Bullet className="mr-2" />
-            Wallet
-          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <div className="p-3">
-              <WalletConnectButton />
-            </div>
+            {isAuthenticated && address ? (
+              <div className="p-3 space-y-3">
+                {/* Disconnect Button */}
+                <div className="pt-2">
+                  <WalletConnectButton />
+                </div>
+              </div>
+            ) : (
+              <div className="p-3">
+                <WalletConnectButton />
+              </div>
+            )}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarFooter>
