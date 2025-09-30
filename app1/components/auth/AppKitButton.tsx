@@ -101,14 +101,67 @@ export function AppKitButton({
 
 // Compact version for smaller spaces
 export function AppKitButtonCompact({ className = "" }: { className?: string }) {
+  const { open } = useAppKit()
+  const { address, isConnected, isConnecting } = useAccount()
+
+  const formatAddress = (addr: string) => {
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`
+  }
+
+  if (isConnected && address) {
+    return (
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Button
+          onClick={open}
+          size="sm"
+          variant="outline"
+          className={`${className} cursor-pointer`}
+          style={{ 
+            background: 'linear-gradient(to bottom, #ff6d41, #ff5420)',
+            color: 'white',
+            border: 'none'
+          }}
+        >
+          <CheckCircle2 className="w-3 h-3 mr-1" />
+          {formatAddress(address)}
+        </Button>
+      </motion.div>
+    )
+  }
+
+  if (isConnecting) {
+    return (
+      <Button
+        disabled
+        size="sm"
+        variant="outline"
+        className={className}
+      >
+        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+        Connecting...
+      </Button>
+    )
+  }
+
   return (
-    <AppKitButton 
-      size="sm" 
-      variant="outline" 
+    <Button
+      onClick={open}
+      size="sm"
+      variant="outline"
       className={className}
-      showAddress={false}
-      showDisconnect={false}
-    />
+      style={{ 
+        background: 'linear-gradient(to bottom, #ff6d41, #ff5420)',
+        color: 'white',
+        border: 'none'
+      }}
+    >
+      <Wallet className="w-3 h-3 mr-1" />
+      Connect
+    </Button>
   )
 }
 
