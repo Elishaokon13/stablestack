@@ -86,48 +86,48 @@ const data = {
         },
       ],
     },
-    {
-      title: "Legacy",
-      items: [
-        {
-          title: "Overview",
-          url: "/",
-          icon: BracketsIcon,
-          isActive: false,
-        },
-        {
-          title: "Laboratory",
-          url: "/laboratory",
-          icon: AtomIcon,
-          isActive: false,
-        },
-        {
-          title: "Devices",
-          url: "/devices",
-          icon: ProcessorIcon,
-          isActive: false,
-        },
-        {
-          title: "Security",
-          url: "/security",
-          icon: CuteRobotIcon,
-          isActive: false,
-        },
-        {
-          title: "Communication",
-          url: "/communication",
-          icon: EmailIcon,
-          isActive: false,
-        },
-        {
-          title: "Admin Settings",
-          url: "/admin",
-          icon: GearIcon,
-          isActive: false,
-          locked: true,
-        },
-      ],
-    },
+    // {
+    //   title: "Legacy",
+    //   items: [
+    //     {
+    //       title: "Overview",
+    //       url: "/",
+    //       icon: BracketsIcon,
+    //       isActive: false,
+    //     },
+    //     {
+    //       title: "Laboratory",
+    //       url: "/laboratory",
+    //       icon: AtomIcon,
+    //       isActive: false,
+    //     },
+    //     {
+    //       title: "Devices",
+    //       url: "/devices",
+    //       icon: ProcessorIcon,
+    //       isActive: false,
+    //     },
+    //     {
+    //       title: "Security",
+    //       url: "/security",
+    //       icon: CuteRobotIcon,
+    //       isActive: false,
+    //     },
+    //     {
+    //       title: "Communication",
+    //       url: "/communication",
+    //       icon: EmailIcon,
+    //       isActive: false,
+    //     },
+    //     {
+    //       title: "Admin Settings",
+    //       url: "/admin",
+    //       icon: GearIcon,
+    //       isActive: false,
+    //       locked: true,
+    //     },
+    //   ],
+    // },
   ],
   desktop: {
     title: "Desktop (Online)",
