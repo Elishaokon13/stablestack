@@ -79,7 +79,7 @@ export default function ProductsPage() {
       >
         <div className="flex flex-col items-center justify-center h-full text-center">
           <Loader2 className="w-16 h-16 animate-spin text-primary mb-4" />
-          <h2 className="text-2xl font-display text-primary-foreground">Loading M.O.N.K.Y OS...</h2>
+          <h2 className="text-2xl font-display text-primary-foreground">Loading Stablestack...</h2>
           <p className="text-muted-foreground mt-2">Preparing your product management system.</p>
       </div>
       </DashboardPageLayout>
