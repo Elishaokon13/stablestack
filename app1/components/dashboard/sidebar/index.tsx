@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -30,60 +31,73 @@ import EmailIcon from "@/components/icons/email";
 import GearIcon from "@/components/icons/gear";
 import MonkeyIcon from "@/components/icons/monkey";
 import DotsVerticalIcon from "@/components/icons/dots-vertical";
-import { Package } from "lucide-react";
+import { Package, Wallet, CreditCard } from "lucide-react";
 import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import Image from "next/image";
 import { useIsV0 } from "@/lib/v0-context";
 import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
+import Link from "next/link";
 
 // This is sample data for the sidebar
-const data = {
+const getSidebarData = (currentPath: string) => ({
   navMain: [
     {
       title: "Tools",
       items: [
         {
           title: "Overview",
-          url: "/",
+          url: "/dashboard",
           icon: BracketsIcon,
-          isActive: true,
+          isActive: currentPath === "/dashboard",
         },
         {
           title: "Products",
           url: "/products",
           icon: Package,
-          isActive: false,
+          isActive: currentPath.startsWith("/products"),
+        },
+        {
+          title: "Wallet Test",
+          url: "/test-wallet",
+          icon: Wallet,
+          isActive: currentPath.startsWith("/test-wallet"),
+        },
+        {
+          title: "Payment Flow",
+          url: "/payment-flow",
+          icon: CreditCard,
+          isActive: currentPath.startsWith("/payment-flow"),
         },
         {
           title: "Laboratory",
           url: "/laboratory",
           icon: AtomIcon,
-          isActive: false,
+          isActive: currentPath.startsWith("/laboratory"),
         },
         {
           title: "Devices",
           url: "/devices",
           icon: ProcessorIcon,
-          isActive: false,
+          isActive: currentPath.startsWith("/devices"),
         },
         {
           title: "Security",
           url: "/security",
           icon: CuteRobotIcon,
-          isActive: false,
+          isActive: currentPath.startsWith("/security"),
         },
         {
           title: "Communication",
           url: "/communication",
           icon: EmailIcon,
-          isActive: false,
+          isActive: currentPath.startsWith("/communication"),
         },
         {
           title: "Admin Settings",
           url: "/admin",
           icon: GearIcon,
-          isActive: false,
+          isActive: currentPath.startsWith("/admin"),
           locked: true,
         },
       ],
@@ -98,13 +112,15 @@ const data = {
     email: "krimson@joyco.studio",
     avatar: "/avatars/user_krimson.png",
   },
-};
+});
 
 export function DashboardSidebar({
   className,
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const isV0 = useIsV0();
+  const pathname = usePathname();
+  const data = getSidebarData(pathname);
 
   return (
     <Sidebar {...props} className={cn("py-sides", className)}>
@@ -154,10 +170,10 @@ export function DashboardSidebar({
                           <span>{item.title}</span>
                         </div>
                       ) : (
-                        <a href={item.url}>
+                        <Link href={item.url}>
                           <item.icon className="size-5" />
                           <span>{item.title}</span>
-                        </a>
+                        </Link>
                       )}
                     </SidebarMenuButton>
                     {item.locked && (
@@ -180,9 +196,9 @@ export function DashboardSidebar({
             Wallet
           </SidebarGroupLabel>
           <SidebarGroupContent>
-                  <div className="p-3">
-                    <WalletConnectButton />
-                  </div>
+            <div className="p-3">
+              <WalletConnectButton />
+            </div>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarFooter>
