@@ -18,7 +18,7 @@ if (projectId) {
   // Create Wagmi adapter with embedded wallet support
   wagmiAdapter = new WagmiAdapter({
     projectId,
-    networks: [base, baseSepolia, mainnet, sepolia] as any,
+    networks: [base, baseSepolia] as any,
     storage: createStorage({
       storage: cookieStorage,
     }),
