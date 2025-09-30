@@ -14,7 +14,7 @@ interface WalletStatusProps {
 
 export function WalletStatus({ showLabel = true, className = "" }: WalletStatusProps) {
   const { address, isConnected, isConnecting } = useAccount()
-  const { open } = useAppKit()
+  const { open } = useAppKit() as { open: () => void }
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
