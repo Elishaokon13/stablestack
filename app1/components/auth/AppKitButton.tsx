@@ -38,41 +38,21 @@ export function AppKitButton({
     disconnect()
   }
 
-  // If connected and showing address
-  if (isConnected && address && showAddress) {
+  // If connected, show the AppKit button that opens the modal
+  if (isConnected && address) {
     return (
-      <motion.div 
-        className="space-y-3"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
+      <Button
+        onClick={handleConnect}
+        size={size}
+        variant={variant}
+        className={`w-full ${className}`}
+        style={{ 
+          background: 'linear-gradient(to bottom, #ff6d41, #ff5420)'
+        }}
       >
-        <div className="text-center">
-          <motion.div 
-            className="mx-auto w-10 h-10 rounded-full flex items-center justify-center mb-2"
-            style={{ backgroundColor: '#d1fae5' }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-          >
-            <CheckCircle2 className="w-5 h-5" style={{ color: '#059669' }} />
-          </motion.div>
-          <p className="text-sm font-medium" style={{ color: '#065f46' }}>
-            {formatAddress(address)}
-          </p>
-        </div>
-        
-        {showDisconnect && (
-          <Button
-            onClick={handleDisconnect}
-            variant="outline"
-            size={size}
-            className={`w-full ${className}`}
-          >
-            Disconnect
-          </Button>
-        )}
-      </motion.div>
+        <CheckCircle2 className="w-4 h-4 mr-2" />
+        {formatAddress(address)}
+      </Button>
     )
   }
 
