@@ -52,7 +52,7 @@ export default function HomePage() {
           className="text-center mb-16"
         >
           <h1 className="text-5xl font-bold text-white mb-6">
-            M.O.N.K.Y OS
+            Stablestack
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             The ultimate rebel payment platform for Web3. Accept USDC payments with style.
