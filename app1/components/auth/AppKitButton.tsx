@@ -58,7 +58,7 @@ export function AppKitButton({
         >
           <CheckCircle2 className="w-4 h-4 mr-2" />
           {formatAddress(address)}
-          <span className="ml-2 text-xs opacity-75">Click to manage</span>
+          
         </Button>
       </motion.div>
     )
