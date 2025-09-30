@@ -43,7 +43,7 @@ if (projectId) {
       analytics: true,
       emailShowWallets: true,
       email: true,
-      socials: ['google', 'twitter', 'github'],
+      socials: ['google', 'x', 'github'],
       connect: {
         showWallets: true,
         showEmail: true,
