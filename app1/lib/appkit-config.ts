@@ -55,7 +55,7 @@ if (projectId) {
       swaps: true,
       activity: true,
       smartAccounts: false,
-      multiWallet: true,
+      multiWallet: false,
       emailCapture: false,
       legal: false,
       smartSessions: false,
