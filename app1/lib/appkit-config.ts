@@ -41,7 +41,7 @@ if (projectId) {
     metadata: metadata,
     features: {
       analytics: true,
-      emailShowWallets: true,
+      emailShowWallets: false,
       email: true,
       socials: ['google', 'x', 'github'],
       connect: {
