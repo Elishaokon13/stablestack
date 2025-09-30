@@ -30,29 +30,69 @@ import EmailIcon from "@/components/icons/email";
 import GearIcon from "@/components/icons/gear";
 import MonkeyIcon from "@/components/icons/monkey";
 import DotsVerticalIcon from "@/components/icons/dots-vertical";
-import { Package } from "lucide-react";
+import { Package, CreditCard, BarChart3, Settings, Wallet, TestTube } from "lucide-react";
 import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import Image from "next/image";
 import { useIsV0 } from "@/lib/v0-context";
-import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
+import { WalletAuth } from "@/components/auth";
 
 // This is sample data for the sidebar
 const data = {
   navMain: [
     {
-      title: "Tools",
+      title: "Payment System",
       items: [
         {
-          title: "Overview",
-          url: "/",
-          icon: BracketsIcon,
+          title: "Dashboard",
+          url: "/dashboard",
+          icon: BarChart3,
           isActive: true,
         },
         {
           title: "Products",
           url: "/products",
           icon: Package,
+          isActive: false,
+        },
+        {
+          title: "Payments",
+          url: "/payments",
+          icon: CreditCard,
+          isActive: false,
+        },
+        {
+          title: "Analytics",
+          url: "/analytics",
+          icon: BarChart3,
+          isActive: false,
+        },
+      ],
+    },
+    {
+      title: "Development",
+      items: [
+        {
+          title: "Test Wallet",
+          url: "/test-wallet",
+          icon: TestTube,
+          isActive: false,
+        },
+        {
+          title: "API Docs",
+          url: "/api-docs",
+          icon: GearIcon,
+          isActive: false,
+        },
+      ],
+    },
+    {
+      title: "Legacy",
+      items: [
+        {
+          title: "Overview",
+          url: "/",
+          icon: BracketsIcon,
           isActive: false,
         },
         {
@@ -113,8 +153,8 @@ export function DashboardSidebar({
           <MonkeyIcon className="size-10 group-hover:scale-[1.7] origin-top-left transition-transform" />
         </div>
         <div className="grid flex-1 text-left text-sm leading-tight">
-          <span className="text-2xl font-display">Paystack</span>
-          <span className="text-xs uppercase">for Web3</span>
+          <span className="text-2xl font-display">M.O.N.K.Y OS</span>
+          <span className="text-xs uppercase">Web3 Payments</span>
         </div>
       </SidebarHeader>
 
@@ -130,43 +170,46 @@ export function DashboardSidebar({
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map((item) => (
-                  <SidebarMenuItem
-                    key={item.title}
-                    className={cn(
-                      item.locked && "pointer-events-none opacity-50",
-                      isV0 && "pointer-events-none"
-                    )}
-                    data-disabled={item.locked}
-                  >
-                    <SidebarMenuButton
-                      asChild={!item.locked}
-                      isActive={item.isActive}
-                      disabled={item.locked}
+                {group.items.map((item) => {
+                  const isLocked = 'locked' in item && item.locked
+                  return (
+                    <SidebarMenuItem
+                      key={item.title}
                       className={cn(
-                        "disabled:cursor-not-allowed",
-                        item.locked && "pointer-events-none"
+                        isLocked && "pointer-events-none opacity-50",
+                        isV0 && "pointer-events-none"
                       )}
+                      data-disabled={isLocked}
                     >
-                      {item.locked ? (
-                        <div className="flex items-center gap-3 w-full">
-                          <item.icon className="size-5" />
-                          <span>{item.title}</span>
-                        </div>
-                      ) : (
-                        <a href={item.url}>
-                          <item.icon className="size-5" />
-                          <span>{item.title}</span>
-                        </a>
+                      <SidebarMenuButton
+                        asChild={!isLocked}
+                        isActive={item.isActive}
+                        disabled={isLocked}
+                        className={cn(
+                          "disabled:cursor-not-allowed",
+                          isLocked && "pointer-events-none"
+                        )}
+                      >
+                        {isLocked ? (
+                          <div className="flex items-center gap-3 w-full">
+                            <item.icon className="size-5" />
+                            <span>{item.title}</span>
+                          </div>
+                        ) : (
+                          <a href={item.url}>
+                            <item.icon className="size-5" />
+                            <span>{item.title}</span>
+                          </a>
+                        )}
+                      </SidebarMenuButton>
+                      {isLocked && (
+                        <SidebarMenuBadge>
+                          <LockIcon className="size-5 block" />
+                        </SidebarMenuBadge>
                       )}
-                    </SidebarMenuButton>
-                    {item.locked && (
-                      <SidebarMenuBadge>
-                        <LockIcon className="size-5 block" />
-                      </SidebarMenuBadge>
-                    )}
-                  </SidebarMenuItem>
-                ))}
+                    </SidebarMenuItem>
+                  )
+                })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -181,7 +224,7 @@ export function DashboardSidebar({
           </SidebarGroupLabel>
           <SidebarGroupContent>
                   <div className="p-3">
-                    <WalletConnectButton />
+                    <WalletAuth />
                   </div>
           </SidebarGroupContent>
         </SidebarGroup>
