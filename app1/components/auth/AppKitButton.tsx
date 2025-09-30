@@ -101,7 +101,7 @@ export function AppKitButton({
 
 // Compact version for smaller spaces
 export function AppKitButtonCompact({ className = "" }: { className?: string }) {
-  const { open } = useAppKit()
+  const { open } = useAppKit() as { open: () => void }
   const { address, isConnected, isConnecting } = useAccount()
 
   const formatAddress = (addr: string) => {
