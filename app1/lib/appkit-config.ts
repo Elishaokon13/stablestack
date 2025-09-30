@@ -29,7 +29,7 @@ if (projectId) {
     name: "StableStack",
     description: "The ultimate rebel payment platform for Web3. Accept USDC payments with style.",
     url: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
-    icons: ["/placeholder-logo.svg"] // Using our app1 logo
+    icons: ["/logo.png"] // Using our app1 logo
   };
 
   // Create the AppKit with full features like the demo
