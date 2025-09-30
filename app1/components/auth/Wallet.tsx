@@ -1,64 +1,18 @@
 "use client"
 
 import React from "react"
-import { Button } from "@/components/ui/button"
 import { useUserSession } from "@/hooks/useUserSession"
-import { Wallet, Loader2, CheckCircle2, AlertCircle } from "lucide-react"
+import { AppKitButtonFull } from "./AppKitButton"
 import { motion } from "framer-motion"
+import { Wallet, AlertCircle } from "lucide-react"
 
 export function WalletAuth() {
   const { 
     isAuthenticated, 
     isLoading, 
     error, 
-    connectWallet, 
-    disconnectWallet, 
     address 
   } = useUserSession()
-
-  const formatAddress = (addr: string) => {
-    return `${addr.slice(0, 6)}...${addr.slice(-4)}`
-  }
-
-  if (isAuthenticated && address) {
-    return (
-      <motion.div 
-        className="space-y-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {/* Success State */}
-        <div className="text-center">
-          <motion.div 
-            className="mx-auto w-12 h-12 rounded-full flex items-center justify-center mb-3"
-            style={{ backgroundColor: '#d1fae5' }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          >
-            <CheckCircle2 className="w-6 h-6" style={{ color: '#059669' }} />
-          </motion.div>
-          <h3 className="text-lg font-semibold mb-2" style={{ color: '#065f46' }}>
-            Wallet Connected
-          </h3>
-          <p className="text-sm mb-4" style={{ color: '#047857' }}>
-            {formatAddress(address)}
-          </p>
-        </div>
-
-        {/* Disconnect Button */}
-        <Button
-          onClick={disconnectWallet}
-          variant="outline"
-          size="lg"
-          className="w-full"
-        >
-          Disconnect Wallet
-        </Button>
-      </motion.div>
-    )
-  }
 
   if (error) {
     return (
@@ -82,27 +36,7 @@ export function WalletAuth() {
         </div>
 
         {/* Retry Button */}
-        <Button
-          onClick={connectWallet}
-          disabled={isLoading}
-          size="lg"
-          className="w-full"
-          style={{ 
-            background: 'linear-gradient(to bottom, #ff6d41, #ff5420)'
-          }}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Connecting...
-            </>
-          ) : (
-            <>
-              <Wallet className="w-4 h-4 mr-2" />
-              Try Again
-            </>
-          )}
-        </Button>
+        <AppKitButtonFull />
       </motion.div>
     )
   }
@@ -127,27 +61,7 @@ export function WalletAuth() {
         </p>
       </div>
 
-      <Button
-        onClick={connectWallet}
-        disabled={isLoading}
-        size="lg"
-        className="w-full"
-        style={{ 
-          background: 'linear-gradient(to bottom, #ff6d41, #ff5420)'
-        }}
-      >
-        {isLoading ? (
-          <>
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            Connecting...
-          </>
-        ) : (
-          <>
-            <Wallet className="w-4 h-4 mr-2" />
-            Connect Wallet
-          </>
-        )}
-      </Button>
+      <AppKitButtonFull />
 
       <div className="text-center">
         <p className="text-xs" style={{ color: '#9ca3af' }}>
