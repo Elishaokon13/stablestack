@@ -15,22 +15,24 @@ export function useUserSession() {
     email?: string
     name?: string
     isOnboardingComplete?: boolean
+    _id?: string
   } | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Debug logging
+  console.log("useUserSession state:", { address, isConnected, isConnecting, isLoading, error })
+
   // Connect wallet function
   const connectWallet = useCallback(async () => {
     try {
-      setIsLoading(true)
       setError(null)
       await open()
+      // Don't set isLoading here - let the useEffect handle it based on isConnecting
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : "Failed to connect wallet"
       setError(errorMsg)
       console.error("Wallet connection error:", err)
-    } finally {
-      setIsLoading(false)
     }
   }, [open])
 
@@ -46,25 +48,58 @@ export function useUserSession() {
     }
   }, [disconnect])
 
+  // Fetch user data from database when wallet connects
+  const fetchUserData = useCallback(async (walletAddress: string) => {
+    try {
+      const response = await fetch(`/api/users?walletAddress=${walletAddress}`)
+      if (response.ok) {
+        const data = await response.json()
+        if (data.user) {
+          setUser({
+            address: walletAddress,
+            email: data.user.email,
+            name: data.user.username,
+            isOnboardingComplete: data.user.isOnboardingComplete,
+            _id: data.user._id, // Add _id for API calls
+          })
+        } else {
+          // User doesn't exist in database yet
+          setUser({
+            address: walletAddress,
+            isOnboardingComplete: false,
+          })
+        }
+      } else {
+        // User doesn't exist in database yet
+        setUser({
+          address: walletAddress,
+          isOnboardingComplete: false,
+        })
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error)
+      // Fallback to default state
+      setUser({
+        address: walletAddress,
+        isOnboardingComplete: false,
+      })
+    }
+  }, [])
+
   // Update user state when wallet connects/disconnects
   useEffect(() => {
     if (isConnected && address) {
-      setUser({
-        address,
-        isOnboardingComplete: false, // New users need onboarding
-      })
+      fetchUserData(address)
       setIsLoading(false)
     } else if (!isConnected) {
       setUser(null)
       setIsLoading(false)
     }
-  }, [isConnected, address])
+  }, [isConnected, address, fetchUserData])
 
-  // Update loading state
+  // Update loading state based on wagmi's isConnecting
   useEffect(() => {
-    if (isConnecting) {
-      setIsLoading(true)
-    }
+    setIsLoading(isConnecting)
   }, [isConnecting])
 
   const updateUser = async (updates: { 
@@ -76,7 +111,7 @@ export function useUserSession() {
 
     try {
       setUser(prev => prev ? { ...prev, ...updates } : null)
-      return user
+      return { ...user, ...updates }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : "Failed to update user"
       setError(errorMsg)
@@ -85,8 +120,10 @@ export function useUserSession() {
   }
 
   const refreshUser = () => {
-    // Trigger a re-render by updating state
-    setUser(prev => prev ? { ...prev } : null)
+    // Refetch user data from database
+    if (address) {
+      fetchUserData(address)
+    }
   }
 
   return {
