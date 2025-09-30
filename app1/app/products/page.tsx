@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Wallet, Plus, Package, Loader2, ExternalLink } from "lucide-react";
+import { AppKitButton } from "@/components/auth";
 import { motion } from "framer-motion";
 import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
