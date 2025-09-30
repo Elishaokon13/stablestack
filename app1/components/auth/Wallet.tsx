@@ -14,6 +14,8 @@ export function WalletAuth() {
     error, 
     address 
   } = useUserSession()
+  
+  const { open } = useAppKit() as { open: () => void }
 
   if (error) {
     return (
