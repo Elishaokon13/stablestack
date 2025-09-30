@@ -1,116 +1,97 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IUser extends Document {
-  address: string;
+  walletAddress: string;
   email?: string;
-  name?: string;
   username?: string;
   isOnboardingComplete: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const UserSchema = new Schema<IUser>({
-  address: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    index: true,
+interface UserModel extends Model<IUser> {
+  findByWalletAddress(walletAddress: string): Promise<IUser | null>;
+  findOrCreate(walletAddress: string, email?: string): Promise<IUser>;
+  updateOnboardingStatus(walletAddress: string, status: boolean): Promise<IUser | null>;
+  updateProfile(walletAddress: string, updates: Partial<IUser>): Promise<IUser | null>;
+}
+
+const UserSchema: Schema<IUser> = new Schema(
+  {
+    walletAddress: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
+    // Legacy field for backward compatibility - removed unique constraint to avoid conflicts
+    address: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      default: null,
+    },
+    email: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows null values to not violate unique constraint
+      lowercase: true,
+      trim: true,
+    },
+    username: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+    },
+    isOnboardingComplete: {
+      type: Boolean,
+      default: false,
+    },
   },
-  email: {
-    type: String,
-    unique: true,
-    sparse: true,
-    lowercase: true,
-  },
-  name: {
-    type: String,
-    trim: true,
-  },
-  username: {
-    type: String,
-    unique: true,
-    sparse: true,
-    lowercase: true,
-    trim: true,
-  },
-  isOnboardingComplete: {
-    type: Boolean,
-    default: false,
-  },
-}, {
-  timestamps: true,
+  { timestamps: true }
+);
+
+// Pre-save hook to handle legacy address field
+UserSchema.pre('save', function(next) {
+  if (this.isModified('walletAddress') && !this.address) {
+    this.address = this.walletAddress;
+  }
+  next();
 });
 
-// Static methods
-UserSchema.statics.create = async function(userData: {
-  address: string;
-  email?: string;
-  name?: string;
-  username?: string;
-}) {
-  const user = new this(userData);
-  return await user.save();
+UserSchema.statics.findByWalletAddress = async function (walletAddress: string) {
+  return this.findOne({ walletAddress });
 };
 
-UserSchema.statics.findByAddress = async function(address: string) {
-  return await this.findOne({ address: address.toLowerCase() });
-};
-
-UserSchema.statics.findByEmail = async function(email: string) {
-  return await this.findOne({ email: email.toLowerCase() });
-};
-
-UserSchema.statics.findByUsername = async function(username: string) {
-  return await this.findOne({ username: username.toLowerCase() });
-};
-
-UserSchema.statics.findOrCreate = async function(userData: {
-  address: string;
-  email?: string;
-  name?: string;
-}) {
-  let user = await this.findByAddress(userData.address);
-  
+UserSchema.statics.findOrCreate = async function (walletAddress: string, email?: string) {
+  let user = await this.findByWalletAddress(walletAddress);
   if (!user) {
-    user = await this.create(userData);
+    user = await this.create({ walletAddress, email });
+  } else if (email && !user.email) {
+    // Update email if it's provided and not already set
+    user.email = email;
+    await user.save();
   }
-  
   return user;
 };
 
-UserSchema.statics.updateOnboarding = async function(address: string, data: {
-  name?: string;
-  email?: string;
-  username?: string;
-  isOnboardingComplete?: boolean;
-}) {
-  return await this.findOneAndUpdate(
-    { address: address.toLowerCase() },
-    { ...data, updatedAt: new Date() },
+UserSchema.statics.updateOnboardingStatus = async function (walletAddress: string, status: boolean) {
+  return this.findOneAndUpdate(
+    { walletAddress },
+    { $set: { isOnboardingComplete: status } },
     { new: true }
   );
 };
 
-UserSchema.statics.isUsernameAvailable = async function(username: string) {
-  const user = await this.findByUsername(username);
-  return !user;
+UserSchema.statics.updateProfile = async function (walletAddress: string, updates: Partial<IUser>) {
+  return this.findOneAndUpdate(
+    { walletAddress },
+    { $set: updates },
+    { new: true }
+  );
 };
 
-UserSchema.statics.generateUniqueUsername = async function(baseName: string) {
-  let username = baseName.toLowerCase().replace(/[^a-z0-9]/g, '');
-  let counter = 1;
-  let finalUsername = username;
-  
-  while (!(await this.isUsernameAvailable(finalUsername))) {
-    finalUsername = `${username}${counter}`;
-    counter++;
-  }
-  
-  return finalUsername;
-};
-
-const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
-
-export default User;
+export const User = (mongoose.models.User || mongoose.model<IUser, UserModel>('User', UserSchema)) as UserModel;
