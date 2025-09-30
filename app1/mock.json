@@ -1,17 +1,17 @@
 {
   "dashboardStats": [
     {
-      "label": "Payouts Made",
+      "label": "Payouts Received",
       "value": "49000",
       "description": "Payments Received"
     },
     {
-      "label": "Link Generated",
+      "label": "Links Generated",
       "value": "62",
       "description": "Link Generated"
     },
     {
-      "label": "Customers",
+      "label": "Customers Served",
       "value": "2",
       "description": "Customers"
     }

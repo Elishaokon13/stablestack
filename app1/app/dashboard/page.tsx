@@ -53,8 +53,8 @@ export default function DashboardPage() {
     <DashboardPageLayout
       header={{
         title: "Web3 Payments Dashboard",
-        description: "Manage your Web3 payments and wallet",
-        icon: BracketsIcon,
+        // description: "Manage your Web3 payments and wallet",
+        // icon: BracketsIcon,
       }}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
