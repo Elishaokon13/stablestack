@@ -176,7 +176,7 @@ export function DashboardSidebar({
                     <SidebarMenuItem
                       key={item.title}
                       className={cn(
-                        isLocked && "pointer-events-none opacity-50",
+                        isLocked ? "pointer-events-none opacity-50" : "",
                         isV0 && "pointer-events-none"
                       )}
                       data-disabled={isLocked}
