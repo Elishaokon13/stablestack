@@ -36,7 +36,7 @@ if (projectId) {
   createAppKit({
     adapters: [wagmiAdapter],
     projectId,
-    networks: [base, baseSepolia, mainnet, sepolia] as any,
+    networks: [base, baseSepolia, sepolia] as any,
     defaultNetwork: base as any,
     metadata: metadata,
     features: {
