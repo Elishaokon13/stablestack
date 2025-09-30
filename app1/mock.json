@@ -1,28 +1,19 @@
 {
   "dashboardStats": [
     {
-      "label": "ISSUES COMPLETED",
-      "value": "49%",
-      "description": "WEEKLY SCOPE",
-      "intent": "positive",
-      "icon": "gear",
-      "direction": "up"
+      "label": "Payouts Made",
+      "value": "49000",
+      "description": "Payments Received"
     },
     {
-      "label": "MINUTES LOST",
-      "value": "642'",
-      "description": "IN MEETINGS AND RABBIT HOLES",
-      "intent": "negative",
-      "icon": "proccesor",
-      "direction": "down"
+      "label": "Link Generated",
+      "value": "62",
+      "description": "Link Generated"
     },
     {
-      "label": "ACCIDENTS",
-      "value": "0",
-      "description": "THE CLIENT ALWAYS IS RIGHT",
-      "intent": "neutral",
-      "icon": "boom",
-      "tag": "4 weeks 🔥"
+      "label": "Customers",
+      "value": "2",
+      "description": "Customers"
     }
   ],
   "chartData": {

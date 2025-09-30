@@ -1,5 +1,5 @@
 "use client";
-import React from "react";  
+import React from "react";
 import DashboardPageLayout from "../../components/dashboard/layout";
 import DashboardStat from "../../components/dashboard/stat";
 import DashboardChart from "../../components/dashboard/chart";
@@ -9,7 +9,6 @@ import BracketsIcon from "../../components/icons/brackets";
 import GearIcon from "../../components/icons/gear";
 import ProcessorIcon from "../../components/icons/proccesor";
 import BoomIcon from "../../components/icons/boom";
-import { WalletStatus } from "../../components/wallet/wallet-status";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -31,7 +30,7 @@ export default function DashboardPage() {
 
   React.useEffect(() => {
     if (!isAuthenticated && !isLoading) {
-      router.push('/auth');
+      router.push("/auth");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -65,10 +64,6 @@ export default function DashboardPage() {
             label={stat.label}
             value={stat.value}
             description={stat.description}
-            icon={iconMap[stat.icon as keyof typeof iconMap]}
-            tag={stat.tag}
-            intent={stat.intent}
-            direction={stat.direction}
           />
         ))}
       </div>
@@ -78,9 +73,8 @@ export default function DashboardPage() {
       </div>
 
       {/* Main 2-column grid section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className="w-full">
         <RebelsRanking rebels={mockData.rebelsRanking} />
-        <SecurityStatus statuses={mockData.securityStatus} />
       </div>
     </DashboardPageLayout>
   );
