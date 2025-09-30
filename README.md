@@ -21,7 +21,7 @@ A modern, full-stack Web3 payment platform built with Next.js 15, React 19, and 
 - **Blockchain Verification**: Automatic transaction verification
 
 ### 🎨 **User Experience**
-- **M.O.N.K.Y OS Theme**: Cyberpunk/rebel aesthetic design
+- **Stablestack Theme**: Cyberpunk/rebel aesthetic design
 - **Responsive Design**: Mobile-first approach
 - **Smooth Animations**: Framer Motion powered interactions
 - **Dark Mode**: Optimized for dark theme
@@ -221,7 +221,7 @@ The platform is configured for **Base Network**:
 
 ## 🎨 Theming
 
-The platform uses a custom **M.O.N.K.Y OS** theme with:
+The platform uses a custom **Stablestack** theme with:
 
 - **Primary Color**: `#ff5941` (Orange)
 - **Background**: Dark gradient (`#1a1a1a` to `#2d2d2d`)
@@ -293,4 +293,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for the Web3 community**
 
-*M.O.N.K.Y OS - Where rebels meet payments*
+*Stablestack - Where rebels meet payments*
