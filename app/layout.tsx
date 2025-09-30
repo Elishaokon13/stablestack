@@ -24,8 +24,8 @@ const isV0 = process.env["VERCEL_URL"]?.includes("vusercontent.net") ?? false;
 
 export const metadata: Metadata = {
   title: {
-    template: "%s – M.O.N.K.Y OS",
-    default: "M.O.N.K.Y OS - Web3 Payments",
+    template: "%s – Stablestack",
+    default: "Stablestack - Web3 Payments",
   },
   description:
     "The ultimate rebel payment platform for Web3. Accept USDC payments with style.",
