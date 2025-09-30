@@ -85,9 +85,18 @@ ProductSchema.statics.findByPaymentLink = async function(paymentLink: string) {
 };
 
 ProductSchema.statics.findBySeller = async function(sellerId: string) {
-  return await this.find({ 
-    sellerId: sellerId.toLowerCase() 
-  }).sort({ createdAt: -1 });
+  // Check if sellerId is a wallet address (starts with 0x) or ObjectId
+  if (sellerId.startsWith('0x')) {
+    // It's a wallet address, search by wallet address
+    return await this.find({ 
+      sellerId: sellerId.toLowerCase() 
+    }).sort({ createdAt: -1 });
+  } else {
+    // It's an ObjectId, search by ObjectId
+    return await this.find({ 
+      sellerId: new mongoose.Types.ObjectId(sellerId)
+    }).sort({ createdAt: -1 });
+  }
 };
 
 ProductSchema.statics.findActiveBySeller = async function(sellerId: string) {
