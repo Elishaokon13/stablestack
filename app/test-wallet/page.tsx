@@ -21,7 +21,7 @@ export default function TestWalletPage() {
   return (
     <DashboardPageLayout
       header={{
-        title: "M.O.N.K.Y OS Wallet Test",
+        title: "Stablestack Wallet Test",
         description: "Test Reown embedded wallet integration",
         icon: Wallet,
       }}
