@@ -1,174 +1,98 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/database';
-import User from '@/lib/models/User';
+import dbConnect from '@/lib/database';
+import { User } from '@/lib/models/User';
 import { z } from 'zod';
 
-// Validation schemas
-const createUserSchema = z.object({
-  address: z.string().min(1, 'Address is required'),
-  email: z.string().email().optional(),
-  name: z.string().min(1, 'Name is required').optional(),
-});
-
-const updateUserSchema = z.object({
-  name: z.string().min(1).optional(),
-  email: z.string().email().optional(),
-  username: z.string().min(1).optional(),
+const userSchema = z.object({
+  walletAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/, "Invalid wallet address").toLowerCase(),
+  email: z.string().email("Invalid email address").optional(),
+  username: z.string().min(3, "Username must be at least 3 characters").optional(),
   isOnboardingComplete: z.boolean().optional(),
 });
 
-// GET /api/users - Get user by address
 export async function GET(request: NextRequest) {
   try {
-    await connectDB();
-    
+    await dbConnect();
     const { searchParams } = new URL(request.url);
-    const address = searchParams.get('address');
-    
-    if (!address) {
-      return NextResponse.json(
-        { error: 'Address parameter is required' },
-        { status: 400 }
-      );
-    }
-    
-    const user = await User.findByAddress(address);
-    
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
-    }
-    
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: user._id,
-        address: user.address,
-        email: user.email,
-        name: user.name,
-        username: user.username,
-        isOnboardingComplete: user.isOnboardingComplete,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
+    const walletAddress = searchParams.get('walletAddress');
+
+    if (walletAddress) {
+      const user = await User.findByWalletAddress(walletAddress);
+      if (!user) {
+        return NextResponse.json({ message: 'User not found' }, { status: 404 });
       }
-    });
-    
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+      return NextResponse.json({ user });
+    }
+
+    const users = await User.find({});
+    return NextResponse.json({ users });
+  } catch (error: any) {
+    console.error('GET /api/users error:', error);
+    return NextResponse.json({ 
+      error: 'Database connection failed. Please check your MongoDB setup.',
+      details: error.message 
+    }, { status: 500 });
   }
 }
 
-// POST /api/users - Create or update user
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
-    
+    await dbConnect();
     const body = await request.json();
-    const validatedData = createUserSchema.parse(body);
-    
-    // Check if user already exists
-    let user = await User.findByAddress(validatedData.address);
-    
+    const validatedData = userSchema.parse(body);
+
+    let user = await User.findByWalletAddress(validatedData.walletAddress);
     if (user) {
-      // Update existing user
-      const updateData: any = {};
-      if (validatedData.name) updateData.name = validatedData.name;
-      if (validatedData.email) updateData.email = validatedData.email;
-      
-      user = await User.updateOnboarding(validatedData.address, updateData);
-    } else {
-      // Create new user
-      user = await User.create(validatedData);
-    }
-    
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: user._id,
-        address: user.address,
-        email: user.email,
-        name: user.name,
-        username: user.username,
-        isOnboardingComplete: user.isOnboardingComplete,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
+      // If user exists, update email if provided and not already set
+      if (validatedData.email && !user.email) {
+        user.email = validatedData.email;
+        await user.save();
       }
-    });
-    
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Validation error', details: error.errors },
-        { status: 400 }
-      );
+      return NextResponse.json({ user, message: 'User already exists, updated if necessary' }, { status: 200 });
     }
-    
-    console.error('Error creating/updating user:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+
+    user = await User.create(validatedData);
+    return NextResponse.json({ user }, { status: 201 });
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.errors }, { status: 400 });
+    }
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-// PUT /api/users - Update user
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB();
-    
+    await dbConnect();
+    const { searchParams } = new URL(request.url);
+    const walletAddress = searchParams.get('walletAddress');
+
+    if (!walletAddress) {
+      return NextResponse.json({ message: 'Wallet address is required for update' }, { status: 400 });
+    }
+
     const body = await request.json();
-    const { address, ...updateData } = body;
-    
-    if (!address) {
-      return NextResponse.json(
-        { error: 'Address is required' },
-        { status: 400 }
-      );
-    }
-    
-    const validatedData = updateUserSchema.parse(updateData);
-    
-    const user = await User.updateOnboarding(address, validatedData);
-    
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
-    }
-    
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: user._id,
-        address: user.address,
-        email: user.email,
-        name: user.name,
-        username: user.username,
-        isOnboardingComplete: user.isOnboardingComplete,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      }
-    });
-    
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Validation error', details: error.errors },
-        { status: 400 }
-      );
-    }
-    
-    console.error('Error updating user:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    const validatedData = userSchema.partial().parse(body); // Allow partial updates
+
+    const user = await User.findOneAndUpdate(
+      { walletAddress },
+      { $set: validatedData },
+      { new: true }
     );
+
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ user });
+  } catch (error: any) {
+    console.error('PUT /api/users error:', error);
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ errors: error.errors }, { status: 400 });
+    }
+    return NextResponse.json({ 
+      error: 'Database connection failed. Please check your MongoDB setup.',
+      details: error.message 
+    }, { status: 500 });
   }
 }
