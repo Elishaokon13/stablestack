@@ -187,7 +187,7 @@ export function DashboardSidebar({
                         disabled={isLocked}
                         className={cn(
                           "disabled:cursor-not-allowed",
-                          isLocked && "pointer-events-none"
+                          isLocked ? "pointer-events-none" : ""
                         )}
                       >
                         {isLocked ? (
