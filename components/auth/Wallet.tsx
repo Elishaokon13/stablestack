@@ -60,7 +60,7 @@ export function WalletAuth() {
           Connect Your Wallet
         </h3>
         <p className="text-sm leading-relaxed mb-6" style={{ color: '#6b7280' }}>
-          Connect your wallet to access the M.O.N.K.Y OS payment system
+          Connect your wallet to access the Stablestack payment system
         </p>
       </div>
 
