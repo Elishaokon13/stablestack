@@ -1,4 +1,4 @@
-# Stable- Web3 Payments Platform
+# StableStack- Web3 Payments Platform
 
 > **The ultimate rebel payment platform for Web3. Accept USDC payments with style.**
 
