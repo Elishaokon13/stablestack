@@ -1,13 +1,24 @@
 import Stripe from 'stripe';
 import { loadStripe } from '@stripe/stripe-js';
 
-// Initialize Stripe server-side client
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-08-27.basil',
-});
+// Initialize Stripe server-side client (only for server-side usage)
+let stripe: Stripe | null = null;
+if (typeof window === 'undefined' && process.env.STRIPE_SECRET_KEY) {
+  stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2025-08-27.basil',
+  });
+}
 
 // Initialize Stripe client-side
 export const stripeClient = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+// Get server-side Stripe instance
+export function getStripeServer() {
+  if (!stripe) {
+    throw new Error('Stripe server instance not available. Make sure STRIPE_SECRET_KEY is set.');
+  }
+  return stripe;
+}
 
 // Stripe configuration
 export const STRIPE_CONFIG = {
@@ -21,7 +32,8 @@ export const STRIPE_CONFIG = {
 // Payment intent creation
 export async function createPaymentIntent(amount: number, currency: string = 'usd', metadata?: Record<string, string>) {
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
+    const stripeServer = getStripeServer();
+    const paymentIntent = await stripeServer.paymentIntents.create({
       amount: Math.round(amount * 100), // Convert to cents
       currency,
       automatic_payment_methods: {
@@ -47,7 +59,8 @@ export async function createPaymentIntent(amount: number, currency: string = 'us
 // Retrieve payment intent
 export async function getPaymentIntent(paymentIntentId: string) {
   try {
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    const stripeServer = getStripeServer();
+    const paymentIntent = await stripeServer.paymentIntents.retrieve(paymentIntentId);
     return {
       success: true,
       paymentIntent,
@@ -64,7 +77,8 @@ export async function getPaymentIntent(paymentIntentId: string) {
 // Confirm payment intent
 export async function confirmPaymentIntent(paymentIntentId: string, paymentMethodId?: string) {
   try {
-    const paymentIntent = await stripe.paymentIntents.confirm(paymentIntentId, {
+    const stripeServer = getStripeServer();
+    const paymentIntent = await stripeServer.paymentIntents.confirm(paymentIntentId, {
       payment_method: paymentMethodId,
     });
 
@@ -90,7 +104,8 @@ export async function createCheckoutSession(
   metadata?: Record<string, string>
 ) {
   try {
-    const session = await stripe.checkout.sessions.create({
+    const stripeServer = getStripeServer();
+    const session = await stripeServer.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
@@ -127,7 +142,8 @@ export async function createCheckoutSession(
 // Webhook signature verification
 export function verifyWebhookSignature(payload: string, signature: string) {
   try {
-    const event = stripe.webhooks.constructEvent(
+    const stripeServer = getStripeServer();
+    const event = stripeServer.webhooks.constructEvent(
       payload,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
@@ -148,7 +164,8 @@ export function verifyWebhookSignature(payload: string, signature: string) {
 // Get balance
 export async function getBalance() {
   try {
-    const balance = await stripe.balance.retrieve();
+    const stripeServer = getStripeServer();
+    const balance = await stripeServer.balance.retrieve();
     return {
       success: true,
       balance,
@@ -165,7 +182,8 @@ export async function getBalance() {
 // List recent charges
 export async function listRecentCharges(limit: number = 10) {
   try {
-    const charges = await stripe.charges.list({
+    const stripeServer = getStripeServer();
+    const charges = await stripeServer.charges.list({
       limit,
     });
     return {

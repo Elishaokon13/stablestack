@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Wallet, Package, DollarSign, BarChart3 } from "lucide-react";
+import { Wallet, Package, DollarSign, BarChart3, CreditCard, Link, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function HomePage() {
@@ -12,32 +12,32 @@ export default function HomePage() {
 
   const features = [
     {
-      icon: Wallet,
-      title: "Connect Wallet",
-      description: "Secure wallet connection with Reown",
-      action: () => router.push("/test-wallet"),
-      buttonText: "Connect Wallet"
+      icon: CreditCard,
+      title: "Custom Payment Forms",
+      description: "Beautiful payment forms with Stripe Elements",
+      action: () => router.push("/demo"),
+      buttonText: "Try Demo"
     },
     {
-      icon: Package,
-      title: "Manage Products",
-      description: "Create and manage your products",
-      action: () => router.push("/products"),
-      buttonText: "View Products"
+      icon: Link,
+      title: "Payment Link Generator",
+      description: "Create shareable payment links instantly",
+      action: () => router.push("/payment-links"),
+      buttonText: "Generate Links"
     },
     {
-      icon: DollarSign,
-      title: "Accept Payments",
-      description: "Receive USDC payments on Base",
-      action: () => router.push("/dashboard"),
-      buttonText: "Go to Dashboard"
+      icon: Zap,
+      title: "Complete Payment Flow",
+      description: "End-to-end payment processing with crypto conversion",
+      action: () => router.push("/payment-flow"),
+      buttonText: "View Flow"
     },
     {
       icon: BarChart3,
-      title: "Analytics",
-      description: "Track your sales and earnings",
-      action: () => router.push("/analytics"),
-      buttonText: "View Analytics"
+      title: "Analytics & Monitoring",
+      description: "Track payments and stablecoin balances",
+      action: () => router.push("/dashboard"),
+      buttonText: "View Dashboard"
     }
   ];
 
@@ -55,26 +55,26 @@ export default function HomePage() {
             Stablestack
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            The ultimate rebel payment platform for Web3. Accept USDC payments with style.
+            The ultimate payment link generator. Accept card payments, receive stablecoins.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
-              onClick={() => router.push("/test-wallet")}
+              onClick={() => router.push("/demo")}
               size="lg"
               className="px-8 py-3"
               style={{ background: 'linear-gradient(to bottom, #ff6d41, #ff5420)' }}
             >
-              <Wallet className="w-5 h-5 mr-2" />
-              Get Started
+              <CreditCard className="w-5 h-5 mr-2" />
+              Try Demo
             </Button>
             <Button
-              onClick={() => router.push("/dashboard")}
+              onClick={() => router.push("/payment-links")}
               variant="outline"
               size="lg"
               className="px-8 py-3"
             >
-              <BarChart3 className="w-5 h-5 mr-2" />
-              View Dashboard
+              <Link className="w-5 h-5 mr-2" />
+              Generate Links
             </Button>
           </div>
         </motion.div>
@@ -125,7 +125,7 @@ export default function HomePage() {
           transition={{ duration: 1, delay: 0.8 }}
           className="text-center mt-16 text-gray-400"
         >
-          <p>Powered by Reown • Built on Base • Secure • Global</p>
+          <p>Powered by Stripe • Built with Blockradar • Secure • Global</p>
         </motion.div>
       </div>
     </div>

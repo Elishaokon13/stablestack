@@ -1,27 +1,37 @@
-# StableStack- Web3 Payments Platform
+# StableStack - Payment Link Generator
 
-> **The ultimate rebel payment platform for Web3. Accept USDC payments with style.**
+> **The ultimate payment link generator. Accept card payments, receive stablecoins.**
 
-A modern, full-stack Web3 payment platform built with Next.js 15, React 19, and Reown (formerly WalletConnect) that enables seamless USDC payments on the Base network with embedded wallet support.
+A modern payment platform that bridges traditional finance and crypto. Users can generate payment links for products or general payments, accept card payments via Stripe, and receive stablecoins through Blockradar's wallet infrastructure.
 
 ## 🚀 Features
 
-### 🔐 **Authentication & Wallets**
-- **Embedded Wallets**: Email and social login with automatic wallet creation
-- **Social Authentication**: Google, X/Twitter, GitHub integration
-- **Email Magic Links**: Secure OTP-free authentication
-- **Reown AppKit**: Modern wallet connection experience
-- **Base Network**: Optimized for USDC payments
+### 💳 **Payment Processing**
+- **Stripe Integration**: Accept card payments from customers worldwide
+- **Multiple Payment Methods**: Credit cards, debit cards, digital wallets
+- **Secure Processing**: PCI-compliant payment handling
+- **Real-time Processing**: Instant payment confirmation
 
-### 💰 **Payment System**
-- **USDC Payments**: Accept payments in USD Coin on Base
-- **Product Management**: Create, manage, and track products
-- **Payment Links**: Shareable payment URLs for products
-- **Real-time Analytics**: Track sales, earnings, and performance
-- **Blockchain Verification**: Automatic transaction verification
+### 🔗 **Payment Link Generation**
+- **Product Links**: Generate payment links for specific products with pricing
+- **General Payment Links**: Create flexible payment links for any amount
+- **Customizable Links**: Add descriptions, amounts, and metadata
+- **Shareable URLs**: Easy sharing via social media, email, or messaging
+
+### 💰 **Stablecoin Management**
+- **Blockradar Integration**: Secure stablecoin wallet infrastructure
+- **Automatic Conversion**: Card payments automatically converted to stablecoins
+- **Multi-token Support**: USDC, USDT, and other major stablecoins
+- **Real-time Balances**: Track your stablecoin holdings
+
+### 📊 **Analytics & Monitoring**
+- **Payment Tracking**: Monitor all incoming payments and transactions
+- **Revenue Analytics**: Track earnings, conversion rates, and performance
+- **Reconciliation**: Automatic matching of card payments to stablecoin receipts
+- **Real-time Dashboard**: Live updates on payment status and balances
 
 ### 🎨 **User Experience**
-- **Stablestack Theme**: Cyberpunk/rebel aesthetic design
+- **Modern Design**: Clean, professional interface
 - **Responsive Design**: Mobile-first approach
 - **Smooth Animations**: Framer Motion powered interactions
 - **Dark Mode**: Optimized for dark theme
@@ -37,17 +47,17 @@ A modern, full-stack Web3 payment platform built with Next.js 15, React 19, and 
 - **Framer Motion** - Smooth animations
 - **Radix UI** - Accessible component primitives
 
-### **Web3 & Blockchain**
-- **Reown AppKit 1.8.8** - Wallet connection and management
-- **Wagmi 2.17.5** - React hooks for Ethereum
-- **Ethers.js 6.15.0** - Ethereum library
-- **Base Network** - Layer 2 for USDC payments
+### **Payment Processing**
+- **Stripe 7.9.0** - Card payment processing
+- **Stripe React 4.0.2** - Frontend payment components
+- **Blockradar API** - Stablecoin wallet management
+- **Webhook Processing** - Real-time payment notifications
 
 ### **Backend & Database**
-- **MongoDB 6.20.0** - NoSQL database
-- **Mongoose 8.18.3** - MongoDB object modeling
-- **NextAuth.js 4.24.11** - Authentication
-- **Zod 3.25.67** - Schema validation
+- **Next.js API Routes** - Serverless API endpoints
+- **Stripe Webhooks** - Payment event handling
+- **Blockradar SDK** - Crypto wallet operations
+- **Real-time Updates** - Live payment status tracking
 
 ### **Development Tools**
 - **ESLint** - Code linting
@@ -60,47 +70,38 @@ A modern, full-stack Web3 payment platform built with Next.js 15, React 19, and 
 stablestack/
 ├── app/                          # Next.js App Router
 │   ├── api/                      # API routes
-│   │   ├── analytics/            # Analytics endpoints
-│   │   ├── auth/                 # Authentication
-│   │   ├── payments/             # Payment processing
-│   │   ├── products/             # Product management
-│   │   ├── users/                # User management
-│   │   └── verify-payment/       # Payment verification
-│   ├── dashboard/                # Seller dashboard
-│   ├── pay/[slug]/               # Payment pages
+│   │   ├── payments/             # Stripe payment processing
+│   │   ├── payouts/              # Blockradar crypto disbursements
+│   │   ├── wallets/              # Wallet management
+│   │   └── webhooks/             # Stripe webhook handling
+│   ├── payment-flow/             # Complete payment flow
+│   ├── pay/[id]/                 # Payment pages
 │   ├── products/                 # Product management
-│   ├── payments/                 # Payment history
-│   ├── analytics/                # Analytics dashboard
-│   └── test-wallet/              # Wallet testing
+│   └── dashboard/                # Main dashboard
 ├── components/                   # React components
-│   ├── auth/                     # Authentication components
-│   │   ├── AppKitButton.tsx      # Reown AppKit button
-│   │   ├── Wallet.tsx            # Wallet management
-│   │   └── WalletStatus.tsx      # Wallet status display
-│   ├── cards/                    # Card components
-│   │   └── Product.tsx           # Product cards
-│   ├── forms/                    # Form components
-│   │   ├── Onboarding.tsx        # User onboarding
-│   │   ├── Payment.tsx           # Payment forms
-│   │   └── Product.tsx           # Product forms
+│   ├── payment/                  # Payment components
+│   │   └── payment-form.tsx      # Stripe payment form
+│   ├── payout/                   # Payout components
+│   │   └── payout-status.tsx     # Crypto payout tracking
+│   ├── wallet/                   # Wallet components
+│   │   └── wallet-dashboard.tsx  # Wallet management
+│   ├── reconciliation/           # Reconciliation components
+│   │   └── reconciliation-dashboard.tsx # Payment tracking
 │   ├── dashboard/                # Dashboard components
 │   │   ├── layout/               # Dashboard layout
-│   │   └── sidebar/              # Navigation sidebar
+│   │   ├── sidebar/              # Navigation sidebar
+│   │   └── chart/                # Analytics charts
 │   └── ui/                       # Base UI components
 ├── lib/                          # Utility libraries
-│   ├── models/                   # Database models
-│   │   ├── User.ts               # User schema
-│   │   ├── Product.ts            # Product schema
-│   │   └── Payment.ts            # Payment schema
-│   ├── types/                    # TypeScript types
-│   ├── appkit-config.ts          # Reown configuration
-│   ├── database.ts               # MongoDB connection
-│   └── blockchain-verification.ts # Payment verification
-├── hooks/                        # Custom React hooks
-│   └── useUserSession.ts         # User session management
+│   ├── stripe.ts                 # Stripe configuration
+│   ├── blockradar.ts             # Blockradar integration
+│   └── utils.ts                  # Utility functions
+├── types/                        # TypeScript types
+│   ├── payments.ts               # Payment types
+│   ├── dashboard.ts              # Dashboard types
+│   └── chat.ts                   # Chat types
 └── public/                       # Static assets
     ├── fonts/                    # Custom fonts
-    ├── avatars/                  # User avatars
     └── assets/                   # Images and icons
 ```
 
@@ -109,8 +110,8 @@ stablestack/
 ### Prerequisites
 
 - **Node.js 18+**
-- **MongoDB** (local or cloud)
-- **Reown Project ID** (from [dashboard.reown.com](https://dashboard.reown.com))
+- **Stripe Account** (from [dashboard.stripe.com](https://dashboard.stripe.com))
+- **Blockradar API Key** (from [blockradar.com](https://blockradar.com))
 
 ### Installation
 
@@ -133,14 +134,16 @@ stablestack/
 4. **Configure environment variables**
    ```env
    # Required
-   NEXT_PUBLIC_PROJECT_ID=your_reown_project_id
-   MONGODB_URI=mongodb://localhost:27017/stablestack
-   NEXTAUTH_SECRET=your_nextauth_secret
-   NEXTAUTH_URL=http://localhost:3000
+   STRIPE_SECRET_KEY=sk_test_...
+   STRIPE_PUBLISHABLE_KEY=pk_test_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   BLOCKRADAR_API_KEY=your_blockradar_api_key
+   BLOCKRADAR_WALLET_ID=your_wallet_id
    
    # Optional
    NEXT_PUBLIC_BASE_URL=http://localhost:3000
-   ALCHEMY_API_KEY=your_alchemy_api_key
+   NEXTAUTH_SECRET=your_nextauth_secret
+   NEXTAUTH_URL=http://localhost:3000
    ```
 
 5. **Start the development server**
@@ -153,87 +156,85 @@ stablestack/
 
 ## 🔧 Configuration
 
-### Reown AppKit Setup
+### Stripe Setup
 
-1. **Create a Reown project** at [dashboard.reown.com](https://dashboard.reown.com)
-2. **Get your Project ID** from the dashboard
-3. **Configure authentication methods**:
-   - Enable Email authentication
-   - Enable Social logins (Google, X, GitHub)
-   - Disable Reown authentication (for embedded wallets)
+1. **Create a Stripe account** at [dashboard.stripe.com](https://dashboard.stripe.com)
+2. **Get your API keys** from the dashboard
+3. **Configure webhooks**:
+   - Endpoint: `https://yourdomain.com/api/payments/webhook`
+   - Events: `payment_intent.succeeded`, `payment_intent.payment_failed`
+4. **Test with Stripe test mode** before going live
 
-### Database Setup
+### Blockradar Setup
 
-The application uses MongoDB with the following collections:
+1. **Create a Blockradar account** at [blockradar.com](https://blockradar.com)
+2. **Get your API key** from the dashboard
+3. **Create a wallet** for stablecoin management
+4. **Configure supported tokens**: USDC, USDT, DAI
 
-- **Users**: Store user profiles and wallet addresses
-- **Products**: Manage seller products and pricing
-- **Payments**: Track payment transactions and status
+### Payment Flow Configuration
 
-### Network Configuration
+The platform supports two types of payment links:
 
-The platform is configured for **Base Network**:
-- **Mainnet**: `0x2105` (Base)
-- **Testnet**: `0x14a34` (Base Sepolia)
+- **Product Links**: For specific products with fixed pricing
+- **General Payment Links**: For flexible amounts and custom payments
 
 ## 📱 Usage
 
-### For Sellers
+### For Merchants
 
-1. **Connect Wallet**: Use email or social login
-2. **Complete Onboarding**: Set up your profile
-3. **Create Products**: Add products with USDC pricing
-4. **Share Payment Links**: Generate shareable payment URLs
-5. **Track Analytics**: Monitor sales and earnings
+1. **Create Account**: Sign up with email or social login
+2. **Generate Payment Links**: Create product or general payment links
+3. **Share Links**: Distribute payment URLs to customers
+4. **Accept Payments**: Customers pay with cards via Stripe
+5. **Receive Stablecoins**: Automatic conversion to USDC/USDT
+6. **Track Analytics**: Monitor payments and stablecoin balances
 
-### For Buyers
+### For Customers
 
-1. **Connect Wallet**: Use email or social login
-2. **Browse Products**: View available products
-3. **Make Payments**: Pay with USDC on Base network
-4. **Track Transactions**: View payment history
+1. **Click Payment Link**: Access shared payment URLs
+2. **Enter Payment Details**: Use any card (Visa, Mastercard, etc.)
+3. **Complete Payment**: Secure processing via Stripe
+4. **Confirmation**: Receive payment confirmation
+5. **Merchant Receives**: Stablecoins automatically sent to merchant
 
 ## 🔌 API Endpoints
 
-### Authentication
-- `GET /api/auth/session` - Get current session
-- `POST /api/auth/signin` - Sign in user
-- `POST /api/auth/signout` - Sign out user
+### Payment Processing
+- `POST /api/payments/create-intent` - Create Stripe payment intent
+- `POST /api/payments/webhook` - Handle Stripe webhooks
+- `GET /api/payments/status` - Get payment status
 
-### Users
-- `GET /api/users?walletAddress=...` - Get user by wallet
-- `POST /api/users` - Create new user
-- `PUT /api/users?walletAddress=...` - Update user
+### Crypto Operations
+- `POST /api/payouts/initiate` - Initiate stablecoin payout
+- `GET /api/payouts/status` - Check payout status
+- `POST /api/wallets/create` - Create Blockradar wallet
+- `GET /api/wallets/balance` - Get wallet balance
 
-### Products
-- `GET /api/products?sellerId=...` - Get seller products
-- `GET /api/products?paymentLink=...` - Get product by payment link
-- `POST /api/products` - Create new product
-- `PUT /api/products?productId=...` - Update product
+### Payment Links
+- `POST /api/payment-links/create` - Create payment link
+- `GET /api/payment-links/[id]` - Get payment link details
+- `PUT /api/payment-links/[id]` - Update payment link
 
-### Payments
-- `GET /api/payments?sellerId=...` - Get seller payments
-- `POST /api/payments` - Create payment
-- `PUT /api/payments?paymentId=...` - Update payment status
-
-### Analytics
-- `GET /api/analytics?sellerId=...` - Get seller analytics
+### Analytics & Monitoring
+- `GET /api/analytics/payments` - Payment analytics
+- `GET /api/analytics/reconciliation` - Payment reconciliation data
 
 ## 🎨 Theming
 
-The platform uses a custom **Stablestack** theme with:
+The platform uses a modern **Stablestack** theme with:
 
-- **Primary Color**: `#ff5941` (Orange)
-- **Background**: Dark gradient (`#1a1a1a` to `#2d2d2d`)
-- **Typography**: Custom "Rebels-Fett" font
-- **Components**: Cyberpunk/rebel aesthetic
+- **Primary Color**: `#3b82f6` (Blue)
+- **Background**: Clean gradients and solid colors
+- **Typography**: Modern sans-serif fonts
+- **Components**: Professional, clean aesthetic
 
 ### Customization
 
 Modify theme variables in:
-- `app/globals.css` - Global styles
-- `lib/appkit-config.ts` - Reown theming
+- `app/globals.css` - Global styles and CSS variables
 - `components/ui/` - Component styling
+- `lib/stripe.ts` - Stripe theming
 
 ## 🚀 Deployment
 
@@ -257,11 +258,11 @@ Modify theme variables in:
 
 ## 🔒 Security
 
-- **Embedded Wallets**: Non-custodial wallet creation
-- **Magic Links**: Secure email authentication
-- **Blockchain Verification**: Automatic transaction verification
-- **Input Validation**: Zod schema validation
-- **CORS Protection**: API endpoint security
+- **Stripe Security**: PCI-compliant payment processing
+- **Webhook Verification**: Secure Stripe webhook validation
+- **API Key Protection**: Secure storage of sensitive keys
+- **Input Validation**: Comprehensive input sanitization
+- **HTTPS Only**: Secure communication protocols
 
 ## 🤝 Contributing
 
@@ -283,14 +284,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Reown** - Wallet connection infrastructure
-- **Base Network** - Layer 2 blockchain
+- **Stripe** - Payment processing infrastructure
+- **Blockradar** - Stablecoin wallet management
 - **Next.js** - React framework
 - **Tailwind CSS** - Styling framework
 - **Radix UI** - Component primitives
 
 ---
 
-**Built with ❤️ for the Web3 community**
+**Built with ❤️ for the payment community**
 
-*Stablestack - Where rebels meet payments*
+*Stablestack - Where traditional payments meet crypto*

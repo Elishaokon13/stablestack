@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { PaymentButton } from "@/components/forms"
+import CustomPaymentForm from "@/components/payment/custom-payment-form"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -31,20 +31,22 @@ export default function PaymentPage() {
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [paymentSuccess, setPaymentSuccess] = useState(false)
+  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/products?paymentLink=${slug}`)
+        const response = await fetch(`/api/payment-links/${slug}`)
         const result = await response.json()
 
         if (!response.ok) {
-          throw new Error(result.error || 'Product not found')
+          throw new Error(result.error || 'Payment link not found')
         }
 
         setProduct(result.product)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load product')
+        setError(err instanceof Error ? err.message : 'Failed to load payment link')
       } finally {
         setLoading(false)
       }
@@ -54,6 +56,15 @@ export default function PaymentPage() {
       fetchProduct()
     }
   }, [slug])
+
+  const handlePaymentSuccess = (paymentIntentId: string) => {
+    setPaymentIntentId(paymentIntentId);
+    setPaymentSuccess(true);
+  };
+
+  const handlePaymentError = (error: string) => {
+    setError(error);
+  };
 
   if (loading) {
     return (
@@ -84,6 +95,47 @@ export default function PaymentPage() {
         </div>
       </div>
     )
+  }
+
+  if (paymentSuccess) {
+    return (
+      <div className="min-h-screen bg-background py-8">
+        <div className="max-w-2xl mx-auto px-4">
+          <Card className="ring-2 ring-pop">
+            <CardHeader>
+              <CardTitle className="text-2xl text-green-600 flex items-center gap-2">
+                <DollarSign className="w-6 h-6" />
+                Payment Successful!
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-sm font-medium">Product:</span>
+                  <span className="text-sm font-bold">{product?.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-medium">Amount:</span>
+                  <span className="text-sm font-bold">${product?.priceUSD.toFixed(2)} USD</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-medium">Payment ID:</span>
+                  <span className="text-sm font-mono text-xs">
+                    {paymentIntentId}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="pt-4 border-t">
+                <p className="text-sm text-muted-foreground">
+                  The merchant will receive stablecoins automatically. Thank you for your purchase!
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
   }
 
   if (error || !product) {
@@ -218,16 +270,13 @@ export default function PaymentPage() {
 
           {/* Payment Section */}
           <div className="space-y-6">
-            <PaymentButton
-              product={product}
-              onPaymentSuccess={(payment) => {
-                console.log('Payment successful:', payment)
-                // Handle successful payment
-              }}
-              onPaymentError={(error) => {
-                console.error('Payment error:', error)
-                // Handle payment error
-              }}
+            <CustomPaymentForm
+              amount={product.priceUSD}
+              currency="usd"
+              onSuccess={handlePaymentSuccess}
+              onError={handlePaymentError}
+              productName={product.name}
+              description={product.description}
             />
 
             {/* Payment Info */}
@@ -238,15 +287,15 @@ export default function PaymentPage() {
               <CardContent className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Payment Method:</span>
-                  <span className="text-sm font-medium">USDC on Base</span>
+                  <span className="text-sm font-medium">Credit/Debit Card</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Network Fee:</span>
-                  <span className="text-sm font-medium">~$0.01</span>
+                  <span className="text-sm text-muted-foreground">Processing:</span>
+                  <span className="text-sm font-medium">Stripe</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Processing Time:</span>
-                  <span className="text-sm font-medium">~2 minutes</span>
+                  <span className="text-sm font-medium">Instant</span>
                 </div>
                 <div className="pt-3 border-t">
                   <div className="flex items-center justify-between">
@@ -256,7 +305,7 @@ export default function PaymentPage() {
                         ${product.priceUSD.toFixed(2)} USD
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        ≈ {(parseInt(product.priceUSDC) / 1e6).toFixed(2)} USDC
+                        Merchant receives stablecoins automatically
                       </div>
                     </div>
                   </div>
@@ -268,8 +317,8 @@ export default function PaymentPage() {
             <Card className="ring-2 ring-pop">
               <CardContent className="p-4">
                 <div className="text-sm text-muted-foreground">
-                  <strong>Secure Payment:</strong> Your payment is processed securely on the Base blockchain. 
-                  No personal information is stored on our servers.
+                  <strong>Secure Payment:</strong> Your payment is processed securely by Stripe. 
+                  Card details are encrypted and never stored on our servers.
                 </div>
               </CardContent>
             </Card>
