@@ -52,33 +52,24 @@ const data = {
         },
       ],
     },
-    {
-      title: "Development",
-      items: [
-        {
-          title: "Test Wallet",
-          url: "/test-wallet",
-          icon: TestTube,
-          isActive: false,
-        },
-        {
-          title: "API Docs",
-          url: "/api-docs",
-          icon: GearIcon,
-          isActive: false,
-        },
-      ],
-    },
+    // {
+    //   title: "Development",
+    //   items: [
+    //     {
+    //       title: "Test Wallet",
+    //       url: "/test-wallet",
+    //       icon: TestTube,
+    //       isActive: false,
+    //     },
+    //     {
+    //       title: "API Docs",
+    //       url: "/api-docs",
+    //       icon: GearIcon,
+    //       isActive: false,
+    //     },
+    //   ],
+    // },
   ],
-  // desktop: {
-  //   title: "Desktop (Online)",
-  //   status: "online",
-  // },
-  // user: {
-  //   name: "KRIMSON",
-  //   email: "krimson@joyco.studio",
-  //   avatar: "/avatars/user_krimson.png",
-  // },
 };
 
 export function DashboardSidebar({
