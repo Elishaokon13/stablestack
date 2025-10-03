@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { useUserSession } from "@/hooks/useUserSession"
+// import { useUserSession } from "@/hooks/useUserSession"
 import DashboardPageLayout from "@/components/dashboard/layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -38,52 +38,52 @@ interface Analytics {
 }
 
 export default function AnalyticsPage() {
-  const { user, isAuthenticated, address } = useUserSession()
+  // const { user, isAuthenticated, address } = useUserSession()
   const [analytics, setAnalytics] = useState<Analytics | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (isAuthenticated && address) {
-      fetchAnalytics()
-    }
-  }, [isAuthenticated, address])
+  // useEffect(() => {
+  //   if (isAuthenticated && address) {
+  //     fetchAnalytics()
+  //   }
+  // }, [isAuthenticated, address])
 
-  const fetchAnalytics = async () => {
-    try {
-      const response = await fetch(`/api/analytics?sellerId=${address}`)
-      const result = await response.json()
+  // const fetchAnalytics = async () => {
+  //   try {
+  //     const response = await fetch(`/api/analytics?sellerId=${address}`)
+  //     const result = await response.json()
 
-      if (result.success) {
-        setAnalytics(result.analytics)
-      }
-    } catch (error) {
-      console.error('Error fetching analytics:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+  //     if (result.success) {
+  //       setAnalytics(result.analytics)
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching analytics:', error)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
 
-  if (!isAuthenticated) {
-    return (
-      <DashboardPageLayout
-        header={{
-          title: "Analytics",
-          description: "Connect your wallet to view analytics",
-          icon: BarChart3,
-        }}
-      >
-        <Card className="ring-2 ring-pop">
-          <CardContent className="p-8 text-center">
-            <BarChart3 className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-xl font-semibold mb-2">Connect Your Wallet</h3>
-            <p className="text-muted-foreground">
-              You need to connect your wallet to view analytics
-            </p>
-          </CardContent>
-        </Card>
-      </DashboardPageLayout>
-    )
-  }
+  // if (!isAuthenticated) {
+  //   return (
+  //     <DashboardPageLayout
+  //       header={{
+  //         title: "Analytics",
+  //         description: "Connect your wallet to view analytics",
+  //         icon: BarChart3,
+  //       }}
+  //     >
+  //       <Card className="ring-2 ring-pop">
+  //         <CardContent className="p-8 text-center">
+  //           <BarChart3 className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+  //           <h3 className="text-xl font-semibold mb-2">Connect Your Wallet</h3>
+  //           <p className="text-muted-foreground">
+  //             You need to connect your wallet to view analytics
+  //           </p>
+  //         </CardContent>
+  //       </Card>
+  //     </DashboardPageLayout>
+  //   )
+  // }
 
   if (loading) {
     return (
@@ -132,7 +132,7 @@ export default function AnalyticsPage() {
             whileTap={{ scale: 0.95 }}
           >
             <button
-              onClick={fetchAnalytics}
+              // onClick={fetchAnalytics}
               className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
             >
               <RefreshCw className="w-5 h-5" />

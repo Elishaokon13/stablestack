@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { useUserSession } from "@/hooks/useUserSession"
+// import { useUserSession } from "@/hooks/useUserSession"
 import DashboardPageLayout from "@/components/dashboard/layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -33,37 +33,37 @@ interface Payment {
 }
 
 export default function PaymentsPage() {
-  const { user, isAuthenticated, address } = useUserSession()
+  // const { user, isAuthenticated, address } = useUserSession()
   const [payments, setPayments] = useState<Payment[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'completed' | 'pending' | 'failed'>('all')
 
-  useEffect(() => {
-    if (isAuthenticated && address) {
-      fetchPayments()
-    }
-  }, [isAuthenticated, address, filter])
+  // useEffect(() => {
+  //   if (isAuthenticated && address) {
+  //     fetchPayments()
+  //   }
+  // }, [isAuthenticated, address, filter])
 
-  const fetchPayments = async () => {
-    try {
-      const response = await fetch(`/api/payments?sellerId=${address}`)
-      const result = await response.json()
+  // const fetchPayments = async () => {
+  //   try {
+  //     const response = await fetch(`/api/payments?sellerId=${address}`)
+  //     const result = await response.json()
 
-      if (result.success) {
-        let filteredPayments = result.payments
+  //     if (result.success) {
+  //       let filteredPayments = result.payments
         
-        if (filter !== 'all') {
-          filteredPayments = result.payments.filter((payment: Payment) => payment.status === filter)
-        }
+  //       if (filter !== 'all') {
+  //         filteredPayments = result.payments.filter((payment: Payment) => payment.status === filter)
+  //       }
         
-        setPayments(filteredPayments)
-      }
-    } catch (error) {
-      console.error('Error fetching payments:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+  //       setPayments(filteredPayments)
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching payments:', error)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
 
   const formatUSDC = (usdcAmount: string) => {
     const amount = parseInt(usdcAmount) / 1e6
@@ -83,28 +83,6 @@ export default function PaymentsPage() {
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
     }
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <DashboardPageLayout
-        header={{
-          title: "Payments",
-          description: "Connect your wallet to view payments",
-          icon: CreditCard,
-        }}
-      >
-        <Card className="ring-2 ring-pop">
-          <CardContent className="p-8 text-center">
-            <CreditCard className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-xl font-semibold mb-2">Connect Your Wallet</h3>
-            <p className="text-muted-foreground">
-              You need to connect your wallet to view payments
-            </p>
-          </CardContent>
-        </Card>
-      </DashboardPageLayout>
-    )
   }
 
   if (loading) {
@@ -169,7 +147,7 @@ export default function PaymentsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={fetchPayments}
+                onClick={() => {}}
                 className="ml-auto"
               >
                 <RefreshCw className="w-4 h-4 mr-2" />

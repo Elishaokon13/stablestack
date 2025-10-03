@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useUserSession } from "@/hooks/useUserSession"
 import { motion } from "framer-motion"
 import { Package, DollarSign, Image, Tag, Loader2, CheckCircle2 } from "lucide-react"
 
@@ -17,7 +16,6 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
-  const { user, isAuthenticated } = useUserSession()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
@@ -40,11 +38,7 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!isAuthenticated || !user?.address) {
-      setError("Please connect your wallet first")
-      return
-    }
+  
 
     setIsLoading(true)
     setError(null)
@@ -56,7 +50,7 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          sellerId: user.address,
+          sellerId: "",
           name: formData.name,
           description: formData.description,
           priceUSD: parseFloat(formData.priceUSD),
@@ -92,20 +86,6 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <Card className="ring-2 ring-pop">
-        <CardContent className="p-8 text-center">
-          <Package className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-          <h3 className="text-lg font-semibold mb-2">Connect Your Wallet</h3>
-          <p className="text-muted-foreground mb-4">
-            You need to connect your wallet to create products
-          </p>
-        </CardContent>
-      </Card>
-    )
   }
 
   if (success) {

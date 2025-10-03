@@ -1,79 +1,81 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { useUserSession } from "@/hooks/useUserSession"
-import { motion } from "framer-motion"
-import { 
-  CreditCard, 
-  Loader2, 
-  CheckCircle2, 
-  AlertCircle, 
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
+import {
+  CreditCard,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
   ExternalLink,
   DollarSign,
-  Wallet
-} from "lucide-react"
+  Wallet,
+} from "lucide-react";
 
 interface PaymentButtonProps {
   product: {
-    id: string
-    name: string
-    priceUSD: number
-    priceUSDC: string
-    paymentLink: string
-  }
-  onPaymentSuccess?: (payment: any) => void
-  onPaymentError?: (error: string) => void
+    id: string;
+    name: string;
+    priceUSD: number;
+    priceUSDC: string;
+    paymentLink: string;
+  };
+  onPaymentSuccess?: (payment: any) => void;
+  onPaymentError?: (error: string) => void;
 }
 
-type PaymentStatus = 'idle' | 'processing' | 'confirming' | 'success' | 'error' | 'insufficient_balance'
+type PaymentStatus =
+  | "idle"
+  | "processing"
+  | "confirming"
+  | "success"
+  | "error"
+  | "insufficient_balance";
 
-export function PaymentButton({ product, onPaymentSuccess, onPaymentError }: PaymentButtonProps) {
-  const { user, isAuthenticated, address } = useUserSession()
-  const [status, setStatus] = useState<PaymentStatus>('idle')
-  const [error, setError] = useState<string | null>(null)
-  const [payment, setPayment] = useState<any>(null)
+export function PaymentButton({
+  product,
+  onPaymentSuccess,
+  onPaymentError,
+}: PaymentButtonProps) {
+  const [status, setStatus] = useState<PaymentStatus>("idle");
+  const [error, setError] = useState<string | null>(null);
+  const [payment, setPayment] = useState<any>(null);
 
   const formatUSDC = (usdcAmount: string) => {
-    const amount = parseInt(usdcAmount) / 1e6
-    return amount.toFixed(2)
-  }
+    const amount = parseInt(usdcAmount) / 1e6;
+    return amount.toFixed(2);
+  };
 
   const handlePayment = async () => {
-    if (!isAuthenticated || !address) {
-      setError("Please connect your wallet first")
-      setStatus('error')
-      return
-    }
-
-    setStatus('processing')
-    setError(null)
+    setStatus("processing");
+    setError(null);
 
     try {
       // Create payment record
-      const response = await fetch('/api/payments', {
-        method: 'POST',
+      const response = await fetch("/api/payments", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           productId: product.id,
-          buyerId: address,
-          buyerEmail: user?.email,
-          buyerName: user?.name,
+          buyerId: "",
+          buyerEmail: "",
+          buyerName: "",
         }),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to create payment')
+        throw new Error(result.error || "Failed to create payment");
       }
 
-      setPayment(result.payment)
-      setStatus('confirming')
+      setPayment(result.payment);
+      setStatus("confirming");
 
       // In a real implementation, you would:
       // 1. Open wallet for USDC transfer
@@ -84,67 +86,67 @@ export function PaymentButton({ product, onPaymentSuccess, onPaymentError }: Pay
 
       // For now, we'll simulate the payment process
       setTimeout(() => {
-        setStatus('success')
+        setStatus("success");
         if (onPaymentSuccess) {
-          onPaymentSuccess(result.payment)
+          onPaymentSuccess(result.payment);
         }
-      }, 3000)
-
+      }, 3000);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Payment failed'
-      setError(errorMessage)
-      setStatus('error')
+      const errorMessage =
+        err instanceof Error ? err.message : "Payment failed";
+      setError(errorMessage);
+      setStatus("error");
       if (onPaymentError) {
-        onPaymentError(errorMessage)
+        onPaymentError(errorMessage);
       }
     }
-  }
+  };
 
   const getStatusIcon = () => {
     switch (status) {
-      case 'processing':
-        return <Loader2 className="w-4 h-4 animate-spin" />
-      case 'confirming':
-        return <Loader2 className="w-4 h-4 animate-spin" />
-      case 'success':
-        return <CheckCircle2 className="w-4 h-4" />
-      case 'error':
-        return <AlertCircle className="w-4 h-4" />
+      case "processing":
+        return <Loader2 className="w-4 h-4 animate-spin" />;
+      case "confirming":
+        return <Loader2 className="w-4 h-4 animate-spin" />;
+      case "success":
+        return <CheckCircle2 className="w-4 h-4" />;
+      case "error":
+        return <AlertCircle className="w-4 h-4" />;
       default:
-        return <CreditCard className="w-4 h-4" />
+        return <CreditCard className="w-4 h-4" />;
     }
-  }
+  };
 
   const getStatusText = () => {
     switch (status) {
-      case 'processing':
-        return 'Processing...'
-      case 'confirming':
-        return 'Confirming...'
-      case 'success':
-        return 'Payment Successful!'
-      case 'error':
-        return 'Payment Failed'
-      case 'insufficient_balance':
-        return 'Insufficient Balance'
+      case "processing":
+        return "Processing...";
+      case "confirming":
+        return "Confirming...";
+      case "success":
+        return "Payment Successful!";
+      case "error":
+        return "Payment Failed";
+      case "insufficient_balance":
+        return "Insufficient Balance";
       default:
-        return 'Pay with USDC'
+        return "Pay with USDC";
     }
-  }
+  };
 
   const getStatusColor = () => {
     switch (status) {
-      case 'success':
-        return 'text-green-600 dark:text-green-400'
-      case 'error':
-      case 'insufficient_balance':
-        return 'text-red-600 dark:text-red-400'
+      case "success":
+        return "text-green-600 dark:text-green-400";
+      case "error":
+      case "insufficient_balance":
+        return "text-red-600 dark:text-red-400";
       default:
-        return 'text-foreground'
+        return "text-foreground";
     }
-  }
+  };
 
-  if (status === 'success') {
+  if (status === "success") {
     return (
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
@@ -165,7 +167,8 @@ export function PaymentButton({ product, onPaymentSuccess, onPaymentError }: Pay
               Payment Successful!
             </h3>
             <p className="text-muted-foreground mb-4">
-              Your payment of {formatUSDC(product.priceUSDC)} USDC has been processed
+              Your payment of {formatUSDC(product.priceUSDC)} USDC has been
+              processed
             </p>
             {payment && (
               <div className="p-3 rounded-lg bg-muted">
@@ -177,7 +180,7 @@ export function PaymentButton({ product, onPaymentSuccess, onPaymentError }: Pay
           </CardContent>
         </Card>
       </motion.div>
-    )
+    );
   }
 
   return (
@@ -206,21 +209,12 @@ export function PaymentButton({ product, onPaymentSuccess, onPaymentError }: Pay
         </div>
 
         {/* Wallet Status */}
-        {isAuthenticated ? (
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-green-100 dark:bg-green-900/20">
-            <Wallet className="w-4 h-4 text-green-600 dark:text-green-400" />
-            <span className="text-sm text-green-600 dark:text-green-400">
-              Wallet Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
-            </span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-yellow-100 dark:bg-yellow-900/20">
-            <AlertCircle className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
-            <span className="text-sm text-yellow-600 dark:text-yellow-400">
-              Please connect your wallet to continue
-            </span>
-          </div>
-        )}
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-green-100 dark:bg-green-900/20">
+          <Wallet className="w-4 h-4 text-green-600 dark:text-green-400" />
+          <span className="text-sm text-green-600 dark:text-green-400">
+            Wallet Connected:
+          </span>
+        </div>
 
         {/* Error Message */}
         {error && (
@@ -236,13 +230,8 @@ export function PaymentButton({ product, onPaymentSuccess, onPaymentError }: Pay
         {/* Payment Button */}
         <Button
           onClick={handlePayment}
-          disabled={!isAuthenticated || status === 'processing' || status === 'confirming'}
+          disabled={status === "processing" || status === "confirming"}
           className="w-full"
-          style={{ 
-            background: status === 'success' 
-              ? 'linear-gradient(to bottom, #10b981, #059669)'
-              : 'linear-gradient(to bottom, #ff6d41, #ff5420)'
-          }}
         >
           {getStatusIcon()}
           <span className="ml-2">{getStatusText()}</span>
@@ -263,7 +252,9 @@ export function PaymentButton({ product, onPaymentSuccess, onPaymentError }: Pay
             size="sm"
             className="mt-2"
             onClick={() => {
-              navigator.clipboard.writeText(`${window.location.origin}/pay/${product.paymentLink}`)
+              navigator.clipboard.writeText(
+                `${window.location.origin}/pay/${product.paymentLink}`
+              );
             }}
           >
             <ExternalLink className="w-3 h-3 mr-1" />
@@ -272,5 +263,5 @@ export function PaymentButton({ product, onPaymentSuccess, onPaymentError }: Pay
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
