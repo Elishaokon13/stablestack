@@ -7,30 +7,35 @@ A modern payment platform that bridges traditional finance and crypto. Users can
 ## 🚀 Features
 
 ### 💳 **Payment Processing**
+
 - **Stripe Integration**: Accept card payments from customers worldwide
 - **Multiple Payment Methods**: Credit cards, debit cards, digital wallets
 - **Secure Processing**: PCI-compliant payment handling
 - **Real-time Processing**: Instant payment confirmation
 
 ### 🔗 **Payment Link Generation**
+
 - **Product Links**: Generate payment links for specific products with pricing
 - **General Payment Links**: Create flexible payment links for any amount
 - **Customizable Links**: Add descriptions, amounts, and metadata
 - **Shareable URLs**: Easy sharing via social media, email, or messaging
 
 ### 💰 **Stablecoin Management**
+
 - **Blockradar Integration**: Secure stablecoin wallet infrastructure
 - **Automatic Conversion**: Card payments automatically converted to stablecoins
 - **Multi-token Support**: USDC, USDT, and other major stablecoins
 - **Real-time Balances**: Track your stablecoin holdings
 
 ### 📊 **Analytics & Monitoring**
+
 - **Payment Tracking**: Monitor all incoming payments and transactions
 - **Revenue Analytics**: Track earnings, conversion rates, and performance
 - **Reconciliation**: Automatic matching of card payments to stablecoin receipts
 - **Real-time Dashboard**: Live updates on payment status and balances
 
 ### 🎨 **User Experience**
+
 - **Modern Design**: Clean, professional interface
 - **Responsive Design**: Mobile-first approach
 - **Smooth Animations**: Framer Motion powered interactions
@@ -40,6 +45,7 @@ A modern payment platform that bridges traditional finance and crypto. Users can
 ## 🛠️ Tech Stack
 
 ### **Frontend**
+
 - **Next.js 15.2.4** - React framework with App Router
 - **React 19** - Latest React features
 - **TypeScript** - Type-safe development
@@ -48,21 +54,25 @@ A modern payment platform that bridges traditional finance and crypto. Users can
 - **Radix UI** - Accessible component primitives
 
 ### **Payment Processing**
+
 - **Stripe 7.9.0** - Card payment processing
 - **Stripe React 4.0.2** - Frontend payment components
 - **Blockradar API** - Stablecoin wallet management
 - **Webhook Processing** - Real-time payment notifications
 
 ### **Backend & Database**
+
 - **Next.js API Routes** - Serverless API endpoints
 - **Stripe Webhooks** - Payment event handling
 - **Blockradar SDK** - Crypto wallet operations
 - **Real-time Updates** - Live payment status tracking
 
 ### **Development Tools**
+
 - **ESLint** - Code linting
 - **PostCSS** - CSS processing
 - **Vercel Analytics** - Performance monitoring
+- **Auto-Commit** - Automated git commit workflow
 
 ## 📁 Project Structure
 
@@ -110,28 +120,33 @@ stablestack/
 ### Prerequisites
 
 - **Node.js 18+**
+- **Git** (for version control and auto-commit features)
 - **Stripe Account** (from [dashboard.stripe.com](https://dashboard.stripe.com))
 - **Blockradar API Key** (from [blockradar.com](https://blockradar.com))
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd stablestack
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Environment Setup**
+
    ```bash
    cp config/env.example .env.local
    ```
 
 4. **Configure environment variables**
+
    ```env
    # Required
    STRIPE_SECRET_KEY=sk_test_...
@@ -139,7 +154,7 @@ stablestack/
    STRIPE_WEBHOOK_SECRET=whsec_...
    BLOCKRADAR_API_KEY=your_blockradar_api_key
    BLOCKRADAR_WALLET_ID=your_wallet_id
-   
+
    # Optional
    NEXT_PUBLIC_BASE_URL=http://localhost:3000
    NEXTAUTH_SECRET=your_nextauth_secret
@@ -147,12 +162,50 @@ stablestack/
    ```
 
 5. **Start the development server**
+
    ```bash
    npm run dev
    ```
 
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 🤖 Auto-Commit (Optional)
+
+Enable automatic git commits during development:
+
+### Quick Start
+
+```bash
+# Watch mode - commits after changes stop
+npm run auto-commit
+
+# Interval mode - commits every 5 minutes
+npm run auto-commit:interval
+```
+
+### Features
+
+- ✅ Automatic commits on file changes
+- ✅ Configurable delay and intervals
+- ✅ Smart file exclusions (node_modules, .next, etc.)
+- ✅ Optional auto-push to remote
+- ✅ Graceful shutdown handling
+
+### Configuration
+
+Edit `.autocommitrc.json` to customize:
+
+```json
+{
+  "debounceTime": 5000,
+  "intervalMinutes": 5,
+  "autoPush": false,
+  "branch": "main"
+}
+```
+
+For detailed instructions, see [AUTO_COMMIT_GUIDE.md](./AUTO_COMMIT_GUIDE.md)
 
 ## 🔧 Configuration
 
@@ -201,22 +254,26 @@ The platform supports two types of payment links:
 ## 🔌 API Endpoints
 
 ### Payment Processing
+
 - `POST /api/payments/create-intent` - Create Stripe payment intent
 - `POST /api/payments/webhook` - Handle Stripe webhooks
 - `GET /api/payments/status` - Get payment status
 
 ### Crypto Operations
+
 - `POST /api/payouts/initiate` - Initiate stablecoin payout
 - `GET /api/payouts/status` - Check payout status
 - `POST /api/wallets/create` - Create Blockradar wallet
 - `GET /api/wallets/balance` - Get wallet balance
 
 ### Payment Links
+
 - `POST /api/payment-links/create` - Create payment link
 - `GET /api/payment-links/[id]` - Get payment link details
 - `PUT /api/payment-links/[id]` - Update payment link
 
 ### Analytics & Monitoring
+
 - `GET /api/analytics/payments` - Payment analytics
 - `GET /api/analytics/reconciliation` - Payment reconciliation data
 
@@ -232,6 +289,7 @@ The platform uses a modern **Stablestack** theme with:
 ### Customization
 
 Modify theme variables in:
+
 - `app/globals.css` - Global styles and CSS variables
 - `components/ui/` - Component styling
 - `lib/stripe.ts` - Stripe theming
@@ -247,6 +305,7 @@ Modify theme variables in:
 ### Manual Deployment
 
 1. **Build the application**
+
    ```bash
    npm run build
    ```
@@ -294,4 +353,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for the payment community**
 
-*Stablestack - Where traditional payments meet crypto*
+_Stablestack - Where traditional payments meet crypto_

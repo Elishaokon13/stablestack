@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { WalletAuth } from "@/components/auth";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { WalletIcon } from "lucide-react";
 
@@ -14,7 +13,7 @@ export default function TestWalletPage() {
         icon: WalletIcon,
       }}
     >
-      <WalletAuth />
+      <div className="flex flex-col items-center justify-center h-full"></div>
     </DashboardPageLayout>
   );
 }

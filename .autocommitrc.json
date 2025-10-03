@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "mode": "watch",
+  "debounceTime": 5000,
+  "intervalMinutes": 5,
+  "messagePrefix": "🤖 Auto-commit:",
+  "autoPush": false,
+  "branch": "main",
+  "exclude": [
+    "node_modules",
+    ".next",
+    ".git",
+    "dist",
+    "build",
+    ".env.local",
+    ".env",
+    "*.log",
+    ".DS_Store"
+  ],
+  "includeTimestamp": true,
+  "includeFileList": true,
+  "maxFilesInMessage": 5
+}
