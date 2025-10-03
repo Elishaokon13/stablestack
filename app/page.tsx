@@ -28,7 +28,6 @@ export default function LoginPage() {
     );
   }
 
-  // Don't render auth forms if user is authenticated (will redirect)
   if (userId) {
     return null;
   }
