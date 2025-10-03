@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -14,28 +13,14 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import AtomIcon from "@/components/icons/atom";
-import BracketsIcon from "@/components/icons/brackets";
-import ProcessorIcon from "@/components/icons/proccesor";
-import CuteRobotIcon from "@/components/icons/cute-robot";
-import EmailIcon from "@/components/icons/email";
 import GearIcon from "@/components/icons/gear";
 import MonkeyIcon from "@/components/icons/monkey";
-import DotsVerticalIcon from "@/components/icons/dots-vertical";
-import { Package, CreditCard, BarChart3, Settings, Wallet, TestTube } from "lucide-react";
+import { Package, CreditCard, BarChart3, TestTube } from "lucide-react";
 import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
-import Image from "next/image";
 import { useIsV0 } from "@/lib/v0-context";
-import { WalletAuth } from "@/components/auth";
 
 // This is sample data for the sidebar
 const data = {
@@ -129,7 +114,7 @@ export function DashboardSidebar({
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => {
-                  const isLocked = 'locked' in item && item.locked
+                  const isLocked = "locked" in item && item.locked;
                   return (
                     <SidebarMenuItem
                       key={item.title}
@@ -166,7 +151,7 @@ export function DashboardSidebar({
                         </SidebarMenuBadge>
                       ) : null}
                     </SidebarMenuItem>
-                  )
+                  );
                 })}
               </SidebarMenu>
             </SidebarGroupContent>
