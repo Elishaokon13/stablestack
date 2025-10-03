@@ -8,6 +8,7 @@ import { DashboardSidebar } from "../components/dashboard/sidebar";
 import { Providers } from "../components/providers";
 import { headers } from "next/headers";
 import React from "react";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   },
   description:
     "The ultimate rebel payment platform for Web3. Accept USDC payments with style.",
-  generator: 'v0.app'
+  generator: "v0.app",
 };
 
 export default async function RootLayout({
@@ -38,39 +39,32 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const headersObj = await headers();
-  const cookies = headersObj.get('cookie');
+  const cookies = headersObj.get("cookie");
 
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link
-          rel="preload"
-          href="/fonts/Rebels-Fett.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <body
-        className={`${rebelGrotesk.variable} ${robotoMono.variable} antialiased`}
-      >
-        <Providers cookies={cookies}>
-          <V0Provider isV0={isV0}>
-            <SidebarProvider>
-              <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:px-6">
-                <div className="hidden lg:block col-span-2 top-0 relative">
-                  <DashboardSidebar />
-                </div>
-                <div className="col-span-1 lg:col-span-10">
-                  <main className="min-h-screen">
-                    {children}
-                  </main>
-                </div>
-              </div>
-            </SidebarProvider>
-          </V0Provider>
-        </Providers>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className="dark">
+        <head>
+          <link
+            rel="preload"
+            href="/fonts/Rebels-Fett.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+        </head>
+        <body
+          className={`${rebelGrotesk.variable} ${robotoMono.variable} antialiased`}
+        >
+          <Providers cookies={cookies}>
+            <V0Provider isV0={isV0}>
+              <SidebarProvider>
+                <main className="min-h-screen">{children}</main>
+              </SidebarProvider>
+            </V0Provider>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

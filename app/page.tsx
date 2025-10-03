@@ -1,132 +1,83 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { SignIn, SignUp } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Wallet, Package, DollarSign, BarChart3, CreditCard, Link, Zap } from "lucide-react";
-import { motion } from "framer-motion";
 
-export default function HomePage() {
+export default function LoginPage() {
+  const [activeTab, setActiveTab] = useState<"signup" | "signin">("signup");
+  const { isLoaded, userId } = useAuth();
   const router = useRouter();
 
-  const features = [
-    {
-      icon: CreditCard,
-      title: "Custom Payment Forms",
-      description: "Beautiful payment forms with Stripe Elements",
-      action: () => router.push("/demo"),
-      buttonText: "Try Demo"
-    },
-    {
-      icon: Link,
-      title: "Payment Link Generator",
-      description: "Create shareable payment links instantly",
-      action: () => router.push("/payment-links"),
-      buttonText: "Generate Links"
-    },
-    {
-      icon: Zap,
-      title: "Complete Payment Flow",
-      description: "End-to-end payment processing with crypto conversion",
-      action: () => router.push("/payment-flow"),
-      buttonText: "View Flow"
-    },
-    {
-      icon: BarChart3,
-      title: "Analytics & Monitoring",
-      description: "Track payments and stablecoin balances",
-      action: () => router.push("/dashboard"),
-      buttonText: "View Dashboard"
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (isLoaded && userId) {
+      router.push("/dashboard");
     }
-  ];
+  }, [isLoaded, userId, router]);
+
+  // Show loading state while checking auth
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen !bg-[#ffffff] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render auth forms if user is authenticated (will redirect)
+  if (userId) {
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-      <div className="container mx-auto px-4 py-16">
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-5xl font-bold text-white mb-6">
-            Stablestack
-          </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            The ultimate payment link generator. Accept card payments, receive stablecoins.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              onClick={() => router.push("/demo")}
-              size="lg"
-              className="px-8 py-3"
-              style={{ background: 'linear-gradient(to bottom, #ff6d41, #ff5420)' }}
-            >
-              <CreditCard className="w-5 h-5 mr-2" />
-              Try Demo
-            </Button>
-            <Button
-              onClick={() => router.push("/payment-links")}
-              variant="outline"
-              size="lg"
-              className="px-8 py-3"
-            >
-              <Link className="w-5 h-5 mr-2" />
-              Generate Links
-            </Button>
+    <div className="min-h-screen !bg-[#ffffff] relative overflow-hidden">
+      <div className="relative flex items-center justify-center min-h-screen p-4">
+        <div className="w-full max-w-4xl items-center">
+          {/* Tabs */}
+          <div className="flex justify-center mb-4">
+            <div className="bg-black border border-white/20 rounded-xl p-1.5 flex gap-1">
+              <button
+                onClick={() => setActiveTab("signup")}
+                className={`px-8 py-2 rounded-md font-semibold transition-all duration-200 ${
+                  activeTab === "signup"
+                    ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg"
+                    : "text-white/70 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                Sign Up
+              </button>
+              <button
+                onClick={() => setActiveTab("signin")}
+                className={`px-8 py-3 rounded-md font-semibold transition-all duration-200 ${
+                  activeTab === "signin"
+                    ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg"
+                    : "text-white/70 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                Sign In
+              </button>
+            </div>
           </div>
-        </motion.div>
 
-        {/* Features Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 * index }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Card className="h-full bg-gray-800/50 border-gray-700 hover:border-orange-500/50 transition-colors">
-                <CardHeader className="text-center">
-                  <div className="mx-auto w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center mb-4">
-                    <feature.icon className="w-6 h-6 text-orange-500" />
-                  </div>
-                  <CardTitle className="text-white">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-gray-300 mb-4">{feature.description}</p>
-                  <Button
-                    onClick={feature.action}
-                    variant="outline"
-                    className="w-full"
-                    style={{ borderColor: '#ff5941', color: '#ff5941' }}
-                  >
-                    {feature.buttonText}
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="text-center mt-16 text-gray-400"
-        >
-          <p>Powered by Stripe • Built with Blockradar • Secure • Global</p>
-        </motion.div>
+          {/* Auth Components */}
+          <div className="flex justify-center">
+            {activeTab === "signup" ? (
+              <SignUp
+                afterSignUpUrl="/dashboard"
+                fallbackRedirectUrl="/dashboard"
+              />
+            ) : (
+              <SignIn
+                afterSignInUrl="/dashboard"
+                fallbackRedirectUrl="/dashboard"
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

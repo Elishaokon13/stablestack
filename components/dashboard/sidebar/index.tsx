@@ -86,48 +86,6 @@ const data = {
         },
       ],
     },
-    // {
-    //   title: "Legacy",
-    //   items: [
-    //     {
-    //       title: "Overview",
-    //       url: "/",
-    //       icon: BracketsIcon,
-    //       isActive: false,
-    //     },
-    //     {
-    //       title: "Laboratory",
-    //       url: "/laboratory",
-    //       icon: AtomIcon,
-    //       isActive: false,
-    //     },
-    //     {
-    //       title: "Devices",
-    //       url: "/devices",
-    //       icon: ProcessorIcon,
-    //       isActive: false,
-    //     },
-    //     {
-    //       title: "Security",
-    //       url: "/security",
-    //       icon: CuteRobotIcon,
-    //       isActive: false,
-    //     },
-    //     {
-    //       title: "Communication",
-    //       url: "/communication",
-    //       icon: EmailIcon,
-    //       isActive: false,
-    //     },
-    //     {
-    //       title: "Admin Settings",
-    //       url: "/admin",
-    //       icon: GearIcon,
-    //       isActive: false,
-    //       locked: true,
-    //     },
-    //   ],
-    // },
   ],
   desktop: {
     title: "Desktop (Online)",
@@ -216,7 +174,7 @@ export function DashboardSidebar({
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-0">
+      {/* <SidebarFooter className="p-0">
         <SidebarGroup>
           <SidebarGroupLabel>
             <Bullet className="mr-2" />
@@ -230,7 +188,7 @@ export function DashboardSidebar({
         </SidebarGroup>
       </SidebarFooter>
 
-      <SidebarRail />
+      <SidebarRail /> */}
     </Sidebar>
   );
 }
