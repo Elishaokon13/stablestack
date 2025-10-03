@@ -14,10 +14,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import GearIcon from "@/components/icons/gear";
+import MonkeyIcon from "@/components/icons/monkey";
 import { Package, CreditCard, BarChart3, TestTube } from "lucide-react";
 import { Bullet } from "@/components/ui/bullet";
+import LockIcon from "@/components/icons/lock";
 import { useIsV0 } from "@/lib/v0-context";
-import { CodeIcon } from "lucide-react";
 
 const data = {
   navMain: [
@@ -62,7 +64,7 @@ const data = {
         {
           title: "API Docs",
           url: "/api-docs",
-          icon: CodeIcon,
+          icon: GearIcon,
           isActive: false,
         },
       ],
@@ -89,7 +91,7 @@ export function DashboardSidebar({
     <Sidebar {...props} className={cn("py-sides", className)}>
       <SidebarHeader className="rounded-t-lg flex gap-3 flex-row rounded-b-none">
         <div className="flex overflow-clip size-12 shrink-0 items-center justify-center rounded bg-sidebar-primary-foreground/10 transition-colors group-hover:bg-sidebar-primary text-sidebar-primary-foreground">
-          <CodeIcon className="size-10 group-hover:scale-[1.7] origin-top-left transition-transform" />
+          <MonkeyIcon className="size-10 group-hover:scale-[1.7] origin-top-left transition-transform" />
         </div>
         <div className="grid flex-1 text-left text-sm leading-tight">
           <span className="text-2xl font-display">Stablestack</span>
