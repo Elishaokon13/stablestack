@@ -72,15 +72,15 @@ const data = {
       ],
     },
   ],
-  desktop: {
-    title: "Desktop (Online)",
-    status: "online",
-  },
-  user: {
-    name: "KRIMSON",
-    email: "krimson@joyco.studio",
-    avatar: "/avatars/user_krimson.png",
-  },
+  // desktop: {
+  //   title: "Desktop (Online)",
+  //   status: "online",
+  // },
+  // user: {
+  //   name: "KRIMSON",
+  //   email: "krimson@joyco.studio",
+  //   avatar: "/avatars/user_krimson.png",
+  // },
 };
 
 export function DashboardSidebar({
