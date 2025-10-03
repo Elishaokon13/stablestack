@@ -4,7 +4,6 @@ import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -15,14 +14,11 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import GearIcon from "@/components/icons/gear";
-import MonkeyIcon from "@/components/icons/monkey";
 import { Package, CreditCard, BarChart3, TestTube } from "lucide-react";
 import { Bullet } from "@/components/ui/bullet";
-import LockIcon from "@/components/icons/lock";
 import { useIsV0 } from "@/lib/v0-context";
+import { CodeIcon } from "lucide-react";
 
-// This is sample data for the sidebar
 const data = {
   navMain: [
     {
@@ -66,7 +62,7 @@ const data = {
         {
           title: "API Docs",
           url: "/api-docs",
-          icon: GearIcon,
+          icon: CodeIcon,
           isActive: false,
         },
       ],
@@ -93,7 +89,7 @@ export function DashboardSidebar({
     <Sidebar {...props} className={cn("py-sides", className)}>
       <SidebarHeader className="rounded-t-lg flex gap-3 flex-row rounded-b-none">
         <div className="flex overflow-clip size-12 shrink-0 items-center justify-center rounded bg-sidebar-primary-foreground/10 transition-colors group-hover:bg-sidebar-primary text-sidebar-primary-foreground">
-          <MonkeyIcon className="size-10 group-hover:scale-[1.7] origin-top-left transition-transform" />
+          <CodeIcon className="size-10 group-hover:scale-[1.7] origin-top-left transition-transform" />
         </div>
         <div className="grid flex-1 text-left text-sm leading-tight">
           <span className="text-2xl font-display">Stablestack</span>
@@ -158,22 +154,6 @@ export function DashboardSidebar({
           </SidebarGroup>
         ))}
       </SidebarContent>
-
-      {/* <SidebarFooter className="p-0">
-        <SidebarGroup>
-          <SidebarGroupLabel>
-            <Bullet className="mr-2" />
-            Wallet
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-                  <div className="p-3">
-                    <WalletAuth />
-                  </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarFooter>
-
-      <SidebarRail /> */}
     </Sidebar>
   );
 }
