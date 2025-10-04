@@ -15,6 +15,7 @@ import {
   BarChart3,
   Settings,
   LogOut,
+  Package,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
