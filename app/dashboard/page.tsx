@@ -379,18 +379,28 @@ export default function DashboardPage() {
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Product Link Analytics Pie Chart */}
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-3">
-                <BarChart3 className="w-5 h-5" />
-                Product Link Analytics
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="px-6 py-4 border-b border-white/10 bg-white/5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                  <BarChart3 className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">
+                    Product Link Analytics
+                  </h3>
+                  <p className="text-xs text-gray-400">Views by product type</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
               <div className="space-y-4">
                 {/* Pie Chart */}
                 <div className="flex items-center justify-center">
