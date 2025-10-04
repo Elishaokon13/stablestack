@@ -206,11 +206,11 @@ export default function DashboardPage() {
                 {/* Legend */}
                 <div className="flex gap-2 mt-4 items-center justify-end">
                   <span className="text-xs text-muted-foreground">Less</span>
-                  <div className="w-3 h-3 rounded-sm bg-white/5 border border-white/10" />
-                  <div className="w-3 h-3 rounded-sm bg-purple-900/40 border border-purple-800/50" />
-                  <div className="w-3 h-3 rounded-sm bg-purple-700/60 border border-purple-600/60" />
-                  <div className="w-3 h-3 rounded-sm bg-purple-600/80 border border-purple-500/70" />
-                  <div className="w-3 h-3 rounded-sm bg-purple-500 border border-purple-400" />
+                  <div className="w-4 h-4 rounded bg-slate-800/40 border border-slate-700/50" />
+                  <div className="w-4 h-4 rounded bg-blue-950/60 border border-blue-900/60" />
+                  <div className="w-4 h-4 rounded bg-blue-800/70 border border-blue-700/70" />
+                  <div className="w-4 h-4 rounded bg-blue-600/80 border border-blue-500/80" />
+                  <div className="w-4 h-4 rounded bg-blue-500 border border-blue-400" />
                   <span className="text-xs text-muted-foreground">More</span>
                 </div>
 
