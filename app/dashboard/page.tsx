@@ -104,7 +104,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
+
         <Separator />
 
         {/* Sales Activity Heatmap */}
@@ -113,7 +113,7 @@ export default function DashboardPage() {
             Sales Activity Heatmap (Last 52 Weeks)
           </h2>
           <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 md:p-6">
-          <div className="overflow-x-auto">
+            <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
                 {/* Month labels */}
                 <div className="flex mb-3 ml-16">
@@ -414,7 +414,9 @@ export default function DashboardPage() {
                   <h3 className="text-base sm:text-lg font-semibold text-white truncate">
                     Product Link Analytics
                   </h3>
-                  <p className="text-xs text-gray-400 hidden sm:block">Views by product type</p>
+                  <p className="text-xs text-gray-400 hidden sm:block">
+                    Views by product type
+                  </p>
                 </div>
               </div>
             </div>
@@ -592,7 +594,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
+
         <Separator />
 
         {/* User Info Card */}
