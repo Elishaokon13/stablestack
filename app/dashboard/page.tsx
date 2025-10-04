@@ -502,34 +502,34 @@ export default function DashboardPage() {
 
                 {/* Stats Below Chart */}
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6">
-                  <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-xl p-4 border border-blue-500/20 hover:border-blue-500/40 transition-all">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                        <Eye className="w-4 h-4 text-blue-400" />
+                  <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-xl p-3 sm:p-4 border border-blue-500/20 hover:border-blue-500/40 transition-all">
+                    <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Eye className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
                       </div>
-                      <p className="text-xs font-medium text-gray-400">
+                      <p className="text-[10px] sm:text-xs font-medium text-gray-400">
                         Total Views
                       </p>
                     </div>
-                    <p className="text-3xl font-bold text-white mb-1">1,333</p>
-                    <div className="flex items-center gap-1">
-                      <ArrowUpRight className="w-3 h-3 text-green-400" />
-                      <p className="text-xs text-green-400 font-medium">
+                    <p className="text-2xl sm:text-3xl font-bold text-white mb-1">1,333</p>
+                    <div className="flex items-center gap-0.5 sm:gap-1">
+                      <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-green-400 flex-shrink-0" />
+                      <p className="text-[10px] sm:text-xs text-green-400 font-medium truncate">
                         +12% from last week
                       </p>
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 rounded-xl p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                        <Package className="w-4 h-4 text-purple-400" />
+                  <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 rounded-xl p-3 sm:p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                    <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Package className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
                       </div>
-                      <p className="text-xs font-medium text-gray-400">
+                      <p className="text-[10px] sm:text-xs font-medium text-gray-400">
                         Active Links
                       </p>
                     </div>
-                    <p className="text-3xl font-bold text-white mb-1">5</p>
-                    <p className="text-xs text-blue-400 font-medium">
+                    <p className="text-2xl sm:text-3xl font-bold text-white mb-1">5</p>
+                    <p className="text-[10px] sm:text-xs text-blue-400 font-medium">
                       All products
                     </p>
                   </div>
