@@ -64,6 +64,53 @@ export default function DashboardPage() {
             Manage your Web3 payment platform
           </p>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {/* Earnings Card */}
+          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-green-400" />
+                Earnings
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-green-300 mb-1">
+                $4,250.00
+              </div>
+              <div className="text-purple-200 text-sm">This month</div>
+            </CardContent>
+          </Card>
+          {/* Products Card */}
+          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <Package className="w-5 h-5 text-blue-400" />
+                Products
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-blue-300 mb-1">
+                12
+              </div>
+              <div className="text-purple-200 text-sm">Active products</div>
+            </CardContent>
+          </Card>
+          {/* Orders Card */}
+          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <CreditCard className="w-5 h-5 text-purple-400" />
+                Orders
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-purple-300 mb-1">
+                37
+              </div>
+              <div className="text-purple-200 text-sm">Total orders</div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* User Info Card */}
         <Card className="mb-8 backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
