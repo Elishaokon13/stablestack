@@ -11,10 +11,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isSignedIn } = useUser();
-  if (!isSignedIn) {
-    redirect("/");
-  }
+  
 
   return (
     <SidebarProvider>
