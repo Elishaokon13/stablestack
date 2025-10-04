@@ -263,11 +263,11 @@ export default function DashboardPage() {
         <Separator />
 
         {/* Latest Transactions and Product Analytics */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Latest Transactions */}
           <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
-            <div className="px-6 py-4 border-b border-white/10 bg-white/5">
+            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
