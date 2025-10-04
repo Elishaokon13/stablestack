@@ -716,7 +716,7 @@ export function ProductLinkModal({
         </div>
 
         {/* Content */}
-        <div className="p-4 sm:p-6 overflow-y-auto flex-1">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 scrollbar-hide">
           <AnimatePresence mode="wait">
             {currentStep === 1 && renderStep1()}
             {currentStep === 2 && renderStep2()}
