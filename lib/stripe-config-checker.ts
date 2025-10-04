@@ -22,7 +22,7 @@ export async function checkStripeConfiguration(): Promise<StripeConfigStatus> {
     webhookEndpointConfigured: false,
     recommendedSettings: [],
   };
-
+  console.log('status', status);
   // Test API connectivity
   try {
     if (status.hasSecretKey) {
@@ -107,7 +107,7 @@ export function getStripeConfigurationSummary(status: StripeConfigStatus): strin
   
   if (status.recommendedSettings.length > 0) {
     summary.push('\n📋 Recommended Additional Settings:');
-    status.recommendedSettings.forEach(setting => {
+    status.recommendedSettings.forEach((setting: any) => {
       summary.push(`• ${setting}`);
     });
   }

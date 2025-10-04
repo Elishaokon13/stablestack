@@ -238,7 +238,7 @@ PaymentSchema.statics.getSellerEarnings = async function(sellerId: string) {
     status: 'completed'
   });
   
-  const totalEarnings = payments.reduce((sum, payment) => {
+  const totalEarnings = payments.reduce((sum: number, payment: any) => {
     return sum + parseInt(payment.amountUSDC);
   }, 0);
   
