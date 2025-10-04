@@ -64,7 +64,7 @@ export default function DashboardPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Earnings Card */}
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-xl">
+          <div className="backdrop-blur-sm bg-white/10 border-white/20 shadow-xl">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-green-400" />
@@ -77,7 +77,7 @@ export default function DashboardPage() {
               </div>
               <div className="text-purple-200 text-sm">This month</div>
             </CardContent>
-          </Card>
+          </div>
           {/* Products Card */}
           <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-xl">
             <CardHeader>
