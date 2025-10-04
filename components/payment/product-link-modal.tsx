@@ -586,53 +586,64 @@ export function ProductLinkModal({ isOpen, onClose, onSuccess }: ProductLinkModa
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-background rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+        className="bg-background rounded-lg shadow-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="p-6 border-b">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold">Create Product Link</h2>
-              <p className="text-muted-foreground">Generate a payment link for your product</p>
+        <div className="p-4 sm:p-6 border-b flex-shrink-0">
+          <div className="flex items-start sm:items-center justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-xl sm:text-2xl font-bold truncate">Create Product Link</h2>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+                Generate a payment link for your product
+              </p>
             </div>
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={onClose}
+              className="flex-shrink-0 -mt-1 -mr-2"
+            >
               ✕
             </Button>
           </div>
           
           {/* Progress Steps */}
-          <div className="flex items-center justify-center mt-6 space-x-4">
-            {steps.map((step, index) => (
-              <div key={step.number} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  currentStep >= step.number 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-muted text-muted-foreground'
-                }`}>
-                  {currentStep > step.number ? <CheckCircle2 className="h-4 w-4" /> : step.number}
+          <div className="mt-4 sm:mt-6 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-4 min-w-max sm:min-w-0">
+              {steps.map((step, index) => (
+                <div key={step.number} className="flex items-center flex-shrink-0">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium transition-colors ${
+                      currentStep >= step.number 
+                        ? 'bg-primary text-primary-foreground' 
+                        : 'bg-muted text-muted-foreground'
+                    }`}>
+                      {currentStep > step.number ? <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4" /> : step.number}
+                    </div>
+                    <span className={`text-xs sm:text-sm font-medium whitespace-nowrap ${
+                      currentStep >= step.number ? 'text-foreground' : 'text-muted-foreground'
+                    }`}>
+                      {step.title}
+                    </span>
+                  </div>
+                  {index < steps.length - 1 && (
+                    <div className={`w-4 sm:w-8 h-px mx-2 sm:mx-4 transition-colors ${
+                      currentStep > step.number ? 'bg-primary' : 'bg-muted'
+                    }`} />
+                  )}
                 </div>
-                <span className={`ml-2 text-sm ${
-                  currentStep >= step.number ? 'text-foreground' : 'text-muted-foreground'
-                }`}>
-                  {step.title}
-                </span>
-                {index < steps.length - 1 && (
-                  <div className={`w-8 h-px mx-4 ${
-                    currentStep > step.number ? 'bg-primary' : 'bg-muted'
-                  }`} />
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[60vh]">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1">
           <AnimatePresence mode="wait">
             {currentStep === 1 && renderStep1()}
             {currentStep === 2 && renderStep2()}
@@ -643,21 +654,21 @@ export function ProductLinkModal({ isOpen, onClose, onSuccess }: ProductLinkModa
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t bg-muted/50">
-          <div className="flex items-center justify-between">
+        <div className="p-4 sm:p-6 border-t bg-muted/50 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0">
             {currentStep < 5 && (
               <Button
                 variant="outline"
                 onClick={prevStep}
                 disabled={currentStep === 1}
-                className="flex items-center space-x-2"
+                className="flex items-center justify-center gap-2 w-full sm:w-auto"
               >
                 <ArrowLeft className="h-4 w-4" />
                 <span>Previous</span>
               </Button>
             )}
 
-            <div className="flex items-center space-x-2">
+            <div className={`flex items-center gap-2 ${currentStep === 5 ? 'w-full' : 'w-full sm:w-auto'}`}>
               {currentStep < 4 ? (
                 <Button
                   onClick={nextStep}
@@ -665,7 +676,7 @@ export function ProductLinkModal({ isOpen, onClose, onSuccess }: ProductLinkModa
                     (currentStep === 1 && (!formData.name || !formData.price)) ||
                     (currentStep === 2 && !formData.walletAddress)
                   }
-                  className="flex items-center space-x-2"
+                  className="flex items-center justify-center gap-2 w-full"
                 >
                   <span>Next</span>
                   <ArrowRight className="h-4 w-4" />
@@ -674,7 +685,7 @@ export function ProductLinkModal({ isOpen, onClose, onSuccess }: ProductLinkModa
                 <Button
                   onClick={generateLink}
                   disabled={isGenerating}
-                  className="flex items-center space-x-2"
+                  className="flex items-center justify-center gap-2 w-full"
                 >
                   {isGenerating ? (
                     <>
@@ -691,7 +702,7 @@ export function ProductLinkModal({ isOpen, onClose, onSuccess }: ProductLinkModa
               ) : (
                 <Button
                   onClick={onClose}
-                  className="flex items-center space-x-2"
+                  className="flex items-center justify-center gap-2 w-full"
                 >
                   <span>Done</span>
                   <CheckCircle2 className="h-4 w-4" />
