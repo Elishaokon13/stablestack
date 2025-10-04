@@ -88,56 +88,129 @@ export default function DashboardPage() {
         <Separator />
 
 
-        {/* Sales Heatmap */}
+        {/* Sales Activity Heatmap */}
         <div>
-          <h2 className="text-lg font-semibold text-white mb-4">Sales Heatmap (2024)</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-[600px] border-separate border-spacing-1">
-              <thead>
-                <tr>
-                  <th className="text-xs text-muted-foreground px-2 py-1">Month</th>
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <th key={i} className="text-xs text-muted-foreground px-2 py-1">
-                      {new Date(0, i).toLocaleString("default", { month: "short" })}
-                    </th>
+          <h2 className="text-lg font-semibold text-white mb-4">
+            Sales Activity Heatmap (Last 52 Weeks)
+          </h2>
+          <div className="bg-white/5 border border-white/10 rounded-lg p-6">
+            <div className="overflow-x-auto">
+              <div className="inline-block min-w-full">
+                {/* Month labels */}
+                <div className="flex mb-2 ml-12">
+                  {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((month, i) => (
+                    <div
+                      key={i}
+                      className="text-xs text-muted-foreground"
+                      style={{ width: "calc(100% / 12)", textAlign: "left", paddingLeft: "8px" }}
+                    >
+                      {month}
+                    </div>
                   ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-xs text-muted-foreground px-2 py-1">Sales</td>
-                  {/* Example static data for each month */}
-                  {[
-                    12, 22, 18, 30, 25, 40, 55, 48, 35, 28, 20, 15
-                  ].map((value, i) => {
-                    // Color intensity based on value
-                    let bg = "";
-                    if (value > 45) bg = "bg-purple-600";
-                    else if (value > 30) bg = "bg-purple-500";
-                    else if (value > 20) bg = "bg-purple-400";
-                    else if (value > 10) bg = "bg-purple-300";
-                    else bg = "bg-purple-200";
-                    return (
-                      <td
-                        key={i}
-                        className={`w-10 h-10 text-center align-middle rounded ${bg} text-white font-semibold transition-colors`}
-                        title={`${new Date(0, i).toLocaleString("default", { month: "long" })}: ${value} sales`}
-                      >
-                        {value}
-                      </td>
-                    );
-                  })}
-                </tr>
-              </tbody>
-            </table>
-            <div className="flex gap-2 mt-2 items-center">
-              <span className="text-xs text-muted-foreground">Low</span>
-              <div className="w-6 h-3 rounded bg-purple-200" />
-              <div className="w-6 h-3 rounded bg-purple-300" />
-              <div className="w-6 h-3 rounded bg-purple-400" />
-              <div className="w-6 h-3 rounded bg-purple-500" />
-              <div className="w-6 h-3 rounded bg-purple-600" />
-              <span className="text-xs text-muted-foreground">High</span>
+                </div>
+
+                {/* Heatmap grid */}
+                <div className="flex gap-1">
+                  {/* Day labels */}
+                  <div className="flex flex-col justify-around text-xs text-muted-foreground pr-2">
+                    <div>Mon</div>
+                    <div>Wed</div>
+                    <div>Fri</div>
+                  </div>
+
+                  {/* Grid of weeks */}
+                  <div className="flex gap-1">
+                    {Array.from({ length: 52 }).map((_, weekIndex) => (
+                      <div key={weekIndex} className="flex flex-col gap-1">
+                        {Array.from({ length: 7 }).map((_, dayIndex) => {
+                          // Generate semi-random sales data for demo
+                          const seed = weekIndex * 7 + dayIndex;
+                          const salesValue = Math.floor(
+                            Math.sin(seed * 0.5) * 30 + 
+                            Math.cos(seed * 0.3) * 20 + 
+                            Math.random() * 25 + 10
+                          );
+                          
+                          // Determine color intensity
+                          let bgColor = "";
+                          let borderColor = "";
+                          if (salesValue === 0) {
+                            bgColor = "bg-white/5";
+                            borderColor = "border-white/10";
+                          } else if (salesValue < 15) {
+                            bgColor = "bg-purple-900/40";
+                            borderColor = "border-purple-800/50";
+                          } else if (salesValue < 30) {
+                            bgColor = "bg-purple-700/60";
+                            borderColor = "border-purple-600/60";
+                          } else if (salesValue < 45) {
+                            bgColor = "bg-purple-600/80";
+                            borderColor = "border-purple-500/70";
+                          } else {
+                            bgColor = "bg-purple-500";
+                            borderColor = "border-purple-400";
+                          }
+
+                          // Calculate date
+                          const today = new Date();
+                          const daysAgo = (51 - weekIndex) * 7 + (6 - dayIndex);
+                          const date = new Date(today);
+                          date.setDate(date.getDate() - daysAgo);
+                          const dateStr = date.toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          });
+
+                          return (
+                            <div
+                              key={dayIndex}
+                              className={`w-3 h-3 rounded-sm ${bgColor} border ${borderColor} hover:ring-2 hover:ring-purple-400 hover:ring-offset-1 hover:ring-offset-slate-900 transition-all cursor-pointer group relative`}
+                              title={`${dateStr}: ${salesValue} sales`}
+                            >
+                              {/* Tooltip on hover */}
+                              <div className="invisible group-hover:visible absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-xs rounded-lg shadow-xl whitespace-nowrap border border-white/20">
+                                <div className="font-semibold">{salesValue} sales</div>
+                                <div className="text-gray-400">{dateStr}</div>
+                                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
+                                  <div className="border-4 border-transparent border-t-slate-800" />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Legend */}
+                <div className="flex gap-2 mt-4 items-center justify-end">
+                  <span className="text-xs text-muted-foreground">Less</span>
+                  <div className="w-3 h-3 rounded-sm bg-white/5 border border-white/10" />
+                  <div className="w-3 h-3 rounded-sm bg-purple-900/40 border border-purple-800/50" />
+                  <div className="w-3 h-3 rounded-sm bg-purple-700/60 border border-purple-600/60" />
+                  <div className="w-3 h-3 rounded-sm bg-purple-600/80 border border-purple-500/70" />
+                  <div className="w-3 h-3 rounded-sm bg-purple-500 border border-purple-400" />
+                  <span className="text-xs text-muted-foreground">More</span>
+                </div>
+
+                {/* Summary Stats */}
+                <div className="mt-6 grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-2xl font-bold text-white">1,247</div>
+                    <div className="text-xs text-muted-foreground">Total Sales</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-white">24</div>
+                    <div className="text-xs text-muted-foreground">Avg Daily Sales</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-white">78</div>
+                    <div className="text-xs text-muted-foreground">Best Day</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
