@@ -3,16 +3,12 @@
 import React from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
-import { useUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  
-
   return (
     <SidebarProvider>
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:px-6">
