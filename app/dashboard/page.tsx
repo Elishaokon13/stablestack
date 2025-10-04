@@ -494,7 +494,7 @@ export default function DashboardPage() {
                     }}
                     series={[342, 218, 156, 428, 189]}
                     type="donut"
-                    height={window.innerWidth < 640 ? 250 : 300}
+                    height={280}
                   />
                 </div>
 
