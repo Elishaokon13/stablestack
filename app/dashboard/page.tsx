@@ -511,7 +511,9 @@ export default function DashboardPage() {
                         Total Views
                       </p>
                     </div>
-                    <p className="text-2xl sm:text-3xl font-bold text-white mb-1">1,333</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-white mb-1">
+                      1,333
+                    </p>
                     <div className="flex items-center gap-0.5 sm:gap-1">
                       <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-green-400 flex-shrink-0" />
                       <p className="text-[10px] sm:text-xs text-green-400 font-medium truncate">
@@ -528,7 +530,9 @@ export default function DashboardPage() {
                         Active Links
                       </p>
                     </div>
-                    <p className="text-2xl sm:text-3xl font-bold text-white mb-1">5</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-white mb-1">
+                      5
+                    </p>
                     <p className="text-[10px] sm:text-xs text-blue-400 font-medium">
                       All products
                     </p>
