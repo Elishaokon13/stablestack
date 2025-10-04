@@ -60,41 +60,41 @@ export default function DashboardPage() {
 
   return (
     <>
-        <div className="w-full space-y-6 mx-auto">
-          {/* Header */}
+      <div className="w-full space-y-6 mx-auto">
+        {/* Header */}
           <div className="w-full py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
             <h1 className="text-lg sm:text-xl font-bold text-white">
-              Welcome back, {user.firstName || user.username}!
-            </h1>
+            Welcome back, {user.firstName || user.username}!
+          </h1>
             <Button 
               className="border-white/20 text-white hover:bg-blue-600 w-full sm:w-auto whitespace-nowrap"
               onClick={() => setIsProductLinkModalOpen(true)}
             >
               Create Product Link
             </Button>
-          </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {/* Earnings Card */}
-          <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
-            <div className="text-3xl font-bold">$4,250.00</div>
-            <div className="text-muted-foreground text-sm">Earnings</div>
+          <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">$4,250</div>
+            <div className="text-muted-foreground text-xs sm:text-sm">Earnings</div>
           </div>
           {/* Products Card */}
-          <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
-            <div className="text-3xl font-bold">12</div>
-            <div className="text-muted-foreground text-sm">Active products</div>
+          <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">12</div>
+            <div className="text-muted-foreground text-xs sm:text-sm">Active products</div>
           </div>
           {/* Orders Card */}
-          <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
-            <div className="text-3xl font-bold">37</div>
-            <div className="text-muted-foreground text-sm">Total orders</div>
+          <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">37</div>
+            <div className="text-muted-foreground text-xs sm:text-sm">Total orders</div>
           </div>
-          <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
-            <div className="text-3xl font-bold">37</div>
-            <div className="text-muted-foreground text-sm">Total customers</div>
+          <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">37</div>
+            <div className="text-muted-foreground text-xs sm:text-sm">Total customers</div>
           </div>
         </div>
-
+        
         <Separator />
 
         {/* Sales Activity Heatmap */}
@@ -103,7 +103,7 @@ export default function DashboardPage() {
             Sales Activity Heatmap (Last 52 Weeks)
           </h2>
           <div className="bg-white/5 border border-white/10 rounded-lg p-6">
-            <div className="overflow-x-auto">
+          <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
                 {/* Month labels */}
                 <div className="flex mb-3 ml-16">
@@ -582,7 +582,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-
+        
         <Separator />
 
         {/* User Info Card */}
