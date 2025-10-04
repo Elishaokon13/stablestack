@@ -264,7 +264,9 @@ export default function DashboardPage() {
                     <h3 className="text-lg font-semibold text-white">
                       Latest Transactions
                     </h3>
-                    <p className="text-xs text-gray-400">Recent payment activity</p>
+                    <p className="text-xs text-gray-400">
+                      Recent payment activity
+                    </p>
                   </div>
                 </div>
                 <Button
@@ -490,7 +492,9 @@ export default function DashboardPage() {
                       <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
                         <Eye className="w-4 h-4 text-blue-400" />
                       </div>
-                      <p className="text-xs font-medium text-gray-400">Total Views</p>
+                      <p className="text-xs font-medium text-gray-400">
+                        Total Views
+                      </p>
                     </div>
                     <p className="text-3xl font-bold text-white mb-1">1,333</p>
                     <div className="flex items-center gap-1">
@@ -505,10 +509,14 @@ export default function DashboardPage() {
                       <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
                         <Package className="w-4 h-4 text-purple-400" />
                       </div>
-                      <p className="text-xs font-medium text-gray-400">Active Links</p>
+                      <p className="text-xs font-medium text-gray-400">
+                        Active Links
+                      </p>
                     </div>
                     <p className="text-3xl font-bold text-white mb-1">5</p>
-                    <p className="text-xs text-blue-400 font-medium">All products</p>
+                    <p className="text-xs text-blue-400 font-medium">
+                      All products
+                    </p>
                   </div>
                 </div>
 
@@ -519,15 +527,37 @@ export default function DashboardPage() {
                     Top Performing Links
                   </p>
                   {[
-                    { name: "Pro Plan", views: 428, color: "bg-amber-500", gradient: "from-amber-500/20 to-amber-600/5" },
-                    { name: "Premium Plan", views: 342, color: "bg-blue-500", gradient: "from-blue-500/20 to-blue-600/5" },
-                    { name: "Basic Plan", views: 218, color: "bg-green-500", gradient: "from-green-500/20 to-green-600/5" },
+                    {
+                      name: "Pro Plan",
+                      views: 428,
+                      color: "bg-amber-500",
+                      gradient: "from-amber-500/20 to-amber-600/5",
+                    },
+                    {
+                      name: "Premium Plan",
+                      views: 342,
+                      color: "bg-blue-500",
+                      gradient: "from-blue-500/20 to-blue-600/5",
+                    },
+                    {
+                      name: "Basic Plan",
+                      views: 218,
+                      color: "bg-green-500",
+                      gradient: "from-green-500/20 to-green-600/5",
+                    },
                   ].map((link, index) => (
-                    <div key={index} className={`flex items-center gap-3 p-3 bg-gradient-to-r ${link.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}>
-                      <div className={`w-3 h-3 rounded-full ${link.color} shadow-lg`} />
+                    <div
+                      key={index}
+                      className={`flex items-center gap-3 p-3 bg-gradient-to-r ${link.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}
+                    >
+                      <div
+                        className={`w-3 h-3 rounded-full ${link.color} shadow-lg`}
+                      />
                       <div className="flex-1">
                         <div className="flex justify-between items-center mb-2">
-                          <p className="text-sm font-medium text-white">{link.name}</p>
+                          <p className="text-sm font-medium text-white">
+                            {link.name}
+                          </p>
                           <div className="flex items-center gap-1">
                             <Eye className="w-3 h-3 text-gray-400" />
                             <p className="text-xs font-semibold text-gray-300">
