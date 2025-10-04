@@ -672,7 +672,7 @@ export function ProductLinkModal({
 
           {/* Progress Steps */}
           <div className="mt-4 sm:mt-6 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-            <div className="flex items-center justify-start sm:justify-left gap-1 sm:gap-2 min-w-max sm:min-w-0">
+            <div className="flex items-center justify-start sm:justify-left ppy-2 gap-1 sm:gap-2 min-w-max sm:min-w-0">
               {steps.map((step, index) => (
                 <div
                   key={step.number}
