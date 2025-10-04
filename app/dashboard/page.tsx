@@ -252,24 +252,34 @@ export default function DashboardPage() {
         {/* Latest Transactions and Product Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Latest Transactions */}
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center justify-between">
+          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="px-6 py-4 border-b border-white/10 bg-white/5">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <CreditCard className="w-5 h-5" />
-                  Latest Transactions
+                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <CreditCard className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      Latest Transactions
+                    </h3>
+                    <p className="text-xs text-gray-400">Recent payment activity</p>
+                  </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-blue-400 hover:text-blue-300"
+                  className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10"
                   onClick={() => router.push("/payments")}
                 >
                   View All
                 </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
               <div className="space-y-3">
                 {[
                   {
