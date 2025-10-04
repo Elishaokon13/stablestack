@@ -55,7 +55,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="w-full mx-auto">
+      <div className="w-full space-y-6 mx-auto">
         {/* Header */}
         <div className="w-full py-4 flex flex-col gap-2">
           <h1 className="text-xl font-bold text-white">
