@@ -65,24 +65,18 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Earnings Card */}
           <div className="bg-white/10 border-white/20 p-4 rounded-lg">
-            <div className="text-3xl font-bold text-green-300 mb-1">
-              $4,250.00
-            </div>
-            <div className="text-purple-200 text-sm">This month</div>
+            <div className="text-3xl font-bold">$4,250.00</div>
+            <div className="text-muted-foreground text-sm">This month</div>
           </div>
           {/* Products Card */}
           <div className="bg-white/10 border-white/20 p-4 rounded-lg">
-            <div className="text-3xl font-bold text-blue-300 mb-1">
-              12
-            </div>
-            <div className="text-purple-200 text-sm">Active products</div>
+            <div className="text-3xl font-bold">12</div>
+            <div className="text-muted-foreground text-sm">Active products</div>
           </div>
           {/* Orders Card */}
           <div className="bg-white/10 border-white/20 p-4 rounded-lg">
-            <div className="text-3xl font-bold text-purple-300 mb-1">
-              37
-            </div>
-            <div className="text-purple-200 text-sm">Total orders</div>
+            <div className="text-3xl font-bold">37</div>
+            <div className="text-muted-foreground text-sm">Total orders</div>
           </div>
         </div>
 
