@@ -268,16 +268,16 @@ export default function DashboardPage() {
           <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                    <CreditCard className="w-5 h-5 text-blue-400" />
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-base sm:text-lg font-semibold text-white truncate">
                       Latest Transactions
                     </h3>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-400 hidden sm:block">
                       Recent payment activity
                     </p>
                   </div>
@@ -285,7 +285,7 @@ export default function DashboardPage() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10"
+                  className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 text-xs sm:text-sm flex-shrink-0"
                   onClick={() => router.push("/payments")}
                 >
                   View All
@@ -294,7 +294,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Content */}
-            <div className="p-6">
+            <div className="p-3 sm:p-4 md:p-6">
               <div className="space-y-3">
                 {[
                   {
