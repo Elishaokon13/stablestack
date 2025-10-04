@@ -56,11 +56,6 @@ export default function DashboardPage() {
     );
   }
 
-  const handleSignOut = () => {
-    // Clerk handles sign out automatically
-    window.location.href = "/";
-  };
-
   return (
     <>
       <div className="w-full space-y-6 mx-auto">
