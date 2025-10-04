@@ -84,9 +84,8 @@ export default function DashboardPage() {
             <div className="text-muted-foreground text-sm">Total customers</div>
           </div>
         </div>
-        
-        <Separator />
 
+        <Separator />
 
         {/* Sales Activity Heatmap */}
         <div>
@@ -98,11 +97,28 @@ export default function DashboardPage() {
               <div className="inline-block min-w-full">
                 {/* Month labels */}
                 <div className="flex mb-2 ml-12">
-                  {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((month, i) => (
+                  {[
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                  ].map((month, i) => (
                     <div
                       key={i}
                       className="text-xs text-muted-foreground"
-                      style={{ width: "calc(100% / 12)", textAlign: "left", paddingLeft: "8px" }}
+                      style={{
+                        width: "calc(100% / 12)",
+                        textAlign: "left",
+                        paddingLeft: "8px",
+                      }}
                     >
                       {month}
                     </div>
@@ -126,11 +142,12 @@ export default function DashboardPage() {
                           // Generate semi-random sales data for demo
                           const seed = weekIndex * 7 + dayIndex;
                           const salesValue = Math.floor(
-                            Math.sin(seed * 0.5) * 30 + 
-                            Math.cos(seed * 0.3) * 20 + 
-                            Math.random() * 25 + 10
+                            Math.sin(seed * 0.5) * 30 +
+                              Math.cos(seed * 0.3) * 20 +
+                              Math.random() * 25 +
+                              10
                           );
-                          
+
                           // Determine color intensity
                           let bgColor = "";
                           let borderColor = "";
@@ -170,7 +187,9 @@ export default function DashboardPage() {
                             >
                               {/* Tooltip on hover */}
                               <div className="invisible group-hover:visible absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-xs rounded-lg shadow-xl whitespace-nowrap border border-white/20">
-                                <div className="font-semibold">{salesValue} sales</div>
+                                <div className="font-semibold">
+                                  {salesValue} sales
+                                </div>
                                 <div className="text-gray-400">{dateStr}</div>
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
                                   <div className="border-4 border-transparent border-t-slate-800" />
@@ -199,22 +218,27 @@ export default function DashboardPage() {
                 <div className="mt-6 grid grid-cols-3 gap-4 text-center">
                   <div>
                     <div className="text-2xl font-bold text-white">1,247</div>
-                    <div className="text-xs text-muted-foreground">Total Sales</div>
+                    <div className="text-xs text-muted-foreground">
+                      Total Sales
+                    </div>
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-white">24</div>
-                    <div className="text-xs text-muted-foreground">Avg Daily Sales</div>
+                    <div className="text-xs text-muted-foreground">
+                      Avg Daily Sales
+                    </div>
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-white">78</div>
-                    <div className="text-xs text-muted-foreground">Best Day</div>
+                    <div className="text-xs text-muted-foreground">
+                      Best Day
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
 
         {/* User Info Card */}
         <Card className="mb-8 backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
