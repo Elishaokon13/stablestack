@@ -57,8 +57,8 @@ export default function DashboardPage() {
     <>
       <div className="w-full mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">
+        <div className="w-full py-4 flex flex-col gap-2">
+          <h1 className="text-xl font-bold text-white">
             Welcome back, {user.firstName || user.username}!
           </h1>
           <p className="text-purple-200 text-lg">
