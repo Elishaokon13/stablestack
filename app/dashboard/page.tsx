@@ -60,10 +60,11 @@ export default function DashboardPage() {
     <>
       <div className="w-full space-y-6 mx-auto">
         {/* Header */}
-        <div className="w-full py-4 flex flex-col gap-2">
+        <div className="w-full py-4 flex items-center justify-between gap-4">
           <h1 className="text-xl font-bold text-white">
             Welcome back, {user.firstName || user.username}!
           </h1>
+          <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">Create Product Link</Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Earnings Card */}
