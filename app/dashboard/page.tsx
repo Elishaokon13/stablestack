@@ -135,9 +135,9 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Grid of weeks */}
-                  <div className="flex gap-1">
+                  <div className="flex gap-2">
                     {Array.from({ length: 52 }).map((_, weekIndex) => (
-                      <div key={weekIndex} className="flex flex-col gap-1">
+                      <div key={weekIndex} className="flex flex-col gap-2">
                         {Array.from({ length: 7 }).map((_, dayIndex) => {
                           // Generate semi-random sales data for demo
                           const seed = weekIndex * 7 + dayIndex;
@@ -148,24 +148,24 @@ export default function DashboardPage() {
                               10
                           );
 
-                          // Determine color intensity
+                          // Determine color intensity (blue theme)
                           let bgColor = "";
                           let borderColor = "";
                           if (salesValue === 0) {
-                            bgColor = "bg-white/5";
-                            borderColor = "border-white/10";
+                            bgColor = "bg-slate-800/40";
+                            borderColor = "border-slate-700/50";
                           } else if (salesValue < 15) {
-                            bgColor = "bg-purple-900/40";
-                            borderColor = "border-purple-800/50";
+                            bgColor = "bg-blue-950/60";
+                            borderColor = "border-blue-900/60";
                           } else if (salesValue < 30) {
-                            bgColor = "bg-purple-700/60";
-                            borderColor = "border-purple-600/60";
+                            bgColor = "bg-blue-800/70";
+                            borderColor = "border-blue-700/70";
                           } else if (salesValue < 45) {
-                            bgColor = "bg-purple-600/80";
-                            borderColor = "border-purple-500/70";
+                            bgColor = "bg-blue-600/80";
+                            borderColor = "border-blue-500/80";
                           } else {
-                            bgColor = "bg-purple-500";
-                            borderColor = "border-purple-400";
+                            bgColor = "bg-blue-500";
+                            borderColor = "border-blue-400";
                           }
 
                           // Calculate date
@@ -182,7 +182,7 @@ export default function DashboardPage() {
                           return (
                             <div
                               key={dayIndex}
-                              className={`w-3 h-3 rounded-sm ${bgColor} border ${borderColor} hover:ring-2 hover:ring-purple-400 hover:ring-offset-1 hover:ring-offset-slate-900 transition-all cursor-pointer group relative`}
+                              className={`w-4 h-4 rounded ${bgColor} border ${borderColor} hover:ring-2 hover:ring-blue-400 hover:ring-offset-1 hover:ring-offset-slate-900 transition-all cursor-pointer group relative hover:scale-110`}
                               title={`${dateStr}: ${salesValue} sales`}
                             >
                               {/* Tooltip on hover */}
