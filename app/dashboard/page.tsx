@@ -494,12 +494,12 @@ export default function DashboardPage() {
                     }}
                     series={[342, 218, 156, 428, 189]}
                     type="donut"
-                    height={300}
+                    height={window.innerWidth < 640 ? 250 : 300}
                   />
                 </div>
 
                 {/* Stats Below Chart */}
-                <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6">
                   <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-xl p-4 border border-blue-500/20 hover:border-blue-500/40 transition-all">
                     <div className="flex items-center gap-2 mb-3">
                       <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
