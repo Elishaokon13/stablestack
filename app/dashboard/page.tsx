@@ -61,11 +61,8 @@ export default function DashboardPage() {
           <h1 className="text-xl font-bold text-white">
             Welcome back, {user.firstName || user.username}!
           </h1>
-          <p className="text-purple-200 text-lg">
-            Manage your Web3 payment platform
-          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Earnings Card */}
           <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-xl">
             <CardHeader>
