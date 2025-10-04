@@ -104,7 +104,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
+
         <Separator />
 
         {/* Sales Activity Heatmap */}
@@ -113,7 +113,7 @@ export default function DashboardPage() {
             Sales Activity Heatmap (Last 52 Weeks)
           </h2>
           <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 md:p-6">
-          <div className="overflow-x-auto">
+            <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
                 {/* Month labels */}
                 <div className="flex mb-3 ml-16">
@@ -132,7 +132,7 @@ export default function DashboardPage() {
                     "Dec",
                   ].map((month, i) => (
                     <div
-                        key={i}
+                      key={i}
                       className="text-xs text-muted-foreground font-medium"
                       style={{
                         width: "calc(100% / 12)",
@@ -213,9 +213,9 @@ export default function DashboardPage() {
                                 <div className="text-gray-400">{dateStr}</div>
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
                                   <div className="border-4 border-transparent border-t-slate-800" />
-            </div>
-          </div>
-        </div>
+                                </div>
+                              </div>
+                            </div>
                           );
                         })}
                       </div>
@@ -246,8 +246,8 @@ export default function DashboardPage() {
                     <div className="text-2xl font-bold text-white">24</div>
                     <div className="text-xs text-muted-foreground">
                       Avg Daily Sales
-                </div>
-              </div>
+                    </div>
+                  </div>
                   <div>
                     <div className="text-2xl font-bold text-white">78</div>
                     <div className="text-xs text-muted-foreground">
@@ -355,7 +355,7 @@ export default function DashboardPage() {
                           }`}
                         />
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <p className="text-white font-semibold text-xs sm:text-sm truncate">
@@ -512,8 +512,8 @@ export default function DashboardPage() {
                       <p className="text-[10px] sm:text-xs text-green-400 font-medium truncate">
                         +12% from last week
                       </p>
-                </div>
-              </div>
+                    </div>
+                  </div>
                   <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 rounded-xl p-3 sm:p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all">
                     <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -582,14 +582,14 @@ export default function DashboardPage() {
                             className={`${link.color} h-1.5 sm:h-2 rounded-full shadow-lg transition-all duration-500`}
                             style={{ width: `${(link.views / 428) * 100}%` }}
                           />
-                </div>
-              </div>
-                </div>
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
-              </div>
-        </div>
+            </div>
+          </div>
         </div>
       </div>
 
