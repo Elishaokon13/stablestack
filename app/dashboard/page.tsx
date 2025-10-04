@@ -508,27 +508,31 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Link Performance */}
-                <div className="space-y-2 mt-4">
-                  <p className="text-sm font-medium text-white mb-3">
+                <div className="space-y-3 mt-6 bg-white/5 rounded-xl p-4 border border-white/10">
+                  <p className="text-sm font-semibold text-white flex items-center gap-2">
+                    <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
                     Top Performing Links
                   </p>
                   {[
-                    { name: "Pro Plan", views: 428, color: "bg-amber-500" },
-                    { name: "Premium Plan", views: 342, color: "bg-blue-500" },
-                    { name: "Basic Plan", views: 218, color: "bg-green-500" },
+                    { name: "Pro Plan", views: 428, color: "bg-amber-500", gradient: "from-amber-500/20 to-amber-600/5" },
+                    { name: "Premium Plan", views: 342, color: "bg-blue-500", gradient: "from-blue-500/20 to-blue-600/5" },
+                    { name: "Basic Plan", views: 218, color: "bg-green-500", gradient: "from-green-500/20 to-green-600/5" },
                   ].map((link, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <div className={`w-2 h-2 rounded-full ${link.color}`} />
+                    <div key={index} className={`flex items-center gap-3 p-3 bg-gradient-to-r ${link.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}>
+                      <div className={`w-3 h-3 rounded-full ${link.color} shadow-lg`} />
                       <div className="flex-1">
-                        <div className="flex justify-between items-center">
-                          <p className="text-sm text-white">{link.name}</p>
-                          <p className="text-xs text-gray-400">
-                            {link.views} views
-                          </p>
+                        <div className="flex justify-between items-center mb-2">
+                          <p className="text-sm font-medium text-white">{link.name}</p>
+                          <div className="flex items-center gap-1">
+                            <Eye className="w-3 h-3 text-gray-400" />
+                            <p className="text-xs font-semibold text-gray-300">
+                              {link.views}
+                            </p>
+                          </div>
                         </div>
-                        <div className="w-full bg-white/10 rounded-full h-1.5 mt-1">
+                        <div className="relative w-full bg-white/10 rounded-full h-2 overflow-hidden">
                           <div
-                            className={`${link.color} h-1.5 rounded-full`}
+                            className={`${link.color} h-2 rounded-full shadow-lg transition-all duration-500`}
                             style={{ width: `${(link.views / 428) * 100}%` }}
                           />
                         </div>
@@ -537,8 +541,8 @@ export default function DashboardPage() {
                   ))}
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         <Separator />
