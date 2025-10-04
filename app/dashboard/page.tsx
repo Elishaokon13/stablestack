@@ -80,6 +80,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        
+
         {/* User Info Card */}
         <Card className="mb-8 backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
           <CardHeader>
