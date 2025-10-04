@@ -62,7 +62,7 @@ export default function DashboardPage() {
             Welcome back, {user.firstName || user.username}!
           </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Earnings Card */}
           <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
             <div className="text-3xl font-bold">$4,250.00</div>
@@ -78,9 +78,11 @@ export default function DashboardPage() {
             <div className="text-3xl font-bold">37</div>
             <div className="text-muted-foreground text-sm">Total orders</div>
           </div>
+          <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
+            <div className="text-3xl font-bold">37</div>
+            <div className="text-muted-foreground text-sm">Total orders</div>
+          </div>
         </div>
-
-        
 
         {/* User Info Card */}
         <Card className="mb-8 backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
