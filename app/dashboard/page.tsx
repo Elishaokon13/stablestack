@@ -660,66 +660,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl hover:bg-white/15 transition-all duration-200 cursor-pointer">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg flex items-center justify-center">
-                  <Wallet className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">Wallet</h3>
-                  <p className="text-purple-200 text-sm">
-                    Manage your crypto wallet
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl hover:bg-white/15 transition-all duration-200 cursor-pointer">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-                  <CreditCard className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">Payments</h3>
-                  <p className="text-purple-200 text-sm">Process payments</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl hover:bg-white/15 transition-all duration-200 cursor-pointer">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-lg flex items-center justify-center">
-                  <BarChart3 className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">Analytics</h3>
-                  <p className="text-purple-200 text-sm">View your stats</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl hover:bg-white/15 transition-all duration-200 cursor-pointer">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg flex items-center justify-center">
-                  <Settings className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">Settings</h3>
-                  <p className="text-purple-200 text-sm">Account settings</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
 
       {/* Product Link Modal */}
