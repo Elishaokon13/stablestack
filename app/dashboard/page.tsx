@@ -66,7 +66,7 @@ export default function DashboardPage() {
           {/* Earnings Card */}
           <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
             <div className="text-3xl font-bold">$4,250.00</div>
-            <div className="text-muted-foreground text-sm">This month</div>
+            <div className="text-muted-foreground text-sm">Earnings</div>
           </div>
           {/* Products Card */}
           <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
