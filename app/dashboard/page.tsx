@@ -18,7 +18,7 @@ import {
   Package,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Divider } from "@/components/ui/divider";
+import { Separator } from "@/components/ui/separator";
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
@@ -84,9 +84,8 @@ export default function DashboardPage() {
             <div className="text-muted-foreground text-sm">Total customers</div>
           </div>
         </div>
-
-        <Divider />
-
+        
+        <Separator />
         {/* User Info Card */}
         <Card className="mb-8 backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
           <CardHeader>
