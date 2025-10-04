@@ -64,7 +64,9 @@ export default function DashboardPage() {
           <h1 className="text-xl font-bold text-white">
             Welcome back, {user.firstName || user.username}!
           </h1>
-          <Button  className="border-white/20 text-white !hover:bg-blue-600">Create Product Link</Button>
+          <Button className="border-white/20 text-white !hover:bg-blue-600">
+            Create Product Link
+          </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Earnings Card */}
