@@ -598,68 +598,6 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-
-        <Separator />
-
-        {/* User Info Card */}
-        <Card className="mb-8 backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
-          <CardHeader>
-            <CardTitle className="text-white flex items-center gap-3">
-              <User className="w-6 h-6" />
-              Account Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-purple-400" />
-                  <div>
-                    <p className="text-white font-medium">Email</p>
-                    <p className="text-purple-200 text-sm">
-                      {user.primaryEmailAddress?.emailAddress}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-purple-400" />
-                  <div>
-                    <p className="text-white font-medium">Member Since</p>
-                    <p className="text-purple-200 text-sm">
-                      {user.createdAt
-                        ? new Date(user.createdAt).toLocaleDateString()
-                        : "N/A"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Shield className="w-5 h-5 text-green-400" />
-                  <div>
-                    <p className="text-white font-medium">Account Status</p>
-                    <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-                      Verified
-                    </Badge>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <User className="w-5 h-5 text-purple-400" />
-                  <div>
-                    <p className="text-white font-medium">Username</p>
-                    <p className="text-purple-200 text-sm">
-                      {user.username || "Not set"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
       </div>
 
       {/* Product Link Modal */}
