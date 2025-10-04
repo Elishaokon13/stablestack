@@ -38,3 +38,6 @@ next-env.d.ts
 
 # Auto-commit configuration (optional - uncomment if you want to keep config private)
 # .autocommitrc.json
+
+# clerk configuration (can include secrets)
+/.clerk/

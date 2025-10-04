@@ -5,11 +5,31 @@ export interface IPayment extends Document {
   sellerId: string; // User address
   buyerId: string; // User address
   amountUSDC: string; // BigInt as string for precision
+  amountUSD?: number; // USD amount for Stripe
+  stripePaymentIntentId?: string; // Stripe payment intent ID
+  stripeMetadata?: Record<string, string>; // Stripe metadata
   transactionHash?: string;
+  blockradarTransactionId?: string; // Blockradar transaction ID
+  payoutStatus?: 'initiated' | 'completed' | 'failed' | 'retrying'; // Payout status
+  payoutInitiatedAt?: Date;
+  payoutCompletedAt?: Date;
+  payoutFailedAt?: Date;
+  payoutRetriedAt?: Date;
+  payoutRetryCount?: number;
+  payoutRetryReason?: string;
+  payoutFailureReason?: string;
+  payoutTransactionHash?: string;
+  refundStatus?: 'initiated' | 'completed' | 'failed';
+  refundId?: string;
+  refundAmount?: number;
+  refundReason?: string;
+  refundMetadata?: Record<string, string>;
+  refundedAt?: Date;
   status: 'pending' | 'completed' | 'failed' | 'cancelled';
   paymentLink: string;
   buyerEmail?: string;
   buyerName?: string;
+  failureReason?: string;
   createdAt: Date;
   updatedAt: Date;
   completedAt?: Date;
@@ -37,11 +57,82 @@ const PaymentSchema = new Schema<IPayment>({
     type: String,
     required: true,
   },
+  amountUSD: {
+    type: Number,
+    min: 0,
+  },
+  stripePaymentIntentId: {
+    type: String,
+    unique: true,
+    sparse: true,
+    index: true,
+  },
+  stripeMetadata: {
+    type: Map,
+    of: String,
+  },
   transactionHash: {
     type: String,
     unique: true,
     sparse: true,
     index: true,
+  },
+  blockradarTransactionId: {
+    type: String,
+    unique: true,
+    sparse: true,
+    index: true,
+  },
+  payoutStatus: {
+    type: String,
+    enum: ['initiated', 'completed', 'failed', 'retrying'],
+    index: true,
+  },
+  payoutInitiatedAt: {
+    type: Date,
+  },
+  payoutCompletedAt: {
+    type: Date,
+  },
+  payoutFailedAt: {
+    type: Date,
+  },
+  payoutRetriedAt: {
+    type: Date,
+  },
+  payoutRetryCount: {
+    type: Number,
+    default: 0,
+  },
+  payoutRetryReason: {
+    type: String,
+  },
+  payoutFailureReason: {
+    type: String,
+  },
+  payoutTransactionHash: {
+    type: String,
+  },
+  refundStatus: {
+    type: String,
+    enum: ['initiated', 'completed', 'failed'],
+  },
+  refundId: {
+    type: String,
+  },
+  refundAmount: {
+    type: Number,
+    min: 0,
+  },
+  refundReason: {
+    type: String,
+  },
+  refundMetadata: {
+    type: Map,
+    of: String,
+  },
+  refundedAt: {
+    type: Date,
   },
   status: {
     type: String,
@@ -61,6 +152,9 @@ const PaymentSchema = new Schema<IPayment>({
   buyerName: {
     type: String,
     trim: true,
+  },
+  failureReason: {
+    type: String,
   },
   completedAt: {
     type: Date,

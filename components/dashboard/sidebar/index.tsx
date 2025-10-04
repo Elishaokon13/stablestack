@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -21,37 +22,36 @@ import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import { useIsV0 } from "@/lib/v0-context";
 
-const data = {
-  navMain: [
-    {
-      title: "Payment System",
-      items: [
-        {
-          title: "Dashboard",
-          url: "/dashboard",
-          icon: BarChart3,
-          isActive: true,
-        },
-        {
-          title: "Products",
-          url: "/products",
-          icon: Package,
-          isActive: false,
-        },
-        {
-          title: "Payments",
-          url: "/payments",
-          icon: CreditCard,
-          isActive: false,
-        },
-        {
-          title: "Analytics",
-          url: "/analytics",
-          icon: BarChart3,
-          isActive: false,
-        },
-      ],
-    },
+const getNavItems = (pathname: string) => [
+  {
+    title: "Payment System",
+    items: [
+      {
+        title: "Dashboard",
+        url: "/dashboard",
+        icon: BarChart3,
+        isActive: pathname === "/dashboard",
+      },
+      {
+        title: "Products",
+        url: "/products",
+        icon: Package,
+        isActive: pathname === "/products",
+      },
+      {
+        title: "Payments",
+        url: "/payments",
+        icon: CreditCard,
+        isActive: pathname === "/payments",
+      },
+      {
+        title: "Analytics",
+        url: "/analytics",
+        icon: BarChart3,
+        isActive: pathname === "/analytics",
+      },
+    ],
+  },
     // {
     //   title: "Development",
     //   items: [
@@ -69,14 +69,15 @@ const data = {
     //     },
     //   ],
     // },
-  ],
-};
+  ];
 
 export function DashboardSidebar({
   className,
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const isV0 = useIsV0();
+  const pathname = usePathname();
+  const navMain = getNavItems(pathname);
 
   return (
     <Sidebar {...props} className={cn("py-sides h-screen", className)}>
@@ -91,7 +92,7 @@ export function DashboardSidebar({
       </SidebarHeader>
 
       <SidebarContent>
-        {data.navMain.map((group, i) => (
+        {navMain.map((group, i) => (
           <SidebarGroup
             className={cn(i === 0 && "rounded-t-none")}
             key={group.title}

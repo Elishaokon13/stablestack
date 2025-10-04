@@ -23,6 +23,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import dynamic from "next/dynamic";
+import { ProductLinkModal } from "@/components/payment/product-link-modal";
 
 // Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -30,6 +31,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
+  const [isProductLinkModalOpen, setIsProductLinkModalOpen] = useState(false);
 
   if (!isLoaded) {
     return (
@@ -64,7 +66,10 @@ export default function DashboardPage() {
           <h1 className="text-xl font-bold text-white">
             Welcome back, {user.firstName || user.username}!
           </h1>
-          <Button className="border-white/20 text-white !hover:bg-blue-600">
+          <Button 
+            className="border-white/20 text-white !hover:bg-blue-600"
+            onClick={() => setIsProductLinkModalOpen(true)}
+          >
             Create Product Link
           </Button>
         </div>
@@ -700,6 +705,17 @@ export default function DashboardPage() {
           </Card>
         </div>
       </div>
+
+      {/* Product Link Modal */}
+      <ProductLinkModal
+        isOpen={isProductLinkModalOpen}
+        onClose={() => setIsProductLinkModalOpen(false)}
+        onSuccess={(product: any) => {
+          console.log('Product created:', product);
+          setIsProductLinkModalOpen(false);
+          // Optionally refresh the page or show a success message
+        }}
+      />
     </>
   );
 }

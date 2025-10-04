@@ -2,9 +2,17 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IUser extends Document {
   walletAddress: string;
+  clerkId?: string;
   email?: string;
+  firstName?: string;
+  lastName?: string;
   username?: string;
+  bio?: string;
+  avatar?: string;
+  blockradarWalletId?: string;
   isOnboardingComplete: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,8 +34,14 @@ const UserSchema: Schema<IUser> = new Schema(
       trim: true,
       index: true,
     },
+    clerkId: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+    },
     // Legacy field for backward compatibility - removed unique constraint to avoid conflicts
-    address: {
+    walletAddress: {
       type: String,
       lowercase: true,
       trim: true,
@@ -40,7 +54,30 @@ const UserSchema: Schema<IUser> = new Schema(
       lowercase: true,
       trim: true,
     },
+    firstName: {
+      type: String,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+    },
     username: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+    },
+    bio: {
+      type: String,
+      maxlength: 500,
+      trim: true,
+    },
+    avatar: {
+      type: String,
+      trim: true,
+    },
+    blockradarWalletId: {
       type: String,
       unique: true,
       sparse: true,
@@ -49,6 +86,13 @@ const UserSchema: Schema<IUser> = new Schema(
     isOnboardingComplete: {
       type: Boolean,
       default: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
+      type: Date,
     },
   },
   { timestamps: true }

@@ -1,16 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPaymentLink } from '@/lib/payment-links-store';
+import connectDB from '@/lib/database';
+import { PaymentLink } from '@/lib/models/PaymentLink';
 
-// GET /api/payment-links/[slug] - Get payment link details
-export async function GET(
+// PUT /api/payment-links/[slug] - Update payment link
+export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = await params;
+    await connectDB();
     
-    // Get payment link from database
-    const paymentLink = await getPaymentLink(slug);
+    const { slug } = await params;
+    const body = await request.json();
+    
+    if (!slug) {
+      return NextResponse.json(
+        { error: 'Payment link slug is required' },
+        { status: 400 }
+      );
+    }
+    
+    const paymentLink = await PaymentLink.findOneAndUpdate(
+      { slug },
+      {
+        ...body,
+        updatedAt: new Date(),
+      },
+      { new: true }
+    );
     
     if (!paymentLink) {
       return NextResponse.json(
@@ -18,30 +35,67 @@ export async function GET(
         { status: 404 }
       );
     }
-
-    // Convert to product format for compatibility
-    const product = {
-      id: paymentLink.id,
-      sellerId: paymentLink.sellerId,
-      name: paymentLink.name,
-      description: paymentLink.description,
-      priceUSD: paymentLink.amount || 0,
-      priceUSDC: paymentLink.amount ? (paymentLink.amount * 1e6).toString() : '0',
-      paymentLink: paymentLink.slug,
-      isActive: paymentLink.status === 'active',
-      imageUrl: undefined,
-      category: paymentLink.type === 'product' ? 'Product' : 'General',
-      createdAt: paymentLink.createdAt,
-      updatedAt: paymentLink.createdAt,
-    };
-
+    
     return NextResponse.json({
       success: true,
-      product
+      paymentLink: {
+        id: paymentLink._id,
+        slug: paymentLink.slug,
+        type: paymentLink.type,
+        name: paymentLink.name,
+        description: paymentLink.description,
+        amount: paymentLink.amount,
+        currency: paymentLink.currency,
+        url: paymentLink.url,
+        status: paymentLink.status,
+        sellerId: paymentLink.sellerId,
+        createdAt: paymentLink.createdAt,
+        updatedAt: paymentLink.updatedAt,
+      }
     });
-
+    
   } catch (error) {
-    console.error('Error fetching payment link:', error);
+    console.error('Error updating payment link:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/payment-links/[slug] - Delete payment link
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  try {
+    await connectDB();
+    
+    const { slug } = await params;
+    
+    if (!slug) {
+      return NextResponse.json(
+        { error: 'Payment link slug is required' },
+        { status: 400 }
+      );
+    }
+    
+    const paymentLink = await PaymentLink.findOneAndDelete({ slug });
+    
+    if (!paymentLink) {
+      return NextResponse.json(
+        { error: 'Payment link not found' },
+        { status: 404 }
+      );
+    }
+    
+    return NextResponse.json({
+      success: true,
+      message: 'Payment link deleted successfully',
+    });
+    
+  } catch (error) {
+    console.error('Error deleting payment link:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

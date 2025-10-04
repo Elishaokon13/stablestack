@@ -161,6 +161,37 @@ export function verifyWebhookSignature(payload: string, signature: string) {
   }
 }
 
+// Create refund
+export async function createRefund(refundInfo: {
+  paymentIntentId: string;
+  amount?: number;
+  reason?: 'duplicate' | 'fraudulent' | 'requested_by_customer';
+  metadata?: Record<string, string>;
+}) {
+  try {
+    const stripeServer = getStripeServer();
+    
+    const refund = await stripeServer.refunds.create({
+      payment_intent: refundInfo.paymentIntentId,
+      amount: refundInfo.amount,
+      reason: refundInfo.reason,
+      metadata: refundInfo.metadata,
+    });
+
+    return {
+      success: true,
+      refundId: refund.id,
+      refund: refund,
+    };
+  } catch (error) {
+    console.error('Error creating refund:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+}
+
 // Get balance
 export async function getBalance() {
   try {

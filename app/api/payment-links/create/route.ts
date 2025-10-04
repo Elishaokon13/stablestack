@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createPaymentIntent } from '@/lib/stripe';
 import { storePaymentLink } from '@/lib/payment-links-store';
-import { PaymentLinkData } from '@/lib/models/PaymentLink';
+import { IPaymentLink } from '@/lib/models/PaymentLink';
 
 export async function POST(request: NextRequest) {
   try {
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     const paymentUrl = `${baseUrl}/pay/${slug}`;
 
     // Store the payment link
-    const paymentLinkData: PaymentLinkData = {
+    const paymentLinkData: any = {
       id: slug,
       slug: slug,
       type,

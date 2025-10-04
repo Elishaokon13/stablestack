@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IPaymentLink extends Document {
   id: string;
@@ -17,114 +17,94 @@ export interface IPaymentLink extends Document {
   updatedAt: Date;
 }
 
-export interface PaymentLinkData {
-  id: string;
-  slug: string;
-  type: 'product' | 'general';
-  name: string;
-  description?: string;
-  amount?: number;
-  currency: string;
-  url: string;
-  paymentIntentId?: string;
-  clientSecret?: string | null;
-  status: 'active' | 'inactive';
-  sellerId: string;
-}
-
-interface PaymentLinkModel extends mongoose.Model<IPaymentLink> {
+interface PaymentLinkModel extends Model<IPaymentLink> {
   findBySlug(slug: string): Promise<IPaymentLink | null>;
   findBySeller(sellerId: string): Promise<IPaymentLink[]>;
   updateStatus(slug: string, status: 'active' | 'inactive'): Promise<IPaymentLink | null>;
 }
 
-const PaymentLinkSchema = new Schema<IPaymentLink>({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-    index: true,
+const PaymentLinkSchema: Schema<IPaymentLink> = new Schema(
+  {
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      index: true,
+    },
+    type: {
+      type: String,
+      required: true,
+      enum: ['product', 'general'],
+    },
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    description: {
+      type: String,
+      trim: true,
+    },
+    amount: {
+      type: Number,
+      min: 0,
+    },
+    currency: {
+      type: String,
+      required: true,
+      default: 'usd',
+      trim: true,
+    },
+    url: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    paymentIntentId: {
+      type: String,
+      trim: true,
+    },
+    clientSecret: {
+      type: String,
+      trim: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['active', 'inactive'],
+      default: 'active',
+    },
+    sellerId: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+    },
   },
-  slug: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    index: true,
-  },
-  type: {
-    type: String,
-    enum: ['product', 'general'],
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  description: {
-    type: String,
-    trim: true,
-  },
-  amount: {
-    type: Number,
-    min: 0,
-  },
-  currency: {
-    type: String,
-    default: 'usd',
-    lowercase: true,
-  },
-  url: {
-    type: String,
-    required: true,
-  },
-  paymentIntentId: {
-    type: String,
-  },
-  clientSecret: {
-    type: String,
-  },
-  status: {
-    type: String,
-    enum: ['active', 'inactive'],
-    default: 'active',
-    index: true,
-  },
-  sellerId: {
-    type: String,
-    required: true,
-    lowercase: true,
-    index: true,
-  },
-}, {
-  timestamps: true,
-});
+  { timestamps: true }
+);
 
-// Static methods
-PaymentLinkSchema.statics.findBySlug = async function(slug: string): Promise<IPaymentLink | null> {
-  return await this.findOne({ slug: slug.toLowerCase() });
+PaymentLinkSchema.statics.findBySlug = async function (slug: string) {
+  return this.findOne({ slug, status: 'active' });
 };
 
-PaymentLinkSchema.statics.findBySeller = async function(sellerId: string): Promise<IPaymentLink[]> {
-  return await this.find({ 
-    sellerId: sellerId.toLowerCase() 
-  }).sort({ createdAt: -1 });
+PaymentLinkSchema.statics.findBySeller = async function (sellerId: string) {
+  return this.find({ sellerId }).sort({ createdAt: -1 });
 };
 
-PaymentLinkSchema.statics.updateStatus = async function(
-  slug: string, 
-  status: 'active' | 'inactive'
-): Promise<IPaymentLink | null> {
-  return await this.findOneAndUpdate(
-    { slug: slug.toLowerCase() },
-    { status },
+PaymentLinkSchema.statics.updateStatus = async function (slug: string, status: 'active' | 'inactive') {
+  return this.findOneAndUpdate(
+    { slug },
+    { $set: { status, updatedAt: new Date() } },
     { new: true }
   );
 };
 
-// Create the model
-const PaymentLink = mongoose.models.PaymentLink as PaymentLinkModel || 
-  mongoose.model<IPaymentLink, PaymentLinkModel>('PaymentLink', PaymentLinkSchema);
-
-export default PaymentLink;
+export const PaymentLink = (mongoose.models.PaymentLink || mongoose.model<IPaymentLink, PaymentLinkModel>('PaymentLink', PaymentLinkSchema)) as PaymentLinkModel;

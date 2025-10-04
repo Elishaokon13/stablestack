@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { AppKitButtonFull } from "./AppKitButton";
 import { motion } from "framer-motion";
 import { Wallet } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function WalletAuth() {
   return (
@@ -21,21 +21,31 @@ export function WalletAuth() {
           <Wallet className="w-8 h-8" style={{ color: "#ff5941" }} />
         </div>
         <h3 className="text-xl font-semibold mb-2" style={{ color: "#1a1a1a" }}>
-          Connect Your Wallet
+          Wallet Integration Coming Soon
         </h3>
         <p
           className="text-sm leading-relaxed mb-6"
           style={{ color: "#6b7280" }}
         >
-          Connect your wallet to access the Stablestack payment system
+          Wallet functionality is currently being updated. Please use email authentication for now.
         </p>
       </div>
 
-      <AppKitButtonFull />
+      <Button
+        disabled
+        className="w-full"
+        style={{ 
+          background: 'linear-gradient(to bottom, #ff6d41, #ff5420)',
+          opacity: 0.6
+        }}
+      >
+        <Wallet className="w-4 h-4 mr-2" />
+        Wallet Connection Disabled
+      </Button>
 
       <div className="text-center">
         <p className="text-xs" style={{ color: "#9ca3af" }}>
-          Powered by Reown • Secure • Global
+          Powered by Clerk • Secure • Global
         </p>
       </div>
     </motion.div>

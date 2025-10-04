@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
+import { useUser } from "@clerk/nextjs"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -16,9 +17,11 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
+  const { user } = useUser()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [createdProduct, setCreatedProduct] = useState<any>(null)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -38,7 +41,11 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-  
+    
+    if (!user?.id) {
+      setError('You must be logged in to create a product')
+      return
+    }
 
     setIsLoading(true)
     setError(null)
@@ -50,7 +57,7 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          sellerId: "",
+          sellerId: user.id,
           name: formData.name,
           description: formData.description,
           priceUSD: parseFloat(formData.priceUSD),
@@ -65,6 +72,7 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
         throw new Error(result.error || 'Failed to create product')
       }
 
+      setCreatedProduct(result.product)
       setSuccess(true)
       setFormData({
         name: "",
@@ -108,9 +116,34 @@ export function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
             <h3 className="text-xl font-semibold mb-2 text-green-600 dark:text-green-400">
               Product Created Successfully!
             </h3>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground mb-4">
               Your product is now live and ready to accept payments
             </p>
+            
+            {createdProduct && (
+              <div className="bg-muted/50 rounded-lg p-4 mb-4">
+                <h4 className="font-semibold mb-2">Payment Link:</h4>
+                <div className="flex items-center gap-2">
+                  <code className="flex-1 bg-background px-3 py-2 rounded border text-sm font-mono break-all">
+                    {typeof window !== 'undefined' ? window.location.origin : 'https://yourdomain.com'}/pay/{createdProduct.paymentLink}
+                  </code>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      const link = `${window.location.origin}/pay/${createdProduct.paymentLink}`
+                      navigator.clipboard.writeText(link)
+                    }}
+                    className="shrink-0"
+                  >
+                    Copy
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Share this link with customers to accept USDC payments
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </motion.div>

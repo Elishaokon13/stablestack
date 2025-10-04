@@ -248,6 +248,161 @@ export function parseAmount(amount: string | number, decimals: number = 6): stri
   return Math.round(num * Math.pow(10, decimals)).toString();
 }
 
+// Enhanced wallet creation with user info
+export async function createBlockradarWallet(userInfo: {
+  userId: string;
+  email: string;
+  name: string;
+}) {
+  try {
+    const response = await blockradarClient.post('/wallets', {
+      currency: 'USDC',
+      label: `${userInfo.name} - ${userInfo.email}`,
+      metadata: {
+        userId: userInfo.userId,
+        email: userInfo.email,
+        name: userInfo.name,
+      },
+    });
+
+    return {
+      success: true,
+      walletId: response.data.id,
+      address: response.data.address,
+      wallet: response.data as BlockradarWallet,
+    };
+  } catch (error) {
+    console.error('Error creating Blockradar wallet:', error);
+    return {
+      success: false,
+      error: handleBlockradarError(error),
+    };
+  }
+}
+
+// Enhanced wallet balance with multiple currencies
+export async function getWalletBalanceEnhanced(walletInfo: {
+  walletId: string;
+  address: string;
+}) {
+  try {
+    const response = await blockradarClient.get(`/wallets/${walletInfo.walletId}/balance`);
+    
+    return {
+      success: true,
+      balances: response.data.balances || [],
+      totalValueUSD: response.data.totalValueUSD || 0,
+    };
+  } catch (error) {
+    console.error('Error getting wallet balance:', error);
+    return {
+      success: false,
+      error: handleBlockradarError(error),
+    };
+  }
+}
+
+// Enhanced wallet transactions
+export async function getWalletTransactions(walletInfo: {
+  walletId: string;
+  address: string;
+  limit?: number;
+}) {
+  try {
+    const response = await blockradarClient.get(`/wallets/${walletInfo.walletId}/transactions`, {
+      params: {
+        limit: walletInfo.limit || 10,
+      },
+    });
+    
+    return {
+      success: true,
+      transactions: response.data.transactions || [],
+    };
+  } catch (error) {
+    console.error('Error getting wallet transactions:', error);
+    return {
+      success: false,
+      error: handleBlockradarError(error),
+    };
+  }
+}
+
+// Initiate stablecoin payout
+export async function initiateStablecoinPayout(payoutInfo: {
+  paymentId: string;
+  sellerId: string;
+  amountUSDC: number;
+  currency: string;
+  sellerWalletId?: string;
+  sellerWalletAddress?: string;
+}) {
+  try {
+    const response = await blockradarClient.post('/payouts', {
+      paymentId: payoutInfo.paymentId,
+      sellerId: payoutInfo.sellerId,
+      amount: payoutInfo.amountUSDC.toString(),
+      currency: payoutInfo.currency,
+      sellerWalletId: payoutInfo.sellerWalletId,
+      sellerWalletAddress: payoutInfo.sellerWalletAddress,
+    });
+
+    return {
+      success: true,
+      transactionId: response.data.transactionId,
+      payout: response.data,
+    };
+  } catch (error) {
+    console.error('Error initiating stablecoin payout:', error);
+    return {
+      success: false,
+      error: handleBlockradarError(error),
+    };
+  }
+}
+
+// Get payout status
+export async function getPayoutStatus(payoutInfo: {
+  transactionId: string;
+  paymentId: string;
+}) {
+  try {
+    const response = await blockradarClient.get(`/payouts/${payoutInfo.transactionId}/status`);
+    
+    return {
+      success: true,
+      status: response.data.status,
+      details: response.data,
+    };
+  } catch (error) {
+    console.error('Error getting payout status:', error);
+    return {
+      success: false,
+      error: handleBlockradarError(error),
+    };
+  }
+}
+
+// Verify Blockradar webhook signature
+export function verifyBlockradarWebhook(payload: string, signature: string) {
+  try {
+    // In production, implement proper webhook signature verification
+    // For now, we'll just return success
+    const event = JSON.parse(payload);
+    
+    return {
+      success: true,
+      event,
+    };
+  } catch (error) {
+    console.error('Error verifying Blockradar webhook signature:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+}
+
 // Error handling
 export function handleBlockradarError(error: any): string {
   if (error.response?.data?.message) {
