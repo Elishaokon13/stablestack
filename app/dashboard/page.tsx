@@ -325,16 +325,22 @@ export default function DashboardPage() {
                 ].map((transaction, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
+                    className={`group flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer ${
+                      transaction.status === "completed"
+                        ? "bg-gradient-to-r from-green-500/10 to-green-600/5 border-green-500/20 hover:border-green-500/40"
+                        : transaction.status === "pending"
+                        ? "bg-gradient-to-r from-yellow-500/10 to-yellow-600/5 border-yellow-500/20 hover:border-yellow-500/40"
+                        : "bg-gradient-to-r from-red-500/10 to-red-600/5 border-red-500/20 hover:border-red-500/40"
+                    } hover:shadow-lg hover:scale-[1.02]`}
                   >
-                    <div className="flex items-center gap-3 flex-1">
+                    <div className="flex items-center gap-4 flex-1">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${
                           transaction.status === "completed"
-                            ? "bg-green-500/20 text-green-400"
+                            ? "bg-green-500/20 text-green-400 group-hover:bg-green-500/30"
                             : transaction.status === "pending"
-                            ? "bg-yellow-500/20 text-yellow-400"
-                            : "bg-red-500/20 text-red-400"
+                            ? "bg-yellow-500/20 text-yellow-400 group-hover:bg-yellow-500/30"
+                            : "bg-red-500/20 text-red-400 group-hover:bg-red-500/30"
                         }`}
                       >
                         {transaction.status === "completed" ? (
@@ -346,35 +352,34 @@ export default function DashboardPage() {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <p className="text-white font-medium text-sm truncate">
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="text-white font-semibold text-sm truncate">
                             {transaction.customer}
                           </p>
                           <Badge
-                            className={`text-xs ${
+                            className={`text-xs font-medium ${
                               transaction.status === "completed"
-                                ? "bg-green-500/20 text-green-400 border-green-500/30"
+                                ? "bg-green-500/30 text-green-300 border-green-500/40"
                                 : transaction.status === "pending"
-                                ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
-                                : "bg-red-500/20 text-red-400 border-red-500/30"
+                                ? "bg-yellow-500/30 text-yellow-300 border-yellow-500/40"
+                                : "bg-red-500/30 text-red-300 border-red-500/40"
                             }`}
                           >
                             {transaction.status}
                           </Badge>
                         </div>
-                        <p className="text-gray-400 text-xs mt-0.5">
+                        <p className="text-gray-300 text-xs font-medium mb-0.5">
                           {transaction.product}
                         </p>
                         <p className="text-gray-500 text-xs">
-                          {transaction.date}
+                          {transaction.date} • {transaction.id}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-white font-bold">
+                      <p className="text-white font-bold text-lg">
                         ${transaction.amount.toFixed(2)}
                       </p>
-                      <p className="text-gray-500 text-xs">{transaction.id}</p>
                     </div>
                   </div>
                 ))}
