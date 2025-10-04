@@ -247,6 +247,255 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        <Separator />
+
+        {/* Latest Transactions and Product Analytics */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Latest Transactions */}
+          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <CreditCard className="w-5 h-5" />
+                  Latest Transactions
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-blue-400 hover:text-blue-300"
+                  onClick={() => router.push("/payments")}
+                >
+                  View All
+                </Button>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {[
+                  {
+                    id: "TXN-001",
+                    customer: "John Doe",
+                    amount: 129.99,
+                    status: "completed",
+                    date: "2 hours ago",
+                    product: "Premium Plan",
+                  },
+                  {
+                    id: "TXN-002",
+                    customer: "Jane Smith",
+                    amount: 49.99,
+                    status: "completed",
+                    date: "5 hours ago",
+                    product: "Basic Plan",
+                  },
+                  {
+                    id: "TXN-003",
+                    customer: "Mike Johnson",
+                    amount: 199.99,
+                    status: "pending",
+                    date: "8 hours ago",
+                    product: "Enterprise Plan",
+                  },
+                  {
+                    id: "TXN-004",
+                    customer: "Sarah Williams",
+                    amount: 79.99,
+                    status: "completed",
+                    date: "1 day ago",
+                    product: "Pro Plan",
+                  },
+                  {
+                    id: "TXN-005",
+                    customer: "Tom Brown",
+                    amount: 29.99,
+                    status: "failed",
+                    date: "2 days ago",
+                    product: "Starter Plan",
+                  },
+                ].map((transaction, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3 flex-1">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          transaction.status === "completed"
+                            ? "bg-green-500/20 text-green-400"
+                            : transaction.status === "pending"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : "bg-red-500/20 text-red-400"
+                        }`}
+                      >
+                        {transaction.status === "completed" ? (
+                          <ArrowUpRight className="w-5 h-5" />
+                        ) : transaction.status === "pending" ? (
+                          <Package className="w-5 h-5" />
+                        ) : (
+                          <ArrowDownRight className="w-5 h-5" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className="text-white font-medium text-sm truncate">
+                            {transaction.customer}
+                          </p>
+                          <Badge
+                            className={`text-xs ${
+                              transaction.status === "completed"
+                                ? "bg-green-500/20 text-green-400 border-green-500/30"
+                                : transaction.status === "pending"
+                                ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+                                : "bg-red-500/20 text-red-400 border-red-500/30"
+                            }`}
+                          >
+                            {transaction.status}
+                          </Badge>
+                        </div>
+                        <p className="text-gray-400 text-xs mt-0.5">
+                          {transaction.product}
+                        </p>
+                        <p className="text-gray-500 text-xs">{transaction.date}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-bold">
+                        ${transaction.amount.toFixed(2)}
+                      </p>
+                      <p className="text-gray-500 text-xs">{transaction.id}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Product Link Analytics Pie Chart */}
+          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-3">
+                <BarChart3 className="w-5 h-5" />
+                Product Link Analytics
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {/* Pie Chart */}
+                <div className="flex items-center justify-center">
+                  <Chart
+                    options={{
+                      chart: {
+                        type: "donut",
+                        background: "transparent",
+                      },
+                      labels: ["Premium Plan", "Basic Plan", "Enterprise Plan", "Pro Plan", "Starter Plan"],
+                      colors: ["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ef4444"],
+                      legend: {
+                        position: "bottom",
+                        labels: {
+                          colors: "#ffffff",
+                        },
+                      },
+                      plotOptions: {
+                        pie: {
+                          donut: {
+                            size: "70%",
+                            labels: {
+                              show: true,
+                              name: {
+                                show: true,
+                                color: "#ffffff",
+                              },
+                              value: {
+                                show: true,
+                                color: "#ffffff",
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                              },
+                              total: {
+                                show: true,
+                                label: "Total Views",
+                                color: "#ffffff",
+                                formatter: function (w: any) {
+                                  return w.globals.seriesTotals
+                                    .reduce((a: number, b: number) => a + b, 0)
+                                    .toString();
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                      dataLabels: {
+                        enabled: false,
+                      },
+                      tooltip: {
+                        theme: "dark",
+                        y: {
+                          formatter: function (val: number) {
+                            return val + " views";
+                          },
+                        },
+                      },
+                    }}
+                    series={[342, 218, 156, 428, 189]}
+                    type="donut"
+                    height={300}
+                  />
+                </div>
+
+                {/* Stats Below Chart */}
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Eye className="w-4 h-4 text-blue-400" />
+                      <p className="text-xs text-gray-400">Total Views</p>
+                    </div>
+                    <p className="text-2xl font-bold text-white">1,333</p>
+                    <p className="text-xs text-green-400 mt-1">+12% from last week</p>
+                  </div>
+                  <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Package className="w-4 h-4 text-purple-400" />
+                      <p className="text-xs text-gray-400">Active Links</p>
+                    </div>
+                    <p className="text-2xl font-bold text-white">5</p>
+                    <p className="text-xs text-blue-400 mt-1">All products</p>
+                  </div>
+                </div>
+
+                {/* Link Performance */}
+                <div className="space-y-2 mt-4">
+                  <p className="text-sm font-medium text-white mb-3">Top Performing Links</p>
+                  {[
+                    { name: "Pro Plan", views: 428, color: "bg-amber-500" },
+                    { name: "Premium Plan", views: 342, color: "bg-blue-500" },
+                    { name: "Basic Plan", views: 218, color: "bg-green-500" },
+                  ].map((link, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <div className={`w-2 h-2 rounded-full ${link.color}`} />
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center">
+                          <p className="text-sm text-white">{link.name}</p>
+                          <p className="text-xs text-gray-400">{link.views} views</p>
+                        </div>
+                        <div className="w-full bg-white/10 rounded-full h-1.5 mt-1">
+                          <div
+                            className={`${link.color} h-1.5 rounded-full`}
+                            style={{ width: `${(link.views / 428) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+        
         {/* User Info Card */}
         <Card className="mb-8 backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
           <CardHeader>
