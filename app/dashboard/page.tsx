@@ -355,7 +355,9 @@ export default function DashboardPage() {
                         <p className="text-gray-400 text-xs mt-0.5">
                           {transaction.product}
                         </p>
-                        <p className="text-gray-500 text-xs">{transaction.date}</p>
+                        <p className="text-gray-500 text-xs">
+                          {transaction.date}
+                        </p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -388,8 +390,20 @@ export default function DashboardPage() {
                         type: "donut",
                         background: "transparent",
                       },
-                      labels: ["Premium Plan", "Basic Plan", "Enterprise Plan", "Pro Plan", "Starter Plan"],
-                      colors: ["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ef4444"],
+                      labels: [
+                        "Premium Plan",
+                        "Basic Plan",
+                        "Enterprise Plan",
+                        "Pro Plan",
+                        "Starter Plan",
+                      ],
+                      colors: [
+                        "#3b82f6",
+                        "#10b981",
+                        "#8b5cf6",
+                        "#f59e0b",
+                        "#ef4444",
+                      ],
                       legend: {
                         position: "bottom",
                         labels: {
@@ -452,7 +466,9 @@ export default function DashboardPage() {
                       <p className="text-xs text-gray-400">Total Views</p>
                     </div>
                     <p className="text-2xl font-bold text-white">1,333</p>
-                    <p className="text-xs text-green-400 mt-1">+12% from last week</p>
+                    <p className="text-xs text-green-400 mt-1">
+                      +12% from last week
+                    </p>
                   </div>
                   <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                     <div className="flex items-center gap-2 mb-2">
@@ -466,7 +482,9 @@ export default function DashboardPage() {
 
                 {/* Link Performance */}
                 <div className="space-y-2 mt-4">
-                  <p className="text-sm font-medium text-white mb-3">Top Performing Links</p>
+                  <p className="text-sm font-medium text-white mb-3">
+                    Top Performing Links
+                  </p>
                   {[
                     { name: "Pro Plan", views: 428, color: "bg-amber-500" },
                     { name: "Premium Plan", views: 342, color: "bg-blue-500" },
@@ -477,7 +495,9 @@ export default function DashboardPage() {
                       <div className="flex-1">
                         <div className="flex justify-between items-center">
                           <p className="text-sm text-white">{link.name}</p>
-                          <p className="text-xs text-gray-400">{link.views} views</p>
+                          <p className="text-xs text-gray-400">
+                            {link.views} views
+                          </p>
                         </div>
                         <div className="w-full bg-white/10 rounded-full h-1.5 mt-1">
                           <div
@@ -495,7 +515,7 @@ export default function DashboardPage() {
         </div>
 
         <Separator />
-        
+
         {/* User Info Card */}
         <Card className="mb-8 backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
           <CardHeader>
