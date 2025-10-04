@@ -78,7 +78,7 @@ export default function DashboardPage() {
             <div className="text-3xl font-bold">37</div>
             <div className="text-muted-foreground text-sm">Total orders</div>
           </div>
-          <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center col-span-2">
+          <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
             <div className="text-3xl font-bold">37</div>
             <div className="text-muted-foreground text-sm">Total customers</div>
           </div>
