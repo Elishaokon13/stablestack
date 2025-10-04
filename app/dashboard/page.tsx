@@ -126,9 +126,9 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Heatmap grid */}
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   {/* Day labels */}
-                  <div className="flex flex-col justify-around text-xs text-muted-foreground pr-2">
+                  <div className="flex flex-col justify-around text-xs text-muted-foreground pr-3">
                     <div>Mon</div>
                     <div>Wed</div>
                     <div>Fri</div>
