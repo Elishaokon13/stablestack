@@ -340,17 +340,17 @@ export default function DashboardPage() {
                 ].map((transaction, index) => (
                   <div
                     key={index}
-                    className={`group flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer ${
+                    className={`group flex items-center justify-between p-3 sm:p-4 rounded-xl border transition-all cursor-pointer ${
                       transaction.status === "completed"
                         ? "bg-gradient-to-r from-green-500/10 to-green-600/5 border-green-500/20 hover:border-green-500/40"
                         : transaction.status === "pending"
                         ? "bg-gradient-to-r from-yellow-500/10 to-yellow-600/5 border-yellow-500/20 hover:border-yellow-500/40"
                         : "bg-gradient-to-r from-red-500/10 to-red-600/5 border-red-500/20 hover:border-red-500/40"
-                    } hover:shadow-lg hover:scale-[1.02]`}
+                    } hover:shadow-lg sm:hover:scale-[1.02]`}
                   >
-                    <div className="flex items-center gap-4 flex-1">
+                    <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
                       <div
-                        className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${
+                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 ${
                           transaction.status === "completed"
                             ? "bg-green-500/20 text-green-400 group-hover:bg-green-500/30"
                             : transaction.status === "pending"
@@ -359,20 +359,20 @@ export default function DashboardPage() {
                         }`}
                       >
                         {transaction.status === "completed" ? (
-                          <ArrowUpRight className="w-5 h-5" />
+                          <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
                         ) : transaction.status === "pending" ? (
-                          <Package className="w-5 h-5" />
+                          <Package className="w-4 h-4 sm:w-5 sm:h-5" />
                         ) : (
-                          <ArrowDownRight className="w-5 h-5" />
+                          <ArrowDownRight className="w-4 h-4 sm:w-5 sm:h-5" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className="text-white font-semibold text-sm truncate">
+                        <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
+                          <p className="text-white font-semibold text-xs sm:text-sm truncate">
                             {transaction.customer}
                           </p>
                           <Badge
-                            className={`text-xs font-medium ${
+                            className={`text-[10px] sm:text-xs font-medium flex-shrink-0 ${
                               transaction.status === "completed"
                                 ? "bg-green-500/30 text-green-300 border-green-500/40"
                                 : transaction.status === "pending"
@@ -383,16 +383,16 @@ export default function DashboardPage() {
                             {transaction.status}
                           </Badge>
                         </div>
-                        <p className="text-gray-300 text-xs font-medium mb-0.5">
+                        <p className="text-gray-300 text-[10px] sm:text-xs font-medium mb-0.5 truncate">
                           {transaction.product}
                         </p>
-                        <p className="text-gray-500 text-xs">
+                        <p className="text-gray-500 text-[10px] sm:text-xs truncate">
                           {transaction.date} • {transaction.id}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-white font-bold text-lg">
+                    <div className="text-right flex-shrink-0 ml-2">
+                      <p className="text-white font-bold text-sm sm:text-base md:text-lg whitespace-nowrap">
                         ${transaction.amount.toFixed(2)}
                       </p>
                     </div>
