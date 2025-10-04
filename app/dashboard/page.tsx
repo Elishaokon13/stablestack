@@ -96,7 +96,7 @@ export default function DashboardPage() {
             <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
                 {/* Month labels */}
-                <div className="flex mb-2 ml-12">
+                <div className="flex mb-3 ml-16">
                   {[
                     "Jan",
                     "Feb",
@@ -113,11 +113,11 @@ export default function DashboardPage() {
                   ].map((month, i) => (
                     <div
                       key={i}
-                      className="text-xs text-muted-foreground"
+                      className="text-xs text-muted-foreground font-medium"
                       style={{
                         width: "calc(100% / 12)",
                         textAlign: "left",
-                        paddingLeft: "8px",
+                        paddingLeft: "4px",
                       }}
                     >
                       {month}
