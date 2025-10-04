@@ -696,18 +696,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-
-        {/* Sign Out Button */}
-        <div className="text-center">
-          <Button
-            onClick={handleSignOut}
-            variant="outline"
-            className="border-white/20 text-white hover:bg-white/10"
-          >
-            <LogOut className="w-3.5 h-3.5 mr-2" />
-            Sign Out
-          </Button>
-        </div>
       </div>
     </>
   );
