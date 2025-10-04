@@ -88,7 +88,59 @@ export default function DashboardPage() {
         <Separator />
 
 
-        
+        {/* Sales Heatmap */}
+        <div>
+          <h2 className="text-lg font-semibold text-white mb-4">Sales Heatmap (2024)</h2>
+          <div className="overflow-x-auto">
+            <table className="min-w-[600px] border-separate border-spacing-1">
+              <thead>
+                <tr>
+                  <th className="text-xs text-muted-foreground px-2 py-1">Month</th>
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <th key={i} className="text-xs text-muted-foreground px-2 py-1">
+                      {new Date(0, i).toLocaleString("default", { month: "short" })}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="text-xs text-muted-foreground px-2 py-1">Sales</td>
+                  {/* Example static data for each month */}
+                  {[
+                    12, 22, 18, 30, 25, 40, 55, 48, 35, 28, 20, 15
+                  ].map((value, i) => {
+                    // Color intensity based on value
+                    let bg = "";
+                    if (value > 45) bg = "bg-purple-600";
+                    else if (value > 30) bg = "bg-purple-500";
+                    else if (value > 20) bg = "bg-purple-400";
+                    else if (value > 10) bg = "bg-purple-300";
+                    else bg = "bg-purple-200";
+                    return (
+                      <td
+                        key={i}
+                        className={`w-10 h-10 text-center align-middle rounded ${bg} text-white font-semibold transition-colors`}
+                        title={`${new Date(0, i).toLocaleString("default", { month: "long" })}: ${value} sales`}
+                      >
+                        {value}
+                      </td>
+                    );
+                  })}
+                </tr>
+              </tbody>
+            </table>
+            <div className="flex gap-2 mt-2 items-center">
+              <span className="text-xs text-muted-foreground">Low</span>
+              <div className="w-6 h-3 rounded bg-purple-200" />
+              <div className="w-6 h-3 rounded bg-purple-300" />
+              <div className="w-6 h-3 rounded bg-purple-400" />
+              <div className="w-6 h-3 rounded bg-purple-500" />
+              <div className="w-6 h-3 rounded bg-purple-600" />
+              <span className="text-xs text-muted-foreground">High</span>
+            </div>
+          </div>
+        </div>
         
 
         {/* User Info Card */}
