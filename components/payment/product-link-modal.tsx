@@ -699,7 +699,7 @@ export function ProductLinkModal({
                         <div className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-20"></div>
                       )}
                     </div>
-                    
+
                     {/* Step Title */}
                     <span
                       className={`text-[10px] sm:text-xs font-semibold whitespace-nowrap text-center sm:text-left transition-all duration-300 ${
@@ -711,7 +711,7 @@ export function ProductLinkModal({
                       {step.title}
                     </span>
                   </div>
-                  
+
                   {/* Connector Line */}
                   {index < steps.length - 1 && (
                     <div className="relative mx-1 sm:mx-3">
