@@ -702,36 +702,6 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
-            <CardContent className="p-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-2">$0.00</div>
-                <p className="text-purple-200">Total Revenue</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
-            <CardContent className="p-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-2">0</div>
-                <p className="text-purple-200">Transactions</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="backdrop-blur-sm bg-white/10 border-white/20 shadow-2xl">
-            <CardContent className="p-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-2">0</div>
-                <p className="text-purple-200">Active Links</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Sign Out Button */}
         <div className="text-center">
           <Button
