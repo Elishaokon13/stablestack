@@ -53,7 +53,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="">
+    <>
       <div className="w-full mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -227,6 +227,6 @@ export default function DashboardPage() {
           </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
