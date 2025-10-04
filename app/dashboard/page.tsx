@@ -54,7 +54,7 @@ export default function DashboardPage() {
 
   return (
     <div className="">
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">
