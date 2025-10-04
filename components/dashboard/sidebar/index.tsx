@@ -79,7 +79,7 @@ export function DashboardSidebar({
   const isV0 = useIsV0();
 
   return (
-    <Sidebar {...props} className={cn("py-sides", className)}>
+    <Sidebar {...props} className={cn("py-sides !p-0", className)}>
       <SidebarHeader className="rounded-t-lg flex gap-3 flex-row rounded-b-none">
         <div className="flex overflow-clip size-12 shrink-0 items-center justify-center rounded bg-sidebar-primary-foreground/10 transition-colors group-hover:bg-sidebar-primary text-sidebar-primary-foreground">
           <MonkeyIcon className="size-10 group-hover:scale-[1.7] origin-top-left transition-transform" />
