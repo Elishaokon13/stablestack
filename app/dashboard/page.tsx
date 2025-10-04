@@ -540,9 +540,9 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Link Performance */}
-                <div className="space-y-3 mt-6 bg-white/5 rounded-xl p-4 border border-white/10">
-                  <p className="text-sm font-semibold text-white flex items-center gap-2">
-                    <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+                <div className="space-y-2 sm:space-y-3 mt-4 sm:mt-6 bg-white/5 rounded-xl p-3 sm:p-4 border border-white/10">
+                  <p className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
+                    <div className="w-1 h-3 sm:h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
                     Top Performing Links
                   </p>
                   {[
@@ -567,26 +567,26 @@ export default function DashboardPage() {
                   ].map((link, index) => (
                     <div
                       key={index}
-                      className={`flex items-center gap-3 p-3 bg-gradient-to-r ${link.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}
+                      className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gradient-to-r ${link.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}
                     >
                       <div
-                        className={`w-3 h-3 rounded-full ${link.color} shadow-lg`}
+                        className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${link.color} shadow-lg flex-shrink-0`}
                       />
-                      <div className="flex-1">
-                        <div className="flex justify-between items-center mb-2">
-                          <p className="text-sm font-medium text-white">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-center mb-1.5 sm:mb-2 gap-2">
+                          <p className="text-xs sm:text-sm font-medium text-white truncate">
                             {link.name}
                           </p>
-                          <div className="flex items-center gap-1">
-                            <Eye className="w-3 h-3 text-gray-400" />
-                            <p className="text-xs font-semibold text-gray-300">
+                          <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
+                            <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-gray-400" />
+                            <p className="text-[10px] sm:text-xs font-semibold text-gray-300">
                               {link.views}
                             </p>
                           </div>
                         </div>
-                        <div className="relative w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                        <div className="relative w-full bg-white/10 rounded-full h-1.5 sm:h-2 overflow-hidden">
                           <div
-                            className={`${link.color} h-2 rounded-full shadow-lg transition-all duration-500`}
+                            className={`${link.color} h-1.5 sm:h-2 rounded-full shadow-lg transition-all duration-500`}
                             style={{ width: `${(link.views / 428) * 100}%` }}
                           />
                         </div>
