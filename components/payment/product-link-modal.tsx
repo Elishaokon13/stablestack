@@ -671,43 +671,59 @@ export function ProductLinkModal({
           </div>
 
           {/* Progress Steps */}
-          <div className="mt-4 sm:mt-6 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-4 min-w-max sm:min-w-0">
+          <div className="mt-4 sm:mt-6 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+            <div className="flex items-center justify-start sm:justify-center gap-1 sm:gap-2 min-w-max sm:min-w-0">
               {steps.map((step, index) => (
                 <div
                   key={step.number}
                   className="flex items-center flex-shrink-0"
                 >
-                  <div className="flex items-center gap-1.5 sm:gap-2">
-                    <div
-                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium transition-colors ${
-                        currentStep >= step.number
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-muted text-muted-foreground"
-                      }`}
-                    >
-                      {currentStep > step.number ? (
-                        <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4" />
-                      ) : (
-                        step.number
+                  <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
+                    {/* Step Circle */}
+                    <div className="relative">
+                      <div
+                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-all duration-300 ${
+                          currentStep >= step.number
+                            ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/50 scale-110"
+                            : "bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400"
+                        }`}
+                      >
+                        {currentStep > step.number ? (
+                          <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5" />
+                        ) : (
+                          step.number
+                        )}
+                      </div>
+                      {/* Pulse effect for current step */}
+                      {currentStep === step.number && (
+                        <div className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-20"></div>
                       )}
                     </div>
+                    
+                    {/* Step Title */}
                     <span
-                      className={`text-xs sm:text-sm font-medium whitespace-nowrap ${
+                      className={`text-[10px] sm:text-xs font-semibold whitespace-nowrap text-center sm:text-left transition-all duration-300 ${
                         currentStep >= step.number
-                          ? "text-foreground"
-                          : "text-muted-foreground"
+                          ? "text-blue-600 dark:text-blue-400"
+                          : "text-gray-400 dark:text-gray-500"
                       }`}
                     >
                       {step.title}
                     </span>
                   </div>
+                  
+                  {/* Connector Line */}
                   {index < steps.length - 1 && (
-                    <div
-                      className={`w-4 sm:w-8 h-px mx-2 sm:mx-4 transition-colors ${
-                        currentStep > step.number ? "bg-primary" : "bg-muted"
-                      }`}
-                    />
+                    <div className="relative mx-1 sm:mx-3">
+                      <div className="w-8 sm:w-12 h-0.5 bg-gray-200 dark:bg-gray-700"></div>
+                      <div
+                        className={`absolute top-0 left-0 h-0.5 transition-all duration-500 ${
+                          currentStep > step.number
+                            ? "w-full bg-gradient-to-r from-blue-500 to-purple-600"
+                            : "w-0"
+                        }`}
+                      ></div>
+                    </div>
                   )}
                 </div>
               ))}
