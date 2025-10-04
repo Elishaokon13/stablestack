@@ -60,19 +60,19 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="w-full space-y-6 mx-auto">
-        {/* Header */}
-        <div className="w-full py-4 flex items-center justify-between gap-4">
-          <h1 className="text-xl font-bold text-white">
-            Welcome back, {user.firstName || user.username}!
-          </h1>
-          <Button 
-            className="border-white/20 text-white !hover:bg-blue-600"
-            onClick={() => setIsProductLinkModalOpen(true)}
-          >
-            Create Product Link
-          </Button>
-        </div>
+        <div className="w-full space-y-6 mx-auto">
+          {/* Header */}
+          <div className="w-full py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+            <h1 className="text-lg sm:text-xl font-bold text-white">
+              Welcome back, {user.firstName || user.username}!
+            </h1>
+            <Button 
+              className="border-white/20 text-white hover:bg-blue-600 w-full sm:w-auto whitespace-nowrap"
+              onClick={() => setIsProductLinkModalOpen(true)}
+            >
+              Create Product Link
+            </Button>
+          </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Earnings Card */}
           <div className="bg-white/10 border-white/20 p-4 rounded-md flex flex-col gap-4 h-32 justify-center">
