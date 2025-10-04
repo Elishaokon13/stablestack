@@ -715,7 +715,7 @@ export function ProductLinkModal({
                   {/* Connector Line */}
                   {index < steps.length - 1 && (
                     <div className="relative mx-1 sm:mx-3">
-                      <div className="w-8 sm:w-12 h-0.5 bg-gray-200 dark:bg-gray-700"></div>
+                      <div className="w-8 h-0.5 bg-gray-200 dark:bg-gray-700"></div>
                       <div
                         className={`absolute top-0 left-0 h-0.5 transition-all duration-500 ${
                           currentStep > step.number
