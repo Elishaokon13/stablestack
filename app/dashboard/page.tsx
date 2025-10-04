@@ -104,7 +104,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-
+        
         <Separator />
 
         {/* Sales Activity Heatmap */}
@@ -113,7 +113,7 @@ export default function DashboardPage() {
             Sales Activity Heatmap (Last 52 Weeks)
           </h2>
           <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 md:p-6">
-            <div className="overflow-x-auto">
+          <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
                 {/* Month labels */}
                 <div className="flex mb-3 ml-16">
@@ -132,7 +132,7 @@ export default function DashboardPage() {
                     "Dec",
                   ].map((month, i) => (
                     <div
-                      key={i}
+                        key={i}
                       className="text-xs text-muted-foreground font-medium"
                       style={{
                         width: "calc(100% / 12)",
@@ -213,9 +213,9 @@ export default function DashboardPage() {
                                 <div className="text-gray-400">{dateStr}</div>
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
                                   <div className="border-4 border-transparent border-t-slate-800" />
-                                </div>
-                              </div>
-                            </div>
+            </div>
+          </div>
+        </div>
                           );
                         })}
                       </div>
@@ -246,8 +246,8 @@ export default function DashboardPage() {
                     <div className="text-2xl font-bold text-white">24</div>
                     <div className="text-xs text-muted-foreground">
                       Avg Daily Sales
-                    </div>
-                  </div>
+                </div>
+              </div>
                   <div>
                     <div className="text-2xl font-bold text-white">78</div>
                     <div className="text-xs text-muted-foreground">
@@ -340,60 +340,53 @@ export default function DashboardPage() {
                 ].map((transaction, index) => (
                   <div
                     key={index}
-                    className={`group flex items-center justify-between p-3 sm:p-4 rounded-xl border transition-all cursor-pointer ${
-                      transaction.status === "completed"
-                        ? "bg-gradient-to-r from-green-500/10 to-green-600/5 border-green-500/20 hover:border-green-500/40"
-                        : transaction.status === "pending"
-                        ? "bg-gradient-to-r from-yellow-500/10 to-yellow-600/5 border-yellow-500/20 hover:border-yellow-500/40"
-                        : "bg-gradient-to-r from-red-500/10 to-red-600/5 border-red-500/20 hover:border-red-500/40"
-                    } hover:shadow-lg sm:hover:scale-[1.02]`}
+                    className="group flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
                   >
                     <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
-                      <div
-                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 ${
-                          transaction.status === "completed"
-                            ? "bg-green-500/20 text-green-400 group-hover:bg-green-500/30"
-                            : transaction.status === "pending"
-                            ? "bg-yellow-500/20 text-yellow-400 group-hover:bg-yellow-500/30"
-                            : "bg-red-500/20 text-red-400 group-hover:bg-red-500/30"
-                        }`}
-                      >
-                        {transaction.status === "completed" ? (
-                          <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                        ) : transaction.status === "pending" ? (
-                          <Package className="w-4 h-4 sm:w-5 sm:h-5" />
-                        ) : (
-                          <ArrowDownRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                        )}
+                      {/* Status Indicator Dot */}
+                      <div className="flex items-center justify-center flex-shrink-0">
+                        <div
+                          className={`w-2 h-2 rounded-full ${
+                            transaction.status === "completed"
+                              ? "bg-green-400"
+                              : transaction.status === "pending"
+                              ? "bg-yellow-400"
+                              : "bg-red-400"
+                          }`}
+                        />
                       </div>
+                      
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-1">
                           <p className="text-white font-semibold text-xs sm:text-sm truncate">
                             {transaction.customer}
                           </p>
-                          <Badge
-                            className={`text-[10px] sm:text-xs font-medium flex-shrink-0 ${
+                          <span
+                            className={`text-[10px] sm:text-xs font-medium capitalize ${
                               transaction.status === "completed"
-                                ? "bg-green-500/30 text-green-300 border-green-500/40"
+                                ? "text-green-400"
                                 : transaction.status === "pending"
-                                ? "bg-yellow-500/30 text-yellow-300 border-yellow-500/40"
-                                : "bg-red-500/30 text-red-300 border-red-500/40"
+                                ? "text-yellow-400"
+                                : "text-red-400"
                             }`}
                           >
-                            {transaction.status}
-                          </Badge>
+                            • {transaction.status}
+                          </span>
                         </div>
-                        <p className="text-gray-300 text-[10px] sm:text-xs font-medium mb-0.5 truncate">
+                        <p className="text-gray-400 text-[10px] sm:text-xs mb-0.5 truncate">
                           {transaction.product}
                         </p>
                         <p className="text-gray-500 text-[10px] sm:text-xs truncate">
-                          {transaction.date} • {transaction.id}
+                          {transaction.date}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right flex-shrink-0 ml-2">
-                      <p className="text-white font-bold text-sm sm:text-base md:text-lg whitespace-nowrap">
+                    <div className="text-right flex-shrink-0 ml-3">
+                      <p className="text-white font-bold text-sm sm:text-base whitespace-nowrap">
                         ${transaction.amount.toFixed(2)}
+                      </p>
+                      <p className="text-gray-500 text-[10px] sm:text-xs">
+                        {transaction.id}
                       </p>
                     </div>
                   </div>
@@ -519,8 +512,8 @@ export default function DashboardPage() {
                       <p className="text-[10px] sm:text-xs text-green-400 font-medium truncate">
                         +12% from last week
                       </p>
-                    </div>
-                  </div>
+                </div>
+              </div>
                   <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 rounded-xl p-3 sm:p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all">
                     <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -589,14 +582,14 @@ export default function DashboardPage() {
                             className={`${link.color} h-1.5 sm:h-2 rounded-full shadow-lg transition-all duration-500`}
                             style={{ width: `${(link.views / 428) * 100}%` }}
                           />
-                        </div>
-                      </div>
-                    </div>
+                </div>
+              </div>
+                </div>
                   ))}
                 </div>
               </div>
-            </div>
-          </div>
+              </div>
+        </div>
         </div>
       </div>
 
