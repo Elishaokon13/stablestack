@@ -104,7 +104,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-
+        
         <Separator />
 
         {/* Sales Activity Heatmap */}
@@ -113,7 +113,7 @@ export default function DashboardPage() {
             Sales Activity Heatmap (Last 52 Weeks)
           </h2>
           <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 md:p-6">
-            <div className="overflow-x-auto">
+          <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
                 {/* Month labels */}
                 <div className="flex mb-3 ml-16">
@@ -405,22 +405,22 @@ export default function DashboardPage() {
           {/* Product Link Analytics Pie Chart */}
           <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
-            <div className="px-6 py-4 border-b border-white/10 bg-white/5">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                  <BarChart3 className="w-5 h-5 text-purple-400" />
+            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white">
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-base sm:text-lg font-semibold text-white truncate">
                     Product Link Analytics
                   </h3>
-                  <p className="text-xs text-gray-400">Views by product type</p>
+                  <p className="text-xs text-gray-400 hidden sm:block">Views by product type</p>
                 </div>
               </div>
             </div>
 
             {/* Content */}
-            <div className="p-6">
+            <div className="p-3 sm:p-4 md:p-6">
               <div className="space-y-4">
                 {/* Pie Chart */}
                 <div className="flex items-center justify-center">
@@ -592,7 +592,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-
+        
         <Separator />
 
         {/* User Info Card */}
