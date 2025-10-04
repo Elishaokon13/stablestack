@@ -684,7 +684,7 @@ export function ProductLinkModal({
                       <div
                         className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-all duration-300 ${
                           currentStep >= step.number
-                            ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/50 scale-110"
+                            ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white scale-110"
                             : "bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400"
                         }`}
                       >
