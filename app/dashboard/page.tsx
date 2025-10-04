@@ -53,7 +53,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-[400vh]">
+    <div className="">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
