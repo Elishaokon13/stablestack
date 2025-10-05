@@ -13,6 +13,8 @@ export interface Product {
   createdAt: Date;
   updatedAt: Date;
   metadata?: Record<string, any>;
+  paymentUrl: string;
+  isActive: boolean;
 }
 
 export interface Payment {
