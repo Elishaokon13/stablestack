@@ -11,7 +11,7 @@ export default function NotFound() {
         description: "page under construction",
         icon: CuteRobotIcon,
       }}
-      className="h-screen"
+      className='h-screen'
     >
       <div className="flex flex-col items-center justify-center gap-10 flex-1">
         <picture className="w-1/4 aspect-square grayscale opacity-50">
