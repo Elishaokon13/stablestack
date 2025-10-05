@@ -180,7 +180,7 @@ export default function ProductsPage() {
         {/* Create Product Modal */}
         <ProductLinkModal
           isOpen={isProductLinkModalOpen}
-          onClose={() => setIsProductLinkModalOpen(false)}
+          onClose={() => seti(false)}
           onSuccess={(product: any) => {
             console.log("Product created:", product);
             setIsProductLinkModalOpen(false);
