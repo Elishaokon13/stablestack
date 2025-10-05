@@ -114,7 +114,7 @@ export default function ProductsPage() {
                         className="text-lg font-bold text-primary"
                         style={{ color: "#ff5941" }}
                       >
-                        ${product.priceInUSD.toFixed(2)} USD
+                        ${product.priceInUSDC.toFixed(2)} USD
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {Number(product.priceInUSDC).toFixed(6)} USDC (on Base)
@@ -179,11 +179,11 @@ export default function ProductsPage() {
 
         {/* Create Product Modal */}
         <ProductLinkModal
-          isOpen={isProductLinkModalOpen}
-          onClose={() => seti(false)}
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
           onSuccess={(product: any) => {
             console.log("Product created:", product);
-            setIsProductLinkModalOpen(false);
+            setIsCreateModalOpen(false);
             // Optionally refresh the page or show a success message
           }}
         />
