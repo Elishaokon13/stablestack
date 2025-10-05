@@ -315,14 +315,6 @@ export function ProductLinkModal({
         </p>
       </div>
 
-      {/* Payment Method */}
-      <div className="space-y-4">
-        <Label className="text-sm font-medium">Accept Payment With:</Label>
-        <div className="flex items-center space-x-2 p-3 border rounded-lg bg-muted/50">
-          <CreditCard className="h-5 w-5" />
-          <span>💳 Card (via Paystack / Stripe)</span>
-        </div>
-      </div>
 
       {/* Payout Currency */}
       <div className="space-y-4">
