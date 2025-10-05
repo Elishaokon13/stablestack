@@ -369,25 +369,6 @@ export function ProductLinkModal({
         <p className="text-muted-foreground">Customize your payment link</p>
       </div>
 
-      {/* Custom Link Name */}
-      <div className="space-y-2">
-        <Label htmlFor="custom-link">Custom Link Name (optional)</Label>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-muted-foreground">
-            stablestack.com/pay/
-          </span>
-          <Input
-            id="custom-link"
-            value={formData.customLinkName}
-            onChange={(e) =>
-              handleInputChange("customLinkName", e.target.value)
-            }
-            placeholder="yourbrand.com/pay/hoodie"
-            className="flex-1"
-          />
-        </div>
-      </div>
-
       {/* Link Expiration */}
       <div className="space-y-4">
         <Label className="text-sm font-medium">
