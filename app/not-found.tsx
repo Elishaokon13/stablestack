@@ -12,7 +12,7 @@ export default function NotFound() {
         icon: CuteRobotIcon,
       }}
     >
-      <div className="flex flex-col h-screen items-center justify-center gap-10 flex-1">
+      <div className="flex flex-col bg-red-500 items-center justify-center gap-10 flex-1">
         <picture className="w-1/4 aspect-square grayscale opacity-50">
           <Image
             src="/assets/bot_greenprint.gif"
