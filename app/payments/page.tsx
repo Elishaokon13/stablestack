@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-// import { useUserSession } from "@/hooks/useUserSession"
+import React, { useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -33,39 +32,10 @@ interface Payment {
 }
 
 export default function PaymentsPage() {
-  // const { user, isAuthenticated, address } = useUserSession()
   const [payments, setPayments] = useState<Payment[]>([]);
-  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<
     "all" | "completed" | "pending" | "failed"
   >("all");
-
-  // useEffect(() => {
-  //   if (isAuthenticated && address) {
-  //     fetchPayments()
-  //   }
-  // }, [isAuthenticated, address, filter])
-
-  // const fetchPayments = async () => {
-  //   try {
-  //     const response = await fetch(`/api/payments?sellerId=${address}`)
-  //     const result = await response.json()
-
-  //     if (result.success) {
-  //       let filteredPayments = result.payments
-
-  //       if (filter !== 'all') {
-  //         filteredPayments = result.payments.filter((payment: Payment) => payment.status === filter)
-  //       }
-
-  //       setPayments(filteredPayments)
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching payments:', error)
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
 
   const formatUSDC = (usdcAmount: string) => {
     const amount = parseInt(usdcAmount) / 1e6;
