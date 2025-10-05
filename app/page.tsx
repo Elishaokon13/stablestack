@@ -65,15 +65,9 @@ export default function LoginPage() {
           {/* Auth Components */}
           <div className="flex justify-center">
             {activeTab === "signup" ? (
-              <SignUp
-                afterSignUpUrl="/dashboard"
-                fallbackRedirectUrl="/dashboard"
-              />
+              <SignUp  fallbackRedirectUrl="/dashboard" />
             ) : (
-              <SignIn
-                afterSignInUrl="/dashboard"
-                fallbackRedirectUrl="/dashboard"
-              />
+              <SignIn fallbackRedirectUrl="/dashboard" />
             )}
           </div>
         </div>
