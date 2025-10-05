@@ -315,7 +315,6 @@ export function ProductLinkModal({
         </p>
       </div>
 
-
       {/* Payout Currency */}
       <div className="space-y-4">
         <Label className="text-sm font-medium">Receive Payout In:</Label>
@@ -434,7 +433,7 @@ export function ProductLinkModal({
               className="w-4 h-4"
             />
             <Mail className="h-4 w-4" />
-            <span>✅ Email confirmation</span>
+            <span>Email confirmation</span>
           </label>
           <label className="flex items-center space-x-2 cursor-pointer">
             <input
@@ -446,7 +445,7 @@ export function ProductLinkModal({
               className="w-4 h-4"
             />
             <MessageSquare className="h-4 w-4" />
-            <span>✅ Telegram DM (if enabled)</span>
+            <span>Telegram DM (if enabled)</span>
           </label>
         </div>
       </div>
