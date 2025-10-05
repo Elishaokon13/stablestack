@@ -11,9 +11,8 @@ export default function NotFound() {
         description: "page under construction",
         icon: CuteRobotIcon,
       }}
-      className='h-screen'
     >
-      <div className="flex flex-col items-center justify-center gap-10 flex-1">
+      <div className="flex flex-col h-screen items-center justify-center gap-10 flex-1">
         <picture className="w-1/4 aspect-square grayscale opacity-50">
           <Image
             src="/assets/bot_greenprint.gif"
