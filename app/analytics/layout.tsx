@@ -4,7 +4,7 @@ import React from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 
-export default function DashboardLayout({
+export default function AnalyticsLayout({
   children,
 }: {
   children: React.ReactNode;
