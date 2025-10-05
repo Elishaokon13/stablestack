@@ -167,7 +167,7 @@ export default function ProductsPage() {
               <Button
                 onClick={handleCreateProduct}
                 style={{
-                  background: "linear-gradient(to bottom,rgb(65, 135, 255),rgb(50, 32, 255))",
+                  background: "linear-gradient(to bottom,rgb(65, 81, 255),rgb(50, 32, 255))",
                 }}
               >
                 <Plus className="w-4 h-4 mr-2" />
