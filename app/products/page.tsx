@@ -10,6 +10,7 @@ import { Plus, Package, Loader2, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { Product } from "@/lib/types";
 import { toast } from "sonner";
+import { ProductLinkModal } from "@/components/payment/product-link-modal";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -177,36 +178,15 @@ export default function ProductsPage() {
         )}
 
         {/* Create Product Modal */}
-        {isCreateModalOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
-          >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-card rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-4">
-                  Create New Product
-                </h3>
-                <ProductForm onSuccess={() => {}} />
-                <div className="mt-4 flex justify-end">
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsCreateModalOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
+        <ProductLinkModal
+          isOpen={isProductLinkModalOpen}
+          onClose={() => setIsProductLinkModalOpen(false)}
+          onSuccess={(product: any) => {
+            console.log("Product created:", product);
+            setIsProductLinkModalOpen(false);
+            // Optionally refresh the page or show a success message
+          }}
+        />
       </div>
     </DashboardPageLayout>
   );
