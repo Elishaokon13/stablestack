@@ -64,7 +64,7 @@ export default function ProductsPage() {
             <Button
               onClick={handleCreateProduct}
               style={{
-                background: "linear-gradient(to bottom, #ff6d41, #ff5420)",
+                background: "linear-gradient(to bottom,rgb(65, 81, 255),rgb(50, 32, 255))",
               }}
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -114,7 +114,7 @@ export default function ProductsPage() {
                         className="text-lg font-bold text-primary"
                         style={{ color: "#ff5941" }}
                       >
-                        ${product.priceInUSDC.toFixed(2)} USD
+                        ${product.priceInUSDC?.toFixed(2)} USD
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {Number(product.priceInUSDC).toFixed(6)} USDC (on Base)
