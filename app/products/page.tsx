@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
-import { ProductForm } from "@/components/forms";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
