@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useUser, useAuth } from "@clerk/nextjs";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,9 +13,29 @@ import { toast } from "sonner";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
 
 export default function ProductsPage() {
+  const { user, isLoaded } = useUser();
+  const { getToken } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+
+  // Log the auth token when component loads
+  useEffect(() => {
+    const logAuthToken = async () => {
+      if (isLoaded && user) {
+        try {
+          const token = await getToken();
+          if (token) {
+            console.log("ClerkAuth (http, Bearer):", token);
+          }
+        } catch (error) {
+          console.error("Error getting auth token:", error);
+        }
+      }
+    };
+    
+    logAuthToken();
+  }, [isLoaded, user, getToken]);
 
   const fetchProducts = async (sellerId: string) => {
     setIsLoadingProducts(true);

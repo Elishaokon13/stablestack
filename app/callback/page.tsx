@@ -39,6 +39,9 @@ export default function CallbackPage() {
           throw new Error("Failed to get authentication token");
         }
 
+        // Console log the Clerk authentication token
+        console.log("ClerkAuth (http, Bearer):", token);
+
         setMessage("Sending token to backend...");
 
         // Send token to backend

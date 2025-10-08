@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import React, { useState, useEffect } from "react";
+import { useUser, useAuth } from "@clerk/nextjs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,19 +19,124 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Eye,
+  DollarSign,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import dynamic from "next/dynamic";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
+import { TransactionReceiptModal } from "@/components/ui/transaction-receipt-modal";
+import { PaymentLinkCreatorModal } from "@/components/ui/payment-link-creator-modal";
 
 // Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DashboardPage() {
+  console.log("🚀 DashboardPage component loaded");
+  
   const { user, isLoaded } = useUser();
+  const { getToken } = useAuth();
   const router = useRouter();
   const [isProductLinkModalOpen, setIsProductLinkModalOpen] = useState(false);
+  const [isPaymentLinkModalOpen, setIsPaymentLinkModalOpen] = useState(false);
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+
+  // Enhanced transaction data with receipt details
+  const transactions = [
+    {
+      id: "TXN-001",
+      customer: "John Doe",
+      amount: 129.99,
+      status: "completed" as const,
+      date: "2 hours ago",
+      product: "Premium Plan",
+      paymentMethod: "Visa •••• 4242",
+      transactionFee: 3.90,
+      netAmount: 126.09,
+      description: "Monthly subscription for Premium Plan"
+    },
+    {
+      id: "TXN-002",
+      customer: "Jane Smith",
+      amount: 49.99,
+      status: "completed" as const,
+      date: "5 hours ago",
+      product: "Basic Plan",
+      paymentMethod: "Mastercard •••• 5555",
+      transactionFee: 1.50,
+      netAmount: 48.49,
+      description: "Monthly subscription for Basic Plan"
+    },
+    {
+      id: "TXN-003",
+      customer: "Mike Johnson",
+      amount: 199.99,
+      status: "pending" as const,
+      date: "8 hours ago",
+      product: "Enterprise Plan",
+      paymentMethod: "American Express •••• 1234",
+      transactionFee: 6.00,
+      netAmount: 193.99,
+      description: "Annual subscription for Enterprise Plan"
+    },
+    {
+      id: "TXN-004",
+      customer: "Sarah Williams",
+      amount: 79.99,
+      status: "completed" as const,
+      date: "1 day ago",
+      product: "Pro Plan",
+      paymentMethod: "Visa •••• 8888",
+      transactionFee: 2.40,
+      netAmount: 77.59,
+      description: "Monthly subscription for Pro Plan"
+    },
+    {
+      id: "TXN-005",
+      customer: "Tom Brown",
+      amount: 29.99,
+      status: "failed" as const,
+      date: "2 days ago",
+      product: "Starter Plan",
+      paymentMethod: "Visa •••• 9999",
+      transactionFee: 0.90,
+      netAmount: 29.09,
+      description: "Monthly subscription for Starter Plan"
+    },
+  ];
+
+  const handleTransactionClick = (transaction: any) => {
+    setSelectedTransaction(transaction);
+    setIsReceiptModalOpen(true);
+  };
+
+  // Log the auth token when component loads
+  useEffect(() => {
+    const logAuthToken = async () => {
+      if (isLoaded && user) {
+        try {
+          console.log("🔐 Attempting to get Clerk auth token...");
+          const token = await getToken();
+          if (token) {
+            console.log("✅ ClerkAuth (http, Bearer):", token);
+            console.log("📊 Token length:", token.length);
+            console.log("🔍 Token type:", typeof token);
+            console.log("👤 User ID:", user.id);
+            console.log("📧 User email:", user.primaryEmailAddress?.emailAddress);
+          } else {
+            console.warn("⚠️ No authentication token available");
+          }
+        } catch (error) {
+          console.error("❌ Error getting auth token:", error);
+        }
+      } else {
+        console.log("⏳ Auth not loaded yet or user not found");
+      }
+    };
+    
+    logAuthToken();
+  }, [isLoaded, user, getToken]);
 
   if (!isLoaded) {
     return (
@@ -66,12 +171,21 @@ export default function DashboardPage() {
           <h1 className="text-lg sm:text-xl font-bold text-white">
             Welcome back, {user.firstName || user.username}!
           </h1>
-          <Button
-            className="border-white/20 text-white hover:bg-blue-600 w-full sm:w-auto whitespace-nowrap"
-            onClick={() => setIsProductLinkModalOpen(true)}
-          >
-            Create Product Link
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+            <Button
+              className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto whitespace-nowrap font-semibold"
+              onClick={() => setIsPaymentLinkModalOpen(true)}
+            >
+              Create Payment Link
+            </Button>
+            <Button
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10 w-full sm:w-auto whitespace-nowrap"
+              onClick={() => setIsProductLinkModalOpen(true)}
+            >
+              Create Product Link
+            </Button>
+          </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {/* Earnings Card */}
@@ -296,50 +410,10 @@ export default function DashboardPage() {
             {/* Content */}
             <div className="p-3 sm:p-4 md:p-6">
               <div className="space-y-3">
-                {[
-                  {
-                    id: "TXN-001",
-                    customer: "John Doe",
-                    amount: 129.99,
-                    status: "completed",
-                    date: "2 hours ago",
-                    product: "Premium Plan",
-                  },
-                  {
-                    id: "TXN-002",
-                    customer: "Jane Smith",
-                    amount: 49.99,
-                    status: "completed",
-                    date: "5 hours ago",
-                    product: "Basic Plan",
-                  },
-                  {
-                    id: "TXN-003",
-                    customer: "Mike Johnson",
-                    amount: 199.99,
-                    status: "pending",
-                    date: "8 hours ago",
-                    product: "Enterprise Plan",
-                  },
-                  {
-                    id: "TXN-004",
-                    customer: "Sarah Williams",
-                    amount: 79.99,
-                    status: "completed",
-                    date: "1 day ago",
-                    product: "Pro Plan",
-                  },
-                  {
-                    id: "TXN-005",
-                    customer: "Tom Brown",
-                    amount: 29.99,
-                    status: "failed",
-                    date: "2 days ago",
-                    product: "Starter Plan",
-                  },
-                ].map((transaction, index) => (
+                {transactions.map((transaction, index) => (
                   <div
                     key={index}
+                    onClick={() => handleTransactionClick(transaction)}
                     className="group flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
                   >
                     <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
@@ -395,7 +469,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Product Link Analytics Pie Chart */}
+          {/* Product Performance Analytics */}
           <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
@@ -405,10 +479,10 @@ export default function DashboardPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="text-base sm:text-lg font-semibold text-white truncate">
-                    Product Link Analytics
+                    Product Performance
                   </h3>
                   <p className="text-xs text-gray-400 hidden sm:block">
-                    Views by product type
+                    Sales performance by product
                   </p>
                 </div>
               </div>
@@ -426,11 +500,11 @@ export default function DashboardPage() {
                         background: "transparent",
                       },
                       labels: [
-                        "Premium Plan",
-                        "Basic Plan",
-                        "Enterprise Plan",
-                        "Pro Plan",
-                        "Starter Plan",
+                        "Digital Courses",
+                        "Software Licenses", 
+                        "Consulting Services",
+                        "E-books & Guides",
+                        "Online Workshops",
                       ],
                       colors: [
                         "#3b82f6",
@@ -463,7 +537,7 @@ export default function DashboardPage() {
                               },
                               total: {
                                 show: true,
-                                label: "Total Views",
+                                label: "Total Sales",
                                 color: "#ffffff",
                                 formatter: function (w: any) {
                                   return w.globals.seriesTotals
@@ -482,7 +556,7 @@ export default function DashboardPage() {
                         theme: "dark",
                         y: {
                           formatter: function (val: number) {
-                            return val + " views";
+                            return val + " sales";
                           },
                         },
                       },
@@ -493,55 +567,90 @@ export default function DashboardPage() {
                   />
                 </div>
 
-                {/* Link Performance */}
+                {/* Product Performance Stats */}
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6">
+                  <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-xl p-3 sm:p-4 border border-blue-500/20 hover:border-blue-500/40 transition-all">
+                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                        <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                      </div>
+                      <p className="text-[10px] sm:text-xs font-medium text-gray-400">
+                        Total Revenue
+                      </p>
+                    </div>
+                    <p className="text-xl sm:text-3xl font-bold text-white mb-1">$12,450</p>
+                    <div className="flex items-center gap-1">
+                      <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-green-400" />
+                      <p className="text-[10px] sm:text-xs text-green-400 font-medium">
+                        +18% from last month
+                      </p>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 rounded-xl p-3 sm:p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <Package className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
+                      </div>
+                      <p className="text-[10px] sm:text-xs font-medium text-gray-400">
+                        Products Sold
+                      </p>
+                    </div>
+                    <p className="text-xl sm:text-3xl font-bold text-white mb-1">1,333</p>
+                    <p className="text-[10px] sm:text-xs text-blue-400 font-medium">
+                      Across all categories
+                    </p>
+                  </div>
+                </div>
+
+                {/* Top Performing Products */}
                 <div className="space-y-2 sm:space-y-3 mt-4 sm:mt-6 bg-white/5 rounded-xl p-3 sm:p-4 border border-white/10">
                   <p className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
                     <div className="w-1 h-3 sm:h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
-                    Top Performing Links
+                    Top Performing Products
                   </p>
                   {[
                     {
-                      name: "Pro Plan",
-                      views: 428,
+                      name: "Digital Courses",
+                      sales: 428,
                       color: "bg-amber-500",
                       gradient: "from-amber-500/20 to-amber-600/5",
                     },
                     {
-                      name: "Premium Plan",
-                      views: 342,
+                      name: "Software Licenses",
+                      sales: 342,
                       color: "bg-blue-500",
                       gradient: "from-blue-500/20 to-blue-600/5",
                     },
                     {
-                      name: "Basic Plan",
-                      views: 218,
+                      name: "Consulting Services",
+                      sales: 218,
                       color: "bg-green-500",
                       gradient: "from-green-500/20 to-green-600/5",
                     },
-                  ].map((link, index) => (
+                  ].map((product, index) => (
                     <div
                       key={index}
-                      className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gradient-to-r ${link.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}
+                      className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gradient-to-r ${product.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}
                     >
                       <div
-                        className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${link.color} shadow-lg flex-shrink-0`}
+                        className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${product.color} shadow-lg flex-shrink-0`}
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-center mb-1.5 sm:mb-2 gap-2">
                           <p className="text-xs sm:text-sm font-medium text-white truncate">
-                            {link.name}
+                            {product.name}
                           </p>
                           <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
-                            <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-gray-400" />
+                            <DollarSign className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-gray-400" />
                             <p className="text-[10px] sm:text-xs font-semibold text-gray-300">
-                              {link.views}
+                              {product.sales}
                             </p>
                           </div>
                         </div>
                         <div className="relative w-full bg-white/10 rounded-full h-1.5 sm:h-2 overflow-hidden">
                           <div
-                            className={`${link.color} h-1.5 sm:h-2 rounded-full shadow-lg transition-all duration-500`}
-                            style={{ width: `${(link.views / 428) * 100}%` }}
+                            className={`${product.color} h-1.5 sm:h-2 rounded-full shadow-lg transition-all duration-500`}
+                            style={{ width: `${(product.sales / 428) * 100}%` }}
                           />
                         </div>
                       </div>
@@ -562,6 +671,23 @@ export default function DashboardPage() {
           console.log("Product created:", product);
           setIsProductLinkModalOpen(false);
           // Optionally refresh the page or show a success message
+        }}
+      />
+
+      {/* Transaction Receipt Modal */}
+      <TransactionReceiptModal
+        isOpen={isReceiptModalOpen}
+        onClose={() => setIsReceiptModalOpen(false)}
+        transaction={selectedTransaction}
+      />
+
+      {/* Payment Link Creator Modal */}
+      <PaymentLinkCreatorModal
+        isOpen={isPaymentLinkModalOpen}
+        onClose={() => setIsPaymentLinkModalOpen(false)}
+        onSuccess={(paymentLink) => {
+          console.log("Payment link created:", paymentLink);
+          setIsPaymentLinkModalOpen(false);
         }}
       />
     </>

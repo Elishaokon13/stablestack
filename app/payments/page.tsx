@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useUser, useAuth } from "@clerk/nextjs";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,10 +33,30 @@ interface Payment {
 }
 
 export default function PaymentsPage() {
+  const { user, isLoaded } = useUser();
+  const { getToken } = useAuth();
   const [payments, setPayments] = useState<Payment[]>([]);
   const [filter, setFilter] = useState<
     "all" | "completed" | "pending" | "failed"
   >("all");
+
+  // Log the auth token when component loads
+  useEffect(() => {
+    const logAuthToken = async () => {
+      if (isLoaded && user) {
+        try {
+          const token = await getToken();
+          if (token) {
+            console.log("ClerkAuth (http, Bearer):", token);
+          }
+        } catch (error) {
+          console.error("Error getting auth token:", error);
+        }
+      }
+    };
+    
+    logAuthToken();
+  }, [isLoaded, user, getToken]);
 
   const formatUSDC = (usdcAmount: string) => {
     const amount = parseInt(usdcAmount) / 1e6;
