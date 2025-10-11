@@ -205,7 +205,7 @@ export default function DashboardPage() {
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
               $
-              {parseFloat(earnings?.total?.amount || "0").toLocaleString(
+              {parseFloat("0").toLocaleString(
                 undefined,
                 {
                   minimumFractionDigits: 2,

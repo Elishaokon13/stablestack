@@ -71,11 +71,6 @@ export function usePublicProduct(
         `/public/p/${uniqueName}/${slug}`
       );
 
-        "💵 Amount:",
-        response.data.product.amount,
-        response.data.product.payoutToken
-      );
-
       setProduct(response.data.product);
     } catch (err) {
       if (err instanceof ApiError) {
