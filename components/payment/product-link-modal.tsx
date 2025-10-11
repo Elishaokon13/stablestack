@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@clerk/nextjs";
+import { useCreateProduct } from "@/lib/hooks/product";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,17 +37,14 @@ interface ProductLinkModalProps {
 interface ProductData {
   image: File | null;
   imagePreview: string | null;
-  name: string;
+  productName: string;
   description: string;
-  price: string;
-  category?: string;
-  paymentMethod: "card";
-  payoutCurrency: "ETH" | "USDC" | "BTC";
-  walletAddress: string;
-  customLinkName: string;
-  expiration: "never" | "7" | "30";
-  emailNotifications: boolean;
-  telegramNotifications: boolean;
+  amount: string;
+  payoutChain: "base" | "base-sepolia";
+  payoutToken: "USDC";
+  slug: string;
+  linkExpiration: "never" | "7_days" | "30_days" | "custom_days";
+  customDays?: number;
 }
 
 export function ProductLinkModal({
@@ -55,32 +53,34 @@ export function ProductLinkModal({
   onSuccess,
 }: ProductLinkModalProps) {
   const { user } = useUser();
+  const {
+    createProduct,
+    loading: creatingProduct,
+    error: createError,
+  } = useCreateProduct();
   const [currentStep, setCurrentStep] = useState(1);
-  const [isGenerating, setIsGenerating] = useState(false);
   const [generatedLink, setGeneratedLink] = useState<any>(null);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<ProductData>({
     image: null,
     imagePreview: null,
-    name: "",
+    productName: "",
     description: "",
-    price: "",
-    paymentMethod: "card",
-    payoutCurrency: "USDC",
-    walletAddress: "",
-    customLinkName: "",
-    expiration: "never",
-    emailNotifications: true,
-    telegramNotifications: false,
+    amount: "",
+    payoutChain: "base-sepolia",
+    payoutToken: "USDC",
+    slug: "",
+    linkExpiration: "never",
+    customDays: undefined,
   });
 
   const steps = [
     { number: 1, title: "Product Info", icon: ImageIcon },
-    { number: 2, title: "Payment & Payout", icon: CreditCard },
-    { number: 3, title: "Link Settings", icon: Settings },
-    { number: 4, title: "Review & Generate", icon: CheckCircle2 },
-    { number: 5, title: "Success", icon: CheckCircle2 },
+    { number: 2, title: "Link & Payout", icon: CreditCard },
+    { number: 3, title: "Review & Generate", icon: CheckCircle2 },
+    { number: 4, title: "Success", icon: CheckCircle2 },
   ];
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +103,7 @@ export function ProductLinkModal({
   };
 
   const nextStep = () => {
-    if (currentStep < 4) {
+    if (currentStep < 3) {
       setCurrentStep((prev) => prev + 1);
     }
   };
@@ -143,35 +143,34 @@ export function ProductLinkModal({
   };
 
   const generateLink = async () => {
-    setIsGenerating(true);
+    setErrorMessage(null);
+
     try {
       if (!user?.id) {
         throw new Error("You must be logged in to create a product");
       }
 
-      // Create the product via API
-      const response = await fetch("/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          sellerId: user.id,
-          name: formData.name,
-          description: formData.description || "",
-          priceUSD: parseFloat(formData.price),
-          imageUrl: formData.imagePreview || undefined,
-          category: formData.category || undefined,
-        }),
+      console.log("🚀 Starting product creation...");
+
+      // Create the product using the hook
+      const product = await createProduct({
+        image: formData.image || undefined,
+        productName: formData.productName,
+        description: formData.description,
+        amount: formData.amount,
+        payoutChain: formData.payoutChain,
+        payoutToken: formData.payoutToken,
+        slug: formData.slug,
+        linkExpiration: formData.linkExpiration,
+        customDays: formData.customDays,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to create product");
+      if (!product) {
+        const errorMsg = createError || "Failed to create product";
+        setErrorMessage(errorMsg);
+        console.error("❌ Product creation failed:", errorMsg);
+        return;
       }
-
-      const result = await response.json();
-      const product = result.product;
 
       // Generate the working payment link
       const baseUrl = window.location.origin;
@@ -179,9 +178,9 @@ export function ProductLinkModal({
 
       const generatedLink = {
         id: product.id,
-        name: product.name,
-        price: product.priceUSD,
-        currency: formData.payoutCurrency,
+        name: product.productName,
+        price: product.amount,
+        currency: formData.payoutToken,
         url: paymentLink,
         paymentLink: product.paymentLink,
         createdAt: product.createdAt,
@@ -190,16 +189,17 @@ export function ProductLinkModal({
 
       // Set the generated link to show success state
       setGeneratedLink(generatedLink);
-      setCurrentStep(5); // Move to success step
+      setCurrentStep(4); // Move to success step (now step 4)
+      setErrorMessage(null);
 
       if (onSuccess) {
         onSuccess(generatedLink);
       }
     } catch (error) {
-      console.error("Failed to generate link:", error);
-      // You might want to show an error message to the user here
-    } finally {
-      setIsGenerating(false);
+      const errorMsg =
+        error instanceof Error ? error.message : "Failed to generate link";
+      setErrorMessage(errorMsg);
+      console.error("❌ Failed to generate link:", error);
     }
   };
 
@@ -255,44 +255,45 @@ export function ProductLinkModal({
 
       {/* Product Name */}
       <div className="space-y-2">
-        <Label htmlFor="product-name">Product Name</Label>
+        <Label htmlFor="product-name">Product Name *</Label>
         <Input
           id="product-name"
-          value={formData.name}
-          onChange={(e) => handleInputChange("name", e.target.value)}
-          placeholder="e.g., Base Builder Hoodie"
+          value={formData.productName}
+          onChange={(e) => handleInputChange("productName", e.target.value)}
+          placeholder="e.g., Premium Subscription"
           required
         />
       </div>
 
       {/* Description */}
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">Description *</Label>
         <Textarea
           id="description"
           value={formData.description}
           onChange={(e) => handleInputChange("description", e.target.value)}
-          placeholder="Briefly describe your product (optional)."
+          placeholder="e.g., Monthly premium subscription with advanced features"
           rows={3}
+          required
         />
         <div className="text-xs text-muted-foreground">
-          Example: "Premium cotton hoodie with Base blue accent."
+          Detailed description of the product or service
         </div>
       </div>
 
-      {/* Price */}
+      {/* Amount */}
       <div className="space-y-2">
-        <Label htmlFor="price">Price (USD)</Label>
+        <Label htmlFor="amount">Amount (USD) *</Label>
         <div className="relative">
           <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            id="price"
+            id="amount"
             type="number"
             step="0.01"
             min="0.01"
-            value={formData.price}
-            onChange={(e) => handleInputChange("price", e.target.value)}
-            placeholder="e.g., 49.99"
+            value={formData.amount}
+            onChange={(e) => handleInputChange("amount", e.target.value)}
+            placeholder="e.g., 29.99"
             className="pl-10"
             required
           />
@@ -309,50 +310,129 @@ export function ProductLinkModal({
       className="space-y-6"
     >
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold mb-2">Step 2: Payment & Payout</h3>
+        <h3 className="text-xl font-semibold mb-2">
+          Step 2: Link & Payout Settings
+        </h3>
         <p className="text-muted-foreground">
-          Configure payment and payout settings
+          Configure your payment link and payout preferences
         </p>
       </div>
 
-      {/* Payout Currency */}
+      {/* Custom Slug */}
+      <div className="space-y-2">
+        <Label htmlFor="slug">Payment Link Slug *</Label>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground whitespace-nowrap">
+            /pay/
+          </span>
+          <Input
+            id="slug"
+            value={formData.slug}
+            onChange={(e) =>
+              handleInputChange(
+                "slug",
+                e.target.value.toLowerCase().replace(/\s+/g, "-")
+              )
+            }
+            placeholder="premium-subscription"
+            required
+            pattern="[a-z0-9-]+"
+          />
+        </div>
+        <div className="text-xs text-muted-foreground">
+          Use lowercase letters, numbers, and hyphens only
+        </div>
+      </div>
+
+      {/* Payout Chain */}
       <div className="space-y-4">
-        <Label className="text-sm font-medium">Receive Payout In:</Label>
+        <Label className="text-sm font-medium">Payout Chain *</Label>
         <div className="space-y-2">
-          {(["ETH", "USDC", "BTC"] as const).map((currency) => (
+          {[
+            { value: "base-sepolia", label: "Base Sepolia (Testnet)" },
+            { value: "base", label: "Base (Mainnet)" },
+          ].map((chain) => (
             <label
-              key={currency}
+              key={chain.value}
               className="flex items-center space-x-2 cursor-pointer"
             >
               <input
                 type="radio"
-                name="payoutCurrency"
-                value={currency}
-                checked={formData.payoutCurrency === currency}
+                name="payoutChain"
+                value={chain.value}
+                checked={formData.payoutChain === chain.value}
                 onChange={(e) =>
-                  handleInputChange("payoutCurrency", e.target.value)
+                  handleInputChange(
+                    "payoutChain",
+                    e.target.value as "base" | "base-sepolia"
+                  )
                 }
                 className="w-4 h-4"
               />
-              <span>🔘 {currency} (Base)</span>
+              <span>{chain.label}</span>
             </label>
           ))}
         </div>
+      </div>
+
+      {/* Payout Token */}
+      <div className="space-y-4">
+        <Label className="text-sm font-medium">Payout Token *</Label>
+        <div className="flex items-center space-x-2 p-3 border rounded-lg bg-muted/50">
+          <CreditCard className="h-5 w-5" />
+          <span>💰 USDC (USD Coin)</span>
+        </div>
         <div className="text-xs text-muted-foreground">
-          Select where you want to receive crypto.
+          Currently, only USDC is supported for payouts
         </div>
       </div>
 
-      {/* Wallet Address */}
-      <div className="space-y-2">
-        <Label htmlFor="wallet-address">Wallet Address</Label>
-        <Input
-          id="wallet-address"
-          value={formData.walletAddress}
-          onChange={(e) => handleInputChange("walletAddress", e.target.value)}
-          placeholder="e.g., 0xA3f...bE22 (paste or connect wallet)"
-          required
-        />
+      {/* Link Expiration */}
+      <div className="space-y-4">
+        <Label className="text-sm font-medium">Link Expiration *</Label>
+        <div className="space-y-2">
+          {[
+            { value: "never", label: "Never expires" },
+            { value: "7_days", label: "7 days" },
+            { value: "30_days", label: "30 days" },
+            { value: "custom_days", label: "Custom" },
+          ].map((option) => (
+            <label
+              key={option.value}
+              className="flex items-center space-x-2 cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="linkExpiration"
+                value={option.value}
+                checked={formData.linkExpiration === option.value}
+                onChange={(e) =>
+                  handleInputChange("linkExpiration", e.target.value as any)
+                }
+                className="w-4 h-4"
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </div>
+
+        {/* Custom Days Input */}
+        {formData.linkExpiration === "custom_days" && (
+          <div className="mt-3">
+            <Label htmlFor="custom-days">Number of Days *</Label>
+            <Input
+              id="custom-days"
+              type="number"
+              min="1"
+              value={formData.customDays || ""}
+              onChange={(e) =>
+                handleInputChange("customDays", parseInt(e.target.value))
+              }
+              placeholder="e.g., 30"
+              required
+            />
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -365,90 +445,90 @@ export function ProductLinkModal({
       className="space-y-6"
     >
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold mb-2">Step 3: Link Settings</h3>
-        <p className="text-muted-foreground">Customize your payment link</p>
+        <h3 className="text-xl font-semibold mb-2">
+          Step 3: Review & Generate
+        </h3>
+        <p className="text-muted-foreground">
+          Review your product link details
+        </p>
       </div>
 
-      {/* Custom Link Name */}
-      <div className="space-y-2">
-        <Label htmlFor="custom-link">Custom Link Name (optional)</Label>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-muted-foreground">
-            stablestack.com/pay/
-          </span>
-          <Input
-            id="custom-link"
-            value={formData.customLinkName}
-            onChange={(e) =>
-              handleInputChange("customLinkName", e.target.value)
-            }
-            placeholder="yourbrand.com/pay/hoodie"
-            className="flex-1"
-          />
+      {/* Error Message */}
+      {(errorMessage || createError) && (
+        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+          <p className="text-sm text-red-400 font-medium">
+            ❌ Error: {errorMessage || createError}
+          </p>
+          <p className="text-xs text-red-300 mt-1">
+            Please check the console (F12) for detailed error information.
+          </p>
         </div>
-      </div>
+      )}
 
-      {/* Link Expiration */}
-      <div className="space-y-4">
-        <Label className="text-sm font-medium">
-          Link Expiration (optional)
-        </Label>
-        <div className="space-y-2">
-          {[
-            { value: "never", label: "Never" },
-            { value: "7", label: "7 days" },
-            { value: "30", label: "30 days" },
-          ].map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center space-x-2 cursor-pointer"
-            >
-              <input
-                type="radio"
-                name="expiration"
-                value={option.value}
-                checked={formData.expiration === option.value}
-                onChange={(e) =>
-                  handleInputChange("expiration", e.target.value)
-                }
-                className="w-4 h-4"
-              />
-              <span>{option.label}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Notifications */}
-      <div className="space-y-4">
-        <Label className="text-sm font-medium">Buyer Notifications</Label>
-        <div className="space-y-3">
-          <label className="flex items-center space-x-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={formData.emailNotifications}
-              onChange={(e) =>
-                handleInputChange("emailNotifications", e.target.checked)
-              }
-              className="w-4 h-4"
-            />
-            <Mail className="h-4 w-4" />
-            <span>Email confirmation</span>
-          </label>
-          <label className="flex items-center space-x-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={formData.telegramNotifications}
-              onChange={(e) =>
-                handleInputChange("telegramNotifications", e.target.checked)
-              }
-              className="w-4 h-4"
-            />
-            <MessageSquare className="h-4 w-4" />
-            <span>Telegram DM (if enabled)</span>
-          </label>
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Eye className="h-5 w-5" />
+            <span>Product Summary</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+              <span className="font-medium">Product:</span>
+              <div className="text-muted-foreground">
+                {formData.productName || "Not specified"}
+              </div>
+            </div>
+            <div>
+              <span className="font-medium">Amount:</span>
+              <div className="text-muted-foreground">
+                ${formData.amount || "0.00"}
+              </div>
+            </div>
+            <div>
+              <span className="font-medium">Payment Link:</span>
+              <div className="text-muted-foreground font-mono text-xs">
+                /pay/{formData.slug || "..."}
+              </div>
+            </div>
+            <div>
+              <span className="font-medium">Payout Chain:</span>
+              <div className="text-muted-foreground capitalize">
+                {formData.payoutChain.replace("-", " ")}
+              </div>
+            </div>
+            <div>
+              <span className="font-medium">Payout Token:</span>
+              <div className="text-muted-foreground">
+                {formData.payoutToken}
+              </div>
+            </div>
+            <div>
+              <span className="font-medium">Expiration:</span>
+              <div className="text-muted-foreground">
+                {formData.linkExpiration === "never"
+                  ? "Never"
+                  : formData.linkExpiration === "custom_days"
+                  ? `${formData.customDays} days`
+                  : formData.linkExpiration.replace("_", " ")}
+              </div>
+            </div>
+            <div>
+              <span className="font-medium">Image:</span>
+              <div className="text-muted-foreground">
+                {formData.imagePreview ? "🖼️ Uploaded" : "Not uploaded"}
+              </div>
+            </div>
+            <div>
+              <span className="font-medium">Description:</span>
+              <div className="text-muted-foreground line-clamp-2">
+                {formData.description || "No description"}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </motion.div>
   );
 
@@ -460,81 +540,7 @@ export function ProductLinkModal({
       className="space-y-6"
     >
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold mb-2">
-          Step 4: Review & Generate
-        </h3>
-        <p className="text-muted-foreground">
-          Review your product link details
-        </p>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Eye className="h-5 w-5" />
-            <span>Product Summary</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="font-medium">Product:</span>
-              <div className="text-muted-foreground">
-                {formData.name || "Not specified"}
-              </div>
-            </div>
-            <div>
-              <span className="font-medium">Price:</span>
-              <div className="text-muted-foreground">
-                ${formData.price || "0.00"}
-              </div>
-            </div>
-            <div>
-              <span className="font-medium">Receive In:</span>
-              <div className="text-muted-foreground">
-                {formData.payoutCurrency} (Base Network)
-              </div>
-            </div>
-            <div>
-              <span className="font-medium">Wallet:</span>
-              <div className="text-muted-foreground font-mono text-xs">
-                {formData.walletAddress
-                  ? `${formData.walletAddress.slice(
-                      0,
-                      6
-                    )}…${formData.walletAddress.slice(-4)}`
-                  : "Not specified"}
-              </div>
-            </div>
-            <div>
-              <span className="font-medium">Image:</span>
-              <div className="text-muted-foreground">
-                {formData.imagePreview ? "🖼️ Uploaded" : "Not uploaded"}
-              </div>
-            </div>
-            <div>
-              <span className="font-medium">Expiration:</span>
-              <div className="text-muted-foreground">
-                {formData.expiration === "never"
-                  ? "Never"
-                  : `${formData.expiration} days`}
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-
-  const renderStep5 = () => (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      className="space-y-6"
-    >
-      <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold mb-2">Step 5: Success</h3>
+        <h3 className="text-xl font-semibold mb-2">🎉 Success!</h3>
         <p className="text-muted-foreground">
           Your payment link is ready to share
         </p>
@@ -729,14 +735,13 @@ export function ProductLinkModal({
             {currentStep === 2 && renderStep2()}
             {currentStep === 3 && renderStep3()}
             {currentStep === 4 && renderStep4()}
-            {currentStep === 5 && renderStep5()}
           </AnimatePresence>
         </div>
 
         {/* Footer */}
         <div className="p-4 sm:p-6 border-t bg-muted/50 flex-shrink-0">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0">
-            {currentStep < 5 && (
+            {currentStep < 4 && (
               <Button
                 variant="outline"
                 onClick={prevStep}
@@ -750,29 +755,34 @@ export function ProductLinkModal({
 
             <div
               className={`flex items-center gap-2 ${
-                currentStep === 5 ? "w-full" : "w-full sm:w-auto"
+                currentStep === 4 ? "w-full" : "w-full sm:w-auto"
               }`}
             >
-              {currentStep < 4 ? (
+              {currentStep < 3 ? (
                 <Button
                   onClick={nextStep}
                   disabled={
                     (currentStep === 1 &&
-                      (!formData.name || !formData.price)) ||
-                    (currentStep === 2 && !formData.walletAddress)
+                      (!formData.productName ||
+                        !formData.amount ||
+                        !formData.description)) ||
+                    (currentStep === 2 &&
+                      (!formData.slug ||
+                        (formData.linkExpiration === "custom_days" &&
+                          !formData.customDays)))
                   }
                   className="flex items-center justify-center gap-2 w-full"
                 >
                   <span>Next</span>
                   <ArrowRight className="h-4 w-4" />
                 </Button>
-              ) : currentStep === 4 ? (
+              ) : currentStep === 3 ? (
                 <Button
                   onClick={generateLink}
-                  disabled={isGenerating}
+                  disabled={creatingProduct}
                   className="flex items-center justify-center gap-2 w-full"
                 >
-                  {isGenerating ? (
+                  {creatingProduct ? (
                     <>
                       <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                       <span>Generating...</span>

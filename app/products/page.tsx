@@ -1,215 +1,342 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useUser, useAuth } from "@clerk/nextjs";
-import DashboardPageLayout from "@/components/dashboard/layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useProducts, type Product } from "@/lib/hooks/product";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Package, Loader2, ExternalLink } from "lucide-react";
-import { motion } from "framer-motion";
-import { Product } from "@/lib/types";
-import { toast } from "sonner";
-import { ProductLinkModal } from "@/components/payment/product-link-modal";
+import { Separator } from "@/components/ui/separator";
+import {
+  Copy,
+  ExternalLink,
+  Search,
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  Package,
+  DollarSign,
+  Calendar,
+  Link as LinkIcon,
+  Image as ImageIcon,
+  Clock,
+  ArrowLeft,
+  Edit,
+  Trash2,
+} from "lucide-react";
 
 export default function ProductsPage() {
-  const { user, isLoaded } = useUser();
-  const { getToken } = useAuth();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "active" | "inactive" | "expired"
+  >("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [copySuccess, setCopySuccess] = useState<string | null>(null);
 
-  // Log the auth token when component loads
-  useEffect(() => {
-    const logAuthToken = async () => {
-      if (isLoaded && user) {
-        try {
-          const token = await getToken();
-          if (token) {
-            console.log("ClerkAuth (http, Bearer):", token);
-          }
-        } catch (error) {
-          console.error("Error getting auth token:", error);
-        }
-      }
-    };
-    
-    logAuthToken();
-  }, [isLoaded, user, getToken]);
+  const { products, pagination, loading, error, fetchPage } = useProducts({
+    page: currentPage,
+    limit: 15,
+    status: statusFilter === "all" ? undefined : statusFilter,
+  });
 
-  const fetchProducts = async (sellerId: string) => {
-    setIsLoadingProducts(true);
+  const copyToClipboard = async (text: string, id: string) => {
     try {
-      const response = await fetch(`/api/products?sellerId=${sellerId}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch products");
-      }
-      const data = await response.json();
-      console.log("Products API response:", data);
-      if (data.success && data.products) {
-        setProducts(data.products);
-      } else {
-        setProducts([]);
-      }
-    } catch (error: any) {
-      toast.error(error.message || "Error fetching products.");
-      console.error("Error fetching products:", error);
-    } finally {
-      setIsLoadingProducts(false);
+      await navigator.clipboard.writeText(text);
+      setCopySuccess(id);
+      setTimeout(() => setCopySuccess(null), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
     }
   };
 
-  const handleCreateProduct = () => {
-    setIsCreateModalOpen(true);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    fetchPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Filter products by search query
+  const filteredProducts = products.filter(
+    (product) =>
+      product.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.slug.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "active":
+        return "bg-green-500/10 text-green-400 border-green-500/20";
+      case "inactive":
+        return "bg-gray-500/10 text-gray-400 border-gray-500/20";
+      case "expired":
+        return "bg-red-500/10 text-red-400 border-red-500/20";
+      default:
+        return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
   };
 
   return (
-    <DashboardPageLayout
-      header={{
-        title: "Products",
-        description: "Manage your products and payment links",
-        icon: Package,
-      }}
-    >
-      <div className="space-y-6">
-        {/* Header with Create Button */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold">Your Products</h2>
-            <p className="text-muted-foreground">
-              Create and manage products that accept USDC payments
-            </p>
-          </div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
             <Button
-              onClick={handleCreateProduct}
-              style={{
-                background:
-                  "linear-gradient(to bottom,rgb(65, 81, 255),rgb(50, 32, 255))",
-              }}
+              variant="ghost"
+              size="sm"
+              onClick={() => router.push("/dashboard")}
+              className="text-white/70 hover:text-white hover:bg-white/5"
             >
-              <Plus className="w-4 h-4 mr-2" />
-              Create Product
+              <ArrowLeft className="w-4 h-4 mr-1" />
+              Back
             </Button>
-          </motion.div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-white">
+                Your Products
+              </h1>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+                Manage all your payment links
+              </p>
+            </div>
+          </div>
+          {pagination && (
+            <div className="text-sm text-muted-foreground">
+              {filteredProducts.length} of {pagination.total} products
+            </div>
+          )}
         </div>
 
-        {/* Products Grid */}
-        {isLoadingProducts ? (
-          <div className="flex items-center justify-center p-8">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <Separator className="bg-white/10" />
+
+        {/* Filters & Search */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          {/* Search */}
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-white/20"
+            />
           </div>
-        ) : products.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <motion.div
-                key={product.id?.toString() || product.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Card className="ring-2 ring-pop h-full flex flex-col">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-xl font-display text-primary-foreground">
-                        {product.name}
-                      </CardTitle>
-                      <Badge
-                        variant="outline"
-                        className={`px-2 py-1 text-xs ${
-                          product.status === "active"
-                            ? "bg-green-900/20 text-green-400 border-green-700/50"
-                            : "bg-red-900/20 text-red-400 border-red-700/50"
-                        }`}
-                      >
-                        {product.status === "active" ? "Active" : "Inactive"}
-                      </Badge>
-                    </div>
-                    <p className="text-muted-foreground text-sm">
-                      {product.description || "No description provided."}
-                    </p>
-                  </CardHeader>
-                  <CardContent className="flex-grow flex flex-col justify-between space-y-4">
-                    <div className="space-y-2">
-                      <p
-                        className="text-lg font-bold text-primary"
-                        style={{ color: "#ff5941" }}
-                      >
-                        ${Number(product.priceInUSDC)?.toFixed(2)} USD
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {Number(product.priceInUSDC).toFixed(6)} USDC (on Base)
-                      </p>
-                      {product.category && (
-                        <Badge variant="secondary" className="text-xs">
-                          {product.category}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex flex-col gap-2 mt-4">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          const paymentLink = `${window.location.origin}/pay/${product.paymentUrl}`;
-                          navigator.clipboard.writeText(paymentLink);
-                          toast.success("Payment link copied to clipboard!");
-                        }}
-                        className="w-full justify-start text-left"
-                      >
-                        <Package className="w-4 h-4 mr-2" />
-                        Copy Payment Link
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          window.open(`/pay/${product.paymentUrl}`, "_blank")
-                        }
-                        className="w-full justify-start text-left"
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        View Payment Page
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+
+          {/* Status Filter Buttons */}
+          <div className="flex gap-2 overflow-x-auto">
+            {(["all", "active", "inactive", "expired"] as const).map(
+              (status) => (
+                <Button
+                  key={status}
+                  size="sm"
+                  onClick={() => {
+                    setStatusFilter(status);
+                    setCurrentPage(1);
+                  }}
+                  className={`whitespace-nowrap ${
+                    statusFilter === status
+                      ? "bg-blue-600 hover:bg-blue-700 text-white"
+                      : "bg-white/5 hover:bg-white/10 text-white/70 border border-white/10"
+                  }`}
+                >
+                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                </Button>
+              )
+            )}
           </div>
-        ) : (
-          <Card className="ring-2 ring-pop">
-            <CardContent className="p-8 text-center">
-              <Package className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-xl font-semibold mb-2">No Products Yet</h3>
-              <p className="text-muted-foreground mb-6">
-                Start by creating your first product to accept USDC payments
-              </p>
-              <Button
-                onClick={handleCreateProduct}
-                style={{
-                  background:
-                    "linear-gradient(to bottom,rgb(65, 81, 255),rgb(50, 32, 255))",
-                }}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Create Your First Product
-              </Button>
-            </CardContent>
-          </Card>
+        </div>
+
+        {/* Loading State */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4"></div>
+            <p className="text-muted-foreground">Loading products...</p>
+          </div>
         )}
 
-        {/* Create Product Modal */}
-        <ProductLinkModal
-          isOpen={isCreateModalOpen}
-          onClose={() => setIsCreateModalOpen(false)}
-          onSuccess={(product: any) => {
-            console.log("Product created:", product);
-            setIsCreateModalOpen(false);
-            // Optionally refresh the page or show a success message
-          }}
-        />
+        {/* Error State */}
+        {error && (
+          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+            <p className="text-red-400">❌ {error}</p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && !error && filteredProducts.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-20 bg-white/5 border border-white/10 rounded-lg">
+            <Package className="w-16 h-16 text-muted-foreground mb-4" />
+            <h3 className="text-xl font-semibold mb-2">No products found</h3>
+            <p className="text-muted-foreground text-center max-w-md mb-6">
+              {searchQuery
+                ? "Try adjusting your search query or filters"
+                : "Create your first product to get started"}
+            </p>
+            {!searchQuery && (
+              <Button
+                onClick={() => router.push("/dashboard")}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                Create Product
+              </Button>
+            )}
+          </div>
+        )}
+
+        {/* Products Grid */}
+        {!loading && !error && filteredProducts.length > 0 && (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-gradient-to-br from-white/[0.07] to-white/[0.03] border border-white/10 rounded-lg overflow-hidden hover:border-white/20 hover:shadow-lg hover:shadow-purple-500/5 transition-all group"
+                >
+                  {/* Product Image */}
+                  <div className="relative h-40 bg-gradient-to-br from-blue-500/10 to-purple-500/10 overflow-hidden">
+                    {product.image ? (
+                      <img
+                        src={product.image}
+                        alt={product.productName}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <ImageIcon className="w-12 h-12 text-white/10" />
+                      </div>
+                    )}
+                    {/* Status Badge */}
+                    <div className="absolute top-2 right-2">
+                      <Badge
+                        className={`${getStatusColor(
+                          product.status
+                        )} backdrop-blur-sm text-xs`}
+                      >
+                        {product.status}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  {/* Product Details */}
+                  <div className="p-4 space-y-3">
+                    {/* Name & Price */}
+                    <div className="space-y-2">
+                      <h3 className="text-base font-semibold text-white truncate">
+                        {product.productName}
+                      </h3>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-2xl font-bold text-green-400">
+                          ${product.amount}
+                        </span>
+                        <span className="text-xs text-muted-foreground uppercase">
+                          {product.payoutToken}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs text-muted-foreground line-clamp-2 min-h-[2.5rem]">
+                      {product.description}
+                    </p>
+
+                    <Separator className="bg-white/10" />
+
+                    {/* Meta Info */}
+                    <div className="space-y-1.5 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-2">
+                        <LinkIcon className="w-3 h-3 flex-shrink-0" />
+                        <span className="truncate font-mono">
+                          /{product.slug}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-3 h-3 flex-shrink-0" />
+                        <span>{formatDate(product.createdAt)}</span>
+                      </div>
+                      {product.expiresAt && (
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-3 h-3 flex-shrink-0" />
+                          <span>Expires {formatDate(product.expiresAt)}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2">
+                        <Package className="w-3 h-3 flex-shrink-0" />
+                        <span className="uppercase">{product.payoutChain}</span>
+                      </div>
+                    </div>
+
+                    <Separator className="bg-white/10" />
+
+                    {/* Actions */}
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        onClick={() =>
+                          copyToClipboard(product.paymentLink, product.id)
+                        }
+                        className={`flex-1 ${
+                          copySuccess === product.id
+                            ? "bg-green-600 hover:bg-green-700"
+                            : "bg-white/5 hover:bg-white/10 border border-white/10"
+                        }`}
+                      >
+                        <Copy className="w-3 h-3 mr-1.5" />
+                        {copySuccess === product.id ? "Copied!" : "Copy"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={() =>
+                          window.open(product.paymentLink, "_blank")
+                        }
+                        className="bg-white/5 hover:bg-white/10 border border-white/10"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {pagination && pagination.totalPages > 1 && (
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+                <div className="text-sm text-muted-foreground">
+                  Page {pagination.page} of {pagination.totalPages}
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={!pagination.hasPrevPage}
+                    className="bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <ChevronLeft className="w-4 h-4 mr-1" />
+                    Previous
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={!pagination.hasNextPage}
+                    className="bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </div>
-    </DashboardPageLayout>
+    </div>
   );
 }
