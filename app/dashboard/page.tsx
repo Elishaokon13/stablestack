@@ -27,84 +27,89 @@ import dynamic from "next/dynamic";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
 import { TransactionReceiptModal } from "@/components/ui/transaction-receipt-modal";
 import { PaymentLinkCreatorModal } from "@/components/ui/payment-link-creator-modal";
+import {
+  useEarnings,
+  useSalesHeatmap,
+  useTransactions,
+} from "@/lib/hooks/payment";
+import { useProductStats } from "@/lib/hooks/product";
 
 // Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DashboardPage() {
   console.log("🚀 DashboardPage component loaded");
-  
+
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
   const router = useRouter();
   const [isProductLinkModalOpen, setIsProductLinkModalOpen] = useState(false);
+
+  // Fetch real data from API
+  const { earnings } = useEarnings();
+  const { heatmapData } = useSalesHeatmap();
+  const { transactions: apiTransactions, loading: transactionsLoading } =
+    useTransactions({ limit: 5 });
+  const { stats: productStats } = useProductStats();
   const [isPaymentLinkModalOpen, setIsPaymentLinkModalOpen] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
 
-  // Enhanced transaction data with receipt details
-  const transactions = [
-    {
-      id: "TXN-001",
-      customer: "John Doe",
-      amount: 129.99,
-      status: "completed" as const,
-      date: "2 hours ago",
-      product: "Premium Plan",
-      paymentMethod: "Visa •••• 4242",
-      transactionFee: 3.90,
-      netAmount: 126.09,
-      description: "Monthly subscription for Premium Plan"
-    },
-    {
-      id: "TXN-002",
-      customer: "Jane Smith",
-      amount: 49.99,
-      status: "completed" as const,
-      date: "5 hours ago",
-      product: "Basic Plan",
-      paymentMethod: "Mastercard •••• 5555",
-      transactionFee: 1.50,
-      netAmount: 48.49,
-      description: "Monthly subscription for Basic Plan"
-    },
-    {
-      id: "TXN-003",
-      customer: "Mike Johnson",
-      amount: 199.99,
-      status: "pending" as const,
-      date: "8 hours ago",
-      product: "Enterprise Plan",
-      paymentMethod: "American Express •••• 1234",
-      transactionFee: 6.00,
-      netAmount: 193.99,
-      description: "Annual subscription for Enterprise Plan"
-    },
-    {
-      id: "TXN-004",
-      customer: "Sarah Williams",
-      amount: 79.99,
-      status: "completed" as const,
-      date: "1 day ago",
-      product: "Pro Plan",
-      paymentMethod: "Visa •••• 8888",
-      transactionFee: 2.40,
-      netAmount: 77.59,
-      description: "Monthly subscription for Pro Plan"
-    },
-    {
-      id: "TXN-005",
-      customer: "Tom Brown",
-      amount: 29.99,
-      status: "failed" as const,
-      date: "2 days ago",
-      product: "Starter Plan",
-      paymentMethod: "Visa •••• 9999",
-      transactionFee: 0.90,
-      netAmount: 29.09,
-      description: "Monthly subscription for Starter Plan"
-    },
-  ];
+  // Use API transactions or fallback to demo data
+  const displayTransactions =
+    apiTransactions && apiTransactions.length > 0
+      ? apiTransactions.map((tx) => ({
+          id: tx.id,
+          customer: tx.customerName || tx.customerEmail || "Anonymous",
+          amount: parseFloat(tx.amount),
+          status:
+            tx.status === "SUCCEEDED"
+              ? ("completed" as const)
+              : tx.status === "PROCESSING"
+              ? ("pending" as const)
+              : ("failed" as const),
+          date: new Date(tx.createdAt).toLocaleDateString(),
+          product: tx.slug || tx.productId,
+          email: tx.customerEmail,
+          paymentIntentId: tx.paymentIntentId,
+        }))
+      : [
+          {
+            id: "DEMO-001",
+            customer: "No transactions yet",
+            amount: 0,
+            status: "completed" as const,
+            date: "Create your first product",
+            product: "Demo Product",
+          },
+        ];
+
+  // Helper function to get sales value for a specific date from heatmap data
+  const getSalesForDate = (date: Date): number => {
+    if (!heatmapData || !heatmapData.weeks || heatmapData.weeks.length === 0) {
+      console.log("🔴 No heatmap data available, using demo data");
+      // Fallback to demo data if API data not available
+      const seed = Math.floor(Math.random() * 365);
+      return Math.floor(
+        Math.sin(seed * 0.5) * 30 +
+          Math.cos(seed * 0.3) * 20 +
+          Math.random() * 25 +
+          10
+      );
+    }
+
+    const dateStr = date.toISOString().split("T")[0];
+    // Search through weeks and days
+    for (const week of heatmapData.weeks) {
+      const dayData = week.days.find((d) => d.date === dateStr);
+      if (dayData) {
+        console.log(`✅ Found data for ${dateStr}:`, dayData);
+        return dayData.count;
+      }
+    }
+    console.log(`⚪ No data found for ${dateStr}, returning 0`);
+    return 0;
+  };
 
   const handleTransactionClick = (transaction: any) => {
     setSelectedTransaction(transaction);
@@ -123,7 +128,10 @@ export default function DashboardPage() {
             console.log("📊 Token length:", token.length);
             console.log("🔍 Token type:", typeof token);
             console.log("👤 User ID:", user.id);
-            console.log("📧 User email:", user.primaryEmailAddress?.emailAddress);
+            console.log(
+              "📧 User email:",
+              user.primaryEmailAddress?.emailAddress
+            );
           } else {
             console.warn("⚠️ No authentication token available");
           }
@@ -134,9 +142,21 @@ export default function DashboardPage() {
         console.log("⏳ Auth not loaded yet or user not found");
       }
     };
-    
+
     logAuthToken();
   }, [isLoaded, user, getToken]);
+
+  // Log heatmap data when it changes
+  useEffect(() => {
+    if (heatmapData) {
+      console.log("🗺️ HEATMAP DATA IN DASHBOARD:", heatmapData);
+      console.log("🗺️ Heatmap Weeks Count:", heatmapData.weeks?.length);
+      console.log("🗺️ Heatmap Summary:", heatmapData.summary);
+      console.log("🗺️ Heatmap Metadata:", heatmapData.metadata);
+    } else {
+      console.log("🗺️ Heatmap data is null/undefined");
+    }
+  }, [heatmapData]);
 
   if (!isLoaded) {
     return (
@@ -185,36 +205,70 @@ export default function DashboardPage() {
             >
               Create Product Link
             </Button>
+            <Button
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10 w-full sm:w-auto whitespace-nowrap"
+              onClick={() => router.push("/products")}
+            >
+              View All Products
+            </Button>
+            <Button
+              variant="outline"
+              className="border-green-500/20 text-green-400 hover:bg-green-500/10 w-full sm:w-auto whitespace-nowrap"
+              onClick={() => router.push("/wallet")}
+            >
+              💰 Wallet
+            </Button>
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {/* Earnings Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
-              $4,250
+              $
+              {parseFloat(earnings?.succeeded?.amount || "0").toLocaleString(
+                undefined,
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }
+              )}
             </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
-              Earnings
+              Completed Earnings
             </div>
           </div>
-          {/* Products Card */}
+          {/* Active Products Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold">12</div>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+              {productStats?.active ?? 0}
+            </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
               Active products
             </div>
           </div>
-          {/* Orders Card */}
+          {/* Total Products Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold">37</div>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+              {productStats?.total ?? 0}
+            </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
-              Total orders
+              Total products
             </div>
           </div>
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold">37</div>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+              $
+              {parseFloat(earnings?.total?.amount || "0").toLocaleString(
+                undefined,
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }
+              )}
+            </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
-              Total customers
+              Total Revenue
             </div>
           </div>
         </div>
@@ -273,14 +327,14 @@ export default function DashboardPage() {
                     {Array.from({ length: 52 }).map((_, weekIndex) => (
                       <div key={weekIndex} className="flex flex-col gap-2">
                         {Array.from({ length: 7 }).map((_, dayIndex) => {
-                          // Generate semi-random sales data for demo
-                          const seed = weekIndex * 7 + dayIndex;
-                          const salesValue = Math.floor(
-                            Math.sin(seed * 0.5) * 30 +
-                              Math.cos(seed * 0.3) * 20 +
-                              Math.random() * 25 +
-                              10
-                          );
+                          // Calculate date for this cell
+                          const today = new Date();
+                          const daysAgo = (51 - weekIndex) * 7 + (6 - dayIndex);
+                          const date = new Date(today);
+                          date.setDate(date.getDate() - daysAgo);
+
+                          // Get sales value from API or demo data
+                          const salesValue = getSalesForDate(date);
 
                           // Determine color intensity (blue theme)
                           let bgColor = "";
@@ -302,11 +356,7 @@ export default function DashboardPage() {
                             borderColor = "border-blue-400";
                           }
 
-                          // Calculate date
-                          const today = new Date();
-                          const daysAgo = (51 - weekIndex) * 7 + (6 - dayIndex);
-                          const date = new Date(today);
-                          date.setDate(date.getDate() - daysAgo);
+                          // Format date for display
                           const dateStr = date.toLocaleDateString("en-US", {
                             month: "short",
                             day: "numeric",
@@ -410,7 +460,7 @@ export default function DashboardPage() {
             {/* Content */}
             <div className="p-3 sm:p-4 md:p-6">
               <div className="space-y-3">
-                {transactions.map((transaction, index) => (
+                {displayTransactions.map((transaction, index) => (
                   <div
                     key={index}
                     onClick={() => handleTransactionClick(transaction)}
@@ -501,7 +551,7 @@ export default function DashboardPage() {
                       },
                       labels: [
                         "Digital Courses",
-                        "Software Licenses", 
+                        "Software Licenses",
                         "Consulting Services",
                         "E-books & Guides",
                         "Online Workshops",
@@ -578,7 +628,9 @@ export default function DashboardPage() {
                         Total Revenue
                       </p>
                     </div>
-                    <p className="text-xl sm:text-3xl font-bold text-white mb-1">$12,450</p>
+                    <p className="text-xl sm:text-3xl font-bold text-white mb-1">
+                      $12,450
+                    </p>
                     <div className="flex items-center gap-1">
                       <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-green-400" />
                       <p className="text-[10px] sm:text-xs text-green-400 font-medium">
@@ -595,67 +647,81 @@ export default function DashboardPage() {
                         Products Sold
                       </p>
                     </div>
-                    <p className="text-xl sm:text-3xl font-bold text-white mb-1">1,333</p>
+                    <p className="text-xl sm:text-3xl font-bold text-white mb-1">
+                      1,333
+                    </p>
                     <p className="text-[10px] sm:text-xs text-blue-400 font-medium">
                       Across all categories
                     </p>
                   </div>
                 </div>
 
-                {/* Top Performing Products */}
+                {/* Product Status Breakdown */}
                 <div className="space-y-2 sm:space-y-3 mt-4 sm:mt-6 bg-white/5 rounded-xl p-3 sm:p-4 border border-white/10">
-                  <p className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
-                    <div className="w-1 h-3 sm:h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
-                    Top Performing Products
-                  </p>
+                  <div className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
+                    <span className="w-1 h-3 sm:h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full block" />
+                    Product Status
+                  </div>
                   {[
                     {
-                      name: "Digital Courses",
-                      sales: 428,
-                      color: "bg-amber-500",
-                      gradient: "from-amber-500/20 to-amber-600/5",
-                    },
-                    {
-                      name: "Software Licenses",
-                      sales: 342,
-                      color: "bg-blue-500",
-                      gradient: "from-blue-500/20 to-blue-600/5",
-                    },
-                    {
-                      name: "Consulting Services",
-                      sales: 218,
+                      name: "Active Products",
+                      count: productStats?.active ?? 0,
                       color: "bg-green-500",
                       gradient: "from-green-500/20 to-green-600/5",
+                      icon: "✅",
                     },
-                  ].map((product, index) => (
-                    <div
-                      key={index}
-                      className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gradient-to-r ${product.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}
-                    >
+                    {
+                      name: "Total Products",
+                      count: productStats?.total ?? 0,
+                      color: "bg-blue-500",
+                      gradient: "from-blue-500/20 to-blue-600/5",
+                      icon: "📦",
+                    },
+                    {
+                      name: "Expired Products",
+                      count: productStats?.expired ?? 0,
+                      color: "bg-amber-500",
+                      gradient: "from-amber-500/20 to-amber-600/5",
+                      icon: "⏰",
+                    },
+                    {
+                      name: "Cancelled Products",
+                      count: productStats?.cancelled ?? 0,
+                      color: "bg-red-500",
+                      gradient: "from-red-500/20 to-red-600/5",
+                      icon: "❌",
+                    },
+                  ].map((status, index) => {
+                    const maxCount = Math.max(productStats?.total ?? 0, 1);
+                    const percentage = (status.count / maxCount) * 100;
+
+                    return (
                       <div
-                        className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${product.color} shadow-lg flex-shrink-0`}
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-center mb-1.5 sm:mb-2 gap-2">
-                          <p className="text-xs sm:text-sm font-medium text-white truncate">
-                            {product.name}
-                          </p>
-                          <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
-                            <DollarSign className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-gray-400" />
-                            <p className="text-[10px] sm:text-xs font-semibold text-gray-300">
-                              {product.sales}
+                        key={index}
+                        className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gradient-to-r ${status.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}
+                      >
+                        <div className="text-base sm:text-lg flex-shrink-0">
+                          {status.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex justify-between items-center mb-1.5 sm:mb-2 gap-2">
+                            <p className="text-xs sm:text-sm font-medium text-white truncate">
+                              {status.name}
+                            </p>
+                            <p className="text-[10px] sm:text-xs font-semibold text-white flex-shrink-0">
+                              {status.count}
                             </p>
                           </div>
-                        </div>
-                        <div className="relative w-full bg-white/10 rounded-full h-1.5 sm:h-2 overflow-hidden">
-                          <div
-                            className={`${product.color} h-1.5 sm:h-2 rounded-full shadow-lg transition-all duration-500`}
-                            style={{ width: `${(product.sales / 428) * 100}%` }}
-                          />
+                          <div className="relative w-full bg-white/10 rounded-full h-1.5 sm:h-2 overflow-hidden">
+                            <div
+                              className={`${status.color} h-1.5 sm:h-2 rounded-full shadow-lg transition-all duration-500`}
+                              style={{ width: `${percentage}%` }}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>

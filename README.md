@@ -79,40 +79,60 @@ A modern payment platform that bridges traditional finance and crypto. Users can
 ```
 stablestack/
 ├── app/                          # Next.js App Router
-│   ├── api/                      # API routes
-│   │   ├── payments/             # Stripe payment processing
-│   │   ├── payouts/              # Blockradar crypto disbursements
-│   │   ├── wallets/              # Wallet management
-│   │   └── webhooks/             # Stripe webhook handling
-│   ├── payment-flow/             # Complete payment flow
-│   ├── pay/[id]/                 # Payment pages
-│   ├── products/                 # Product management
-│   └── dashboard/                # Main dashboard
+│   ├── (routes)/                 # Application routes
+│   │   ├── page.tsx              # Login/Signup
+│   │   ├── dashboard/            # Dashboard pages
+│   │   ├── products/             # Product management
+│   │   ├── payments/             # Payment history
+│   │   ├── analytics/            # Analytics
+│   │   └── pay/[slug]/           # Public payment pages
+│   ├── api/
+│   │   └── webhooks/             # External webhooks only
+│   ├── layout.tsx                # Root layout
+│   └── globals.css               # Global styles
+│
+├── lib/                          # Core library
+│   ├── api/
+│   │   └── client.ts             # Base API client
+│   ├── hooks/                    # Domain-specific hooks
+│   │   ├── payment/              # Payment hooks
+│   │   │   ├── use-earnings.ts
+│   │   │   ├── use-sales-heatmap.ts
+│   │   │   ├── use-transactions.ts
+│   │   │   ├── use-payment-intent.ts
+│   │   │   └── index.ts
+│   │   ├── product/              # Product hooks
+│   │   │   ├── use-products.ts
+│   │   │   ├── use-create-product.ts
+│   │   │   ├── use-update-product.ts
+│   │   │   ├── use-product-stats.ts
+│   │   │   ├── use-product-analytics.ts
+│   │   │   └── index.ts
+│   │   ├── wallet/               # Wallet hooks
+│   │   │   ├── use-wallet-balance.ts
+│   │   │   ├── use-payout-transactions.ts
+│   │   │   ├── use-withdraw.ts
+│   │   │   └── index.ts
+│   │   └── unique-name/          # Unique name hooks
+│   │       ├── use-unique-name.ts
+│   │       ├── use-check-unique-name.ts
+│   │       └── index.ts
+│   ├── types/                    # TypeScript types
+│   ├── models/                   # Data models
+│   └── utils.ts                  # Utilities
+│
 ├── components/                   # React components
-│   ├── payment/                  # Payment components
-│   │   └── payment-form.tsx      # Stripe payment form
-│   ├── payout/                   # Payout components
-│   │   └── payout-status.tsx     # Crypto payout tracking
-│   ├── wallet/                   # Wallet components
-│   │   └── wallet-dashboard.tsx  # Wallet management
-│   ├── reconciliation/           # Reconciliation components
-│   │   └── reconciliation-dashboard.tsx # Payment tracking
+│   ├── auth/                     # Auth components
 │   ├── dashboard/                # Dashboard components
-│   │   ├── layout/               # Dashboard layout
-│   │   ├── sidebar/              # Navigation sidebar
-│   │   └── chart/                # Analytics charts
-│   └── ui/                       # Base UI components
-├── lib/                          # Utility libraries
-│   ├── stripe.ts                 # Stripe configuration
-│   ├── blockradar.ts             # Blockradar integration
-│   └── utils.ts                  # Utility functions
-├── types/                        # TypeScript types
-│   ├── payments.ts               # Payment types
-│   ├── dashboard.ts              # Dashboard types
-│   └── chat.ts                   # Chat types
+│   ├── payment/                  # Payment components
+│   ├── forms/                    # Forms
+│   └── ui/                       # Base UI (shadcn/ui)
+│
+├── docs/                         # Documentation
+│   ├── API_INTEGRATION.md        # API integration guide
+│   └── FOLDER_STRUCTURE.md       # This file
+│
 └── public/                       # Static assets
-    ├── fonts/                    # Custom fonts
-    └── assets/                   # Images and icons
 ```
 
 ## 🚀 Quick Start
@@ -148,17 +168,17 @@ stablestack/
 4. **Configure environment variables**
 
    ```env
-   # Required
-   STRIPE_SECRET_KEY=sk_test_...
-   STRIPE_PUBLISHABLE_KEY=pk_test_...
-   STRIPE_WEBHOOK_SECRET=whsec_...
-   BLOCKRADAR_API_KEY=your_blockradar_api_key
-   BLOCKRADAR_WALLET_ID=your_wallet_id
+   # Backend API
+   NEXT_PUBLIC_API_URL=https://api.goopenly.xyz/api/v1
+
+   # Clerk Authentication (Required)
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+   CLERK_SECRET_KEY=sk_test_...
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
 
    # Optional
    NEXT_PUBLIC_BASE_URL=http://localhost:3000
-   NEXTAUTH_SECRET=your_nextauth_secret
-   NEXTAUTH_URL=http://localhost:3000
    ```
 
 5. **Start the development server**
@@ -205,7 +225,59 @@ Edit `.autocommitrc.json` to customize:
 }
 ```
 
-For detailed instructions, see [AUTO_COMMIT_GUIDE.md](./AUTO_COMMIT_GUIDE.md)
+For detailed instructions, see the auto-commit scripts in `/scripts/`.
+
+## 🔌 API Integration
+
+### Backend API
+
+This project integrates with an external backend API at `api.goopenly.xyz`.
+
+### Custom Hooks
+
+The codebase follows clean architecture principles with domain-specific hooks:
+
+```typescript
+// Payment hooks
+import {
+  useEarnings,
+  useTransactions,
+  useSalesHeatmap,
+} from "@/lib/hooks/payment";
+
+// Product hooks
+import {
+  useProducts,
+  useCreateProduct,
+  useProductStats,
+} from "@/lib/hooks/product";
+
+// Wallet hooks
+import { useWalletBalance, useWithdraw } from "@/lib/hooks/wallet";
+
+// Unique name hooks
+import { useUniqueName, useCheckUniqueName } from "@/lib/hooks/unique-name";
+```
+
+### Example Usage
+
+```typescript
+function Dashboard() {
+  const { earnings, loading } = useEarnings();
+  const { transactions } = useTransactions({ limit: 5 });
+
+  if (loading) return <Spinner />;
+
+  return <div>Revenue: ${earnings?.total}</div>;
+}
+```
+
+### Documentation
+
+For detailed API documentation, see:
+
+- [API Integration Guide](./docs/API_INTEGRATION.md)
+- [Folder Structure](./docs/FOLDER_STRUCTURE.md)
 
 ## 🔧 Configuration
 
@@ -253,29 +325,60 @@ The platform supports two types of payment links:
 
 ## 🔌 API Endpoints
 
-### Payment Processing
+The application uses an external backend API at `api.goopenly.xyz/api/v1`.
 
-- `POST /api/payments/create-intent` - Create Stripe payment intent
-- `POST /api/payments/webhook` - Handle Stripe webhooks
-- `GET /api/payments/status` - Get payment status
+### Payment Endpoints
 
-### Crypto Operations
+**Protected:**
 
-- `POST /api/payouts/initiate` - Initiate stablecoin payout
-- `GET /api/payouts/status` - Check payout status
-- `POST /api/wallets/create` - Create Blockradar wallet
-- `GET /api/wallets/balance` - Get wallet balance
+- `GET /protected/payment/earnings` - Get earnings by status
+- `GET /protected/payment/sales-heatmap` - Get sales heatmap (365 days)
+- `GET /protected/payment/transactions` - Get transaction history
 
-### Payment Links
+**Public:**
 
-- `POST /api/payment-links/create` - Create payment link
-- `GET /api/payment-links/[id]` - Get payment link details
-- `PUT /api/payment-links/[id]` - Update payment link
+- `POST /public/payment/intent` - Create payment intent
+- `POST /public/payment/intent/cancel` - Cancel payment intent
+- `POST /public/payment/intent/verify-microdeposits` - Verify microdeposits
+- `POST /public/payment/intent/sync` - Sync payment intent
 
-### Analytics & Monitoring
+### Product Endpoints
 
-- `GET /api/analytics/payments` - Payment analytics
-- `GET /api/analytics/reconciliation` - Payment reconciliation data
+**Protected:**
+
+- `POST /protected/product` - Create product
+- `GET /protected/product` - Get all products (paginated)
+- `PUT /protected/product/{productId}` - Update product
+- `GET /protected/product/stats` - Get product statistics
+- `GET /protected/product/{productId}/payment-counts` - Get payment counts
+- `GET /protected/product/{productId}/payment-amounts` - Get payment amounts
+
+**Public:**
+
+- `GET /public/p/{uniqueName}/{slug}` - Get product by payment link
+
+### Wallet Endpoints
+
+**Protected:**
+
+- `GET /protected/wallet/balance` - Get wallet balance
+- `GET /protected/wallet/payouttransactions/{chain}` - Get payout transactions
+- `POST /protected/wallet/withdraw/single` - Single asset withdrawal
+- `POST /protected/wallet/withdraw/batch` - Batch asset withdrawal
+
+### Unique Name Endpoints
+
+**Protected:**
+
+- `GET /protected/unique-name` - Get user's unique name
+- `POST /protected/unique-name/set` - Set/update unique name
+- `GET /protected/unique-name/check/{uniqueName}` - Check availability
+
+### Webhooks (Local)
+
+- `POST /api/webhooks/stripe` - Stripe webhook handler
+- `POST /api/webhooks/clerk` - Clerk webhook handler
+- `POST /api/webhooks/blockradar` - Blockradar webhook handler
 
 ## 🎨 Theming
 

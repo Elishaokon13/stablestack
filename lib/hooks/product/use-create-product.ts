@@ -1,0 +1,185 @@
+/**
+ * Create Product Hook
+ * Handles product creation with multipart/form-data
+ */
+
+import { useState } from "react";
+import { useAuth } from "@clerk/nextjs";
+import { ApiError } from "@/lib/api/client";
+
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://api.goopenly.xyz/api/v1";
+
+interface CreateProductData {
+  image?: File;
+  productName: string;
+  description: string;
+  amount: string;
+  payoutChain: "base" | "base-sepolia";
+  payoutToken: "USDC";
+  slug: string;
+  linkExpiration: "never" | "7_days" | "30_days" | "custom_days";
+  customDays?: number;
+}
+
+export interface Product {
+  id: string;
+  productName: string;
+  description: string;
+  amount: string;
+  payoutChain: string;
+  payoutToken: string;
+  slug: string;
+  paymentLink: string;
+  linkExpiration: string;
+  customDays?: number;
+  expiresAt?: string;
+  status: string;
+  imageUrl?: string;
+  createdAt: string;
+}
+
+interface CreateProductResponse {
+  ok: boolean;
+  message: string;
+  data: {
+    product: Product;
+  };
+}
+
+interface UseCreateProductReturn {
+  loading: boolean;
+  error: string | null;
+  createProduct: (data: CreateProductData) => Promise<Product | null>;
+}
+
+export function useCreateProduct(): UseCreateProductReturn {
+  const { getToken } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const createProduct = async (
+    data: CreateProductData
+  ): Promise<Product | null> => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = await getToken();
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+
+      // Create FormData for multipart/form-data request
+      const formData = new FormData();
+
+      if (data.image) {
+        formData.append("image", data.image);
+      }
+
+      formData.append("productName", data.productName);
+      formData.append("description", data.description);
+      formData.append("amount", data.amount);
+      formData.append("payoutChain", data.payoutChain);
+      formData.append("payoutToken", data.payoutToken);
+      formData.append("slug", data.slug);
+      formData.append("linkExpiration", data.linkExpiration);
+
+      if (data.linkExpiration === "custom_days" && data.customDays) {
+        formData.append("customDays", data.customDays.toString());
+      }
+
+      // Log for debugging
+      console.log("📤 Creating product:", {
+        productName: data.productName,
+        description: data.description,
+        amount: data.amount,
+        slug: data.slug,
+        payoutChain: data.payoutChain,
+        payoutToken: data.payoutToken,
+        linkExpiration: data.linkExpiration,
+        customDays: data.customDays,
+        hasImage: !!data.image,
+        imageSize: data.image
+          ? `${(data.image.size / 1024).toFixed(2)} KB`
+          : "N/A",
+      });
+
+      // Log FormData contents
+      console.log("📋 FormData entries:");
+      for (const [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(
+            `  ${key}:`,
+            `File(${value.name}, ${(value.size / 1024).toFixed(2)} KB)`
+          );
+        } else {
+          console.log(`  ${key}:`, value);
+        }
+      }
+
+      // Make request with multipart/form-data
+      const response = await fetch(`${API_BASE_URL}/protected/product`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // Don't set Content-Type - browser will set it with boundary
+        },
+        body: formData,
+      });
+
+      console.log("📥 API Response status:", response.status);
+
+      if (!response.ok) {
+        // Try to get error details
+        const contentType = response.headers.get("content-type");
+        let errorData: any = {};
+
+        if (contentType?.includes("application/json")) {
+          errorData = await response.json().catch(() => ({}));
+        } else {
+          const textError = await response.text().catch(() => "");
+          errorData = { message: textError };
+        }
+
+        console.error("❌ API Error Response:", {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorData,
+          fullResponse: JSON.stringify(errorData, null, 2),
+        });
+
+        // Extract error message from various possible formats
+        const errorMsg =
+          errorData.message ||
+          errorData.error ||
+          errorData.details ||
+          (errorData.errors && JSON.stringify(errorData.errors)) ||
+          `Server Error (${response.status}): ${response.statusText}`;
+
+        throw new ApiError(errorMsg, response.status, errorData);
+      }
+
+      const result: CreateProductResponse = await response.json();
+      console.log("✅ Product created successfully:", result.data.product);
+      return result.data.product;
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Failed to create product");
+      }
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    loading,
+    error,
+    createProduct,
+  };
+}
