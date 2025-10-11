@@ -34,7 +34,6 @@ export function useProductStats(): UseProductStatsReturn {
   const [error, setError] = useState<string | null>(null);
 
   const fetchStats = async () => {
-    console.log("📊 Fetching product stats...");
     setLoading(true);
     setError(null);
 
@@ -48,27 +47,19 @@ export function useProductStats(): UseProductStatsReturn {
         "/protected/product/stats",
         token
       );
-
-      console.log("✅ Product stats received:", response.data);
-      console.log("📈 Total products:", response.data.total);
-      console.log("✅ Active:", response.data.active);
-      console.log("⏰ Expired:", response.data.expired);
-      console.log("❌ Cancelled:", response.data.cancelled);
-
       setStats(response.data);
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error fetching product stats:", err.message);
+        console.error("API Error fetching product stats:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error fetching product stats:", err.message);
+        console.error("Error fetching product stats:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error fetching product stats:", err);
+        console.error("Unknown error fetching product stats:", err);
         setError("Failed to fetch product stats");
       }
     } finally {
-      console.log("🏁 Product stats fetch complete");
       setLoading(false);
     }
   };

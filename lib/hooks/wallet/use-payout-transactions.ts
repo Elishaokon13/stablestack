@@ -49,11 +49,9 @@ export function usePayoutTransactions(
 
   const fetchTransactions = async () => {
     if (!chain) {
-      console.warn("⚠️ No chain provided");
       return;
     }
 
-    console.log("📜 Fetching payout transactions for chain:", chain);
     setLoading(true);
     setError(null);
 
@@ -67,11 +65,6 @@ export function usePayoutTransactions(
         `/protected/wallet/payouttransactions/${chain}`,
         token
       );
-
-      console.log("✅ Payout transactions received:", response.data);
-      console.log("📊 Transaction count:", response.data.count);
-      console.log("⛓️ Chain:", response.data.chain);
-
       setTransactions(response.data.transactions);
       setCount(response.data.count);
       setChainState(response.data.chain);
@@ -83,14 +76,13 @@ export function usePayoutTransactions(
         );
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error fetching payout transactions:", err.message);
+        console.error("Error fetching payout transactions:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error fetching payout transactions:", err);
+        console.error("Unknown error fetching payout transactions:", err);
         setError("Failed to fetch payout transactions");
       }
     } finally {
-      console.log("🏁 Payout transactions fetch complete");
       setLoading(false);
     }
   };

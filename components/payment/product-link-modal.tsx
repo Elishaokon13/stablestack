@@ -150,7 +150,6 @@ export function ProductLinkModal({
         throw new Error("You must be logged in to create a product");
       }
 
-      console.log("🚀 Starting product creation...");
 
       // Create the product using the hook
       const product = await createProduct({

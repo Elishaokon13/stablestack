@@ -88,7 +88,6 @@ export function OnboardingForm() {
           </p>
           <Button
             onClick={() => {
-              console.log("Dashboard button clicked!");
               router.push("/dashboard");
             }}
             className="w-full cursor-pointer"

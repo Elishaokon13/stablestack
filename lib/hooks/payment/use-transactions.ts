@@ -65,7 +65,6 @@ export function useTransactions(
   const [error, setError] = useState<string | null>(null);
 
   const fetchTransactions = async (pageNum: number = currentPage) => {
-    console.log("💳 Fetching transactions...", { page: pageNum, limit });
     setLoading(true);
     setError(null);
 
@@ -80,29 +79,21 @@ export function useTransactions(
         token
       );
 
-      console.log(
-        "✅ Transactions fetched:",
-        response.data.transactions.length,
-        "items"
-      );
-      console.log("📊 Pagination:", response.data.pagination);
-
       setTransactions(response.data.transactions);
       setPagination(response.data.pagination);
       setCurrentPage(pageNum);
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error fetching transactions:", err.message);
+        console.error("API Error fetching transactions:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error fetching transactions:", err.message);
+        console.error("Error fetching transactions:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error fetching transactions:", err);
+        console.error("Unknown error fetching transactions:", err);
         setError("Failed to fetch transactions");
       }
     } finally {
-      console.log("🏁 Transactions fetch complete");
       setLoading(false);
     }
   };

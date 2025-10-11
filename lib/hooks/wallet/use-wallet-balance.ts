@@ -48,7 +48,6 @@ export function useWalletBalance(
   const [error, setError] = useState<string | null>(null);
 
   const fetchBalance = async () => {
-    console.log("💰 Fetching wallet balance for chain:", chain);
     setLoading(true);
     setError(null);
 
@@ -62,25 +61,19 @@ export function useWalletBalance(
         `/protected/wallet/balance?chain=${chain}`,
         token
       );
-
-      console.log("✅ Wallet balance received:", response.data);
-      console.log("💵 Balances:", response.data.balances);
-      console.log("⛓️ Chain:", response.data.chain);
-
       setBalance(response.data);
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error fetching wallet balance:", err.message);
+        console.error("API Error fetching wallet balance:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error fetching wallet balance:", err.message);
+        console.error("Error fetching wallet balance:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error fetching wallet balance:", err);
+        console.error("Unknown error fetching wallet balance:", err);
         setError("Failed to fetch wallet balance");
       }
     } finally {
-      console.log("🏁 Wallet balance fetch complete");
       setLoading(false);
     }
   };

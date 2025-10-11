@@ -56,11 +56,9 @@ export function usePublicProducts(
 
   const fetchProducts = async () => {
     if (!uniqueName) {
-      console.warn("⚠️ Missing uniqueName");
       return;
     }
 
-    console.log("🔍 Fetching public products for:", uniqueName);
     setLoading(true);
     setError(null);
 
@@ -68,28 +66,21 @@ export function usePublicProducts(
       const response = await apiClient.get<PublicProductsResponse>(
         `/public/p/${uniqueName}`
       );
-
-      console.log("✅ Public products fetched:", response.data);
-      console.log("👤 Unique name:", response.data.uniqueName);
-      console.log("📦 Total products:", response.data.total);
-      console.log("🎯 Products:", response.data.products);
-
       setStateUniqueName(response.data.uniqueName);
       setProducts(response.data.products);
       setTotal(response.data.total);
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error fetching public products:", err.message);
+        console.error("API Error fetching public products:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error fetching public products:", err.message);
+        console.error("Error fetching public products:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error fetching public products:", err);
+        console.error("Unknown error fetching public products:", err);
         setError("Failed to fetch products");
       }
     } finally {
-      console.log("🏁 Public products fetch complete");
       setLoading(false);
     }
   };
