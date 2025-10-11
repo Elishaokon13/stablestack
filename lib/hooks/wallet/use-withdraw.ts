@@ -81,7 +81,6 @@ export function useWithdraw(): UseWithdrawReturn {
   const withdrawSingle = async (
     data: SingleWithdrawData
   ): Promise<WithdrawResultData | null> => {
-    console.log("💸 Initiating single withdrawal:", data);
     setLoading(true);
     setError(null);
     setResult(null);
@@ -97,28 +96,21 @@ export function useWithdraw(): UseWithdrawReturn {
         data,
         token
       );
-
-      console.log("✅ Withdrawal successful:", response.data);
-      console.log("🔗 Transaction hash:", response.data.hash);
-      console.log("📊 Status:", response.data.status);
-      console.log("💰 Amount:", response.data.amount, response.data.asset);
-
       setResult(response.data);
       return response.data;
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error withdrawing:", err.message);
+        console.error("API Error withdrawing:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error withdrawing:", err.message);
+        console.error("Error withdrawing:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error withdrawing:", err);
+        console.error("Unknown error withdrawing:", err);
         setError("Failed to execute withdrawal");
       }
       return null;
     } finally {
-      console.log("🏁 Withdrawal request complete");
       setLoading(false);
     }
   };

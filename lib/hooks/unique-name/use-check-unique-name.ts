@@ -35,7 +35,6 @@ export function useCheckUniqueName(): UseCheckUniqueNameReturn {
   const checkAvailability = async (
     name: string
   ): Promise<CheckUniqueNameData | null> => {
-    console.log("🔍 Checking unique name availability:", name);
     setLoading(true);
     setError(null);
     setResult(null);
@@ -51,9 +50,6 @@ export function useCheckUniqueName(): UseCheckUniqueNameReturn {
         token
       );
 
-      console.log("✅ Unique name check response:", response);
-      console.log("📊 Result:", response.data);
-      console.log(
         response.data.available
           ? "✅ Unique name is available!"
           : `❌ ${response.data.reason}`
@@ -63,18 +59,17 @@ export function useCheckUniqueName(): UseCheckUniqueNameReturn {
       return response.data;
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error checking unique name:", err.message);
+        console.error("API Error checking unique name:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error checking unique name:", err.message);
+        console.error("Error checking unique name:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error checking unique name:", err);
+        console.error("Unknown error checking unique name:", err);
         setError("Failed to check unique name");
       }
       return null;
     } finally {
-      console.log("🏁 Unique name check complete");
       setLoading(false);
     }
   };

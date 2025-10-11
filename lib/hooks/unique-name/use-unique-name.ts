@@ -90,17 +90,11 @@ export function useUniqueName(): UseUniqueNameReturn {
       if (!token) {
         throw new Error("Authentication required");
       }
-
-      console.log("🔖 Setting unique name:", name);
-
       const response = await apiClient.post<UniqueNameResponse>(
         "/protected/unique-name/set",
         { uniqueName: name },
         token
       );
-
-      console.log("✅ Unique name set:", response.data);
-
       setUniqueNameState(response.data.uniqueName);
       setWalletsGenerated(response.data.walletsGenerated);
 
@@ -113,7 +107,7 @@ export function useUniqueName(): UseUniqueNameReturn {
       } else {
         setError("Failed to set unique name");
       }
-      console.error("❌ Failed to set unique name:", err);
+      console.error("Failed to set unique name:", err);
       return null;
     } finally {
       setLoading(false);

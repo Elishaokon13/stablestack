@@ -41,7 +41,6 @@ export function useEarnings(): UseEarningsReturn {
   const [error, setError] = useState<string | null>(null);
 
   const fetchEarnings = async () => {
-    console.log("💰 Fetching earnings...");
     setLoading(true);
     setError(null);
 
@@ -56,25 +55,18 @@ export function useEarnings(): UseEarningsReturn {
         token
       );
 
-      console.log("✅ Earnings received:", response.data);
-      console.log("💵 Succeeded:", response.data.succeeded);
-      console.log("📊 Total:", response.data.total);
-      console.log("⏳ Processing:", response.data.processing);
-
       setEarnings(response.data);
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error fetching earnings:", err.message);
+        console.error("Error fetching earnings:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error fetching earnings:", err.message);
+        console.error("Error fetching earnings:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error fetching earnings:", err);
         setError("Failed to fetch earnings");
       }
     } finally {
-      console.log("🏁 Earnings fetch complete");
       setLoading(false);
     }
   };

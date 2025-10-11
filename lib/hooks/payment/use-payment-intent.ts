@@ -52,15 +52,10 @@ export function usePaymentIntent(): UsePaymentIntentReturn {
     setError(null);
 
     try {
-      console.log("💳 Creating payment intent for:", paymentLink);
-
       const response = await apiClient.post<PaymentIntentResponse>(
         "/public/payment/intent",
         { paymentLink }
       );
-
-      console.log("✅ Payment intent created:", response.data);
-
       setPaymentIntent(response.data);
       return response.data;
     } catch (err) {
@@ -71,7 +66,7 @@ export function usePaymentIntent(): UsePaymentIntentReturn {
       } else {
         setError("Failed to create payment intent");
       }
-      console.error("❌ Failed to create payment intent:", err);
+      console.error("Failed to create payment intent:", err);
       return null;
     } finally {
       setLoading(false);
@@ -82,10 +77,6 @@ export function usePaymentIntent(): UsePaymentIntentReturn {
     clientSecret: string,
     cancellationReason?: string
   ): Promise<boolean> => {
-    console.log("❌ Cancelling payment intent...", {
-      clientSecret,
-      cancellationReason,
-    });
     setLoading(true);
     setError(null);
 
@@ -101,25 +92,20 @@ export function usePaymentIntent(): UsePaymentIntentReturn {
         clientSecret,
         cancellationReason,
       });
-
-      console.log("✅ Payment intent cancelled:", response.data);
-      console.log("📊 Success:", response.data.success);
-
       return response.data.success;
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error cancelling intent:", err.message);
+        console.error("API Error cancelling intent:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error cancelling intent:", err.message);
+        console.error("Error cancelling intent:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error cancelling intent:", err);
+        console.error("Unknown error cancelling intent:", err);
         setError("Failed to cancel payment intent");
       }
       return false;
     } finally {
-      console.log("🏁 Cancel intent request complete");
       setLoading(false);
     }
   };
@@ -128,7 +114,6 @@ export function usePaymentIntent(): UsePaymentIntentReturn {
     clientSecret: string,
     amounts: number[]
   ): Promise<boolean> => {
-    console.log("🔍 Verifying microdeposits...", { clientSecret, amounts });
     setLoading(true);
     setError(null);
 
@@ -145,25 +130,20 @@ export function usePaymentIntent(): UsePaymentIntentReturn {
         clientSecret,
         amounts,
       });
-
-      console.log("✅ Microdeposits verified:", response.data);
-      console.log("📊 Status:", response.data.status);
-
       return response.data.success;
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error verifying microdeposits:", err.message);
+        console.error("API Error verifying microdeposits:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error verifying microdeposits:", err.message);
+        console.error("Error verifying microdeposits:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error verifying microdeposits:", err);
+        console.error("Unknown error verifying microdeposits:", err);
         setError("Failed to verify microdeposits");
       }
       return false;
     } finally {
-      console.log("🏁 Microdeposit verification complete");
       setLoading(false);
     }
   };

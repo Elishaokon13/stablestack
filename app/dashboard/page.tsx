@@ -38,8 +38,6 @@ import { useProductStats } from "@/lib/hooks/product";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DashboardPage() {
-  console.log("🚀 DashboardPage component loaded");
-
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
   const router = useRouter();
@@ -87,7 +85,6 @@ export default function DashboardPage() {
   // Helper function to get sales value for a specific date from heatmap data
   const getSalesForDate = (date: Date): number => {
     if (!heatmapData || !heatmapData.weeks || heatmapData.weeks.length === 0) {
-      console.log("🔴 No heatmap data available, using demo data");
       // Fallback to demo data if API data not available
       const seed = Math.floor(Math.random() * 365);
       return Math.floor(
@@ -103,11 +100,9 @@ export default function DashboardPage() {
     for (const week of heatmapData.weeks) {
       const dayData = week.days.find((d) => d.date === dateStr);
       if (dayData) {
-        console.log(`✅ Found data for ${dateStr}:`, dayData);
         return dayData.count;
       }
     }
-    console.log(`⚪ No data found for ${dateStr}, returning 0`);
     return 0;
   };
 
@@ -115,48 +110,6 @@ export default function DashboardPage() {
     setSelectedTransaction(transaction);
     setIsReceiptModalOpen(true);
   };
-
-  // Log the auth token when component loads
-  useEffect(() => {
-    const logAuthToken = async () => {
-      if (isLoaded && user) {
-        try {
-          console.log("🔐 Attempting to get Clerk auth token...");
-          const token = await getToken();
-          if (token) {
-            console.log("✅ ClerkAuth (http, Bearer):", token);
-            console.log("📊 Token length:", token.length);
-            console.log("🔍 Token type:", typeof token);
-            console.log("👤 User ID:", user.id);
-            console.log(
-              "📧 User email:",
-              user.primaryEmailAddress?.emailAddress
-            );
-          } else {
-            console.warn("⚠️ No authentication token available");
-          }
-        } catch (error) {
-          console.error("❌ Error getting auth token:", error);
-        }
-      } else {
-        console.log("⏳ Auth not loaded yet or user not found");
-      }
-    };
-
-    logAuthToken();
-  }, [isLoaded, user, getToken]);
-
-  // Log heatmap data when it changes
-  useEffect(() => {
-    if (heatmapData) {
-      console.log("🗺️ HEATMAP DATA IN DASHBOARD:", heatmapData);
-      console.log("🗺️ Heatmap Weeks Count:", heatmapData.weeks?.length);
-      console.log("🗺️ Heatmap Summary:", heatmapData.summary);
-      console.log("🗺️ Heatmap Metadata:", heatmapData.metadata);
-    } else {
-      console.log("🗺️ Heatmap data is null/undefined");
-    }
-  }, [heatmapData]);
 
   if (!isLoaded) {
     return (
@@ -727,9 +680,7 @@ export default function DashboardPage() {
         isOpen={isProductLinkModalOpen}
         onClose={() => setIsProductLinkModalOpen(false)}
         onSuccess={(product: any) => {
-          console.log("Product created:", product);
           setIsProductLinkModalOpen(false);
-          // Optionally refresh the page or show a success message
         }}
       />
 
@@ -745,7 +696,6 @@ export default function DashboardPage() {
         isOpen={isPaymentLinkModalOpen}
         onClose={() => setIsPaymentLinkModalOpen(false)}
         onSuccess={(paymentLink) => {
-          console.log("Payment link created:", paymentLink);
           setIsPaymentLinkModalOpen(false);
         }}
       />

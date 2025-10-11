@@ -59,14 +59,11 @@ export default function PaymentPage() {
     }
 
     setProcessingPayment(true);
-    console.log("🚀 Initiating payment for:", product.paymentLink);
 
     try {
       const intent = await createIntent(product.paymentLink);
 
       if (intent) {
-        console.log("✅ Payment intent created successfully:", intent);
-        console.log("🔗 Payment link:", intent.paymentLink);
 
         // Redirect to the payment link (Stripe checkout or custom payment page)
         window.location.href = intent.paymentLink;

@@ -55,7 +55,6 @@ export function useSalesHeatmap(): UseSalesHeatmapReturn {
   const [error, setError] = useState<string | null>(null);
 
   const fetchHeatmap = async () => {
-    console.log("🔄 Fetching heatmap data...");
     setLoading(true);
     setError(null);
 
@@ -69,34 +68,23 @@ export function useSalesHeatmap(): UseSalesHeatmapReturn {
         "/protected/payment/sales-heatmap",
         token
       );
-
-      console.log("📊 Heatmap API Response:", response);
-      console.log("📊 Heatmap Data:", response.data);
-      console.log("📊 Total Weeks:", response.data.weeks?.length);
-      console.log("📊 Summary:", response.data.summary);
-      console.log("📊 Metadata:", response.data.metadata);
-
       // Log first week as sample
       if (response.data.weeks && response.data.weeks.length > 0) {
-        console.log("📊 First Week Sample:", response.data.weeks[0]);
-        console.log("📊 First Day Sample:", response.data.weeks[0].days[0]);
       }
 
       setHeatmapData(response.data);
-      console.log("✅ Heatmap data successfully loaded!");
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error fetching heatmap:", err.message);
+        console.error("API Error fetching heatmap:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error fetching heatmap:", err.message);
+        console.error("Error fetching heatmap:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error fetching heatmap:", err);
+        console.error("Unknown error fetching heatmap:", err);
         setError("Failed to fetch heatmap data");
       }
     } finally {
-      console.log("🏁 Heatmap fetch complete. Loading:", false);
       setLoading(false);
     }
   };

@@ -89,35 +89,6 @@ export function useCreateProduct(): UseCreateProductReturn {
         formData.append("customDays", data.customDays.toString());
       }
 
-      // Log for debugging
-      console.log("📤 Creating product:", {
-        productName: data.productName,
-        description: data.description,
-        amount: data.amount,
-        slug: data.slug,
-        payoutChain: data.payoutChain,
-        payoutToken: data.payoutToken,
-        linkExpiration: data.linkExpiration,
-        customDays: data.customDays,
-        hasImage: !!data.image,
-        imageSize: data.image
-          ? `${(data.image.size / 1024).toFixed(2)} KB`
-          : "N/A",
-      });
-
-      // Log FormData contents
-      console.log("📋 FormData entries:");
-      for (const [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(
-            `  ${key}:`,
-            `File(${value.name}, ${(value.size / 1024).toFixed(2)} KB)`
-          );
-        } else {
-          console.log(`  ${key}:`, value);
-        }
-      }
-
       // Make request with multipart/form-data
       const response = await fetch(`${API_BASE_URL}/protected/product`, {
         method: "POST",
@@ -127,9 +98,6 @@ export function useCreateProduct(): UseCreateProductReturn {
         },
         body: formData,
       });
-
-      console.log("📥 API Response status:", response.status);
-
       if (!response.ok) {
         // Try to get error details
         const contentType = response.headers.get("content-type");
@@ -142,7 +110,7 @@ export function useCreateProduct(): UseCreateProductReturn {
           errorData = { message: textError };
         }
 
-        console.error("❌ API Error Response:", {
+        console.error("API Error Response:", {
           status: response.status,
           statusText: response.statusText,
           error: errorData,
@@ -161,7 +129,6 @@ export function useCreateProduct(): UseCreateProductReturn {
       }
 
       const result: CreateProductResponse = await response.json();
-      console.log("✅ Product created successfully:", result.data.product);
       return result.data.product;
     } catch (err) {
       if (err instanceof ApiError) {

@@ -70,7 +70,6 @@ export function useProducts(
   const [error, setError] = useState<string | null>(null);
 
   const fetchProducts = async (pageNum: number = currentPage) => {
-    console.log("🔄 Fetching products...", { page: pageNum, limit, status });
     setLoading(true);
     setError(null);
 
@@ -94,22 +93,18 @@ export function useProducts(
         `/protected/product?${params.toString()}`,
         token
       );
-
-      console.log("✅ Products fetched:", response.data.length, "items");
-      console.log("📊 Pagination:", response.pagination);
-
       setProducts(response.data);
       setPagination(response.pagination);
       setCurrentPage(pageNum);
     } catch (err) {
       if (err instanceof ApiError) {
-        console.error("❌ API Error fetching products:", err.message);
+        console.error("API Error fetching products:", err.message);
         setError(err.message);
       } else if (err instanceof Error) {
-        console.error("❌ Error fetching products:", err.message);
+        console.error("Error fetching products:", err.message);
         setError(err.message);
       } else {
-        console.error("❌ Unknown error fetching products:", err);
+        console.error("Unknown error fetching products:", err);
         setError("Failed to fetch products");
       }
     } finally {
