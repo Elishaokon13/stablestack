@@ -17,7 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import GearIcon from "@/components/icons/gear";
 import MonkeyIcon from "@/components/icons/monkey";
-import { Package, CreditCard, BarChart3, TestTube } from "lucide-react";
+import { Package, CreditCard, BarChart3, TestTube, Wallet } from "lucide-react";
 import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import { useIsV0 } from "@/lib/v0-context";
@@ -43,6 +43,12 @@ const getNavItems = (pathname: string) => [
         url: "/payments",
         icon: CreditCard,
         isActive: pathname === "/payments",
+      },
+      {
+        title: "Wallet",
+        url: "/wallet",
+        icon: Wallet,
+        isActive: pathname === "/wallet",
       },
       {
         title: "Analytics",

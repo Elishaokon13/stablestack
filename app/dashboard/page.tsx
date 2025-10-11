@@ -205,20 +205,13 @@ export default function DashboardPage() {
             >
               Create Product Link
             </Button>
-            <Button
+            {/* <Button
               variant="outline"
               className="border-white/20 text-white hover:bg-white/10 w-full sm:w-auto whitespace-nowrap"
               onClick={() => router.push("/products")}
             >
               View All Products
-            </Button>
-            <Button
-              variant="outline"
-              className="border-green-500/20 text-green-400 hover:bg-green-500/10 w-full sm:w-auto whitespace-nowrap"
-              onClick={() => router.push("/wallet")}
-            >
-              💰 Wallet
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
