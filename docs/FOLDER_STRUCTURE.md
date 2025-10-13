@@ -287,7 +287,7 @@ if (error) {
 ### Development
 
 ```env
-NEXT_PUBLIC_API_URL=https://api.goopenly.xyz/api/v1
+NEXT_PUBLIC_API_URL=
 
 # Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...

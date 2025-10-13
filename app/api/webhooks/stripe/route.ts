@@ -1,18 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import { verifyWebhookSignature } from '@/lib/stripe';
-import connectDB from '@/lib/database';
-import Payment from '@/lib/models/Payment';
-import Product from '@/lib/models/Product';
-import { initiateStablecoinPayout } from '@/lib/blockradar';
+import Stripe from 'stripe';
 
-// Stripe webhook handler for payment events
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2025-08-27.basil',
+});
+
+// Disable body parsing for webhook signature verification
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+// Stripe webhook handler - forwards to backend API
 export async function POST(request: NextRequest) {
   try {
+    console.log('🔔 Stripe webhook received');
+
     const body = await request.text();
-    const signature = headers().get('stripe-signature');
+    const headersList = await headers();
+    const signature = headersList.get('stripe-signature');
 
     if (!signature) {
+      console.error('❌ Missing stripe-signature header');
       return NextResponse.json(
         { error: 'Missing stripe-signature header' },
         { status: 400 }
@@ -20,47 +31,84 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify webhook signature
-    const verification = verifyWebhookSignature(body, signature);
+    let event: Stripe.Event;
     
-    if (!verification.success) {
-      console.error('Stripe webhook verification failed:', verification.error);
+    try {
+      event = stripe.webhooks.constructEvent(
+        body,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET!
+      );
+      console.log('✅ Webhook signature verified:', event.type);
+    } catch (err) {
+      const error = err as Error;
+      console.error('❌ Webhook signature verification failed:', error.message);
       return NextResponse.json(
-        { error: 'Invalid webhook signature' },
+        { error: `Webhook signature verification failed: ${error.message}` },
         { status: 400 }
       );
     }
 
-    const event = verification.event;
-    console.log(`Received Stripe webhook: ${event.type}`);
+    // Log event details
+    console.log(`📋 Event Type: ${event.type}`);
+    console.log(`🆔 Event ID: ${event.id}`);
 
-    await connectDB();
+    // Forward to backend API
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+    const backendWebhookUrl = `${apiUrl}/public/webhook/stripe`;
 
-    // Handle different event types
-    switch (event.type) {
-      case 'payment_intent.succeeded':
-        await handlePaymentSucceeded(event.data.object);
-        break;
+    console.log(`📤 Forwarding webhook to backend: ${backendWebhookUrl}`);
+
+    try {
+      const backendResponse = await fetch(backendWebhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-webhook-source': 'nextjs-frontend',
+          'x-stripe-signature': signature,
+        },
+        body: JSON.stringify({
+          event,
+          rawBody: body,
+        }),
+      });
+
+      if (!backendResponse.ok) {
+        const errorText = await backendResponse.text();
+        console.error('❌ Backend webhook processing failed:', {
+          status: backendResponse.status,
+          statusText: backendResponse.statusText,
+          error: errorText,
+        });
+        
+        // Return success to Stripe even if backend fails (prevents retry storms)
+        // But log the error for investigation
+        return NextResponse.json({ 
+          received: true,
+          warning: 'Backend processing failed but webhook acknowledged',
+        });
+      }
+
+      const backendData = await backendResponse.json();
+      console.log('✅ Backend processed webhook successfully:', backendData);
+
+      return NextResponse.json({ 
+        received: true,
+        backendResponse: backendData,
+      });
+
+    } catch (fetchError) {
+      console.error('❌ Error forwarding to backend:', fetchError);
       
-      case 'payment_intent.payment_failed':
-        await handlePaymentFailed(event.data.object);
-        break;
-      
-      case 'payment_intent.canceled':
-        await handlePaymentCanceled(event.data.object);
-        break;
-      
-      case 'checkout.session.completed':
-        await handleCheckoutCompleted(event.data.object);
-        break;
-      
-      default:
-        console.log(`Unhandled Stripe event type: ${event.type}`);
+      // Return success to Stripe to prevent retries
+      return NextResponse.json({ 
+        received: true,
+        warning: 'Backend forwarding failed but webhook acknowledged',
+      });
     }
 
-    return NextResponse.json({ received: true });
-
   } catch (error) {
-    console.error('Stripe webhook error:', error);
+    console.error('❌ Stripe webhook error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -68,127 +116,76 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Handle successful payment
-async function handlePaymentSucceeded(paymentIntent: any) {
-  try {
-    const { id, amount, currency, metadata } = paymentIntent;
-    
-    console.log(`Payment succeeded: ${id}, Amount: ${amount} ${currency}`);
+// Helper function to get webhook event details
+function getEventDetails(event: Stripe.Event) {
+  const details: any = {
+    id: event.id,
+    type: event.type,
+    created: event.created,
+  };
 
-    // Find or create payment record
-    let payment = await Payment.findOne({ stripePaymentIntentId: id });
-    
-    if (!payment) {
-      // Create new payment record
-      const product = await Product.findOne({ 
-        paymentLink: metadata?.linkSlug 
-      });
-      
-      if (product) {
-        payment = await Payment.create({
-          stripePaymentIntentId: id,
-          productId: product._id,
-          sellerId: product.sellerId,
-          amountUSD: amount / 100, // Convert from cents
-          amountUSDC: Math.floor(amount * 1e6 / 100), // Convert to USDC (6 decimals)
-          status: 'completed',
-          stripeMetadata: metadata,
-          completedAt: new Date(),
-        });
-      }
-    } else {
-      // Update existing payment
-      payment = await Payment.findByIdAndUpdate(
-        payment._id,
-        {
-          status: 'completed',
-          completedAt: new Date(),
-        },
-        { new: true }
-      );
-    }
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const piSucceeded = event.data.object as Stripe.PaymentIntent;
+      details.paymentIntent = {
+        id: piSucceeded.id,
+        amount: piSucceeded.amount,
+        currency: piSucceeded.currency,
+        status: piSucceeded.status,
+        metadata: piSucceeded.metadata,
+      };
+      break;
 
-    if (payment) {
-      // Initiate stablecoin payout to merchant
-      const payoutResult = await initiateStablecoinPayout({
-        paymentId: payment._id.toString(),
-        sellerId: payment.sellerId,
-        amountUSDC: payment.amountUSDC,
-        currency: 'USDC',
-      });
+    case 'payment_intent.payment_failed':
+      const piFailed = event.data.object as Stripe.PaymentIntent;
+      details.paymentIntent = {
+        id: piFailed.id,
+        amount: piFailed.amount,
+        currency: piFailed.currency,
+        status: piFailed.status,
+        lastError: piFailed.last_payment_error?.message,
+      };
+      break;
 
-      if (payoutResult.success) {
-        // Update payment with payout info
-        await Payment.findByIdAndUpdate(payment._id, {
-          blockradarTransactionId: payoutResult.transactionId,
-          payoutStatus: 'initiated',
-        });
-        
-        console.log(`Initiated stablecoin payout for payment ${payment._id}`);
-      } else {
-        console.error(`Failed to initiate payout for payment ${payment._id}:`, payoutResult.error);
-      }
-    }
+    case 'payment_intent.canceled':
+      const piCanceled = event.data.object as Stripe.PaymentIntent;
+      details.paymentIntent = {
+        id: piCanceled.id,
+        status: piCanceled.status,
+      };
+      break;
 
-  } catch (error) {
-    console.error('Error handling payment succeeded:', error);
+    case 'charge.succeeded':
+      const chargeSucceeded = event.data.object as Stripe.Charge;
+      details.charge = {
+        id: chargeSucceeded.id,
+        amount: chargeSucceeded.amount,
+        currency: chargeSucceeded.currency,
+        paymentIntent: chargeSucceeded.payment_intent,
+      };
+      break;
+
+    case 'charge.refunded':
+      const chargeRefunded = event.data.object as Stripe.Charge;
+      details.charge = {
+        id: chargeRefunded.id,
+        amountRefunded: chargeRefunded.amount_refunded,
+        refunded: chargeRefunded.refunded,
+      };
+      break;
+
+    case 'checkout.session.completed':
+      const session = event.data.object as Stripe.Checkout.Session;
+      details.checkoutSession = {
+        id: session.id,
+        paymentIntent: session.payment_intent,
+        paymentStatus: session.payment_status,
+        amountTotal: session.amount_total,
+        currency: session.currency,
+        customerEmail: session.customer_email,
+      };
+      break;
   }
-}
 
-// Handle failed payment
-async function handlePaymentFailed(paymentIntent: any) {
-  try {
-    const { id, last_payment_error } = paymentIntent;
-    
-    console.log(`Payment failed: ${id}, Error: ${last_payment_error?.message}`);
-
-    // Update payment status
-    await Payment.findOneAndUpdate(
-      { stripePaymentIntentId: id },
-      {
-        status: 'failed',
-        failureReason: last_payment_error?.message || 'Payment failed',
-        updatedAt: new Date(),
-      }
-    );
-
-  } catch (error) {
-    console.error('Error handling payment failed:', error);
-  }
-}
-
-// Handle canceled payment
-async function handlePaymentCanceled(paymentIntent: any) {
-  try {
-    const { id } = paymentIntent;
-    
-    console.log(`Payment canceled: ${id}`);
-
-    // Update payment status
-    await Payment.findOneAndUpdate(
-      { stripePaymentIntentId: id },
-      {
-        status: 'cancelled',
-        updatedAt: new Date(),
-      }
-    );
-
-  } catch (error) {
-    console.error('Error handling payment canceled:', error);
-  }
-}
-
-// Handle checkout session completed
-async function handleCheckoutCompleted(session: any) {
-  try {
-    const { id, payment_intent, metadata } = session;
-    
-    console.log(`Checkout session completed: ${id}`);
-
-    // This is typically handled by payment_intent.succeeded
-    // But we can add additional logic here if needed
-    
-  } catch (error) {
-    console.error('Error handling checkout completed:', error);
-  }
+  return details;
 }

@@ -144,14 +144,18 @@ export function ProductLinkModal({
 
   const generateLink = async () => {
     setErrorMessage(null);
+    console.log("🚀 Starting product link generation...");
+    console.log("📝 Form Data:", formData);
 
     try {
       if (!user?.id) {
         throw new Error("You must be logged in to create a product");
       }
 
+      console.log("👤 User ID:", user.id);
 
       // Create the product using the hook
+      console.log("📤 Sending product creation request...");
       const product = await createProduct({
         image: formData.image || undefined,
         productName: formData.productName,
@@ -163,6 +167,8 @@ export function ProductLinkModal({
         linkExpiration: formData.linkExpiration,
         customDays: formData.customDays,
       });
+
+      console.log("✅ Product created:", product);
 
       if (!product) {
         const errorMsg = createError || "Failed to create product";
@@ -183,13 +189,24 @@ export function ProductLinkModal({
         url: paymentLink,
         paymentLink: product.paymentLink,
         createdAt: product.createdAt,
+        expiresAt: product.expiresAt,
+        linkExpiration: product.linkExpiration,
         product: product,
       };
+
+      console.log("🔗 Generated link object:", generatedLink);
+      console.log("📅 Expiration info:", {
+        expiresAt: product.expiresAt,
+        linkExpiration: product.linkExpiration,
+        formDataExpiration: formData.linkExpiration,
+      });
 
       // Set the generated link to show success state
       setGeneratedLink(generatedLink);
       setCurrentStep(4); // Move to success step (now step 4)
       setErrorMessage(null);
+
+      console.log("🎉 Success! Moving to step 4");
 
       if (onSuccess) {
         onSuccess(generatedLink);
@@ -531,21 +548,26 @@ export function ProductLinkModal({
     </motion.div>
   );
 
-  const renderStep4 = () => (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      className="space-y-6"
-    >
-      <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold mb-2">🎉 Success!</h3>
-        <p className="text-muted-foreground">
-          Your payment link is ready to share
-        </p>
-      </div>
+  const renderStep4 = () => {
+    console.log("🎨 Rendering Step 4 - Success State");
+    console.log("📦 Generated Link in Step 4:", generatedLink);
+    console.log("🔢 Current Step:", currentStep);
+    
+    return (
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        className="space-y-6"
+      >
+        <div className="text-center mb-6">
+          <h3 className="text-xl font-semibold mb-2">🎉 Success!</h3>
+          <p className="text-muted-foreground">
+            Your payment link is ready to share
+          </p>
+        </div>
 
-      {generatedLink && (
+        {generatedLink ? (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -579,6 +601,35 @@ export function ProductLinkModal({
                   <Badge className="bg-green-100 text-green-800 border-green-200">
                     Active
                   </Badge>
+                </div>
+              </div>
+              <div>
+                <span className="font-medium">Link Expiration:</span>
+                <div className="text-muted-foreground flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  {generatedLink.product?.expiresAt ? (
+                    <span>
+                      {new Date(generatedLink.product.expiresAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </span>
+                  ) : (
+                    <span>Never expires</span>
+                  )}
+                </div>
+              </div>
+              <div>
+                <span className="font-medium">Created:</span>
+                <div className="text-muted-foreground">
+                  {new Date(generatedLink.product?.createdAt || generatedLink.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })}
                 </div>
               </div>
             </div>
@@ -621,19 +672,45 @@ export function ProductLinkModal({
                 </div>
               </div>
 
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="text-xs text-muted-foreground">
-                  <strong>Ready to accept payments!</strong> Share this link
-                  with your customers. They'll be redirected to a secure payment
-                  page to complete their purchase.
-                </p>
+              <div className="space-y-2">
+                <div className="p-3 bg-muted/50 rounded-lg">
+                  <p className="text-xs text-muted-foreground">
+                    <strong>Ready to accept payments!</strong> Share this link
+                    with your customers. They'll be redirected to a secure payment
+                    page to complete their purchase.
+                  </p>
+                </div>
+                
+                {generatedLink.product?.expiresAt && (
+                  <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                    <p className="text-xs text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
+                      <Clock className="h-3.5 w-3.5 shrink-0" />
+                      <span>
+                        <strong>Expiration:</strong> This link will expire on{" "}
+                        {new Date(generatedLink.product.expiresAt).toLocaleDateString('en-US', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </span>
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </CardContent>
         </Card>
-      )}
-    </motion.div>
-  );
+        ) : (
+          <div className="text-center p-8">
+            <p className="text-muted-foreground">No link data available</p>
+          </div>
+        )}
+      </motion.div>
+    );
+  };
 
   if (!isOpen) return null;
 
@@ -735,6 +812,13 @@ export function ProductLinkModal({
             {currentStep === 3 && renderStep3()}
             {currentStep === 4 && renderStep4()}
           </AnimatePresence>
+          {/* Debug info */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-4 p-2 bg-gray-100 dark:bg-gray-800 rounded text-xs">
+              <p>Current Step: {currentStep}</p>
+              <p>Has Generated Link: {generatedLink ? 'Yes' : 'No'}</p>
+            </div>
+          )}
         </div>
 
         {/* Footer */}

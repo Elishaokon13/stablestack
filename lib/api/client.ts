@@ -3,8 +3,7 @@
  * Handles authentication and common request logic
  */
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://api.goopenly.xyz/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 interface RequestOptions extends RequestInit {
   token?: string;
@@ -30,10 +29,16 @@ async function request<T>(
 
   // Add authorization header if token is provided
   if (token) {
+    console.log("🔑 Clerk Bearer Token:", token);
+    console.log("🔑 Token length:", token.length);
+    console.log("🔑 Token preview:", token.substring(0, 20) + "...");
     headers["Authorization"] = `Bearer ${token}`;
+  } else {
+    console.warn("⚠️ No token provided for API request");
   }
 
   const url = `${API_BASE_URL}${endpoint}`;
+  console.log("🌐 API Request:", fetchOptions.method || "GET", url);
 
   try {
     const response = await fetch(url, {
@@ -43,13 +48,17 @@ async function request<T>(
 
     // Handle non-2xx responses
     if (!response.ok) {
+      console.error("❌ API Error Response:", response.status, response.statusText);
       const errorData = await response.json().catch(() => ({}));
+      console.error("❌ Error data:", errorData);
       throw new ApiError(
         errorData.message || `HTTP ${response.status}: ${response.statusText}`,
         response.status,
         errorData
       );
     }
+    
+    console.log("✅ API Response:", response.status, response.statusText);
 
     // Handle 204 No Content
     if (response.status === 204) {

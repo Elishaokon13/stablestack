@@ -169,7 +169,7 @@ stablestack/
 
    ```env
    # Backend API
-   NEXT_PUBLIC_API_URL=https://api.goopenly.xyz/api/v1
+   NEXT_PUBLIC_API_URL=
 
    # Clerk Authentication (Required)
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
@@ -231,7 +231,7 @@ For detailed instructions, see the auto-commit scripts in `/scripts/`.
 
 ### Backend API
 
-This project integrates with an external backend API at `api.goopenly.xyz`.
+This project integrates with an external backend API (configured via `NEXT_PUBLIC_API_URL`).
 
 ### Custom Hooks
 
@@ -325,7 +325,7 @@ The platform supports two types of payment links:
 
 ## 🔌 API Endpoints
 
-The application uses an external backend API at `api.goopenly.xyz/api/v1`.
+The application uses an external backend API (configured via `NEXT_PUBLIC_API_URL`).
 
 ### Payment Endpoints
 

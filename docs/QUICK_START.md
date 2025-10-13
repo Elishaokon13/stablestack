@@ -28,7 +28,7 @@ Edit `.env.local` with your values:
 
 ```env
 # Backend API
-NEXT_PUBLIC_API_URL=https://api.goopenly.xyz/api/v1
+NEXT_PUBLIC_API_URL=
 
 # Clerk Auth (Get from clerk.com dashboard)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...

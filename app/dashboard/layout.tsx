@@ -3,6 +3,7 @@
 import React from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
+import { UniqueNameModal } from "@/components/auth/unique-name-modal";
 
 export default function DashboardLayout({
   children,
@@ -11,6 +12,7 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
+      <UniqueNameModal />
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:px-6">
         <div className="hidden lg:block col-span-2 top-0 relative">
           <DashboardSidebar />

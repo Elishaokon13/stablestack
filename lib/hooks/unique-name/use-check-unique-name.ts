@@ -50,6 +50,7 @@ export function useCheckUniqueName(): UseCheckUniqueNameReturn {
         token
       );
 
+      console.log(
         response.data.available
           ? "✅ Unique name is available!"
           : `❌ ${response.data.reason}`

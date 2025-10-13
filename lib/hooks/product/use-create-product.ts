@@ -7,8 +7,7 @@ import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { ApiError } from "@/lib/api/client";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://api.goopenly.xyz/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 interface CreateProductData {
   image?: File;
@@ -66,6 +65,7 @@ export function useCreateProduct(): UseCreateProductReturn {
 
     try {
       const token = await getToken();
+      console.log("🔑 [Create Product] Clerk Token:", token);
       if (!token) {
         throw new Error("Authentication required");
       }

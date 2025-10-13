@@ -1,6 +1,6 @@
 # API Integration Guide
 
-This document describes the API integration with the backend service at `api.goopenly.xyz`.
+This document describes the API integration with the backend service (configured via `NEXT_PUBLIC_API_URL`).
 
 ## Architecture Overview
 
@@ -391,7 +391,7 @@ class ApiError extends Error {
 Required environment variable:
 
 ```env
-NEXT_PUBLIC_API_URL=https://api.goopenly.xyz/api/v1
+NEXT_PUBLIC_API_URL=
 ```
 
 ## Best Practices

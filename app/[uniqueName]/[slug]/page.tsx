@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { usePublicProduct } from "@/lib/hooks/product";
 import { usePaymentIntent } from "@/lib/hooks/payment";
@@ -52,21 +52,58 @@ export default function PaymentPage() {
     : false;
   const isActive = product?.status === "active" && !isExpired;
 
+  // Log product details when loaded
+  useEffect(() => {
+    if (product && !loading) {
+      console.log("📄 Payment Page Loaded");
+      console.log("🆔 Unique Name:", uniqueName);
+      console.log("🔖 Slug:", slug);
+      console.log("📦 Product Details:", product);
+      console.log("📅 Expiration Info:", {
+        expiresAt: product.expiresAt,
+        isExpired,
+        isActive,
+        status: product.status,
+      });
+    }
+  }, [product, loading]);
+
   const handleProceedToPayment = async () => {
+    console.log("🚀 Proceed to Payment clicked");
+    console.log("📦 Product:", product);
+    console.log("🔗 Payment Link:", product?.paymentLink);
+    
     if (!product?.paymentLink) {
       console.error("❌ No payment link available");
       return;
     }
 
     setProcessingPayment(true);
+    console.log("⏳ Creating payment intent...");
 
     try {
       const intent = await createIntent(product.paymentLink);
+      console.log("✅ Payment intent created:", intent);
 
       if (intent) {
-
-        // Redirect to the payment link (Stripe checkout or custom payment page)
-        window.location.href = intent.paymentLink;
+        console.log("💳 Client Secret:", intent.clientSecret);
+        console.log("🆔 Payment Intent ID:", intent.paymentIntentId);
+        
+        // Check if backend returned a Stripe Checkout URL
+        if (intent.paymentLink && intent.paymentLink.includes('checkout.stripe.com')) {
+          console.log("🔀 Redirecting to Stripe Checkout:", intent.paymentLink);
+          window.location.href = intent.paymentLink;
+        } 
+        // Otherwise, navigate to custom checkout page with clientSecret
+        else if (intent.clientSecret) {
+          console.log("🔀 Navigating to custom checkout page");
+          const checkoutUrl = `/${uniqueName}/${slug}/checkout?secret=${intent.clientSecret}&intent=${intent.paymentIntentId}`;
+          console.log("📍 Checkout URL:", checkoutUrl);
+          router.push(checkoutUrl);
+        } else {
+          console.error("❌ No payment URL or client secret available");
+          alert("Payment configuration error. Please contact support.");
+        }
       } else {
         console.error("❌ Failed to create payment intent");
         alert("Failed to initialize payment. Please try again.");
