@@ -311,14 +311,14 @@ export default function CheckoutPage() {
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-8 space-y-6">
               {/* Product Card */}
-              <Card className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] border-white/10 backdrop-blur-xl shadow-2xl overflow-hidden">
-                <CardHeader className="border-b border-white/10 pb-4">
-                  <CardTitle className="text-white text-lg md:text-xl">Order Summary</CardTitle>
+              <Card>
+                <CardHeader className="border-b pb-4">
+                  <CardTitle className="text-lg md:text-xl">Order Summary</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-6 space-y-6">
                   {/* Product Image */}
                   {product.image && (
-                    <div className="relative w-full h-48 rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                    <div className="relative w-full h-48 rounded-lg overflow-hidden bg-muted border">
                       <Image
                         src={product.image}
                         alt={product.productName}
@@ -330,17 +330,17 @@ export default function CheckoutPage() {
 
                   {/* Product Info */}
                   <div className="space-y-2">
-                    <h3 className="text-white font-semibold text-lg md:text-xl">
+                    <h3 className="font-semibold text-lg md:text-xl">
                       {product.productName}
                     </h3>
                     {product.description && (
-                      <p className="text-sm md:text-base text-white/60 line-clamp-3">
+                      <p className="text-sm md:text-base text-muted-foreground line-clamp-3">
                         {product.description}
                       </p>
                     )}
                   </div>
 
-                  <Separator className="bg-white/10" />
+                  <Separator />
 
                   {/* Pricing Details */}
                   <div className="space-y-3">
