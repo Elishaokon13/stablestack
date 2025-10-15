@@ -96,6 +96,14 @@ export default function PaymentSuccessPage() {
                   <circle cx="32" cy="16" r="12" fill="#F79E1B" />
                 </svg>
               </div>
+              <div>
+                <p className="text-xs mb-2 font-medium tracking-wider uppercase">
+                  Payment Method
+                </p>
+                <p className="text-lg font-semibold">
+                  •••• •••• •••• {paymentIntentId?.slice(-4) || "bMnr"}
+                </p>
+              </div>
             </div>
           </div>
 
