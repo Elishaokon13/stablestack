@@ -194,7 +194,7 @@ export default function ProductsPage() {
                       className="w-full h-full min-h-[240px] max-h-[240px] object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-full h-full  min-h-[240px] max-h-[240px] flex items-center justify-center">
                       <ImageIcon className="w-12 h-12 text-white/10" />
                     </div>
                   )}
