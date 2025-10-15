@@ -81,16 +81,6 @@ export default function PaymentSuccessPage() {
               </div>
             </div>
 
-            {/* Date & Time */}
-            <div>
-              <p className="text-xs mb-2 font-medium tracking-wider uppercase">
-                Date & Time
-              </p>
-              <p className="text-base font-medium">
-                {formatDate(currentDateTime)}
-              </p>
-            </div>
-
             {/* Payment Method */}
             <div className="bg-white/10 rounded-lg p-5 flex items-center gap-4">
               <div className="flex-shrink-0">
