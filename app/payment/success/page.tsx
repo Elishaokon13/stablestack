@@ -75,7 +75,7 @@ export default function PaymentSuccessPage() {
                 <p className="text-xs mb-2 font-medium tracking-wider uppercase">
                   Payment Method
                 </p>
-                <p className="text-lg font-semibold ">
+                <p className="text-lg font-semibold">
                   •••• •••• •••• {paymentIntentId?.slice(-4) || "bMnr"}
                 </p>
               </div>
