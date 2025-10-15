@@ -90,7 +90,7 @@ function CheckoutForm({ clientSecret, product }: { clientSecret: string; product
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Email Input */}
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-white/90 font-medium">
+        <Label htmlFor="email" className="font-medium">
           Email Address
         </Label>
         <Input
@@ -100,15 +100,15 @@ function CheckoutForm({ clientSecret, product }: { clientSecret: string; product
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
           required
-          className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-purple-500 focus:ring-purple-500/20"
+          className="h-12"
         />
-        <p className="text-xs text-white/50">Receipt will be sent to this email</p>
+        <p className="text-xs text-muted-foreground">Receipt will be sent to this email</p>
       </div>
 
       {/* Payment Element */}
       <div className="space-y-2">
-        <Label className="text-white/90 font-medium">Payment Information</Label>
-        <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm">
+        <Label className="font-medium">Payment Information</Label>
+        <div className="p-4 border rounded-lg">
           <PaymentElement />
         </div>
       </div>
