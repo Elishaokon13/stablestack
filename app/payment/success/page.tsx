@@ -37,7 +37,7 @@ export default function PaymentSuccessPage() {
           {/* Success Icon */}
           <div className="text-center space-y-4">
             <div className="text-6xl mb-4">✓</div>
-            <h1 className="text-3xl font-bold">Thank you!</h1>
+            <h1 className="text-3xl font-bold text-white">Thank you!</h1>
             <p className="text-base">
               Your ticket has been issued successfully
             </p>
