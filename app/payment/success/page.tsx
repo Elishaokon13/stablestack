@@ -44,9 +44,9 @@ export default function PaymentSuccessPage() {
           </div>
 
           <div className="w-full p-5 bg-white/10 flex items-center justify-center flex-col">
-            <div className="text-center">
+            <div className="text-center space-y-2">
               <p className="!text-[52px] font-bold">$35.00</p>
-              <p className="text-base font-medium">
+              <p className="text-base font-medium text-white/50">
                 {formatDate(currentDateTime)}
               </p>
             </div>
