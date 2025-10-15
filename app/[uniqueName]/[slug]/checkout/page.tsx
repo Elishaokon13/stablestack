@@ -115,19 +115,19 @@ function CheckoutForm({ clientSecret, product }: { clientSecret: string; product
 
       {/* Error Display */}
       {error && (
-        <Alert className="bg-red-500/10 border-red-500/20 backdrop-blur-sm">
-          <AlertDescription className="text-red-400 text-sm">{error}</AlertDescription>
+        <Alert variant="destructive">
+          <AlertDescription className="text-sm">{error}</AlertDescription>
         </Alert>
       )}
 
       {/* Security Badge */}
-      <div className="flex items-center justify-center gap-4 py-4">
-        <div className="flex items-center gap-2 text-xs text-white/50">
+      <div className="flex items-center justify-center gap-4 py-4 border-y">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Shield className="h-3.5 w-3.5" />
           <span>Secured by Stripe</span>
         </div>
-        <div className="h-4 w-px bg-white/10" />
-        <div className="flex items-center gap-2 text-xs text-white/50">
+        <div className="h-4 w-px bg-border" />
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Lock className="h-3.5 w-3.5" />
           <span>SSL Encrypted</span>
         </div>
@@ -138,7 +138,7 @@ function CheckoutForm({ clientSecret, product }: { clientSecret: string; product
         type="submit"
         size="lg"
         disabled={!stripe || isProcessing}
-        className="w-full h-14 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 hover:from-purple-700 hover:via-blue-700 hover:to-purple-700 text-white font-semibold text-base shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-200"
+        className="w-full h-14 font-semibold text-base"
       >
         {isProcessing ? (
           <>
@@ -155,11 +155,11 @@ function CheckoutForm({ clientSecret, product }: { clientSecret: string; product
 
       {/* Trust Badges */}
       <div className="flex items-center justify-center gap-3 pt-2">
-        <div className="px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full">
-          <span className="text-xs text-green-400 font-medium">PCI Compliant</span>
+        <div className="px-3 py-1.5 bg-muted border rounded-full">
+          <span className="text-xs font-medium">PCI Compliant</span>
         </div>
-        <div className="px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full">
-          <span className="text-xs text-blue-400 font-medium">256-bit SSL</span>
+        <div className="px-3 py-1.5 bg-muted border rounded-full">
+          <span className="text-xs font-medium">256-bit SSL</span>
         </div>
       </div>
     </form>
