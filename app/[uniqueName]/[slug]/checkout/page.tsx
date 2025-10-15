@@ -189,17 +189,16 @@ export default function CheckoutPage() {
 
   if (!clientSecret) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full bg-white/5 border-white/10 backdrop-blur-sm">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
           <CardContent className="pt-6 text-center space-y-4">
-            <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CreditCard className="h-8 w-8 text-red-400" />
+            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+              <CreditCard className="h-8 w-8 text-muted-foreground" />
             </div>
-            <p className="text-red-400 text-lg font-medium">Missing payment information</p>
+            <p className="text-destructive text-lg font-medium">Missing payment information</p>
             <Button
               onClick={() => router.back()}
               variant="outline"
-              className="border-white/20 text-white hover:bg-white/5"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Go Back
@@ -212,10 +211,10 @@ export default function CheckoutPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center space-y-4">
-          <Loader2 className="w-12 h-12 text-purple-400 animate-spin mx-auto" />
-          <p className="text-white/70 text-lg">Loading checkout...</p>
+          <Loader2 className="w-12 h-12 text-muted-foreground animate-spin mx-auto" />
+          <p className="text-muted-foreground text-lg">Loading checkout...</p>
         </div>
       </div>
     );
@@ -223,19 +222,18 @@ export default function CheckoutPage() {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full bg-white/5 border-white/10 backdrop-blur-sm">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
           <CardContent className="pt-6 text-center space-y-4">
-            <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CreditCard className="h-8 w-8 text-red-400" />
+            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+              <CreditCard className="h-8 w-8 text-muted-foreground" />
             </div>
-            <p className="text-red-400 text-lg font-medium">
+            <p className="text-destructive text-lg font-medium">
               {error || "Product not found"}
             </p>
             <Button
               onClick={() => router.back()}
               variant="outline"
-              className="border-white/20 text-white hover:bg-white/5"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Go Back
@@ -248,9 +246,9 @@ export default function CheckoutPage() {
 
   if (!stripeClient) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4">
-        <Alert className="max-w-md bg-red-500/10 border-red-500/20 backdrop-blur-sm">
-          <AlertDescription className="text-red-400">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Alert className="max-w-md" variant="destructive">
+          <AlertDescription>
             Stripe is not configured. Please contact support.
           </AlertDescription>
         </Alert>
