@@ -91,7 +91,7 @@ export function ProductCard({
         <CardContent className="space-y-4">
           {/* Product Image */}
           {product.imageUrl ? (
-            <div className="relative w-full h-[280px] rounded-lg overflow-hidden bg-muted">
+            <div className="relative w-full h-[380px] rounded-lg overflow-hidden bg-muted">
               <Image
                 src={product.imageUrl}
                 alt={product.name}
