@@ -67,7 +67,7 @@ export default function PaymentSuccessPage() {
                 <p className="text-xs mb-2 font-medium tracking-wider uppercase">
                   Ticket ID
                 </p>
-                <p className="text-lg font-semibold w-[200px] truncate">
+                <p className="text-lg font-semibold w-[100px] truncate">
                   {paymentIntentId || "0120034399434"}
                 </p>
               </div>
