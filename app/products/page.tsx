@@ -191,7 +191,7 @@ export default function ProductsPage() {
                     <img
                       src={product.image}
                       alt={product.productName}
-                      className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
