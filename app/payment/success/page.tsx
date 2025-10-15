@@ -96,7 +96,7 @@ export default function PaymentSuccessPage() {
             <Button
               onClick={() => router.push("/")}
               size="lg"
-              className="w-full h-12 bg-zinc-900 hover:bg-zinc-800 font-medium"
+              className="w-full h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-medium"
             >
               <Home className="mr-2 h-4 w-4" />
               Home
