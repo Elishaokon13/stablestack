@@ -345,14 +345,14 @@ export default function CheckoutPage() {
                   {/* Pricing Details */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm md:text-base">
-                      <span className="text-white/70">Subtotal</span>
-                      <span className="text-white font-medium">${product.amount}</span>
+                      <span className="text-muted-foreground">Subtotal</span>
+                      <span className="font-medium">${product.amount}</span>
                     </div>
                     
                     {product.payoutChain && (
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-white/70">Network</span>
-                        <span className="text-white/90 uppercase text-xs font-mono bg-white/5 px-2 py-1 rounded">
+                        <span className="text-muted-foreground">Network</span>
+                        <span className="uppercase text-xs font-mono bg-muted px-2 py-1 rounded">
                           {product.payoutChain.replace("-", " ")}
                         </span>
                       </div>
@@ -360,33 +360,33 @@ export default function CheckoutPage() {
                     
                     {product.payoutToken && (
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-white/70">Payout Token</span>
-                        <span className="text-white/90 font-mono bg-white/5 px-2 py-1 rounded text-xs">
+                        <span className="text-muted-foreground">Payout Token</span>
+                        <span className="font-mono bg-muted px-2 py-1 rounded text-xs">
                           {product.payoutToken}
                         </span>
                       </div>
                     )}
                   </div>
 
-                  <Separator className="bg-white/10" />
+                  <Separator />
 
                   {/* Total */}
-                  <div className="flex items-center justify-between py-4 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-xl px-4 border border-purple-500/20">
-                    <span className="text-white font-semibold text-lg">Total</span>
-                    <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  <div className="flex items-center justify-between py-4 bg-muted rounded-lg px-4 border">
+                    <span className="font-semibold text-lg">Total</span>
+                    <span className="text-2xl md:text-3xl font-bold">
                       ${product.amount}
                     </span>
                   </div>
 
                   {/* Security Notice */}
-                  <div className="mt-6 p-4 bg-blue-500/5 border border-blue-500/10 rounded-xl backdrop-blur-sm">
+                  <div className="mt-6 p-4 bg-muted border rounded-lg">
                     <div className="flex items-start gap-3">
-                      <CheckCircle2 className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                      <CheckCircle2 className="h-5 w-5 mt-0.5 flex-shrink-0" />
                       <div className="space-y-1">
-                        <p className="text-xs md:text-sm text-blue-400 font-semibold">
+                        <p className="text-xs md:text-sm font-semibold">
                           Protected Payment
                         </p>
-                        <p className="text-xs text-white/60">
+                        <p className="text-xs text-muted-foreground">
                           Your payment is secured with bank-level encryption. Card details never touch our servers.
                         </p>
                       </div>
