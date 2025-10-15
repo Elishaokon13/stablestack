@@ -257,25 +257,19 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-48 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 -right-48 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-      </div>
-
+    <div className="min-h-screen bg-background">
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-8 md:py-12">
+      <div className="container mx-auto px-4 py-8 md:py-12">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full backdrop-blur-sm">
-            <Sparkles className="h-4 w-4 text-purple-400" />
-            <span className="text-sm text-purple-300 font-medium">Secure Checkout</span>
+          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-muted border rounded-full">
+            <Lock className="h-4 w-4" />
+            <span className="text-sm font-medium">Secure Checkout</span>
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">
             Complete Your Purchase
           </h1>
-          <p className="text-white/60 text-sm md:text-base max-w-md mx-auto">
+          <p className="text-muted-foreground text-sm md:text-base max-w-md mx-auto">
             Your payment information is encrypted and secure
           </p>
         </div>
