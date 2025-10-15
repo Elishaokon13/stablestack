@@ -60,7 +60,7 @@ export default function PaymentSuccessPage() {
           </div>
 
           {/* Transaction Details */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Ticket ID and Amount Row */}
             <div className="flex justify-between items-start">
               <div className="text-center">
