@@ -32,7 +32,7 @@ export default function PaymentSuccessPage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       {/* Receipt Card */}
-      <Card className="w-full max-w-lg">
+      <Card className="w-full max-w-lg border-none">
         <CardContent className="p-12 space-y-6">
           {/* Success Icon */}
           <div className="text-center space-y-4">
