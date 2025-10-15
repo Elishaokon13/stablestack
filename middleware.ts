@@ -21,10 +21,10 @@ const isProtectedRoute = createRouteMatcher([
   "/wallet(.*)",
 ]);
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   // Only protect routes that are explicitly marked as protected
   if (isProtectedRoute(req)) {
-    auth.protect();
+    await auth.protect();
   }
 });
 

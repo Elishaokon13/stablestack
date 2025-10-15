@@ -186,15 +186,15 @@ export default function ProductsPage() {
                 className="bg-gradient-to-br from-white/[0.07] to-white/[0.03] border border-white/10 rounded-lg overflow-hidden hover:border-white/20 hover:shadow-lg hover:shadow-purple-500/5 transition-all group"
               >
                 {/* Product Image */}
-                <div className="relative h-40 bg-gradient-to-br from-blue-500/10 to-purple-500/10 overflow-hidden">
+                <div className="relative bg-gradient-to-br from-blue-500/10 to-purple-500/10 overflow-hidden">
                   {product.image ? (
                     <img
                       src={product.image}
                       alt={product.productName}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full min-h-[240px] max-h-[240px] object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-full h-full  min-h-[240px] max-h-[240px] flex items-center justify-center">
                       <ImageIcon className="w-12 h-12 text-white/10" />
                     </div>
                   )}

@@ -91,7 +91,7 @@ export function ProductCard({
         <CardContent className="space-y-4">
           {/* Product Image */}
           {product.imageUrl ? (
-            <div className="relative w-full h-32 rounded-lg overflow-hidden bg-muted">
+            <div className="relative w-full h-[280px] rounded-lg overflow-hidden bg-muted">
               <Image
                 src={product.imageUrl}
                 alt={product.name}
@@ -104,7 +104,7 @@ export function ProductCard({
               />
             </div>
           ) : (
-            <div className="w-full h-32 rounded-lg bg-muted flex items-center justify-center">
+            <div className="w-full h-[280px] rounded-lg bg-muted flex items-center justify-center">
               <Package className="w-8 h-8 text-muted-foreground" />
             </div>
           )}
