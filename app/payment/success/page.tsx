@@ -30,25 +30,32 @@ export default function PaymentSuccessPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4 py-12">
+    <div className="min-h-screen flex items-center justify-center p-4 py-12">
       {/* Receipt Card */}
-      <Card className="w-full max-w-md bg-black border-0 shadow-2xl">
+      <Card className="w-full max-w-lg">
         <CardContent className="pt-12 pb-8 px-8 space-y-8">
           {/* Success Icon */}
           <div className="text-center space-y-4">
-            <div className="text-6xl mb-4">🎉</div>
-            <h1 className="text-3xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text">
-              Thank you!
-            </h1>
-            <p className="text-gray-400 text-base">
+            <div className="text-6xl mb-4">✓</div>
+            <h1 className="text-3xl font-bold">Thank you!</h1>
+            <p className="text-base">
               Your ticket has been issued successfully
             </p>
+          </div>
+
+          <div className="w-full p-5 bg-white/10 flex items-center justify-center flex-col">
+            <div className="text-center">
+              <p className="!text-[52px] font-bold">$35.00</p>
+              <p className="text-base font-medium">
+                {formatDate(currentDateTime)}
+              </p>
+            </div>
           </div>
 
           {/* Dashed Separator */}
           <div className="relative py-4">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t-2 border-dashed border-white" />
+              <div className="w-full border-t border-dashed border-zinc-200 dark:border-zinc-700" />
             </div>
           </div>
 
@@ -57,33 +64,33 @@ export default function PaymentSuccessPage() {
             {/* Ticket ID and Amount Row */}
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-gray-500 mb-2 font-medium tracking-wider uppercase">
+                <p className="text-xs mb-2 font-medium tracking-wider uppercase">
                   Ticket ID
                 </p>
-                <p className="text-lg font-bold text-blue-400">
+                <p className="text-lg font-semibold max-w-[200px]">
                   {paymentIntentId || "0120034399434"}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-gray-500 mb-2 font-medium tracking-wider uppercase">
+                <p className="text-xs mb-2 font-medium tracking-wider uppercase">
                   Amount
                 </p>
-                <p className="text-lg font-bold text-blue-400">$35.00</p>
+                <p className="text-lg font-semibold">$35.00</p>
               </div>
             </div>
 
             {/* Date & Time */}
             <div>
-              <p className="text-xs text-gray-500 mb-2 font-medium tracking-wider uppercase">
+              <p className="text-xs mb-2 font-medium tracking-wider uppercase">
                 Date & Time
               </p>
-              <p className="text-base font-semibold text-blue-400">
+              <p className="text-base font-medium">
                 {formatDate(currentDateTime)}
               </p>
             </div>
 
             {/* Payment Method */}
-            <div className="bg-white rounded-2xl p-5 flex items-center gap-4">
+            <div className="bg-white/10 rounded-lg p-5 flex items-center gap-4">
               <div className="flex-shrink-0">
                 {/* Mastercard Logo */}
                 <svg
@@ -98,10 +105,8 @@ export default function PaymentSuccessPage() {
                 </svg>
               </div>
               <div className="flex-1">
-                <p className="text-base font-semibold text-gray-900 mb-0.5">
-                  Card Payment
-                </p>
-                <p className="text-sm text-gray-500 font-mono tracking-wider">
+                <p className="text-base font-semibold mb-0.5">Card Payment</p>
+                <p className="text-sm font-mono tracking-wider">
                   •••• •••• •••• {paymentIntentId?.slice(-4) || "bMnr"}
                 </p>
               </div>
@@ -110,7 +115,7 @@ export default function PaymentSuccessPage() {
 
           {/* Barcode */}
           <div className="pt-2">
-            <div className="bg-white p-6 rounded-2xl">
+            <div className="bg-white/10 p-6 rounded-lg">
               <svg
                 width="100%"
                 height="100"
@@ -186,24 +191,24 @@ export default function PaymentSuccessPage() {
               onClick={() => window.print()}
               variant="outline"
               size="lg"
-              className="w-full h-14 border-2 border-gray-700 bg-transparent hover:bg-gray-900 text-gray-400 font-semibold"
+              className="w-full h-12 bg-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium"
             >
               <Download className="mr-2 h-4 w-4" />
-              DOWNLOAD
+              Download
             </Button>
             <Button
               onClick={() => router.push("/")}
               size="lg"
-              className="w-full h-14 bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 hover:from-blue-700 hover:via-blue-600 hover:to-purple-700 text-white font-semibold shadow-lg shadow-blue-500/30"
+              className="w-full h-12 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 font-medium"
             >
               <Home className="mr-2 h-4 w-4" />
-              HOME
+              Home
             </Button>
           </div>
 
           {/* Footer Text */}
           <div className="text-center pt-4">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs">
               A receipt has been sent to your email address
             </p>
           </div>
@@ -219,16 +224,6 @@ export default function PaymentSuccessPage() {
           .min-h-screen {
             min-height: auto !important;
             background: white !important;
-          }
-          .bg-black {
-            background: white !important;
-          }
-          .text-gray-400,
-          .text-gray-500 {
-            color: #666 !important;
-          }
-          .text-blue-400 {
-            color: #000 !important;
           }
           button {
             display: none !important;
