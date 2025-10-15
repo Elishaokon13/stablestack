@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
-import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import { stripeClient } from "@/lib/stripe";
 import { usePublicProduct } from "@/lib/hooks/product";
 import { Button } from "@/components/ui/button";
@@ -21,7 +26,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-function CheckoutForm({ clientSecret, product }: { clientSecret: string; product: any }) {
+function CheckoutForm({
+  clientSecret,
+  product,
+}: {
+  clientSecret: string;
+  product: any;
+}) {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -54,15 +65,16 @@ function CheckoutForm({ clientSecret, product }: { clientSecret: string; product
 
       console.log("✅ Elements submitted, confirming payment...");
 
-      const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
-        elements,
-        clientSecret,
-        confirmParams: {
-          receipt_email: email,
-          return_url: `${window.location.origin}/payment/success`,
-        },
-        redirect: "if_required",
-      });
+      const { error: confirmError, paymentIntent } =
+        await stripe.confirmPayment({
+          elements,
+          clientSecret,
+          confirmParams: {
+            receipt_email: email,
+            return_url: `${window.location.origin}/payment/success`,
+          },
+          redirect: "if_required",
+        });
 
       if (confirmError) {
         throw new Error(confirmError.message);
@@ -77,7 +89,8 @@ function CheckoutForm({ clientSecret, product }: { clientSecret: string; product
         throw new Error("Payment was not successful");
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Payment failed";
+      const errorMessage =
+        err instanceof Error ? err.message : "Payment failed";
       console.error("❌ Payment error:", errorMessage);
       setError(errorMessage);
     } finally {
@@ -101,7 +114,9 @@ function CheckoutForm({ clientSecret, product }: { clientSecret: string; product
           required
           className="h-12"
         />
-        <p className="text-xs text-muted-foreground">Receipt will be sent to this email</p>
+        <p className="text-xs text-muted-foreground">
+          Receipt will be sent to this email
+        </p>
       </div>
 
       {/* Payment Element */}
@@ -181,7 +196,10 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     console.log("🛒 Checkout Page Loaded");
-    console.log("🔑 Client Secret:", clientSecret ? "✅ Present" : "❌ Missing");
+    console.log(
+      "🔑 Client Secret:",
+      clientSecret ? "✅ Present" : "❌ Missing"
+    );
     console.log("🆔 Intent ID:", intentId);
     console.log("📦 Product:", product);
   }, [product, clientSecret, intentId]);
@@ -194,11 +212,10 @@ export default function CheckoutPage() {
             <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
               <CreditCard className="h-8 w-8 text-muted-foreground" />
             </div>
-            <p className="text-destructive text-lg font-medium">Missing payment information</p>
-            <Button
-              onClick={() => router.back()}
-              variant="outline"
-            >
+            <p className="text-destructive text-lg font-medium">
+              Missing payment information
+            </p>
+            <Button onClick={() => router.back()} variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Go Back
             </Button>
@@ -230,10 +247,7 @@ export default function CheckoutPage() {
             <p className="text-destructive text-lg font-medium">
               {error || "Product not found"}
             </p>
-            <Button
-              onClick={() => router.back()}
-              variant="outline"
-            >
+            <Button onClick={() => router.back()} variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Go Back
             </Button>
@@ -312,7 +326,9 @@ export default function CheckoutPage() {
               {/* Product Card */}
               <Card>
                 <CardHeader className="border-b pb-4">
-                  <CardTitle className="text-lg md:text-xl">Order Summary</CardTitle>
+                  <CardTitle className="text-lg md:text-xl">
+                    Order Summary
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-6 space-y-6">
                   {/* Product Image */}
@@ -347,7 +363,7 @@ export default function CheckoutPage() {
                       <span className="text-muted-foreground">Subtotal</span>
                       <span className="font-medium">${product.amount}</span>
                     </div>
-                    
+
                     {product.payoutChain && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-muted-foreground">Network</span>
@@ -356,10 +372,12 @@ export default function CheckoutPage() {
                         </span>
                       </div>
                     )}
-                    
+
                     {product.payoutToken && (
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Payout Token</span>
+                        <span className="text-muted-foreground">
+                          Payout Token
+                        </span>
                         <span className="font-mono bg-muted px-2 py-1 rounded text-xs">
                           {product.payoutToken}
                         </span>
@@ -386,7 +404,8 @@ export default function CheckoutPage() {
                           Protected Payment
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Your payment is secured with bank-level encryption. Card details never touch our servers.
+                          Your payment is secured with bank-level encryption.
+                          Card details never touch our servers.
                         </p>
                       </div>
                     </div>
