@@ -35,7 +35,7 @@ export default function PaymentSuccessPage() {
       <Card className="w-full max-w-lg">
         <CardContent className="p-12 space-y-6">
           {/* Success Icon */}
-          <div className="text-center space-y-3">
+          <div className="text-center space-y-2">
             <div className="text-6xl mb-4">✓</div>
             <h1 className="text-3xl font-bold text-white">Thank you!</h1>
             <p className="text-base">
