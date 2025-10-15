@@ -399,7 +399,7 @@ export default function CheckoutPage() {
               <Button
                 onClick={() => router.back()}
                 variant="outline"
-                className="w-full border-white/20 text-white hover:bg-white/5 hover:border-white/30 transition-all"
+                className="w-full"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Product
