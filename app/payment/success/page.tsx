@@ -80,31 +80,6 @@ export default function PaymentSuccessPage() {
                 </p>
               </div>
             </div>
-
-            {/* Payment Method */}
-            <div className="bg-white/10 rounded-lg p-5 flex items-center gap-4">
-              <div className="flex-shrink-0">
-                {/* Mastercard Logo */}
-                <svg
-                  width="48"
-                  height="32"
-                  viewBox="0 0 48 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="16" cy="16" r="12" fill="#EB001B" />
-                  <circle cx="32" cy="16" r="12" fill="#F79E1B" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-xs mb-2 font-medium tracking-wider uppercase">
-                  Payment Method
-                </p>
-                <p className="text-lg font-semibold">
-                  •••• •••• •••• {paymentIntentId?.slice(-4) || "bMnr"}
-                </p>
-              </div>
-            </div>
           </div>
 
           {/* Action Buttons */}
