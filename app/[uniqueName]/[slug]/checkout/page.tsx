@@ -278,11 +278,11 @@ export default function CheckoutPage() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Checkout Form - Left Side (Mobile: Full Width, Desktop: 7 cols) */}
           <div className="lg:col-span-7">
-            <Card className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] border-white/10 backdrop-blur-xl shadow-2xl">
-              <CardHeader className="border-b border-white/10 pb-6">
-                <CardTitle className="text-white flex items-center gap-3 text-xl md:text-2xl">
-                  <div className="p-2 bg-purple-500/10 rounded-lg">
-                    <CreditCard className="h-5 w-5 md:h-6 md:w-6 text-purple-400" />
+            <Card>
+              <CardHeader className="border-b pb-6">
+                <CardTitle className="flex items-center gap-3 text-xl md:text-2xl">
+                  <div className="p-2 bg-muted rounded-lg">
+                    <CreditCard className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   Payment Details
                 </CardTitle>
@@ -293,30 +293,10 @@ export default function CheckoutPage() {
                   options={{
                     clientSecret,
                     appearance: {
-                      theme: "night",
+                      theme: "stripe",
                       variables: {
-                        colorPrimary: "#8b5cf6",
-                        colorBackground: "#1e1b4b",
-                        colorText: "#ffffff",
-                        colorDanger: "#ef4444",
                         fontFamily: "Inter, system-ui, sans-serif",
-                        borderRadius: "12px",
-                        spacingUnit: "4px",
-                      },
-                      rules: {
-                        ".Input": {
-                          backgroundColor: "rgba(255, 255, 255, 0.05)",
-                          border: "1px solid rgba(255, 255, 255, 0.1)",
-                          padding: "12px",
-                        },
-                        ".Input:focus": {
-                          borderColor: "#8b5cf6",
-                          boxShadow: "0 0 0 3px rgba(139, 92, 246, 0.1)",
-                        },
-                        ".Label": {
-                          color: "rgba(255, 255, 255, 0.9)",
-                          fontWeight: "500",
-                        },
+                        borderRadius: "8px",
                       },
                     },
                   }}
