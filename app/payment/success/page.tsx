@@ -88,7 +88,7 @@ export default function PaymentSuccessPage() {
               onClick={() => window.print()}
               variant="outline"
               size="lg"
-              className="w-full h-12 bg-transparent hover:bg-zinc-100 text-zinc-700 font-medium"
+              className="w-full h-12 bg-transparent hover:bg-zinc-100 text-white/50 font-medium"
             >
               <Download className="mr-2 h-4 w-4" />
               Download
