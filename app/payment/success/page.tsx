@@ -72,10 +72,10 @@ export default function PaymentSuccessPage() {
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs mb-2 font-medium tracking-wider uppercase">
-                  Amount
+                <p className="text-base font-semibold mb-0.5">Card Payment</p>
+                <p className="text-sm font-mono tracking-wider">
+                  •••• •••• •••• {paymentIntentId?.slice(-4) || "bMnr"}
                 </p>
-                <p className="text-lg font-semibold">$35.00</p>
               </div>
             </div>
 
@@ -103,12 +103,6 @@ export default function PaymentSuccessPage() {
                   <circle cx="16" cy="16" r="12" fill="#EB001B" />
                   <circle cx="32" cy="16" r="12" fill="#F79E1B" />
                 </svg>
-              </div>
-              <div className="flex-1">
-                <p className="text-base font-semibold mb-0.5">Card Payment</p>
-                <p className="text-sm font-mono tracking-wider">
-                  •••• •••• •••• {paymentIntentId?.slice(-4) || "bMnr"}
-                </p>
               </div>
             </div>
           </div>
