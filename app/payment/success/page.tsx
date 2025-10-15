@@ -30,7 +30,7 @@ export default function PaymentSuccessPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 py-12">
+    <div className="min-h-screen flex items-center justify-center">
       {/* Receipt Card */}
       <Card className="w-full max-w-lg">
         <CardContent className="p-12 space-y-6">
