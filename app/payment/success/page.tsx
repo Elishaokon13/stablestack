@@ -64,7 +64,7 @@ export default function PaymentSuccessPage() {
             {/* Ticket ID and Amount Row */}
             <div className="flex justify-between items-start">
               <div className="text-center">
-                <p className="text-xs mb-2 font-medium tracking-wider uppercase">
+                <p className="text-white/50 text-xs mb-2 font-medium tracking-wider uppercase">
                   Ticket ID
                 </p>
                 <p className="text-lg font-semibold w-[120px] truncate">
@@ -72,7 +72,7 @@ export default function PaymentSuccessPage() {
                 </p>
               </div>
               <div className="text-center">
-                <p className="text-xs mb-2 font-medium tracking-wider uppercase">
+                <p className="text-white/50 text-xs mb-2 font-medium tracking-wider uppercase">
                   Payment Method
                 </p>
                 <p className="text-lg font-semibold">
