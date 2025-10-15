@@ -83,7 +83,7 @@ export default function PaymentSuccessPage() {
           </div>
 
           {/* Action Buttons */}
-          <div className="grid grid-cols-2 gap-3 pt-4">
+          <div className="grid grid-cols-2 gap-3">
             <Button
               onClick={() => window.print()}
               variant="outline"
