@@ -24,6 +24,7 @@ async function request<T>(
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "69420", // Skip ngrok browser warning
     ...(customHeaders as Record<string, string>),
   };
 
@@ -63,6 +64,21 @@ async function request<T>(
     // Handle 204 No Content
     if (response.status === 204) {
       return {} as T;
+    }
+
+    // Check content type before parsing
+    const contentType = response.headers.get("content-type");
+    console.log("📄 Content-Type:", contentType);
+    
+    if (!contentType || !contentType.includes("application/json")) {
+      const responseText = await response.text();
+      console.error("❌ Non-JSON response received:");
+      console.error("Response preview:", responseText.substring(0, 200));
+      throw new ApiError(
+        `Expected JSON but received ${contentType || 'unknown content type'}. The API might be returning an error page.`,
+        response.status,
+        { responsePreview: responseText.substring(0, 500) }
+      );
     }
 
     const data = await response.json();

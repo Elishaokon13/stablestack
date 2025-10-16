@@ -9,17 +9,17 @@ import { apiClient, ApiError } from "@/lib/api/client";
 
 export interface Transaction {
   id: string;
-  paymentIntentId: string;
-  productId: string;
-  slug: string;
-  amount: string;
-  currency: string;
+  paymentIntentId: string | null;
+  productId: string | null;
+  slug: string | null;
+  amount: string | null;
+  currency: string | null;
   status: "INITIATED" | "PROCESSING" | "SUCCEEDED" | "FAILED" | "CANCELLED";
-  customerName: string;
-  customerEmail: string;
-  paymentMethodTypes: string[];
-  createdAt: string;
-  updatedAt: string;
+  customerName: string | null;
+  customerEmail: string | null;
+  paymentMethodTypes: string[] | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
 interface Pagination {
@@ -79,7 +79,10 @@ export function useTransactions(
         token
       );
 
-      setTransactions(response.data.transactions);
+      console.log("📊 Transactions API Response:", response);
+      console.log("📊 Transactions data:", response.data.transactions);
+      
+      setTransactions(response.data.transactions || []);
       setPagination(response.data.pagination);
       setCurrentPage(pageNum);
     } catch (err) {

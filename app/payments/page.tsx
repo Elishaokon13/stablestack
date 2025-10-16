@@ -41,13 +41,15 @@ export default function PaymentsPage() {
   };
 
   // Filter transactions by search query
-  const filteredTransactions = transactions.filter(
-    (tx) =>
-      tx.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tx.customerEmail.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tx.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tx.paymentIntentId.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredTransactions = transactions.filter((tx) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      (tx.customerName || "").toLowerCase().includes(query) ||
+      (tx.customerEmail || "").toLowerCase().includes(query) ||
+      (tx.slug || "").toLowerCase().includes(query) ||
+      (tx.paymentIntentId || "").toLowerCase().includes(query)
+    );
+  });
 
   const getStatusConfig = (
     status: Transaction["status"]
@@ -90,14 +92,26 @@ export default function PaymentsPage() {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  const formatDate = (dateString: string | undefined | null) => {
+    if (!dateString) return "N/A";
+    
+    try {
+      const date = new Date(dateString);
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        return "Invalid date";
+      }
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch (error) {
+      console.error("Error parsing date:", dateString, error);
+      return "Invalid date";
+    }
   };
 
   return (
@@ -178,7 +192,7 @@ export default function PaymentsPage() {
                       <div className="flex items-center gap-2">
                         <User className="w-4 h-4 text-gray-400 flex-shrink-0" />
                         <span className="text-white font-medium truncate">
-                          {transaction.customerName}
+                          {transaction.customerName || "Anonymous"}
                         </span>
                         <Badge className={statusConfig.color}>
                           {statusConfig.icon}
@@ -189,13 +203,13 @@ export default function PaymentsPage() {
                       <div className="flex items-center gap-2 text-sm text-gray-400">
                         <Mail className="w-3 h-3 flex-shrink-0" />
                         <span className="truncate">
-                          {transaction.customerEmail}
+                          {transaction.customerEmail || "No email"}
                         </span>
                       </div>
 
                       <div className="flex items-center gap-2 text-sm text-gray-400">
                         <Package className="w-3 h-3 flex-shrink-0" />
-                        <span className="truncate">{transaction.slug}</span>
+                        <span className="truncate">{transaction.slug || "N/A"}</span>
                       </div>
 
                       <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -209,14 +223,14 @@ export default function PaymentsPage() {
                       <div className="text-right">
                         <div className="flex items-baseline gap-1">
                           <span className="text-2xl font-bold text-green-400">
-                            ${transaction.amount}
+                            ${transaction.amount || "0.00"}
                           </span>
                           <span className="text-xs text-gray-400">
-                            {transaction.currency}
+                            {transaction.currency || "USD"}
                           </span>
                         </div>
                         <p className="text-xs text-gray-500 mt-1">
-                          {transaction.paymentMethodTypes.join(", ")}
+                          {transaction.paymentMethodTypes?.join(", ") || "N/A"}
                         </p>
                       </div>
                     </div>
@@ -225,7 +239,7 @@ export default function PaymentsPage() {
                   {/* Payment Intent ID */}
                   <div className="mt-3 pt-3 border-t border-white/10">
                     <p className="text-xs text-gray-500 font-mono">
-                      Payment ID: {transaction.paymentIntentId}
+                      Payment ID: {transaction.paymentIntentId || "N/A"}
                     </p>
                   </div>
                 </div>

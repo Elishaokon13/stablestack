@@ -33,6 +33,7 @@ import {
   useTransactions,
 } from "@/lib/hooks/payment";
 import { useProductStats } from "@/lib/hooks/product";
+import { useWalletBalance } from "@/lib/hooks/wallet/use-wallet-balance";
 
 // Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -49,6 +50,10 @@ export default function DashboardPage() {
   const { transactions: apiTransactions, loading: transactionsLoading } =
     useTransactions({ limit: 5 });
   const { stats: productStats } = useProductStats();
+  const { balance, loading: balanceLoading } = useWalletBalance({
+    chain: "base-sepolia",
+    autoFetch: true,
+  });
   const [isPaymentLinkModalOpen, setIsPaymentLinkModalOpen] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
@@ -56,21 +61,26 @@ export default function DashboardPage() {
   // Use API transactions or fallback to demo data
   const displayTransactions =
     apiTransactions && apiTransactions.length > 0
-      ? apiTransactions.map((tx) => ({
-          id: tx.id,
-          customer: tx.customerName || tx.customerEmail || "Anonymous",
-          amount: parseFloat(tx.amount),
-          status:
-            tx.status === "SUCCEEDED"
-              ? ("completed" as const)
-              : tx.status === "PROCESSING"
-              ? ("pending" as const)
-              : ("failed" as const),
-          date: new Date(tx.createdAt).toLocaleDateString(),
-          product: tx.slug || tx.productId,
-          email: tx.customerEmail,
-          paymentIntentId: tx.paymentIntentId,
-        }))
+      ? apiTransactions.map((tx) => {
+          console.log("📊 Transaction data:", tx);
+          return {
+            id: tx.id || "unknown",
+            customer: tx.customerName || tx.customerEmail || "Anonymous",
+            amount: tx.amount ? parseFloat(tx.amount) : 0,
+            status:
+              tx.status === "SUCCEEDED"
+                ? ("completed" as const)
+                : tx.status === "PROCESSING"
+                ? ("pending" as const)
+                : ("failed" as const),
+            date: tx.createdAt
+              ? new Date(tx.createdAt).toLocaleDateString()
+              : "N/A",
+            product: tx.slug || tx.productId || "N/A",
+            email: tx.customerEmail || "",
+            paymentIntentId: tx.paymentIntentId || "",
+          };
+        })
       : [
           {
             id: "DEMO-001",
@@ -168,7 +178,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-          {/* Earnings Card */}
+          {/* Total Revenue Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
               $
@@ -181,7 +191,28 @@ export default function DashboardPage() {
               )}
             </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
-              Completed Earnings
+              Total Revenue
+            </div>
+          </div>
+          {/* Wallet Balance Card */}
+          <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-400">
+              {balanceLoading ? (
+                <span className="text-base">Loading...</span>
+              ) : balance?.balances && balance.balances.length > 0 ? (
+                `$${parseFloat(balance.balances[0].convertedBalance).toLocaleString(
+                  undefined,
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }
+                )}`
+              ) : (
+                "$0.00"
+              )}
+            </div>
+            <div className="text-muted-foreground text-xs sm:text-sm">
+              Wallet Balance
             </div>
           </div>
           {/* Active Products Card */}
@@ -200,21 +231,6 @@ export default function DashboardPage() {
             </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
               Total products
-            </div>
-          </div>
-          <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
-              $
-              {parseFloat("0").toLocaleString(
-                undefined,
-                {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }
-              )}
-            </div>
-            <div className="text-muted-foreground text-xs sm:text-sm">
-              Total Revenue
             </div>
           </div>
         </div>

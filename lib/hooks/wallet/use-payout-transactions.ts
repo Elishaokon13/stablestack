@@ -7,6 +7,20 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { apiClient, ApiError } from "@/lib/api/client";
 
+// API Response structure
+interface PayoutTransactionAPI {
+  transactionId: string;
+  hash: string;
+  asset: string;
+  chain: string;
+  reference: string;
+  amount?: string;
+  status?: string;
+  createdAt?: string;
+  timestamp?: string;
+}
+
+// Component structure
 export interface PayoutTransaction {
   id: string;
   amount: string;
@@ -16,8 +30,8 @@ export interface PayoutTransaction {
   timestamp: string;
 }
 
-interface PayoutTransactionsData {
-  transactions: PayoutTransaction[];
+interface PayoutTransactionsDataAPI {
+  transactions: PayoutTransactionAPI[];
   count: number;
   chain: string;
 }
@@ -25,7 +39,22 @@ interface PayoutTransactionsData {
 interface PayoutTransactionsResponse {
   ok: boolean;
   message: string;
-  data: PayoutTransactionsData;
+  data: PayoutTransactionsDataAPI;
+}
+
+// Helper function to map API response to component structure
+function mapTransactionAPIToComponent(tx: any): PayoutTransaction {
+  // Log all available fields for debugging
+  console.log("📊 Transaction fields available:", Object.keys(tx));
+  
+  return {
+    id: tx.transactionId || tx.id || "unknown",
+    amount: tx.amount || tx.value || "0", // Try multiple field names
+    token: tx.asset || tx.token || tx.currency || "USDC",
+    status: tx.status || "completed", // Default to completed if not provided
+    txHash: tx.hash || tx.txHash || tx.transactionHash,
+    timestamp: tx.timestamp || tx.createdAt || tx.created_at || new Date().toISOString(),
+  };
 }
 
 interface UsePayoutTransactionsReturn {
@@ -65,8 +94,19 @@ export function usePayoutTransactions(
         `/protected/wallet/payouttransactions/${chain}`,
         token
       );
-      setTransactions(response.data.transactions);
-      setCount(response.data.count);
+      
+      console.log("📊 Payout Transactions Response:", response);
+      console.log("📊 Transactions data (raw):", response.data.transactions);
+      
+      // Map API response to component structure
+      const mappedTransactions = (response.data.transactions || []).map(
+        mapTransactionAPIToComponent
+      );
+      
+      console.log("📊 Transactions data (mapped):", mappedTransactions);
+      
+      setTransactions(mappedTransactions);
+      setCount(response.data.count || 0);
       setChainState(response.data.chain);
     } catch (err) {
       if (err instanceof ApiError) {
