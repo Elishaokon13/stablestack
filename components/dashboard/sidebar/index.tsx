@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Sidebar,
   SidebarContent,
@@ -13,14 +14,16 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import GearIcon from "@/components/icons/gear";
 import MonkeyIcon from "@/components/icons/monkey";
-import { Package, CreditCard, BarChart3, TestTube, Wallet } from "lucide-react";
+import { Package, CreditCard, BarChart3, TestTube, Wallet, Sparkles } from "lucide-react";
 import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import { useIsV0 } from "@/lib/v0-context";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 const getNavItems = (pathname: string) => [
   {
