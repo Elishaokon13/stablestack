@@ -399,7 +399,7 @@ export function PaymentLinkCreatorModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl mx-auto bg-slate-900/95 backdrop-blur-lg border border-white/20 text-white max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl mx-auto bg-[#111111] backdrop-blur-lg border border-white/10 text-white max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-white flex items-center gap-2">
             <CreditCard className="w-5 h-5" />
