@@ -7,6 +7,7 @@
 ## 📱 Mobile View (< 1024px)
 
 ### Header:
+
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
@@ -18,6 +19,7 @@
 ```
 
 **Features to Look For:**
+
 - ✅ Hamburger icon (☰) on left
 - ✅ Monkey logo in center
 - ✅ Sparkles icon next to name
@@ -56,6 +58,7 @@
 ```
 
 **Animations to Watch:**
+
 - ✅ Hamburger rotates and becomes X
 - ✅ Sidebar slides in from left (smooth)
 - ✅ Dark backdrop fades in
@@ -65,6 +68,7 @@
 ---
 
 ### Active Menu Item:
+
 ```
 ┌───────────────────────────┐
 │ ║  • Products        ← Active
@@ -80,6 +84,7 @@
 ## 💻 Desktop View (≥ 1024px)
 
 ### Full Layout:
+
 ```
 ┌─────────┬────────────────────────────────────┐
 │         │                                    │
@@ -119,12 +124,15 @@
 ## 🎨 Sidebar Features to Test
 
 ### 1. Header Animation
+
 **Hover over the monkey logo:**
+
 ```
 🐵  →  🐵   (scales up 1.05x)
 ```
 
 **Sparkles animation:**
+
 ```
 ✨  →  rotating slowly (every 2-3 seconds)
 ```
@@ -132,7 +140,9 @@
 ---
 
 ### 2. Menu Item Hover
+
 **Before hover:**
+
 ```
 ┌───────────────────────┐
 │  📊 Dashboard         │
@@ -140,6 +150,7 @@
 ```
 
 **On hover:**
+
 ```
 ┌───────────────────────┐
 │ ▸ 📊 Dashboard ─→    │  ← Slides right slightly
@@ -153,6 +164,7 @@
 ---
 
 ### 3. Active Page Indicator
+
 ```
 ┌───────────────────────┐
 │ ┃ 💳 Payments         │ ← Active
@@ -170,6 +182,7 @@
 ---
 
 ### 4. User Profile Footer
+
 ```
 ┌─────────────────────────┐
 │  ─────────────────────  │ ← Border
@@ -182,6 +195,7 @@
 ```
 
 **On hover:**
+
 ```
 ┌─────────────────────────┐
 │  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ │ ← Background
@@ -196,6 +210,7 @@
 ## 🎬 Animation Sequences
 
 ### Opening Sidebar on Mobile:
+
 ```
 Step 1: Tap hamburger
    ☰  →  animates →  ✕
@@ -205,7 +220,7 @@ Step 2: Backdrop appears
 
 Step 3: Sidebar slides in
    ┃     → ┃▒    → ┃▒▒   → ┃▒▒▒
-   
+
 Step 4: Items fade in (staggered)
    Item 1: 0ms    ○ → ●
    Item 2: 50ms   ○ → ●
@@ -219,6 +234,7 @@ Step 4: Items fade in (staggered)
 ---
 
 ### Closing Sidebar:
+
 ```
 Step 1: Tap X or backdrop
    ✕  →  animates →  ☰
@@ -237,24 +253,28 @@ Step 3: Backdrop fades
 ### Mobile Testing (< 1024px):
 
 1. **Header:**
+
    - [ ] Hamburger visible
    - [ ] Logo centered
    - [ ] User avatar visible
    - [ ] Stays at top when scrolling
 
 2. **Hamburger Menu:**
+
    - [ ] Tap opens sidebar
    - [ ] Animates to X
    - [ ] Sidebar slides smoothly
    - [ ] Backdrop appears
 
 3. **Sidebar:**
+
    - [ ] All menu items visible
    - [ ] Active item highlighted
    - [ ] User profile at bottom
    - [ ] Tap item navigates correctly
 
 4. **Closing:**
+
    - [ ] Tap X closes sidebar
    - [ ] Tap backdrop closes sidebar
    - [ ] Animations smooth
@@ -269,24 +289,28 @@ Step 3: Backdrop fades
 ### Desktop Testing (≥ 1024px):
 
 1. **Sidebar:**
+
    - [ ] Always visible on left
    - [ ] Fixed position (doesn't scroll)
    - [ ] Active indicator shows
    - [ ] Hover effects work
 
 2. **Hover States:**
+
    - [ ] Items slide right on hover
    - [ ] Icons scale up
    - [ ] Background changes
    - [ ] Smooth transitions
 
 3. **Active Page:**
+
    - [ ] Blue bar on left
    - [ ] Bold text
    - [ ] Blue icon
    - [ ] Shine effect on hover
 
 4. **User Profile:**
+
    - [ ] Shows at bottom
    - [ ] Avatar clickable
    - [ ] Hover effect works
@@ -303,6 +327,7 @@ Step 3: Backdrop fades
 ## 🎨 Color Guide
 
 ### Sidebar Colors:
+
 - **Background:** Dark with slight transparency
 - **Active Item:** Highlighted background
 - **Active Bar:** Blue (`#3b82f6`)
@@ -310,6 +335,7 @@ Step 3: Backdrop fades
 - **Borders:** White 10% opacity
 
 ### Visual Indicators:
+
 ```
 Active Item:
 ┌──────────────────┐
@@ -335,6 +361,7 @@ Normal Item:
 ## 📐 Size Reference
 
 ### Touch Targets (Mobile):
+
 ```
 Minimum: 44x44px
 
@@ -344,6 +371,7 @@ Menu Items: [▭] 48x height ✅
 ```
 
 ### Spacing:
+
 ```
 Mobile:   padding: 16-24px
 Tablet:   padding: 24-32px
@@ -351,6 +379,7 @@ Desktop:  padding: 32-48px
 ```
 
 ### Typography:
+
 ```
 Mobile:   14-16px base
 Tablet:   16-18px base
@@ -362,6 +391,7 @@ Desktop:  16-20px base
 ## 🔍 Details to Notice
 
 ### Subtle Effects:
+
 1. **Backdrop blur** on sidebar header/footer
 2. **Gradient overlays** on headers
 3. **Shine effect** sweeping across active items
@@ -370,6 +400,7 @@ Desktop:  16-20px base
 6. **Shadow depth** on active items
 
 ### Smooth Transitions:
+
 - **Duration:** 200-300ms
 - **Easing:** ease-in-out
 - **FPS:** Consistent 60fps
@@ -380,6 +411,7 @@ Desktop:  16-20px base
 ## ✅ Quality Indicators
 
 ### Good Animation:
+
 ```
 ✅ Smooth (no stuttering)
 ✅ Fast (< 300ms)
@@ -388,6 +420,7 @@ Desktop:  16-20px base
 ```
 
 ### Good Layout:
+
 ```
 ✅ No horizontal scroll
 ✅ Text is readable
@@ -396,6 +429,7 @@ Desktop:  16-20px base
 ```
 
 ### Good Responsiveness:
+
 ```
 ✅ Adapts to window size
 ✅ Works in portrait/landscape
@@ -409,13 +443,13 @@ Desktop:  16-20px base
 
 Test on these specific sizes:
 
-| Device | Width | Height | Notes |
-|--------|-------|--------|-------|
-| iPhone SE | 375px | 667px | Test hamburger |
-| iPhone 12 | 390px | 844px | Test animations |
-| iPad | 768px | 1024px | Test tablet layout |
-| Desktop | 1280px | 720px | Test sidebar |
-| Large | 1920px | 1080px | Test max-width |
+| Device    | Width  | Height | Notes              |
+| --------- | ------ | ------ | ------------------ |
+| iPhone SE | 375px  | 667px  | Test hamburger     |
+| iPhone 12 | 390px  | 844px  | Test animations    |
+| iPad      | 768px  | 1024px | Test tablet layout |
+| Desktop   | 1280px | 720px  | Test sidebar       |
+| Large     | 1920px | 1080px | Test max-width     |
 
 ---
 
@@ -424,6 +458,7 @@ Test on these specific sizes:
 Your implementation is successful if:
 
 ### Mobile (< 1024px):
+
 - ✅ Hamburger menu appears
 - ✅ Sidebar opens smoothly
 - ✅ All features accessible
@@ -431,6 +466,7 @@ Your implementation is successful if:
 - ✅ No layout issues
 
 ### Desktop (≥ 1024px):
+
 - ✅ Sidebar always visible
 - ✅ Hover effects work
 - ✅ Active states clear
@@ -438,6 +474,7 @@ Your implementation is successful if:
 - ✅ Professional appearance
 
 ### All Sizes:
+
 - ✅ Smooth 60fps animations
 - ✅ No console errors
 - ✅ Fast page loads
@@ -449,6 +486,7 @@ Your implementation is successful if:
 ## 🎬 Video Testing Checklist
 
 Record yourself testing:
+
 1. ✅ Opening hamburger menu
 2. ✅ Navigating between pages
 3. ✅ Hovering over menu items
@@ -467,4 +505,3 @@ Test it now at: `http://localhost:3000`
 ---
 
 _Visual Guide v1.0.0 - StableStack_
-
