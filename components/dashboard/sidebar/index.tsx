@@ -19,7 +19,14 @@ import {
 import { cn } from "@/lib/utils";
 import GearIcon from "@/components/icons/gear";
 import MonkeyIcon from "@/components/icons/monkey";
-import { Package, CreditCard, BarChart3, TestTube, Wallet, Sparkles } from "lucide-react";
+import {
+  Package,
+  CreditCard,
+  BarChart3,
+  TestTube,
+  Wallet,
+  Sparkles,
+} from "lucide-react";
 import { Bullet } from "@/components/ui/bullet";
 import LockIcon from "@/components/icons/lock";
 import { useIsV0 } from "@/lib/v0-context";
@@ -61,24 +68,24 @@ const getNavItems = (pathname: string) => [
       },
     ],
   },
-    // {
-    //   title: "Development",
-    //   items: [
-    //     {
-    //       title: "Test Wallet",
-    //       url: "/test-wallet",
-    //       icon: TestTube,
-    //       isActive: false,
-    //     },
-    //     {
-    //       title: "API Docs",
-    //       url: "/api-docs",
-    //       icon: GearIcon,
-    //       isActive: false,
-    //     },
-    //   ],
-    // },
-  ];
+  // {
+  //   title: "Development",
+  //   items: [
+  //     {
+  //       title: "Test Wallet",
+  //       url: "/test-wallet",
+  //       icon: TestTube,
+  //       isActive: false,
+  //     },
+  //     {
+  //       title: "API Docs",
+  //       url: "/api-docs",
+  //       icon: GearIcon,
+  //       isActive: false,
+  //     },
+  //   ],
+  // },
+];
 
 export function DashboardSidebar({
   className,
@@ -95,7 +102,7 @@ export function DashboardSidebar({
       <SidebarHeader className="rounded-t-lg flex gap-3 flex-row rounded-b-none relative overflow-hidden">
         {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-sidebar-primary/5 via-transparent to-sidebar-primary/5 opacity-50" />
-        
+
         <motion.div
           className="flex overflow-clip size-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sidebar-primary/20 to-sidebar-primary/5 transition-all duration-300 group-hover:from-sidebar-primary group-hover:to-sidebar-primary/80 text-sidebar-primary-foreground relative"
           whileHover={{ scale: 1.05 }}
@@ -109,7 +116,7 @@ export function DashboardSidebar({
             transition={{ duration: 0.3 }}
           />
         </motion.div>
-        
+
         <div className="grid flex-1 text-left text-sm leading-tight relative z-10">
           <div className="flex items-center gap-2">
             <span className="text-2xl font-display bg-gradient-to-r from-sidebar-foreground to-sidebar-foreground/70 bg-clip-text">
@@ -144,7 +151,7 @@ export function DashboardSidebar({
                 {group.items.map((item, index) => {
                   const isLocked = "locked" in item && item.locked;
                   const isActive = Boolean(item.isActive);
-                  
+
                   return (
                     <motion.div
                       key={item.title}
@@ -198,7 +205,7 @@ export function DashboardSidebar({
                                 <item.icon className="size-5" />
                               </motion.div>
                               <span className="font-medium">{item.title}</span>
-                              
+
                               {/* Subtle shine effect on hover */}
                               {isActive && (
                                 <motion.div
@@ -211,7 +218,7 @@ export function DashboardSidebar({
                             </a>
                           )}
                         </SidebarMenuButton>
-                        
+
                         {isLocked ? (
                           <SidebarMenuBadge className="opacity-70">
                             <LockIcon className="size-4 block" />
@@ -230,11 +237,12 @@ export function DashboardSidebar({
       {/* Enhanced Footer with user info */}
       <SidebarFooter className="mt-auto border-t border-sidebar-border/50">
         <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-sidebar-accent/50 transition-colors duration-200">
-          <UserButton 
+          <UserButton
             appearance={{
               elements: {
-                avatarBox: "w-10 h-10 ring-2 ring-sidebar-primary/20 hover:ring-sidebar-primary/40 transition-all"
-              }
+                avatarBox:
+                  "w-10 h-10 ring-2 ring-sidebar-primary/20 hover:ring-sidebar-primary/40 transition-all",
+              },
             }}
           />
           <div className="flex-1 min-w-0">
@@ -246,7 +254,7 @@ export function DashboardSidebar({
             </p>
           </div>
         </div>
-        
+
         {/* Version badge */}
         <div className="px-2 py-1 text-center">
           <span className="text-[10px] text-sidebar-foreground/40 uppercase tracking-wider font-medium">
