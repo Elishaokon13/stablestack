@@ -2,23 +2,34 @@
 
 import React, { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  CreditCard, 
-  DollarSign, 
-  Link, 
-  Copy, 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  CreditCard,
+  DollarSign,
+  Link,
+  Copy,
   CheckCircle,
   X,
   Loader2,
   ArrowLeft,
   ArrowRight,
-  Check
+  Check,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -38,10 +49,10 @@ interface PaymentLinkData {
   allowMultiplePayments: boolean;
 }
 
-export function PaymentLinkCreatorModal({ 
-  isOpen, 
-  onClose, 
-  onSuccess 
+export function PaymentLinkCreatorModal({
+  isOpen,
+  onClose,
+  onSuccess,
 }: PaymentLinkCreatorModalProps) {
   const { getToken } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
@@ -59,10 +70,13 @@ export function PaymentLinkCreatorModal({
 
   const totalSteps = 4;
 
-  const handleInputChange = (field: keyof PaymentLinkData, value: string | boolean) => {
-    setFormData(prev => ({
+  const handleInputChange = (
+    field: keyof PaymentLinkData,
+    value: string | boolean
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -101,18 +115,18 @@ export function PaymentLinkCreatorModal({
       // Get authentication token
       const token = await getToken();
       if (!token) {
-        throw new Error('Authentication required');
+        throw new Error("Authentication required");
       }
 
       // Call the actual API to create payment link
-      const response = await fetch('/api/payment-links/create', {
-        method: 'POST',
+      const response = await fetch("/api/payment-links/create", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          type: 'product', // Using product type for one-time payments
+          type: "product", // Using product type for one-time payments
           name: formData.title,
           description: formData.description,
           amount: parseFloat(formData.amount),
@@ -125,24 +139,26 @@ export function PaymentLinkCreatorModal({
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create payment link');
+        throw new Error(errorData.error || "Failed to create payment link");
       }
 
       const result = await response.json();
       setCreatedLink(result.url);
-      
+
       toast.success("Payment link created successfully!");
-      
+
       if (onSuccess) {
         onSuccess({
           link: result.url,
           id: result.id,
           slug: result.slug,
-          ...formData
+          ...formData,
         });
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to create payment link");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to create payment link"
+      );
       console.error("Error creating payment link:", error);
     } finally {
       setIsLoading(false);
@@ -221,13 +237,20 @@ export function PaymentLinkCreatorModal({
           <Label htmlFor="currency" className="text-white font-medium">
             Currency *
           </Label>
-          <Select value={formData.currency} onValueChange={(value) => handleInputChange("currency", value)}>
+          <Select
+            value={formData.currency}
+            onValueChange={(value) => handleInputChange("currency", value)}
+          >
             <SelectTrigger className="bg-white/5 border-white/20 text-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 border-white/20">
               {currencyOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value} className="text-white">
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className="text-white"
+                >
                   {option.label}
                 </SelectItem>
               ))}
@@ -258,7 +281,7 @@ export function PaymentLinkCreatorModal({
             placeholder="e.g., Website Development, Consulting Session"
             value={formData.title}
             onChange={(e) => handleInputChange("title", e.target.value)}
-              className="bg-white/5 border-white/20 text-white placeholder-gray-400 focus:border-primary"
+            className="bg-white/5 border-white/20 text-white placeholder-gray-400 focus:border-primary"
             required
           />
         </div>
@@ -267,13 +290,20 @@ export function PaymentLinkCreatorModal({
           <Label htmlFor="purpose" className="text-white font-medium">
             Purpose
           </Label>
-          <Select value={formData.purpose} onValueChange={(value) => handleInputChange("purpose", value)}>
+          <Select
+            value={formData.purpose}
+            onValueChange={(value) => handleInputChange("purpose", value)}
+          >
             <SelectTrigger className="bg-white/5 border-white/20 text-white">
               <SelectValue placeholder="Select purpose" />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 border-white/20">
               {purposeOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value} className="text-white">
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className="text-white"
+                >
                   {option.label}
                 </SelectItem>
               ))}
@@ -291,7 +321,9 @@ export function PaymentLinkCreatorModal({
           <Link className="w-8 h-8 text-primary" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Description</h3>
-        <p className="text-gray-300">Add more details about this payment (optional)</p>
+        <p className="text-gray-300">
+          Add more details about this payment (optional)
+        </p>
       </div>
 
       <div className="space-y-4">
@@ -327,13 +359,20 @@ export function PaymentLinkCreatorModal({
           <Label htmlFor="expiresIn" className="text-white font-medium">
             Expires In
           </Label>
-          <Select value={formData.expiresIn} onValueChange={(value) => handleInputChange("expiresIn", value)}>
+          <Select
+            value={formData.expiresIn}
+            onValueChange={(value) => handleInputChange("expiresIn", value)}
+          >
             <SelectTrigger className="bg-white/5 border-white/20 text-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 border-white/20">
               {expiresOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value} className="text-white">
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className="text-white"
+                >
                   {option.label}
                 </SelectItem>
               ))}
@@ -342,20 +381,23 @@ export function PaymentLinkCreatorModal({
         </div>
 
         <div className="space-y-2">
-          <Label className="text-white font-medium">
-            Payment Options
-          </Label>
+          <Label className="text-white font-medium">Payment Options</Label>
           <div className="space-y-3">
             <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg border border-white/10">
               <input
                 type="checkbox"
                 id="allowMultiple"
                 checked={formData.allowMultiplePayments}
-                onChange={(e) => handleInputChange("allowMultiplePayments", e.target.checked)}
+                onChange={(e) =>
+                  handleInputChange("allowMultiplePayments", e.target.checked)
+                }
                 className="rounded border-white/20 bg-white/5 text-blue-600 focus:ring-blue-500"
               />
               <div>
-                <Label htmlFor="allowMultiple" className="text-white font-medium">
+                <Label
+                  htmlFor="allowMultiple"
+                  className="text-white font-medium"
+                >
                   Allow multiple payments
                 </Label>
                 <p className="text-sm text-gray-400">
@@ -405,7 +447,7 @@ export function PaymentLinkCreatorModal({
             <CreditCard className="w-5 h-5" />
             Create Payment Link
           </DialogTitle>
-          
+
           {/* Progress Indicator */}
           {!createdLink && (
             <div className="flex items-center justify-center space-x-2 mt-4">
@@ -477,12 +519,18 @@ export function PaymentLinkCreatorModal({
           <div className="space-y-6">
             <div className="text-center">
               <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-white mb-2">Payment Link Created!</h3>
-              <p className="text-gray-300">Your payment link is ready to share</p>
+              <h3 className="text-xl font-bold text-white mb-2">
+                Payment Link Created!
+              </h3>
+              <p className="text-gray-300">
+                Your payment link is ready to share
+              </p>
             </div>
 
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <Label className="text-white font-medium mb-2 block">Payment Link</Label>
+              <Label className="text-white font-medium mb-2 block">
+                Payment Link
+              </Label>
               <div className="flex gap-2">
                 <Input
                   value={createdLink}
@@ -502,11 +550,15 @@ export function PaymentLinkCreatorModal({
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-400">Amount</p>
-                <p className="text-white font-semibold">{formData.currency} {formData.amount}</p>
+                <p className="text-white font-semibold">
+                  {formData.currency} {formData.amount}
+                </p>
               </div>
               <div>
                 <p className="text-gray-400">Purpose</p>
-                <p className="text-white font-semibold">{formData.purpose || "General"}</p>
+                <p className="text-white font-semibold">
+                  {formData.purpose || "General"}
+                </p>
               </div>
             </div>
 
