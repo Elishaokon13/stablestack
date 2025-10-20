@@ -189,8 +189,8 @@ export function PaymentLinkCreatorModal({
   const renderAmountStep = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <DollarSign className="w-8 h-8 text-blue-400" />
+        <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
+          <DollarSign className="w-8 h-8 text-primary" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Payment Amount</h3>
         <p className="text-gray-300">How much do you want to charge?</p>
@@ -241,8 +241,8 @@ export function PaymentLinkCreatorModal({
   const renderDetailsStep = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <CreditCard className="w-8 h-8 text-green-400" />
+        <div className="w-16 h-16 bg-gradient-to-br from-success/20 to-success/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-success/20">
+          <CreditCard className="w-8 h-8 text-success" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Payment Details</h3>
         <p className="text-gray-300">What is this payment for?</p>
@@ -258,7 +258,7 @@ export function PaymentLinkCreatorModal({
             placeholder="e.g., Website Development, Consulting Session"
             value={formData.title}
             onChange={(e) => handleInputChange("title", e.target.value)}
-            className="bg-white/5 border-white/20 text-white placeholder-gray-400 focus:border-blue-500"
+              className="bg-white/5 border-white/20 text-white placeholder-gray-400 focus:border-primary"
             required
           />
         </div>
@@ -287,8 +287,8 @@ export function PaymentLinkCreatorModal({
   const renderDescriptionStep = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Link className="w-8 h-8 text-purple-400" />
+        <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
+          <Link className="w-8 h-8 text-primary" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Description</h3>
         <p className="text-gray-300">Add more details about this payment (optional)</p>
@@ -315,8 +315,8 @@ export function PaymentLinkCreatorModal({
   const renderSettingsStep = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Check className="w-8 h-8 text-orange-400" />
+        <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
+          <Check className="w-8 h-8 text-primary" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Payment Settings</h3>
         <p className="text-gray-300">Configure your payment link</p>
@@ -412,9 +412,9 @@ export function PaymentLinkCreatorModal({
               {Array.from({ length: totalSteps }, (_, i) => (
                 <div
                   key={i}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
                     i + 1 <= currentStep
-                      ? "bg-blue-600 text-white"
+                      ? "bg-primary text-white ring-2 ring-primary/30"
                       : "bg-white/10 text-gray-400"
                   }`}
                 >
@@ -446,7 +446,7 @@ export function PaymentLinkCreatorModal({
                 <Button
                   onClick={handleSubmit}
                   disabled={isLoading}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  className="bg-primary hover:bg-primary/90 text-white"
                 >
                   {isLoading ? (
                     <>
@@ -464,7 +464,7 @@ export function PaymentLinkCreatorModal({
                 <Button
                   onClick={nextStep}
                   disabled={!canProceed()}
-                  className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
+                  className="bg-primary hover:bg-primary/90 text-white disabled:opacity-50"
                 >
                   Next
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -492,7 +492,7 @@ export function PaymentLinkCreatorModal({
                 <Button
                   onClick={handleCopyLink}
                   size="sm"
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  className="bg-primary hover:bg-primary/90 text-white"
                 >
                   <Copy className="w-4 h-4" />
                 </Button>
@@ -513,7 +513,7 @@ export function PaymentLinkCreatorModal({
             <div className="flex gap-3">
               <Button
                 onClick={handleClose}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                className="flex-1 bg-primary hover:bg-primary/90 text-white"
               >
                 Done
               </Button>
