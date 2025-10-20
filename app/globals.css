@@ -176,7 +176,33 @@
     @apply border-border outline-ring/50 overscroll-none;
   }
   body {
-    @apply bg-muted text-foreground font-mono;
+    @apply bg-background text-foreground font-mono;
+  }
+  
+  /* Custom utility classes for brand colors */
+  .bg-brand-blue {
+    background-color: var(--primary-blue);
+  }
+  
+  .bg-brand-dark {
+    background-color: var(--primary-dark);
+  }
+  
+  .text-brand-blue {
+    color: var(--primary-blue);
+  }
+  
+  .border-brand-blue {
+    border-color: var(--primary-blue);
+  }
+  
+  /* Gradient utilities */
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, #003e91 0%, #0052cc 100%);
+  }
+  
+  .bg-gradient-brand-soft {
+    background: linear-gradient(135deg, rgba(0, 62, 145, 0.1) 0%, rgba(0, 82, 204, 0.05) 100%);
   }
 }
 
