@@ -78,7 +78,7 @@ export default function AnalyticsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="ring-2 ring-pop">
+            <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/20">
@@ -103,7 +103,7 @@ export default function AnalyticsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="ring-2 ring-pop">
+            <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/20">
@@ -125,7 +125,7 @@ export default function AnalyticsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="ring-2 ring-pop">
+            <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900/20">
@@ -150,7 +150,7 @@ export default function AnalyticsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <Card className="ring-2 ring-pop">
+            <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/20">
@@ -176,7 +176,7 @@ export default function AnalyticsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <Card className="ring-2 ring-pop">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <DollarSign className="w-5 h-5" />
@@ -208,7 +208,7 @@ export default function AnalyticsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <Card className="ring-2 ring-pop">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Package className="w-5 h-5" />
