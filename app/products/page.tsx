@@ -6,22 +6,17 @@ import { useProducts, type Product } from "@/lib/hooks/product";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import {
   Copy,
   ExternalLink,
   Search,
-  Filter,
   ChevronLeft,
   ChevronRight,
   Package,
-  DollarSign,
   Calendar,
   Link as LinkIcon,
-  Image as ImageIcon,
   Clock,
-  Edit,
-  Trash2,
 } from "lucide-react";
 
 export default function ProductsPage() {
