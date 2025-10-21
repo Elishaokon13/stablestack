@@ -211,7 +211,7 @@ export default function ProductsPage() {
                 </div>
 
                 {/* Product Details */}
-                <div className="p-4 space-y-2">
+                <div className="p-4 space-y-3">
                   {/* Name & Price */}
                   <div className="space-y-2">
                     <h3 className="text-base font-semibold text-white truncate">
