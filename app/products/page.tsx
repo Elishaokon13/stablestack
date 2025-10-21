@@ -276,7 +276,7 @@ export default function ProductsPage() {
                     </button>
                     <button
                       onClick={() => window.open(product.paymentLink, "_blank")}
-                      className="transition-all rounded-md flex items-center w-full justify-center px-5 py-2.5 text-sm cursor-pointer"
+                      className="transition-all rounded-md flex items-center w-fit justify-center px-5 py-2.5 text-sm cursor-pointer"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                     </button>
