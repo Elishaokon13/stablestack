@@ -194,26 +194,7 @@ export default function DashboardPage() {
               Total Revenue
             </div>
           </div>
-          {/* Wallet Balance Card */}
-          <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-400">
-              {balanceLoading ? (
-                <span className="text-base">Loading...</span>
-              ) : balance?.balances && balance.balances.length > 0 ? (
-                `$${parseFloat(
-                  balance.balances[0].convertedBalance
-                ).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}`
-              ) : (
-                "$0.00"
-              )}
-            </div>
-            <div className="text-muted-foreground text-xs sm:text-sm">
-              Wallet Balance
-            </div>
-          </div>
+          
           {/* Active Products Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
