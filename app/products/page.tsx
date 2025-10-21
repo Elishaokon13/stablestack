@@ -260,7 +260,7 @@ export default function ProductsPage() {
 
                   {/* Actions */}
                   <div className="flex gap-2 pt-3">
-                    <Button
+                    <button
                       size="sm"
                       onClick={() =>
                         copyToClipboard(product.paymentLink, product.id)
@@ -274,7 +274,7 @@ export default function ProductsPage() {
                     >
                       <Copy className="w-3.5 h-3.5 mr-1.5" />
                       {copySuccess === product.id ? "Copied!" : "Copy Link"}
-                    </Button>
+                    </button>
                     <Button
                       size="sm"
                       variant="outline"
