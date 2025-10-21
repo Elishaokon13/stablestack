@@ -147,6 +147,7 @@ export function DashboardSidebar({
                       ) : (
                         <a
                           href={item.url}
+                          onClick={handleNavClick}
                           className="flex items-center gap-2 md:gap-3 w-full min-w-0"
                         >
                           <item.icon className="size-5 flex-shrink-0" />
