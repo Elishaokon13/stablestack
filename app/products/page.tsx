@@ -183,7 +183,7 @@ export default function ProductsPage() {
                 className="bg-card border border-border rounded-xl overflow-hidden hover:border-white/40 hover:shadow-xl transition-all duration-300 group flex flex-col"
               >
                 {/* Product Image */}
-                <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden h-44">
+                <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden h-54">
                   {product.image ? (
                     <img
                       src={product.image}
