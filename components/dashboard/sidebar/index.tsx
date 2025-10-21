@@ -138,9 +138,7 @@ export function DashboardSidebar({
 
       <SidebarContent>
         {navMain.map((group, i) => (
-          <SidebarGroup
-            key={group.title}
-          >
+          <SidebarGroup key={group.title}>
             <SidebarGroupLabel className="flex items-center gap-2">
               <Bullet className="mr-1" />
               <span className="tracking-wide">{group.title}</span>
