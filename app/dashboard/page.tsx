@@ -9,12 +9,9 @@ import {
   BarChart3,
   Package,
   ArrowUpRight,
-  ArrowDownRight,
-  Eye,
   DollarSign,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Separator } from "@/components/ui/separator";
 import dynamic from "next/dynamic";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
 import { TransactionReceiptModal } from "@/components/ui/transaction-receipt-modal";
