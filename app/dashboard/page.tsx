@@ -150,7 +150,7 @@ export default function DashboardPage() {
     <>
       <div className="w-full space-y-6 mx-auto">
         {/* Header */}
-        <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="w-full py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <h1 className="text-lg sm:text-xl font-bold text-white">
             Welcome back, {user.firstName || user.username}!
           </h1>
