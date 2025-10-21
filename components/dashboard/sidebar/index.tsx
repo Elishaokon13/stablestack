@@ -97,9 +97,9 @@ export function DashboardSidebar({
   const { user } = useUser();
 
   return (
-    <Sidebar {...props} className={cn("py-sides h-screen", className)}>
+    <Sidebar {...props} className={cn("h-screen", className)}>
       {/* Enhanced Header with gradient background */}
-      <SidebarHeader className="rounded-t-lg flex gap-3 flex-row rounded-b-none relative overflow-hidden">
+      <SidebarHeader className="flex gap-3 flex-row relative overflow-hidden">
         {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-sidebar-primary/5 via-transparent to-sidebar-primary/5 opacity-50" />
 
