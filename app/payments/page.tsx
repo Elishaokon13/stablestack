@@ -187,8 +187,8 @@ export default function PaymentsPage() {
                     {/* Left: Customer & Product Info */}
                     <div className="flex-1 min-w-0 space-y-2">
                       <div className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                        <span className="text-white font-medium truncate">
+                        <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                        <span className="text-foreground font-medium truncate">
                           {transaction.customerName || "Anonymous"}
                         </span>
                         <Badge className={statusConfig.color}>
@@ -197,22 +197,22 @@ export default function PaymentsPage() {
                         </Badge>
                       </div>
 
-                      <div className="flex items-center gap-2 text-sm text-gray-400">
-                        <Mail className="w-3 h-3 flex-shrink-0" />
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Mail className="w-3.5 h-3.5 flex-shrink-0" />
                         <span className="truncate">
                           {transaction.customerEmail || "No email"}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2 text-sm text-gray-400">
-                        <Package className="w-3 h-3 flex-shrink-0" />
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Package className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
                         <span className="truncate">
                           {transaction.slug || "N/A"}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <Calendar className="w-3 h-3 flex-shrink-0" />
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
                         <span>{formatDate(transaction.createdAt)}</span>
                       </div>
                     </div>
@@ -221,27 +221,28 @@ export default function PaymentsPage() {
                     <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2">
                       <div className="text-right">
                         <div className="flex items-baseline gap-1">
-                          <span className="text-2xl font-bold text-green-400">
+                          <span className="text-2xl font-bold text-primary">
                             ${transaction.amount || "0.00"}
                           </span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-muted-foreground">
                             {transaction.currency || "USD"}
                           </span>
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {transaction.paymentMethodTypes?.join(", ") || "N/A"}
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {transaction.paymentMethodTypes?.join(", ") || "Card"}
                         </p>
                       </div>
                     </div>
                   </div>
 
                   {/* Payment Intent ID */}
-                  <div className="mt-3 pt-3 border-t border-white/10">
-                    <p className="text-xs text-gray-500 font-mono">
-                      Payment ID: {transaction.paymentIntentId || "N/A"}
+                  <div className="mt-3 pt-3 border-t border-border">
+                    <p className="text-xs text-muted-foreground font-mono">
+                      {transaction.paymentIntentId || "N/A"}
                     </p>
                   </div>
-                </div>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
