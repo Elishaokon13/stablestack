@@ -89,7 +89,7 @@ export function DashboardSidebar({
       className={cn("h-screen border-r border-white/10 bg-sidebar", className)}
     >
       {/* Simple Logo Header */}
-      <SidebarHeader className="py-5 px-3 border-b border-white/10 h-[85px]">
+      <SidebarHeader className="py- px-3 border-b border-white/10 h-[85px]">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center">
             <MonkeyIcon className="size-10" />
