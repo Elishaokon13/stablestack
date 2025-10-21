@@ -2,19 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { useUser, useAuth } from "@clerk/nextjs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import {
-  User,
-  Mail,
-  Calendar,
-  Shield,
-  Wallet,
   CreditCard,
   BarChart3,
-  Settings,
-  LogOut,
   Package,
   ArrowUpRight,
   ArrowDownRight,
@@ -354,8 +346,6 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-
-        <Separator />
 
         {/* Latest Transactions and Product Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
