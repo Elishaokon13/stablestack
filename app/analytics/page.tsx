@@ -35,8 +35,7 @@ interface Analytics {
 }
 
 export default function AnalyticsPage() {
-  // const { user, isAuthenticated, address } = useUserSession()
-  const [analytics, setAnalytics] = useState<Analytics | null>(null)
+  const [analytics] = useState<Analytics | null>(null);
 
   return (
     <DashboardPageLayout
