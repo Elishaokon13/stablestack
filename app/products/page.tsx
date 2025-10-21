@@ -112,25 +112,25 @@ export default function ProductsPage() {
             placeholder="Search products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-white/20"
+            className="pl-10 bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
           />
         </div>
 
         {/* Status Filter Buttons */}
-        <div className="flex gap-2 overflow-x-auto">
+        <div className="flex gap-2 overflow-x-auto pb-1">
           {(["all", "active", "inactive", "expired"] as const).map((status) => (
             <Button
               key={status}
               size="sm"
+              variant={statusFilter === status ? "default" : "outline"}
               onClick={() => {
                 setStatusFilter(status);
                 setCurrentPage(1);
               }}
-              className={`whitespace-nowrap ${
-                statusFilter === status
-                  ? "bg-blue-600 hover:bg-blue-700 text-white"
-                  : "bg-white/5 hover:bg-white/10 text-white/70 border border-white/10"
-              }`}
+              className={cn(
+                "whitespace-nowrap",
+                statusFilter === status && "bg-primary hover:bg-primary/90 text-white"
+              )}
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
             </Button>
