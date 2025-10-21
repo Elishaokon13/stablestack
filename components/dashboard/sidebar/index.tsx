@@ -111,9 +111,6 @@ export function DashboardSidebar({
             key={group.title}
             className="border-b border-white/10 pb-3 mb-0 last:border-b-0"
           >
-            <SidebarGroupLabel className="px-3 text-[11px] uppercase tracking-wider text-sidebar-foreground/60 font-medium mb-2">
-              {group.title}
-            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="space-y-1 pr-3">
                 {group.items.map((item) => {
