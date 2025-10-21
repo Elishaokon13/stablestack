@@ -79,6 +79,14 @@ export function DashboardSidebar({
   const pathname = usePathname();
   const navMain = getNavItems(pathname);
   const { user } = useUser();
+  const { setOpenMobile, isMobile } = useSidebar();
+
+  // Close mobile sidebar on navigation
+  const handleNavClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
 
   return (
     <Sidebar
