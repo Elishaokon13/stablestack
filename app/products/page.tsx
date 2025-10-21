@@ -92,7 +92,7 @@ export default function ProductsPage() {
             Manage all your payment links
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md">
           {/* Search */}
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
