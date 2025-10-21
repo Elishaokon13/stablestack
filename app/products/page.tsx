@@ -225,12 +225,10 @@ export default function ProductsPage() {
                         {product.payoutToken}
                       </span>
                     </div>
-                  </div>
-
-                  {/* Description */}
                   <p className="text-xs text-muted-foreground line-clamp-2 truncate">
                     {product.description}
                   </p>
+                  </div>
 
                   <Separator className="bg-white/10" />
 
