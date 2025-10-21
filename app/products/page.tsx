@@ -266,7 +266,7 @@ export default function ProductsPage() {
                         copyToClipboard(product.paymentLink, product.id)
                       }
                       className={cn(
-                        "flex-1 transition-all",
+                        "flex-1 transition-all cursor-pointer",
                         copySuccess === product.id
                           ? "bg-success hover:bg-success/90 text-white"
                           : "bg-primary hover:bg-primary/90 text-white"
@@ -279,7 +279,7 @@ export default function ProductsPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => window.open(product.paymentLink, "_blank")}
-                      className="px-3 hover:bg-primary/10 hover:border-primary/50 hover:text-primary"
+                      className="px-3 hover:bg-primary/10 hover:border-primary/50 hover:text-primary cursor-pointer"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                     </Button>
