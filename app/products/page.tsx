@@ -265,7 +265,7 @@ export default function ProductsPage() {
                         copyToClipboard(product.paymentLink, product.id)
                       }
                       className={cn(
-                        "transition-all rounded-md flex items-center w-full justify-center px-5 py-2 text-sm cursor-pointer",
+                        "transition-all rounded-md flex items-center w-full justify-center px-5 py-2.5 text-sm cursor-pointer",
                         copySuccess === product.id
                           ? "bg-success hover:bg-success/90 text-white"
                           : "bg-primary hover:bg-primary/90 text-white"
