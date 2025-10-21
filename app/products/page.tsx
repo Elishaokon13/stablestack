@@ -114,28 +114,6 @@ export default function ProductsPage() {
             className="pl-10 bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
           />
         </div>
-
-        {/* Status Filter Buttons */}
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {(["all", "active", "inactive", "expired"] as const).map((status) => (
-            <Button
-              key={status}
-              size="sm"
-              variant={statusFilter === status ? "default" : "outline"}
-              onClick={() => {
-                setStatusFilter(status);
-                setCurrentPage(1);
-              }}
-              className={cn(
-                "whitespace-nowrap",
-                statusFilter === status &&
-                  "bg-primary hover:bg-primary/90 text-white"
-              )}
-            >
-              {status.charAt(0).toUpperCase() + status.slice(1)}
-            </Button>
-          ))}
-        </div>
       </div>
 
       {/* Loading State */}
