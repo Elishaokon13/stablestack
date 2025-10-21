@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useTransactions, type Transaction } from "@/lib/hooks/payment";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +11,6 @@ import {
   ChevronLeft,
   ChevronRight,
   CreditCard,
-  DollarSign,
   Calendar,
   User,
   Package,
@@ -24,7 +22,6 @@ import {
 } from "lucide-react";
 
 export default function PaymentsPage() {
-  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -94,7 +91,7 @@ export default function PaymentsPage() {
 
   const formatDate = (dateString: string | undefined | null) => {
     if (!dateString) return "N/A";
-    
+
     try {
       const date = new Date(dateString);
       // Check if date is valid
@@ -149,7 +146,7 @@ export default function PaymentsPage() {
       {/* Loading State */}
       {loading && (
         <div className="flex flex-col items-center justify-center py-20">
-          <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mb-4"></div>
           <p className="text-muted-foreground">Loading transactions...</p>
         </div>
       )}
@@ -209,7 +206,9 @@ export default function PaymentsPage() {
 
                       <div className="flex items-center gap-2 text-sm text-gray-400">
                         <Package className="w-3 h-3 flex-shrink-0" />
-                        <span className="truncate">{transaction.slug || "N/A"}</span>
+                        <span className="truncate">
+                          {transaction.slug || "N/A"}
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2 text-xs text-gray-500">
