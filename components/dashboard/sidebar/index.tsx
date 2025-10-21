@@ -21,8 +21,7 @@ import { useIsV0 } from "@/lib/v0-context";
 import { UserButton, useUser } from "@clerk/nextjs";
 
 const getNavItems = (pathname: string) => [
-  {
-    items: [
+
       {
         title: "Dashboard",
         url: "/dashboard",
@@ -53,8 +52,6 @@ const getNavItems = (pathname: string) => [
         icon: BarChart3,
         isActive: pathname === "/analytics",
       },
-    ],
-  },
   // {
   //   title: "Development",
   //   items: [
