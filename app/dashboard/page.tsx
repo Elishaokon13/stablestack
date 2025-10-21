@@ -1,43 +1,29 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useUser, useAuth } from "@clerk/nextjs";
+import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-
-import {
-  CreditCard,
-  BarChart3,
-  Package,
-  ArrowUpRight,
-  DollarSign,
-} from "lucide-react";
+import { CreditCard, BarChart3, Package, ArrowUpRight, DollarSign } from "lucide-react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
 import { TransactionReceiptModal } from "@/components/ui/transaction-receipt-modal";
 import { PaymentLinkCreatorModal } from "@/components/ui/payment-link-creator-modal";
-import {
-  useEarnings,
-  useSalesHeatmap,
-  useTransactions,
-} from "@/lib/hooks/payment";
+import { useEarnings, useSalesHeatmap, useTransactions } from "@/lib/hooks/payment";
 import { useProductStats } from "@/lib/hooks/product";
 import { useWalletBalance } from "@/lib/hooks/wallet/use-wallet-balance";
 
-// Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
-  const { getToken } = useAuth();
   const router = useRouter();
   const [isProductLinkModalOpen, setIsProductLinkModalOpen] = useState(false);
 
   // Fetch real data from API
   const { earnings } = useEarnings();
   const { heatmapData } = useSalesHeatmap();
-  const { transactions: apiTransactions, loading: transactionsLoading } =
-    useTransactions({ limit: 5 });
+  const { transactions: apiTransactions } = useTransactions({ limit: 5 });
   const { stats: productStats } = useProductStats();
   const { balance, loading: balanceLoading } = useWalletBalance({
     chain: "base-sepolia",
