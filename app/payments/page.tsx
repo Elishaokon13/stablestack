@@ -145,23 +145,23 @@ export default function PaymentsPage() {
       {/* Loading State */}
       {loading && (
         <div className="flex flex-col items-center justify-center py-20">
-          <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mb-4"></div>
+          <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4"></div>
           <p className="text-muted-foreground">Loading transactions...</p>
         </div>
       )}
 
       {/* Error State */}
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-          <p className="text-red-400">❌ {error}</p>
+        <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+          <p className="text-destructive">❌ {error}</p>
         </div>
       )}
 
       {/* Empty State */}
       {!loading && !error && filteredTransactions.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 bg-white/5 border border-white/10 rounded-lg">
+        <div className="flex flex-col items-center justify-center py-20 bg-card border border-border rounded-xl">
           <CreditCard className="w-16 h-16 text-muted-foreground mb-4" />
-          <h3 className="text-xl font-semibold mb-2">No transactions found</h3>
+          <h3 className="text-xl font-semibold text-foreground mb-2">No transactions found</h3>
           <p className="text-muted-foreground text-center max-w-md">
             {searchQuery
               ? "Try adjusting your search query"
@@ -178,10 +178,11 @@ export default function PaymentsPage() {
               const statusConfig = getStatusConfig(transaction.status);
 
               return (
-                <div
+                <Card
                   key={transaction.id}
-                  className="bg-gradient-to-br from-white/[0.07] to-white/[0.03] border border-white/10 rounded-lg p-4 sm:p-5 hover:border-white/20 transition-all"
+                  className="hover:border-primary/30 transition-all"
                 >
+                  <CardContent className="p-4 sm:p-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     {/* Left: Customer & Product Info */}
                     <div className="flex-1 min-w-0 space-y-2">
