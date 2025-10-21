@@ -240,39 +240,37 @@ export default function DashboardPage() {
         {/* Sales Activity Heatmap */}
         <div>
           <h2 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 px-1">
-            Sales Activity Heatmap (Last 52 Weeks)
+            Sales Activity Heatmap (Last 6 Months)
           </h2>
           <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 md:p-6">
             <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
-                {/* Month labels */}
+                {/* Month labels - showing last 6 months */}
                 <div className="flex mb-3 ml-16">
-                  {[
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                    "Nov",
-                    "Dec",
-                  ].map((month, i) => (
-                    <div
-                      key={i}
-                      className="text-xs text-muted-foreground font-medium"
-                      style={{
-                        width: "calc(100% / 12)",
-                        textAlign: "left",
-                        paddingLeft: "4px",
-                      }}
-                    >
-                      {month}
-                    </div>
-                  ))}
+                  {(() => {
+                    const months = [];
+                    const today = new Date();
+                    for (let i = 5; i >= 0; i--) {
+                      const date = new Date(today);
+                      date.setMonth(date.getMonth() - i);
+                      months.push(
+                        date.toLocaleDateString("en-US", { month: "short" })
+                      );
+                    }
+                    return months.map((month, i) => (
+                      <div
+                        key={i}
+                        className="text-xs text-muted-foreground font-medium"
+                        style={{
+                          width: "calc(100% / 6)",
+                          textAlign: "left",
+                          paddingLeft: "4px",
+                        }}
+                      >
+                        {month}
+                      </div>
+                    ));
+                  })()}
                 </div>
 
                 {/* Heatmap grid */}
@@ -284,14 +282,14 @@ export default function DashboardPage() {
                     <div>Fri</div>
                   </div>
 
-                  {/* Grid of weeks */}
+                  {/* Grid of weeks - 26 weeks for 6 months */}
                   <div className="flex gap-2">
-                    {Array.from({ length: 52 }).map((_, weekIndex) => (
+                    {Array.from({ length: 26 }).map((_, weekIndex) => (
                       <div key={weekIndex} className="flex flex-col gap-2">
                         {Array.from({ length: 7 }).map((_, dayIndex) => {
                           // Calculate date for this cell
                           const today = new Date();
-                          const daysAgo = (51 - weekIndex) * 7 + (6 - dayIndex);
+                          const daysAgo = (25 - weekIndex) * 7 + (6 - dayIndex);
                           const date = new Date(today);
                           date.setDate(date.getDate() - daysAgo);
 
