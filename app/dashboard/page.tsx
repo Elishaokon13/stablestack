@@ -296,24 +296,24 @@ export default function DashboardPage() {
                           // Get sales value from API or demo data
                           const salesValue = getSalesForDate(date);
 
-                          // Determine color intensity (blue theme)
+                          // Determine color intensity (brand blue theme)
                           let bgColor = "";
                           let borderColor = "";
                           if (salesValue === 0) {
-                            bgColor = "bg-slate-800/40";
-                            borderColor = "border-slate-700/50";
+                            bgColor = "bg-muted/40";
+                            borderColor = "border-muted/50";
                           } else if (salesValue < 15) {
-                            bgColor = "bg-blue-950/60";
-                            borderColor = "border-blue-900/60";
+                            bgColor = "bg-primary/20";
+                            borderColor = "border-primary/30";
                           } else if (salesValue < 30) {
-                            bgColor = "bg-blue-800/70";
-                            borderColor = "border-blue-700/70";
+                            bgColor = "bg-primary/40";
+                            borderColor = "border-primary/50";
                           } else if (salesValue < 45) {
-                            bgColor = "bg-blue-600/80";
-                            borderColor = "border-blue-500/80";
+                            bgColor = "bg-primary/60";
+                            borderColor = "border-primary/70";
                           } else {
-                            bgColor = "bg-blue-500";
-                            borderColor = "border-blue-400";
+                            bgColor = "bg-primary";
+                            borderColor = "border-primary";
                           }
 
                           // Format date for display
