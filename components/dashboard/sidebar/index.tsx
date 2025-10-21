@@ -21,37 +21,36 @@ import { useIsV0 } from "@/lib/v0-context";
 import { UserButton, useUser } from "@clerk/nextjs";
 
 const getNavItems = (pathname: string) => [
-
-      {
-        title: "Dashboard",
-        url: "/dashboard",
-        icon: BarChart3,
-        isActive: pathname === "/dashboard",
-      },
-      {
-        title: "Products",
-        url: "/products",
-        icon: Package,
-        isActive: pathname === "/products",
-      },
-      {
-        title: "Payments",
-        url: "/payments",
-        icon: CreditCard,
-        isActive: pathname === "/payments",
-      },
-      {
-        title: "Wallet",
-        url: "/wallet",
-        icon: Wallet,
-        isActive: pathname === "/wallet",
-      },
-      {
-        title: "Analytics",
-        url: "/analytics",
-        icon: BarChart3,
-        isActive: pathname === "/analytics",
-      },
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: BarChart3,
+    isActive: pathname === "/dashboard",
+  },
+  {
+    title: "Products",
+    url: "/products",
+    icon: Package,
+    isActive: pathname === "/products",
+  },
+  {
+    title: "Payments",
+    url: "/payments",
+    icon: CreditCard,
+    isActive: pathname === "/payments",
+  },
+  {
+    title: "Wallet",
+    url: "/wallet",
+    icon: Wallet,
+    isActive: pathname === "/wallet",
+  },
+  {
+    title: "Analytics",
+    url: "/analytics",
+    icon: BarChart3,
+    isActive: pathname === "/analytics",
+  },
   // {
   //   title: "Development",
   //   items: [
@@ -102,62 +101,56 @@ export function DashboardSidebar({
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="py-3">
-  
-            <SidebarGroup
-            className="border-b border-white/10 pb-3 mb-0 last:border-b-0"
-          >
-            <SidebarGroupContent>
-              <SidebarMenu className="space-y-1 pr-3">
-                {navMain.map((item) => {
-                  const isLocked = "locked" in item && item.locked;
-                  const isActive = Boolean(item.isActive);
+      <SidebarContent className="">
+        <SidebarGroup className="border-b border-white/10 pb-3 mb-0 last:border-b-0">
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1 pr-3">
+              {navMain.map((item) => {
+                const isLocked = "locked" in item && item.locked;
+                const isActive = Boolean(item.isActive);
 
-                  return (
-                    <SidebarMenuItem
-                      key={item.title}
+                return (
+                  <SidebarMenuItem
+                    key={item.title}
+                    className={cn("flex", isV0 && "pointer-events-none")}
+                  >
+                    {/* Left indicator - only show when active */}
+                    <div
                       className={cn(
-                        "flex",
-                        isV0 && "pointer-events-none"
+                        "w-[5px] h-[50px] rounded-r-lg",
+                        isActive && "bg-primary"
+                      )}
+                    />
+
+                    <SidebarMenuButton
+                      asChild={!isLocked}
+                      isActive={isActive}
+                      className={cn(
+                        "flex items-center w-full h-[50px] px-3 ml-2 text-sm font-light rounded-lg hover:opacity-60 transition-opacity",
+                        isActive && "bg-primary text-white"
                       )}
                     >
-                      {/* Left indicator - only show when active */}
-                      <div
-                        className={cn(
-                          "w-[5px] h-[50px] rounded-r-lg",
-                          isActive && "bg-primary"
-                        )}
-                      />
-
-                      <SidebarMenuButton
-                        asChild={!isLocked}
-                        isActive={isActive}
-                        className={cn(
-                          "flex items-center w-full h-[50px] px-3 ml-2 text-sm font-light rounded-lg hover:opacity-60 transition-opacity",
-                          isActive && "bg-primary text-white"
-                        )}
-                      >
-                        {isLocked ? (
-                          <div className="flex items-center gap-3">
-                            <item.icon className="size-5" />
-                            <span>{item.title}</span>
-                          </div>
-                        ) : (
-                          <a
-                            href={item.url}
-                            className="flex items-center gap-3 w-full"
-                          >
-                            <item.icon className="size-5" />
-                            <span>{item.title}</span>
-                          </a>
-                        )}
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
+                      {isLocked ? (
+                        <div className="flex items-center gap-3">
+                          <item.icon className="size-5" />
+                          <span>{item.title}</span>
+                        </div>
+                      ) : (
+                        <a
+                          href={item.url}
+                          className="flex items-center gap-3 w-full"
+                        >
+                          <item.icon className="size-5" />
+                          <span>{item.title}</span>
+                        </a>
+                      )}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
 
       {/* Simple Footer */}
