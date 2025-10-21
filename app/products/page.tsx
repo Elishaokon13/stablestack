@@ -216,7 +216,7 @@ export default function ProductsPage() {
                       {product.productName}
                     </h3>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold text-primary">
+                      <span className="text-2xl font-bold">
                         ${product.amount}
                       </span>
                       <span className="text-xs text-muted-foreground uppercase font-medium">
