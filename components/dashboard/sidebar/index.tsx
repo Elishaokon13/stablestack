@@ -22,7 +22,6 @@ import { UserButton, useUser } from "@clerk/nextjs";
 
 const getNavItems = (pathname: string) => [
   {
-    title: "Payment System",
     items: [
       {
         title: "Dashboard",
