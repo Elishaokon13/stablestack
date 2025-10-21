@@ -92,29 +92,21 @@ export default function ProductsPage() {
             Manage all your payment links
           </p>
         </div>
-        {pagination && (
-          <div className="text-sm text-muted-foreground bg-muted px-4 py-2 rounded-lg">
-            <span className="font-medium text-foreground">
-              {filteredProducts.length}
-            </span>{" "}
-            of {pagination.total} products
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          {/* Search */}
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
+            />
           </div>
-        )}
+        </div>
       </div>
 
       {/* Filters & Search */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-        {/* Search */}
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
-          />
-        </div>
-      </div>
 
       {/* Loading State */}
       {loading && (
