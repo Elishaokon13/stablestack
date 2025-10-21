@@ -122,7 +122,6 @@ export function DashboardSidebar({
                       key={item.title}
                       className={cn(
                         "flex",
-                        isLocked && "pointer-events-none opacity-50",
                         isV0 && "pointer-events-none"
                       )}
                     >
