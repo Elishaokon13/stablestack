@@ -249,25 +249,27 @@ export default function PaymentsPage() {
 
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border">
               <div className="text-sm text-muted-foreground">
-                Page {pagination.page} of {pagination.totalPages}
+                Page <span className="font-semibold text-foreground">{pagination.page}</span> of {pagination.totalPages}
               </div>
               <div className="flex gap-2">
                 <Button
                   size="sm"
+                  variant="outline"
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft className="w-4 h-4 mr-1" />
                   Previous
                 </Button>
                 <Button
                   size="sm"
+                  variant="outline"
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === pagination.totalPages}
-                  className="bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                   <ChevronRight className="w-4 h-4 ml-1" />
