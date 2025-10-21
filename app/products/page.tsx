@@ -105,13 +105,13 @@ export default function ProductsPage() {
       {/* Filters & Search */}
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         {/* Search */}
-        <div className="flex-1 relative">
+        <div className="flex-1  relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Search products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 !py-4 bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
+            className="pl-10 bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
           />
         </div>
 
@@ -179,21 +179,21 @@ export default function ProductsPage() {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
             {filteredProducts.map((product) => (
-              <Card
+              <div
                 key={product.id}
-                className="overflow-hidden hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 group flex flex-col"
+                className="bg-card border border-border rounded-md overflow-hidden hover:border-white/40 hover:shadow-xl transition-all duration-300 group flex flex-col"
               >
                 {/* Product Image */}
-                <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden h-48">
+                <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden h-54">
                   {product.image ? (
                     <img
                       src={product.image}
                       alt={product.productName}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <Package className="w-16 h-16 text-primary/20" />
+                      <Package className="w-14 h-14 text-primary/20" />
                     </div>
                   )}
                   {/* Status Badge */}
@@ -210,14 +210,14 @@ export default function ProductsPage() {
                 </div>
 
                 {/* Product Details */}
-                <CardContent className="p-5 space-y-4 flex-1 flex flex-col">
+                <div className="p-5 space-y-4 flex-1 flex flex-col">
                   {/* Name & Price */}
                   <div className="space-y-2 flex-1">
                     <h3 className="text-base font-semibold text-foreground truncate">
                       {product.productName}
                     </h3>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold text-primary">
+                      <span className="text-2xl font-bold">
                         ${product.amount}
                       </span>
                       <span className="text-xs text-muted-foreground uppercase font-medium">
@@ -233,7 +233,13 @@ export default function ProductsPage() {
 
                   {/* Meta Info - Compact */}
                   <div className="space-y-2 text-xs">
-                    <div className="flex items-center justify-between">
+                    {/* <div className="flex items-center gap-2 text-muted-foreground">
+                      <LinkIcon className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
+                      <span className="truncate font-mono">
+                        /{product.slug}
+                      </span>
+                    </div> */}
+                    <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-1.5 text-muted-foreground">
                         <Calendar className="w-3.5 h-3.5 text-primary/60" />
                         <span>{formatDate(product.createdAt)}</span>
@@ -246,7 +252,7 @@ export default function ProductsPage() {
                       </div>
                     </div>
                     {product.expiresAt && (
-                      <div className="flex items-center gap-1.5 text-warning">
+                      <div className="flex items-center gap-1.5 text-warning text-xs">
                         <Clock className="w-3.5 h-3.5 flex-shrink-0" />
                         <span>Expires {formatDate(product.expiresAt)}</span>
                       </div>
@@ -254,14 +260,13 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-2 pt-2">
-                    <Button
-                      size="sm"
+                  <div className="flex gap-2">
+                    <button
                       onClick={() =>
                         copyToClipboard(product.paymentLink, product.id)
                       }
                       className={cn(
-                        "flex-1",
+                        "transition-all rounded-md flex items-center w-full justify-center px-5 py-2.5 text-sm cursor-pointer",
                         copySuccess === product.id
                           ? "bg-success hover:bg-success/90 text-white"
                           : "bg-primary hover:bg-primary/90 text-white"
@@ -269,18 +274,16 @@ export default function ProductsPage() {
                     >
                       <Copy className="w-3.5 h-3.5 mr-1.5" />
                       {copySuccess === product.id ? "Copied!" : "Copy Link"}
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
+                    </button>
+                    <button
                       onClick={() => window.open(product.paymentLink, "_blank")}
-                      className="px-3 hover:bg-primary/10 hover:border-primary/50"
+                      className="transition-all rounded-md flex items-center w-fit justify-center px-3 py-2.5 border border-white/20 hover:border-white/60 text-sm cursor-pointer"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
-                    </Button>
+                    </button>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
 
