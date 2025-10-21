@@ -232,12 +232,12 @@ export default function ProductsPage() {
 
                   {/* Meta Info - Compact */}
                   <div className="space-y-2 text-xs">
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                    {/* <div className="flex items-center gap-2 text-muted-foreground">
                       <LinkIcon className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
                       <span className="truncate font-mono">
                         /{product.slug}
                       </span>
-                    </div>
+                    </div> */}
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-1.5 text-muted-foreground">
                         <Calendar className="w-3.5 h-3.5 text-primary/60" />
