@@ -96,7 +96,7 @@ export function DashboardSidebar({
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-display text-sidebar-foreground">
-              Stablestack
+              Openly
             </span>
             <span className="text-[10px] uppercase tracking-wider text-sidebar-foreground/60">
               Web3 Payments
