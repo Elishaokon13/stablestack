@@ -82,29 +82,29 @@ export function DashboardSidebar({
   return (
     <Sidebar
       {...props}
-      className={cn("h-screen border-r border-white/10 bg-sidebar", className)}
+      className={cn("h-screen border-r border-white/10 bg-sidebar w-[280px]", className)}
     >
       {/* Simple Logo Header */}
-      <SidebarHeader className="py-4 px-3 border-b border-white/10 ">
-        <div className="flex items-center gap-3">
+      <SidebarHeader className="py-4 px-3 md:py-5 border-b border-white/10">
+        <div className="flex items-center gap-2 md:gap-3">
           <div className="flex items-center justify-center">
-            <MonkeyIcon className="size-10" />
+            <MonkeyIcon className="size-9 md:size-10" />
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-display text-sidebar-foreground">
+            <span className="text-lg md:text-xl font-display text-sidebar-foreground">
               Openly
             </span>
-            <span className="text-[10px] uppercase tracking-wider text-sidebar-foreground/60">
+            <span className="text-[9px] md:text-[10px] uppercase tracking-wider text-sidebar-foreground/60">
               Web3 Payments
             </span>
           </div>
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="">
+      <SidebarContent className="overflow-y-auto">
         <SidebarGroup className="border-b border-white/10 pb-3 mb-0 last:border-b-0">
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1 pr-3">
+            <SidebarMenu className="space-y-1 pr-2 md:pr-3">
               {navMain.map((item) => {
                 const isLocked = "locked" in item && item.locked;
                 const isActive = Boolean(item.isActive);
@@ -117,7 +117,7 @@ export function DashboardSidebar({
                     {/* Left indicator - only show when active */}
                     <div
                       className={cn(
-                        "w-[5px] h-[50px] rounded-r-lg",
+                        "w-[5px] h-[50px] rounded-r-lg transition-colors",
                         isActive && "bg-primary"
                       )}
                     />
@@ -126,22 +126,22 @@ export function DashboardSidebar({
                       asChild={!isLocked}
                       isActive={isActive}
                       className={cn(
-                        "flex items-center w-full h-[50px] px-3 ml-2 text-sm font-light rounded-lg hover:opacity-60 transition-opacity",
+                        "flex items-center w-full h-[50px] px-2 md:px-3 ml-2 text-sm font-light rounded-lg hover:opacity-60 active:opacity-50 transition-opacity",
                         isActive && "bg-primary text-white"
                       )}
                     >
                       {isLocked ? (
-                        <div className="flex items-center gap-3">
-                          <item.icon className="size-5" />
-                          <span>{item.title}</span>
+                        <div className="flex items-center gap-2 md:gap-3">
+                          <item.icon className="size-5 flex-shrink-0" />
+                          <span className="truncate">{item.title}</span>
                         </div>
                       ) : (
                         <a
                           href={item.url}
-                          className="flex items-center gap-3 w-full"
+                          className="flex items-center gap-2 md:gap-3 w-full min-w-0"
                         >
-                          <item.icon className="size-5" />
-                          <span>{item.title}</span>
+                          <item.icon className="size-5 flex-shrink-0" />
+                          <span className="truncate">{item.title}</span>
                         </a>
                       )}
                     </SidebarMenuButton>
@@ -154,20 +154,20 @@ export function DashboardSidebar({
       </SidebarContent>
 
       {/* Simple Footer */}
-      <SidebarFooter className="mt-auto px-3 py-4 border-t border-white/10">
-        <div className="flex items-center gap-3">
+      <SidebarFooter className="mt-auto px-3 py-3 md:py-4 border-t border-white/10">
+        <div className="flex items-center gap-2 md:gap-3">
           <UserButton
             appearance={{
               elements: {
-                avatarBox: "w-10 h-10",
+                avatarBox: "w-9 h-9 md:w-10 md:h-10",
               },
             }}
           />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-sidebar-foreground truncate">
+            <p className="text-xs md:text-sm font-medium text-sidebar-foreground truncate">
               {user?.fullName || user?.username || "User"}
             </p>
-            <p className="text-xs text-sidebar-foreground/60 truncate">
+            <p className="text-[10px] md:text-xs text-sidebar-foreground/60 truncate">
               {user?.primaryEmailAddress?.emailAddress || ""}
             </p>
           </div>
