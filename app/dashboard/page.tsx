@@ -326,17 +326,17 @@ export default function DashboardPage() {
                           return (
                             <div
                               key={dayIndex}
-                              className={`w-3.5 h-3.5 rounded ${bgColor} border ${borderColor} hover:ring-2 hover:ring-blue-400 hover:ring-offset-1 hover:ring-offset-slate-900 transition-all cursor-pointer group relative hover:scale-110`}
+                              className={`w-3.5 h-3.5 rounded ${bgColor} border ${borderColor} hover:ring-2 hover:ring-primary hover:ring-offset-1 hover:ring-offset-background transition-all cursor-pointer group relative hover:scale-110`}
                               title={`${dateStr}: ${salesValue} sales`}
                             >
                               {/* Tooltip on hover */}
-                              <div className="invisible group-hover:visible absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-xs rounded-lg shadow-xl whitespace-nowrap border border-white/20">
+                              <div className="invisible group-hover:visible absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-card border border-white/10 text-foreground text-xs rounded-lg shadow-xl whitespace-nowrap">
                                 <div className="font-semibold">
                                   {salesValue} sales
                                 </div>
-                                <div className="text-gray-400">{dateStr}</div>
+                                <div className="text-muted-foreground">{dateStr}</div>
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
-                                  <div className="border-4 border-transparent border-t-slate-800" />
+                                  <div className="border-4 border-transparent border-t-card" />
                                 </div>
                               </div>
                             </div>
