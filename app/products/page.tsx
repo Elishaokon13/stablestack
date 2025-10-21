@@ -261,12 +261,11 @@ export default function ProductsPage() {
                   {/* Actions */}
                   <div className="flex gap-2 pt-3">
                     <button
-                      size="sm"
                       onClick={() =>
                         copyToClipboard(product.paymentLink, product.id)
                       }
                       className={cn(
-                        "flex-1 transition-all !py-3 cursor-pointer",
+                        "transition-all rounded-md flex items-center justify-center px-5 !py-3 cursor-pointer",
                         copySuccess === product.id
                           ? "bg-success hover:bg-success/90 text-white"
                           : "bg-primary hover:bg-primary/90 text-white"
