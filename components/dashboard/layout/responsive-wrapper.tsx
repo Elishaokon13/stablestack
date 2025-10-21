@@ -30,7 +30,7 @@ export function ResponsiveLayoutWrapper({
 
         {/* Main Content */}
         <main className="flex-1 w-full">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-7xl">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-8xl">
             {children}
           </div>
         </main>
