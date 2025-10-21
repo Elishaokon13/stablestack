@@ -228,8 +228,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <Separator />
-
         {/* Sales Activity Heatmap */}
         <div>
           <h2 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 px-1">
