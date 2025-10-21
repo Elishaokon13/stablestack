@@ -180,7 +180,7 @@ export default function ProductsPage() {
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-card border border-border rounded-xl overflow-hidden hover:border-white/40 hover:shadow-xl transition-all duration-300 group flex flex-col"
+                className="bg-card border border-border rounded-md overflow-hidden hover:border-white/40 hover:shadow-xl transition-all duration-300 group flex flex-col"
               >
                 {/* Product Image */}
                 <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden h-54">
