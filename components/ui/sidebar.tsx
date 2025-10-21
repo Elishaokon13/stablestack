@@ -336,7 +336,7 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="sidebar-header"
       data-sidebar="header"
       className={cn(
-        "flex flex-col gap-2 p-2 rounded-lg bg-sidebar ring-2 ring-sidebar-foreground/[0.025] backdrop-blur-sm",
+        "flex flex-col gap-2 p-2 bg-sidebar ring-2 ring-sidebar-foreground/[0.025] backdrop-blur-sm",
         className
       )}
       {...props}
@@ -389,7 +389,7 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="sidebar-group"
       data-sidebar="group"
       className={cn(
-        "relative flex w-full min-w-0 flex-col p-2 bg-sidebar max-md:rounded-none rounded-lg ring-2 ring-sidebar-foreground/[0.025] backdrop-blur-sm transition-all duration-200 hover:ring-sidebar-foreground/[0.04]",
+        "relative flex w-full min-w-0 flex-col p-2 bg-sidebar ring-2 ring-sidebar-foreground/[0.025] backdrop-blur-sm transition-all duration-200 hover:ring-sidebar-foreground/[0.04]",
         className
       )}
       {...props}
