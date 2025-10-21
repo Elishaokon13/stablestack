@@ -24,7 +24,7 @@ import {
 // Helper function to safely format dates
 const formatDate = (dateString: string | undefined): string => {
   if (!dateString) return "N/A";
-  
+
   try {
     const date = new Date(dateString);
     // Check if date is valid
@@ -39,7 +39,9 @@ const formatDate = (dateString: string | undefined): string => {
 };
 
 export default function WalletPage() {
-  const [selectedChain, setSelectedChain] = useState<"base" | "base-sepolia">("base-sepolia");
+  const [selectedChain, setSelectedChain] = useState<"base" | "base-sepolia">(
+    "base-sepolia"
+  );
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
   const { balance, loading, error, refetch } = useWalletBalance({
@@ -69,7 +71,9 @@ export default function WalletPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Wallet</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+            Wallet
+          </h1>
           <p className="text-sm text-muted-foreground mt-1">
             Manage your crypto balances
           </p>
@@ -100,7 +104,8 @@ export default function WalletPage() {
             variant={selectedChain === chain ? "default" : "outline"}
             onClick={() => setSelectedChain(chain)}
             className={cn(
-              selectedChain === chain && "bg-primary hover:bg-primary/90 text-white"
+              selectedChain === chain &&
+                "bg-primary hover:bg-primary/90 text-white"
             )}
           >
             {chain === "base" ? "Base Mainnet" : "Base Sepolia"}
@@ -384,4 +389,3 @@ export default function WalletPage() {
     </div>
   );
 }
-

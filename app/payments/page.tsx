@@ -126,7 +126,10 @@ export default function PaymentsPage() {
         </div>
         {pagination && (
           <div className="text-sm text-muted-foreground bg-muted px-4 py-2 rounded-lg">
-            <span className="font-medium text-foreground">{filteredTransactions.length}</span> of {pagination.total} transactions
+            <span className="font-medium text-foreground">
+              {filteredTransactions.length}
+            </span>{" "}
+            of {pagination.total} transactions
           </div>
         )}
       </div>
@@ -161,7 +164,9 @@ export default function PaymentsPage() {
       {!loading && !error && filteredTransactions.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20 bg-card border border-border rounded-xl">
           <CreditCard className="w-16 h-16 text-muted-foreground mb-4" />
-          <h3 className="text-xl font-semibold text-foreground mb-2">No transactions found</h3>
+          <h3 className="text-xl font-semibold text-foreground mb-2">
+            No transactions found
+          </h3>
           <p className="text-muted-foreground text-center max-w-md">
             {searchQuery
               ? "Try adjusting your search query"
@@ -183,64 +188,65 @@ export default function PaymentsPage() {
                   className="hover:border-primary/30 transition-all"
                 >
                   <CardContent className="p-4 sm:p-5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    {/* Left: Customer & Product Info */}
-                    <div className="flex-1 min-w-0 space-y-2">
-                      <div className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                        <span className="text-foreground font-medium truncate">
-                          {transaction.customerName || "Anonymous"}
-                        </span>
-                        <Badge className={statusConfig.color}>
-                          {statusConfig.icon}
-                          <span className="ml-1">{statusConfig.label}</span>
-                        </Badge>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Mail className="w-3.5 h-3.5 flex-shrink-0" />
-                        <span className="truncate">
-                          {transaction.customerEmail || "No email"}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Package className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
-                        <span className="truncate">
-                          {transaction.slug || "N/A"}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Calendar className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
-                        <span>{formatDate(transaction.createdAt)}</span>
-                      </div>
-                    </div>
-
-                    {/* Right: Amount */}
-                    <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2">
-                      <div className="text-right">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-2xl font-bold text-primary">
-                            ${transaction.amount || "0.00"}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      {/* Left: Customer & Product Info */}
+                      <div className="flex-1 min-w-0 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                          <span className="text-foreground font-medium truncate">
+                            {transaction.customerName || "Anonymous"}
                           </span>
-                          <span className="text-xs text-muted-foreground">
-                            {transaction.currency || "USD"}
+                          <Badge className={statusConfig.color}>
+                            {statusConfig.icon}
+                            <span className="ml-1">{statusConfig.label}</span>
+                          </Badge>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Mail className="w-3.5 h-3.5 flex-shrink-0" />
+                          <span className="truncate">
+                            {transaction.customerEmail || "No email"}
                           </span>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {transaction.paymentMethodTypes?.join(", ") || "Card"}
-                        </p>
+
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Package className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
+                          <span className="truncate">
+                            {transaction.slug || "N/A"}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Calendar className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
+                          <span>{formatDate(transaction.createdAt)}</span>
+                        </div>
+                      </div>
+
+                      {/* Right: Amount */}
+                      <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2">
+                        <div className="text-right">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-2xl font-bold text-primary">
+                              ${transaction.amount || "0.00"}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {transaction.currency || "USD"}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {transaction.paymentMethodTypes?.join(", ") ||
+                              "Card"}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Payment Intent ID */}
-                  <div className="mt-3 pt-3 border-t border-border">
-                    <p className="text-xs text-muted-foreground font-mono">
-                      {transaction.paymentIntentId || "N/A"}
-                    </p>
-                  </div>
+                    {/* Payment Intent ID */}
+                    <div className="mt-3 pt-3 border-t border-border">
+                      <p className="text-xs text-muted-foreground font-mono">
+                        {transaction.paymentIntentId || "N/A"}
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               );
@@ -251,7 +257,11 @@ export default function PaymentsPage() {
           {pagination && pagination.totalPages > 1 && (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border">
               <div className="text-sm text-muted-foreground">
-                Page <span className="font-semibold text-foreground">{pagination.page}</span> of {pagination.totalPages}
+                Page{" "}
+                <span className="font-semibold text-foreground">
+                  {pagination.page}
+                </span>{" "}
+                of {pagination.totalPages}
               </div>
               <div className="flex gap-2">
                 <Button

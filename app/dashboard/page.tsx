@@ -4,12 +4,22 @@ import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { CreditCard, BarChart3, Package, ArrowUpRight, DollarSign } from "lucide-react";
+import {
+  CreditCard,
+  BarChart3,
+  Package,
+  ArrowUpRight,
+  DollarSign,
+} from "lucide-react";
 import dynamic from "next/dynamic";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
 import { TransactionReceiptModal } from "@/components/ui/transaction-receipt-modal";
 import { PaymentLinkCreatorModal } from "@/components/ui/payment-link-creator-modal";
-import { useEarnings, useSalesHeatmap, useTransactions } from "@/lib/hooks/payment";
+import {
+  useEarnings,
+  useSalesHeatmap,
+  useTransactions,
+} from "@/lib/hooks/payment";
 import { useProductStats } from "@/lib/hooks/product";
 import { useWalletBalance } from "@/lib/hooks/wallet/use-wallet-balance";
 
