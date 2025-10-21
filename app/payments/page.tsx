@@ -117,30 +117,28 @@ export default function PaymentsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
             Payment Transactions
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+          <p className="text-sm text-muted-foreground mt-1">
             View all payment activity
           </p>
         </div>
         {pagination && (
-          <div className="text-sm text-muted-foreground">
-            {filteredTransactions.length} of {pagination.total} transactions
+          <div className="text-sm text-muted-foreground bg-muted px-4 py-2 rounded-lg">
+            <span className="font-medium text-foreground">{filteredTransactions.length}</span> of {pagination.total} transactions
           </div>
         )}
       </div>
 
-      <Separator className="bg-white/10" />
-
       {/* Search */}
-      <div className="relative">
+      <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
-          placeholder="Search by customer, email, product, or payment ID..."
+          placeholder="Search transactions..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-white/20"
+          className="pl-10 bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
         />
       </div>
 
