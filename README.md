@@ -1,8 +1,13 @@
-# StableStack - Payment Link Generator
+# StableStack - Modern Web3 Payment Platform
 
-> **The ultimate payment link generator. Accept card payments, receive stablecoins.**
+> **Accept card payments, receive stablecoins. Simple. Fast. Secure.**
 
-A modern payment platform that bridges traditional finance and crypto. Users can generate payment links for products or general payments, accept card payments via Stripe, and receive stablecoins through Blockradar's wallet infrastructure.
+A professional payment platform that bridges traditional finance and cryptocurrency. Generate payment links, accept card payments via Stripe, and automatically receive stablecoins through Blockradar's wallet infrastructure.
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.2.4-black.svg)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.9-38B2AC.svg)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 ## 🚀 Features
 
@@ -36,11 +41,12 @@ A modern payment platform that bridges traditional finance and crypto. Users can
 
 ### 🎨 **User Experience**
 
-- **Modern Design**: Clean, professional interface
-- **Responsive Design**: Mobile-first approach
-- **Smooth Animations**: Framer Motion powered interactions
-- **Dark Mode**: Optimized for dark theme
-- **Custom Components**: Tailwind CSS + Radix UI
+- **Professional Design**: Clean, minimal interface with brand identity
+- **Fully Responsive**: Mobile-first, works on all devices (375px+)
+- **Smooth Animations**: Optimized 60fps Framer Motion interactions
+- **Perfect Dark Mode**: Custom theme with #111111 background
+- **Accessible**: WCAG 2.1 AA/AAA compliant
+- **Modern Components**: Tailwind CSS + Radix UI + shadcn/ui
 
 ## 🛠️ Tech Stack
 
