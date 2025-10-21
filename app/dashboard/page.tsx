@@ -352,28 +352,6 @@ export default function DashboardPage() {
                   <div className="w-3.5 h-3.5 rounded bg-primary border border-primary" />
                   <span className="text-xs text-muted-foreground">More</span>
                 </div>
-
-                {/* Summary Stats */}
-                <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="text-2xl font-bold text-white">1,247</div>
-                    <div className="text-xs text-muted-foreground">
-                      Total Sales
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">24</div>
-                    <div className="text-xs text-muted-foreground">
-                      Avg Daily Sales
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">78</div>
-                    <div className="text-xs text-muted-foreground">
-                      Best Day
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
