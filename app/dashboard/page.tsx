@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { CreditCard, BarChart3, Package, ArrowUpRight, DollarSign } from "lucide-react";
-import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
 import { TransactionReceiptModal } from "@/components/ui/transaction-receipt-modal";
@@ -17,6 +17,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
+  const router = useRouter();
   const [isProductLinkModalOpen, setIsProductLinkModalOpen] = useState(false);
 
   // Fetch real data from API
