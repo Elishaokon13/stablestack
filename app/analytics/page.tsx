@@ -1,21 +1,18 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from "react"
-// import { useUserSession } from "@/hooks/useUserSession"
-import DashboardPageLayout from "@/components/dashboard/layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { motion } from "framer-motion"
-import { 
-  BarChart3, 
-  DollarSign, 
-  Package, 
-  CreditCard, 
+import { useState } from "react";
+import DashboardPageLayout from "@/components/dashboard/layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import {
+  BarChart3,
+  DollarSign,
+  Package,
+  CreditCard,
   TrendingUp,
-  Users,
   Calendar,
-  RefreshCw
-} from "lucide-react"
+  RefreshCw,
+} from "lucide-react";
 
 interface Analytics {
   totalEarnings: {
