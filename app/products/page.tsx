@@ -100,7 +100,7 @@ export default function ProductsPage() {
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 py-3 px-2 text-sm rounded-md w-full bg-card border-border focus:border-none focus:ring-1 focus:ring-none"
+              className="pl-10 py-3 px-2 text-sm rounded-md w-full bg-card border-border !focus:border-none !focus:ring-none"
             />
           </div>
         </div>
