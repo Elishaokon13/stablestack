@@ -66,8 +66,8 @@ export default function WalletPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Wallet</h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Wallet</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Manage your crypto balances
           </p>
         </div>
@@ -76,18 +76,17 @@ export default function WalletPage() {
           variant="outline"
           onClick={handleRefresh}
           disabled={loading || loadingTransactions}
-          className="bg-white/5 border-white/10 hover:bg-white/10"
+          className="hover:bg-primary/10 hover:border-primary/50"
         >
           <RefreshCw
-            className={`w-4 h-4 mr-1 ${
-              loading || loadingTransactions ? "animate-spin" : ""
-            }`}
+            className={cn(
+              "w-4 h-4 mr-1",
+              (loading || loadingTransactions) && "animate-spin"
+            )}
           />
           Refresh
         </Button>
       </div>
-
-      <Separator className="bg-white/10" />
 
       {/* Chain Selector */}
       <div className="flex gap-2">
@@ -95,12 +94,11 @@ export default function WalletPage() {
           <Button
             key={chain}
             size="sm"
+            variant={selectedChain === chain ? "default" : "outline"}
             onClick={() => setSelectedChain(chain)}
-            className={`${
-              selectedChain === chain
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-white/5 hover:bg-white/10 border border-white/10"
-            }`}
+            className={cn(
+              selectedChain === chain && "bg-primary hover:bg-primary/90 text-white"
+            )}
           >
             {chain === "base" ? "Base Mainnet" : "Base Sepolia"}
           </Button>
