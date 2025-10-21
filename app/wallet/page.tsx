@@ -203,7 +203,7 @@ export default function WalletPage() {
           {/* Wallet Info */}
           <div className="bg-white/5 border border-white/10 rounded-lg p-6 space-y-4">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-              <Wallet className="w-5 h-5" />
+              <WalletIcon className="w-5 h-5" />
               Wallet Information
             </h3>
             <div className="space-y-3 text-sm">
@@ -238,7 +238,7 @@ export default function WalletPage() {
           <div className="bg-white/5 border border-white/10 rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                <History className="w-5 h-5" />
+                <HistoryIcon className="w-5 h-5" />
                 Recent Transactions
               </h3>
               {transactionCount > 0 && (
@@ -255,7 +255,7 @@ export default function WalletPage() {
               </div>
             ) : transactions.length === 0 ? (
               <div className="text-center py-8">
-                <History className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                <HistoryIcon className="w-12 h-12 text-gray-600 mx-auto mb-3" />
                 <p className="text-gray-400 text-sm">No transactions yet</p>
                 <p className="text-gray-500 text-xs mt-1">
                   Your transaction history will appear here
