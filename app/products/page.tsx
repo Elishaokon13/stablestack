@@ -267,7 +267,7 @@ export default function ProductsPage() {
                       }
                       className={`flex-1 ${
                         copySuccess === product.id
-                          ? "bg-green-600 hover:bg-green-700"
+                          ? "bg-green-600 py-3 hover:bg-green-700"
                           : "bg-white/5 hover:bg-white/10 border border-white/10"
                       }`}
                     >
