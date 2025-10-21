@@ -108,7 +108,6 @@ export function DashboardSidebar({
       <SidebarContent className="py-3">
         {navMain.map((group) => (
             <SidebarGroup
-              key={group.title}
             className="border-b border-white/10 pb-3 mb-0 last:border-b-0"
           >
             <SidebarGroupContent>
