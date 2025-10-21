@@ -1,20 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useWalletBalance, usePayoutTransactions } from "@/lib/hooks/wallet";
 import { WithdrawModal } from "@/components/wallet/withdraw-modal";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import {
-  Wallet,
   RefreshCw,
   TrendingUp,
   DollarSign,
-  History,
   Send,
   Download,
+  Wallet as WalletIcon,
+  History as HistoryIcon,
   ExternalLink,
   CheckCircle2,
   Clock,
@@ -24,7 +24,7 @@ import {
 // Helper function to safely format dates
 const formatDate = (dateString: string | undefined): string => {
   if (!dateString) return "N/A";
-  
+
   try {
     const date = new Date(dateString);
     // Check if date is valid
@@ -39,7 +39,6 @@ const formatDate = (dateString: string | undefined): string => {
 };
 
 export default function WalletPage() {
-  const router = useRouter();
   const [selectedChain, setSelectedChain] = useState<"base" | "base-sepolia">(
     "base-sepolia"
   );
@@ -72,8 +71,10 @@ export default function WalletPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Wallet</h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+            Wallet
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Manage your crypto balances
           </p>
         </div>
@@ -82,18 +83,17 @@ export default function WalletPage() {
           variant="outline"
           onClick={handleRefresh}
           disabled={loading || loadingTransactions}
-          className="bg-white/5 border-white/10 hover:bg-white/10"
+          className="hover:bg-primary/10 hover:border-primary/50"
         >
           <RefreshCw
-            className={`w-4 h-4 mr-1 ${
-              loading || loadingTransactions ? "animate-spin" : ""
-            }`}
+            className={cn(
+              "w-4 h-4 mr-1",
+              (loading || loadingTransactions) && "animate-spin"
+            )}
           />
           Refresh
         </Button>
       </div>
-
-      <Separator className="bg-white/10" />
 
       {/* Chain Selector */}
       <div className="flex gap-2">
@@ -101,12 +101,12 @@ export default function WalletPage() {
           <Button
             key={chain}
             size="sm"
+            variant={selectedChain === chain ? "default" : "outline"}
             onClick={() => setSelectedChain(chain)}
-            className={`${
-              selectedChain === chain
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-white/5 hover:bg-white/10 border border-white/10"
-            }`}
+            className={cn(
+              selectedChain === chain &&
+                "bg-primary hover:bg-primary/90 text-white"
+            )}
           >
             {chain === "base" ? "Base Mainnet" : "Base Sepolia"}
           </Button>
@@ -116,7 +116,7 @@ export default function WalletPage() {
       {/* Loading State */}
       {loading && (
         <div className="flex flex-col items-center justify-center py-20">
-          <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mb-4"></div>
           <p className="text-muted-foreground">Loading wallet balance...</p>
         </div>
       )}
@@ -208,7 +208,7 @@ export default function WalletPage() {
           {/* Wallet Info */}
           <div className="bg-white/5 border border-white/10 rounded-lg p-6 space-y-4">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-              <Wallet className="w-5 h-5" />
+              <WalletIcon className="w-5 h-5" />
               Wallet Information
             </h3>
             <div className="space-y-3 text-sm">
@@ -243,7 +243,7 @@ export default function WalletPage() {
           <div className="bg-white/5 border border-white/10 rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                <History className="w-5 h-5" />
+                <HistoryIcon className="w-5 h-5" />
                 Recent Transactions
               </h3>
               {transactionCount > 0 && (
@@ -260,7 +260,7 @@ export default function WalletPage() {
               </div>
             ) : transactions.length === 0 ? (
               <div className="text-center py-8">
-                <History className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                <HistoryIcon className="w-12 h-12 text-gray-600 mx-auto mb-3" />
                 <p className="text-gray-400 text-sm">No transactions yet</p>
                 <p className="text-gray-500 text-xs mt-1">
                   Your transaction history will appear here
@@ -389,4 +389,3 @@ export default function WalletPage() {
     </div>
   );
 }
-

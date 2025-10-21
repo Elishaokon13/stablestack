@@ -6,22 +6,18 @@ import { useProducts, type Product } from "@/lib/hooks/product";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import {
   Copy,
   ExternalLink,
   Search,
-  Filter,
   ChevronLeft,
   ChevronRight,
   Package,
-  DollarSign,
   Calendar,
   Link as LinkIcon,
-  Image as ImageIcon,
   Clock,
-  Edit,
-  Trash2,
 } from "lucide-react";
 
 export default function ProductsPage() {
@@ -89,61 +85,31 @@ export default function ProductsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
             Your Products
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+          <p className="text-sm text-muted-foreground mt-1">
             Manage all your payment links
           </p>
         </div>
-        {pagination && (
-          <div className="text-sm text-muted-foreground">
-            {filteredProducts.length} of {pagination.total} products
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md">
+          {/* Search */}
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 py-3 px-2 text-sm rounded-md w-full bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
+            />
           </div>
-        )}
-      </div>
-
-      <Separator className="bg-white/10" />
-
-      {/* Filters & Search */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-        {/* Search */}
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-white/20"
-          />
-        </div>
-
-        {/* Status Filter Buttons */}
-        <div className="flex gap-2 overflow-x-auto">
-          {(["all", "active", "inactive", "expired"] as const).map((status) => (
-            <Button
-              key={status}
-              size="sm"
-              onClick={() => {
-                setStatusFilter(status);
-                setCurrentPage(1);
-              }}
-              className={`whitespace-nowrap ${
-                statusFilter === status
-                  ? "bg-blue-600 hover:bg-blue-700 text-white"
-                  : "bg-white/5 hover:bg-white/10 text-white/70 border border-white/10"
-              }`}
-            >
-              {status.charAt(0).toUpperCase() + status.slice(1)}
-            </Button>
-          ))}
         </div>
       </div>
 
       {/* Loading State */}
       {loading && (
         <div className="flex flex-col items-center justify-center py-20">
-          <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mb-4"></div>
           <p className="text-muted-foreground">Loading products...</p>
         </div>
       )}
@@ -179,31 +145,32 @@ export default function ProductsPage() {
       {/* Products Grid */}
       {!loading && !error && filteredProducts.length > 0 && (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-gradient-to-br from-white/[0.07] to-white/[0.03] border border-white/10 rounded-lg overflow-hidden hover:border-white/20 hover:shadow-lg hover:shadow-purple-500/5 transition-all group"
+                className="bg-card border border-border rounded-md overflow-hidden hover:border-white/40 hover:shadow-xl transition-all duration-300 group flex flex-col"
               >
                 {/* Product Image */}
-                <div className="relative bg-gradient-to-br from-blue-500/10 to-purple-500/10 overflow-hidden">
+                <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden h-54">
                   {product.image ? (
                     <img
                       src={product.image}
                       alt={product.productName}
-                      className="w-full h-full min-h-[240px] max-h-[240px] object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   ) : (
-                    <div className="w-full h-full  min-h-[240px] max-h-[240px] flex items-center justify-center">
-                      <ImageIcon className="w-12 h-12 text-white/10" />
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Package className="w-14 h-14 text-primary/20" />
                     </div>
                   )}
                   {/* Status Badge */}
-                  <div className="absolute top-2 right-2">
+                  <div className="absolute top-3 right-3">
                     <Badge
-                      className={`${getStatusColor(
-                        product.status
-                      )} backdrop-blur-sm text-xs`}
+                      className={cn(
+                        getStatusColor(product.status),
+                        "backdrop-blur-md text-xs font-medium capitalize border shadow-sm"
+                      )}
                     >
                       {product.status}
                     </Badge>
@@ -211,78 +178,77 @@ export default function ProductsPage() {
                 </div>
 
                 {/* Product Details */}
-                <div className="p-4 space-y-3">
+                <div className="p-5 space-y-4 flex-1 flex flex-col">
                   {/* Name & Price */}
-                  <div className="space-y-2">
-                    <h3 className="text-base font-semibold text-white truncate">
+                  <div className="space-y-2 flex-1">
+                    <h3 className="text-base font-semibold text-foreground truncate">
                       {product.productName}
                     </h3>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-2xl font-bold text-green-400">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold">
                         ${product.amount}
                       </span>
-                      <span className="text-xs text-muted-foreground uppercase">
+                      <span className="text-xs text-muted-foreground uppercase font-medium">
                         {product.payoutToken}
                       </span>
                     </div>
+                    {product.description && (
+                      <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem]">
+                        {product.description}
+                      </p>
+                    )}
                   </div>
 
-                  {/* Description */}
-                  <p className="text-xs text-muted-foreground line-clamp-2 min-h-[2.5rem]">
-                    {product.description}
-                  </p>
-
-                  <Separator className="bg-white/10" />
-
-                  {/* Meta Info */}
-                  <div className="space-y-1.5 text-xs text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <LinkIcon className="w-3 h-3 flex-shrink-0" />
+                  {/* Meta Info - Compact */}
+                  <div className="space-y-2 text-xs">
+                    {/* <div className="flex items-center gap-2 text-muted-foreground">
+                      <LinkIcon className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
                       <span className="truncate font-mono">
                         /{product.slug}
                       </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-3 h-3 flex-shrink-0" />
-                      <span>{formatDate(product.createdAt)}</span>
+                    </div> */}
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-1.5 text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5 text-primary/60" />
+                        <span>{formatDate(product.createdAt)}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-muted-foreground">
+                        <Package className="w-3.5 h-3.5 text-primary/60" />
+                        <span className="uppercase font-medium">
+                          {product.payoutChain}
+                        </span>
+                      </div>
                     </div>
                     {product.expiresAt && (
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-3 h-3 flex-shrink-0" />
+                      <div className="flex items-center gap-1.5 text-warning text-xs">
+                        <Clock className="w-3.5 h-3.5 flex-shrink-0" />
                         <span>Expires {formatDate(product.expiresAt)}</span>
                       </div>
                     )}
-                    <div className="flex items-center gap-2">
-                      <Package className="w-3 h-3 flex-shrink-0" />
-                      <span className="uppercase">{product.payoutChain}</span>
-                    </div>
                   </div>
-
-                  <Separator className="bg-white/10" />
 
                   {/* Actions */}
                   <div className="flex gap-2">
-                    <Button
-                      size="sm"
+                    <button
                       onClick={() =>
                         copyToClipboard(product.paymentLink, product.id)
                       }
-                      className={`flex-1 ${
+                      className={cn(
+                        "transition-all rounded-md flex items-center w-full justify-center px-5 py-2.5 text-sm cursor-pointer",
                         copySuccess === product.id
-                          ? "bg-green-600 hover:bg-green-700"
-                          : "bg-white/5 hover:bg-white/10 border border-white/10"
-                      }`}
+                          ? "bg-success hover:bg-success/90 text-white"
+                          : "bg-primary hover:bg-primary/90 text-white"
+                      )}
                     >
-                      <Copy className="w-3 h-3 mr-1.5" />
-                      {copySuccess === product.id ? "Copied!" : "Copy"}
-                    </Button>
-                    <Button
-                      size="sm"
+                      <Copy className="w-3.5 h-3.5 mr-1.5" />
+                      {copySuccess === product.id ? "Copied!" : "Copy Link"}
+                    </button>
+                    <button
                       onClick={() => window.open(product.paymentLink, "_blank")}
-                      className="bg-white/5 hover:bg-white/10 border border-white/10"
+                      className="transition-all rounded-md flex items-center w-fit justify-center px-3 py-2.5 border border-white/20 hover:border-white/60 text-sm cursor-pointer"
                     >
-                      <ExternalLink className="w-3 h-3" />
-                    </Button>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -291,25 +257,31 @@ export default function ProductsPage() {
 
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border">
               <div className="text-sm text-muted-foreground">
-                Page {pagination.page} of {pagination.totalPages}
+                Page{" "}
+                <span className="font-semibold text-foreground">
+                  {pagination.page}
+                </span>{" "}
+                of {pagination.totalPages}
               </div>
               <div className="flex gap-2">
                 <Button
                   size="sm"
+                  variant="outline"
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={!pagination.hasPrevPage}
-                  className="bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft className="w-4 h-4 mr-1" />
                   Previous
                 </Button>
                 <Button
                   size="sm"
+                  variant="outline"
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={!pagination.hasNextPage}
-                  className="bg-white/5 hover:bg-white/10 border border-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                   <ChevronRight className="w-4 h-4 ml-1" />

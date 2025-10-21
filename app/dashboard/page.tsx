@@ -1,28 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useUser, useAuth } from "@clerk/nextjs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
-  User,
-  Mail,
-  Calendar,
-  Shield,
-  Wallet,
   CreditCard,
   BarChart3,
-  Settings,
-  LogOut,
   Package,
   ArrowUpRight,
-  ArrowDownRight,
-  Eye,
   DollarSign,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Separator } from "@/components/ui/separator";
 import dynamic from "next/dynamic";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
 import { TransactionReceiptModal } from "@/components/ui/transaction-receipt-modal";
@@ -35,20 +23,17 @@ import {
 import { useProductStats } from "@/lib/hooks/product";
 import { useWalletBalance } from "@/lib/hooks/wallet/use-wallet-balance";
 
-// Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
-  const { getToken } = useAuth();
   const router = useRouter();
   const [isProductLinkModalOpen, setIsProductLinkModalOpen] = useState(false);
 
   // Fetch real data from API
   const { earnings } = useEarnings();
   const { heatmapData } = useSalesHeatmap();
-  const { transactions: apiTransactions, loading: transactionsLoading } =
-    useTransactions({ limit: 5 });
+  const { transactions: apiTransactions } = useTransactions({ limit: 5 });
   const { stats: productStats } = useProductStats();
   const { balance, loading: balanceLoading } = useWalletBalance({
     chain: "base-sepolia",
@@ -125,7 +110,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-white">Loading dashboard...</p>
         </div>
       </div>
@@ -150,7 +135,7 @@ export default function DashboardPage() {
     <>
       <div className="w-full space-y-6 mx-auto">
         {/* Header */}
-        <div className="w-full py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <h1 className="text-lg sm:text-xl font-bold text-white">
             Welcome back, {user.firstName || user.username}!
           </h1>
@@ -168,16 +153,29 @@ export default function DashboardPage() {
             >
               Create Product Link
             </Button>
-            {/* <Button
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 w-full sm:w-auto whitespace-nowrap"
-              onClick={() => router.push("/products")}
-            >
-              View All Products
-            </Button> */}
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+          {/* Wallet Balance Card */}
+          <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-400">
+              {balanceLoading ? (
+                <span className="text-base">Loading...</span>
+              ) : balance?.balances && balance.balances.length > 0 ? (
+                `$${parseFloat(
+                  balance.balances[0].convertedBalance
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}`
+              ) : (
+                "$0.00"
+              )}
+            </div>
+            <div className="text-muted-foreground text-xs sm:text-sm">
+              Wallet Balance
+            </div>
+          </div>
           {/* Total Revenue Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
@@ -194,27 +192,7 @@ export default function DashboardPage() {
               Total Revenue
             </div>
           </div>
-          {/* Wallet Balance Card */}
-          <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-400">
-              {balanceLoading ? (
-                <span className="text-base">Loading...</span>
-              ) : balance?.balances && balance.balances.length > 0 ? (
-                `$${parseFloat(balance.balances[0].convertedBalance).toLocaleString(
-                  undefined,
-                  {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }
-                )}`
-              ) : (
-                "$0.00"
-              )}
-            </div>
-            <div className="text-muted-foreground text-xs sm:text-sm">
-              Wallet Balance
-            </div>
-          </div>
+
           {/* Active Products Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
@@ -235,44 +213,40 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <Separator />
-
         {/* Sales Activity Heatmap */}
         <div>
           <h2 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 px-1">
-            Sales Activity Heatmap (Last 52 Weeks)
+            Sales Activity Heatmap (Last 6 Months)
           </h2>
           <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 md:p-6">
             <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
-                {/* Month labels */}
+                {/* Month labels - showing last 6 months */}
                 <div className="flex mb-3 ml-16">
-                  {[
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                    "Nov",
-                    "Dec",
-                  ].map((month, i) => (
-                    <div
-                      key={i}
-                      className="text-xs text-muted-foreground font-medium"
-                      style={{
-                        width: "calc(100% / 12)",
-                        textAlign: "left",
-                        paddingLeft: "4px",
-                      }}
-                    >
-                      {month}
-                    </div>
-                  ))}
+                  {(() => {
+                    const months = [];
+                    const today = new Date();
+                    for (let i = 5; i >= 0; i--) {
+                      const date = new Date(today);
+                      date.setMonth(date.getMonth() - i);
+                      months.push(
+                        date.toLocaleDateString("en-US", { month: "short" })
+                      );
+                    }
+                    return months.map((month, i) => (
+                      <div
+                        key={i}
+                        className="text-xs text-muted-foreground font-medium"
+                        style={{
+                          width: "calc(100% / 6)",
+                          textAlign: "left",
+                          paddingLeft: "4px",
+                        }}
+                      >
+                        {month}
+                      </div>
+                    ));
+                  })()}
                 </div>
 
                 {/* Heatmap grid */}
@@ -284,38 +258,38 @@ export default function DashboardPage() {
                     <div>Fri</div>
                   </div>
 
-                  {/* Grid of weeks */}
+                  {/* Grid of weeks - 26 weeks for 6 months */}
                   <div className="flex gap-2">
-                    {Array.from({ length: 52 }).map((_, weekIndex) => (
+                    {Array.from({ length: 26 }).map((_, weekIndex) => (
                       <div key={weekIndex} className="flex flex-col gap-2">
                         {Array.from({ length: 7 }).map((_, dayIndex) => {
                           // Calculate date for this cell
                           const today = new Date();
-                          const daysAgo = (51 - weekIndex) * 7 + (6 - dayIndex);
+                          const daysAgo = (25 - weekIndex) * 7 + (6 - dayIndex);
                           const date = new Date(today);
                           date.setDate(date.getDate() - daysAgo);
 
                           // Get sales value from API or demo data
                           const salesValue = getSalesForDate(date);
 
-                          // Determine color intensity (blue theme)
+                          // Determine color intensity (brand blue theme)
                           let bgColor = "";
                           let borderColor = "";
                           if (salesValue === 0) {
-                            bgColor = "bg-slate-800/40";
-                            borderColor = "border-slate-700/50";
+                            bgColor = "bg-muted/40";
+                            borderColor = "border-muted/50";
                           } else if (salesValue < 15) {
-                            bgColor = "bg-blue-950/60";
-                            borderColor = "border-blue-900/60";
+                            bgColor = "bg-primary/20";
+                            borderColor = "border-primary/30";
                           } else if (salesValue < 30) {
-                            bgColor = "bg-blue-800/70";
-                            borderColor = "border-blue-700/70";
+                            bgColor = "bg-primary/40";
+                            borderColor = "border-primary/50";
                           } else if (salesValue < 45) {
-                            bgColor = "bg-blue-600/80";
-                            borderColor = "border-blue-500/80";
+                            bgColor = "bg-primary/60";
+                            borderColor = "border-primary/70";
                           } else {
-                            bgColor = "bg-blue-500";
-                            borderColor = "border-blue-400";
+                            bgColor = "bg-primary";
+                            borderColor = "border-primary";
                           }
 
                           // Format date for display
@@ -328,17 +302,19 @@ export default function DashboardPage() {
                           return (
                             <div
                               key={dayIndex}
-                              className={`w-3.5 h-3.5 rounded ${bgColor} border ${borderColor} hover:ring-2 hover:ring-blue-400 hover:ring-offset-1 hover:ring-offset-slate-900 transition-all cursor-pointer group relative hover:scale-110`}
+                              className={`w-3.5 h-3.5 rounded ${bgColor} border ${borderColor} hover:ring-2 hover:ring-primary hover:ring-offset-1 hover:ring-offset-background transition-all cursor-pointer group relative hover:scale-110`}
                               title={`${dateStr}: ${salesValue} sales`}
                             >
                               {/* Tooltip on hover */}
-                              <div className="invisible group-hover:visible absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-xs rounded-lg shadow-xl whitespace-nowrap border border-white/20">
+                              <div className="invisible group-hover:visible absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-card border border-white/10 text-foreground text-xs rounded-lg shadow-xl whitespace-nowrap">
                                 <div className="font-semibold">
                                   {salesValue} sales
                                 </div>
-                                <div className="text-gray-400">{dateStr}</div>
+                                <div className="text-muted-foreground">
+                                  {dateStr}
+                                </div>
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
-                                  <div className="border-4 border-transparent border-t-slate-800" />
+                                  <div className="border-4 border-transparent border-t-card" />
                                 </div>
                               </div>
                             </div>
@@ -352,41 +328,17 @@ export default function DashboardPage() {
                 {/* Legend */}
                 <div className="flex gap-2 mt-4 items-center justify-end">
                   <span className="text-xs text-muted-foreground">Less</span>
-                  <div className="w-3.5 h-3.5 rounded bg-slate-800/40 border border-slate-700/50" />
-                  <div className="w-3.5 h-3.5 rounded bg-blue-950/60 border border-blue-900/60" />
-                  <div className="w-3.5 h-3.5 rounded bg-blue-800/70 border border-blue-700/70" />
-                  <div className="w-3.5 h-3.5 rounded bg-blue-600/80 border border-blue-500/80" />
-                  <div className="w-3.5 h-3.5 rounded bg-blue-500 border border-blue-400" />
+                  <div className="w-3.5 h-3.5 rounded bg-muted/40 border border-muted/50" />
+                  <div className="w-3.5 h-3.5 rounded bg-primary/20 border border-primary/30" />
+                  <div className="w-3.5 h-3.5 rounded bg-primary/40 border border-primary/50" />
+                  <div className="w-3.5 h-3.5 rounded bg-primary/60 border border-primary/70" />
+                  <div className="w-3.5 h-3.5 rounded bg-primary border border-primary" />
                   <span className="text-xs text-muted-foreground">More</span>
-                </div>
-
-                {/* Summary Stats */}
-                <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="text-2xl font-bold text-white">1,247</div>
-                    <div className="text-xs text-muted-foreground">
-                      Total Sales
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">24</div>
-                    <div className="text-xs text-muted-foreground">
-                      Avg Daily Sales
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">78</div>
-                    <div className="text-xs text-muted-foreground">
-                      Best Day
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <Separator />
 
         {/* Latest Transactions and Product Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
