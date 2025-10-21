@@ -228,7 +228,7 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs text-muted-foreground line-clamp-2 max-h-[3.5rem] overflow-hidden truncate">
+                  <p className="text-xs text-muted-foreground line-clamp-2 max-h-[3.5rem] no-of-lines-2 overflow-hidden truncate">
                     {product.description}
                   </p>
 
