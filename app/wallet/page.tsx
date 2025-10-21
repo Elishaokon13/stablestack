@@ -1,20 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useWalletBalance, usePayoutTransactions } from "@/lib/hooks/wallet";
 import { WithdrawModal } from "@/components/wallet/withdraw-modal";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import {
-  Wallet,
   RefreshCw,
   TrendingUp,
   DollarSign,
-  History,
   Send,
-  Download,
   ExternalLink,
   CheckCircle2,
   Clock,
@@ -39,10 +36,7 @@ const formatDate = (dateString: string | undefined): string => {
 };
 
 export default function WalletPage() {
-  const router = useRouter();
-  const [selectedChain, setSelectedChain] = useState<"base" | "base-sepolia">(
-    "base-sepolia"
-  );
+  const [selectedChain, setSelectedChain] = useState<"base" | "base-sepolia">("base-sepolia");
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
   const { balance, loading, error, refetch } = useWalletBalance({
