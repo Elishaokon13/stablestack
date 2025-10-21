@@ -200,13 +200,12 @@ export default function DashboardPage() {
               {balanceLoading ? (
                 <span className="text-base">Loading...</span>
               ) : balance?.balances && balance.balances.length > 0 ? (
-                `$${parseFloat(balance.balances[0].convertedBalance).toLocaleString(
-                  undefined,
-                  {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }
-                )}`
+                `$${parseFloat(
+                  balance.balances[0].convertedBalance
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}`
               ) : (
                 "$0.00"
               )}
@@ -334,7 +333,9 @@ export default function DashboardPage() {
                                 <div className="font-semibold">
                                   {salesValue} sales
                                 </div>
-                                <div className="text-muted-foreground">{dateStr}</div>
+                                <div className="text-muted-foreground">
+                                  {dateStr}
+                                </div>
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
                                   <div className="border-4 border-transparent border-t-card" />
                                 </div>
