@@ -259,7 +259,7 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-2 pt-3">
+                  <div className="flex gap-2">
                     <button
                       onClick={() =>
                         copyToClipboard(product.paymentLink, product.id)
