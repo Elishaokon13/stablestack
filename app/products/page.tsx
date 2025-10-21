@@ -89,21 +89,19 @@ export default function ProductsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
             Your Products
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+          <p className="text-sm text-muted-foreground mt-1">
             Manage all your payment links
           </p>
         </div>
         {pagination && (
-          <div className="text-sm text-muted-foreground">
-            {filteredProducts.length} of {pagination.total} products
+          <div className="text-sm text-muted-foreground bg-muted px-4 py-2 rounded-lg">
+            <span className="font-medium text-foreground">{filteredProducts.length}</span> of {pagination.total} products
           </div>
         )}
       </div>
-
-      <Separator className="bg-white/10" />
 
       {/* Filters & Search */}
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
