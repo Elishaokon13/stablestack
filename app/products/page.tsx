@@ -93,7 +93,10 @@ export default function ProductsPage() {
         </div>
         {pagination && (
           <div className="text-sm text-muted-foreground bg-muted px-4 py-2 rounded-lg">
-            <span className="font-medium text-foreground">{filteredProducts.length}</span> of {pagination.total} products
+            <span className="font-medium text-foreground">
+              {filteredProducts.length}
+            </span>{" "}
+            of {pagination.total} products
           </div>
         )}
       </div>
@@ -124,7 +127,8 @@ export default function ProductsPage() {
               }}
               className={cn(
                 "whitespace-nowrap",
-                statusFilter === status && "bg-primary hover:bg-primary/90 text-white"
+                statusFilter === status &&
+                  "bg-primary hover:bg-primary/90 text-white"
               )}
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -230,7 +234,9 @@ export default function ProductsPage() {
                   <div className="space-y-2 text-xs">
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <LinkIcon className="w-3.5 h-3.5 flex-shrink-0 text-primary/60" />
-                      <span className="truncate font-mono">/{product.slug}</span>
+                      <span className="truncate font-mono">
+                        /{product.slug}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -239,7 +245,9 @@ export default function ProductsPage() {
                       </div>
                       <div className="flex items-center gap-1.5 text-muted-foreground">
                         <Package className="w-3.5 h-3.5 text-primary/60" />
-                        <span className="uppercase font-medium">{product.payoutChain}</span>
+                        <span className="uppercase font-medium">
+                          {product.payoutChain}
+                        </span>
                       </div>
                     </div>
                     {product.expiresAt && (
@@ -285,7 +293,11 @@ export default function ProductsPage() {
           {pagination && pagination.totalPages > 1 && (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border">
               <div className="text-sm text-muted-foreground">
-                Page <span className="font-semibold text-foreground">{pagination.page}</span> of {pagination.totalPages}
+                Page{" "}
+                <span className="font-semibold text-foreground">
+                  {pagination.page}
+                </span>{" "}
+                of {pagination.totalPages}
               </div>
               <div className="flex gap-2">
                 <Button
