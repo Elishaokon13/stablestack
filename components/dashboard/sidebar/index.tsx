@@ -139,7 +139,6 @@ export function DashboardSidebar({
       <SidebarContent>
         {navMain.map((group, i) => (
           <SidebarGroup
-            className={cn(i === 0 && "rounded-t-none")}
             key={group.title}
           >
             <SidebarGroupLabel className="flex items-center gap-2">
