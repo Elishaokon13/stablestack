@@ -103,13 +103,13 @@ export function DashboardSidebar({
       </SidebarHeader>
 
       <SidebarContent className="py-3">
-        {navMain.map((group) => (
+  
             <SidebarGroup
             className="border-b border-white/10 pb-3 mb-0 last:border-b-0"
           >
             <SidebarGroupContent>
               <SidebarMenu className="space-y-1 pr-3">
-                {group.items.map((item) => {
+                {navMain.map((item) => {
                   const isLocked = "locked" in item && item.locked;
                   const isActive = Boolean(item.isActive);
 
@@ -158,7 +158,6 @@ export function DashboardSidebar({
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-        ))}
       </SidebarContent>
 
       {/* Simple Footer */}
