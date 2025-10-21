@@ -199,7 +199,7 @@ export default function ProductsPage() {
                     </div>
                   )}
                   {/* Status Badge */}
-                  <div className="absolute top-2 right-2">
+                  <div className="absolute top-2 capitalize right-2">
                     <Badge
                       className={`${getStatusColor(
                         product.status
