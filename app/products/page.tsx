@@ -274,14 +274,12 @@ export default function ProductsPage() {
                       <Copy className="w-3.5 h-3.5 mr-1.5" />
                       {copySuccess === product.id ? "Copied!" : "Copy Link"}
                     </button>
-                    <Button
-                      size="sm"
-                      variant="outline"
+                    <button
                       onClick={() => window.open(product.paymentLink, "_blank")}
-                      className="px-3 hover:bg-primary/10 hover:border-primary/50 hover:text-primary cursor-pointer"
+                      className="transition-all rounded-md flex items-center w-full justify-center px-5 py-2.5 text-sm cursor-pointer"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>
