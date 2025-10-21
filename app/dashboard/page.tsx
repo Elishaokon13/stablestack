@@ -17,7 +17,6 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
-  const router = useRouter();
   const [isProductLinkModalOpen, setIsProductLinkModalOpen] = useState(false);
 
   // Fetch real data from API
