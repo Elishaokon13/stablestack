@@ -85,7 +85,10 @@ export function DashboardSidebar({
   const { user } = useUser();
 
   return (
-    <Sidebar {...props} className={cn("h-screen border-r border-white/10 bg-sidebar", className)}>
+    <Sidebar
+      {...props}
+      className={cn("h-screen border-r border-white/10 bg-sidebar", className)}
+    >
       {/* Simple Logo Header */}
       <SidebarHeader className="py-5 px-3 border-b border-white/10 h-[85px]">
         <div className="flex items-center gap-3">
@@ -149,7 +152,10 @@ export function DashboardSidebar({
                             <span>{item.title}</span>
                           </div>
                         ) : (
-                          <a href={item.url} className="flex items-center gap-3 w-full">
+                          <a
+                            href={item.url}
+                            className="flex items-center gap-3 w-full"
+                          >
                             <item.icon className="size-5" />
                             <span>{item.title}</span>
                           </a>
@@ -170,8 +176,8 @@ export function DashboardSidebar({
           <UserButton
             appearance={{
               elements: {
-                avatarBox: "w-10 h-10"
-              }
+                avatarBox: "w-10 h-10",
+              },
             }}
           />
           <div className="flex-1 min-w-0">
