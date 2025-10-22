@@ -4,9 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useProducts, type Product } from "@/lib/hooks/product";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
   Copy,
@@ -16,23 +14,29 @@ import {
   ChevronRight,
   Package,
   Calendar,
-  Link as LinkIcon,
   Clock,
 } from "lucide-react";
+import { usePaymentLinks } from "@/lib/hooks/product/use-products";
 
 export default function ProductsPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<
-    "all" | "active" | "inactive" | "expired"
-  >("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [copySuccess, setCopySuccess] = useState<string | null>(null);
 
   const { products, pagination, loading, error, fetchPage } = useProducts({
     page: currentPage,
     limit: 15,
-    status: statusFilter === "all" ? undefined : statusFilter,
+  });
+  const {
+    paymentLinks,
+    pagination: paymentLinksPagination,
+    loading: paymentLinksLoading,
+    error: paymentLinksError,
+    fetchPage: fetchPaymentLinksPage,
+  } = usePaymentLinks({
+    page: currentPage,
+    limit: 15,
   });
 
   const copyToClipboard = async (text: string, id: string) => {

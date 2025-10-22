@@ -8,11 +8,14 @@ interface CreatePaymentLinkData {
   type: "product";
   name: string;
   description: string;
-  amount: number;
-  currency: string; // e.g., "usd"
-  purpose: string; // e.g., "product"
-  expiresIn: string; // e.g., "3"
+  amount: string;
+  currency: string;
+  purpose: string;
+  expiresIn: string;
   allowMultiplePayments: boolean;
+  payoutChain: string;
+  payoutToken: string;
+  slug: string;
 }
 
 interface CreateProductData {

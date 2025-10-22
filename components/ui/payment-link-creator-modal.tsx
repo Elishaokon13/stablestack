@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useCreateProduct } from "@/lib/hooks/product/use-create-product";
+import { useCreatePaymentLink } from "@/lib/hooks/product/use-create-product";
 import {
   Dialog,
   DialogContent,
@@ -55,10 +55,10 @@ export function PaymentLinkCreatorModal({
   onSuccess,
 }: PaymentLinkCreatorModalProps) {
   const {
-    createProduct,
+    createPaymentLink,
     loading: isCreatingLink,
     error: createError,
-  } = useCreateProduct();
+  } = useCreatePaymentLink();
   const [currentStep, setCurrentStep] = useState(1);
   const [createdLink, setCreatedLink] = useState<string | null>(null);
   const [formData, setFormData] = useState<PaymentLinkData>({
@@ -114,43 +114,31 @@ export function PaymentLinkCreatorModal({
     e.preventDefault();
 
     try {
-      // Create product (which includes payment link) using the hook
-      const product = await createProduct({
-        productName: formData.title,
+      const payload = {
+        type: "product" as const,
+        name: formData.title,
         description: formData.description,
-        amount: formData.amount,
-        payoutChain: "base-sepolia", // Default to testnet
+        amount: formData.amount || "0",
+        currency: formData.currency.toLowerCase(),
+        purpose: formData.purpose || "product",
+        expiresIn: formData.expiresIn,
+        allowMultiplePayments: formData.allowMultiplePayments,
+        payoutChain: "base-sepolia",
         payoutToken: "USDC",
         slug: formData.title.toLowerCase().replace(/\s+/g, "-"),
-        linkExpiration:
-          formData.expiresIn === "never"
-            ? "never"
-            : formData.expiresIn === "1"
-            ? "7_days"
-            : formData.expiresIn === "3"
-            ? "7_days"
-            : formData.expiresIn === "7"
-            ? "7_days"
-            : formData.expiresIn === "14"
-            ? "30_days"
-            : formData.expiresIn === "30"
-            ? "30_days"
-            : formData.expiresIn === "90"
-            ? "custom_days"
-            : "never",
-        customDays: formData.expiresIn === "90" ? 90 : undefined,
-      });
+      };
 
-      if (product) {
-        setCreatedLink(product.paymentLink);
+      const paymentLink = await createPaymentLink(payload);
 
+      if (paymentLink) {
+        setCreatedLink(paymentLink.paymentLink);
         toast.success("Payment link created successfully!");
 
         if (onSuccess) {
           onSuccess({
-            link: product.paymentLink,
-            id: product.id,
-            slug: product.slug,
+            link: paymentLink.paymentLink,
+            id: paymentLink.id,
+            slug: paymentLink.slug,
             ...formData,
           });
         }
