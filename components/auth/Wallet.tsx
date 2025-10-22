@@ -27,18 +27,12 @@ export function WalletAuth() {
           className="text-sm leading-relaxed mb-6"
           style={{ color: "#6b7280" }}
         >
-          Wallet functionality is currently being updated. Please use email authentication for now.
+          Wallet functionality is currently being updated. Please use email
+          authentication for now.
         </p>
       </div>
 
-      <Button
-        disabled
-        className="w-full"
-        style={{ 
-          background: 'linear-gradient(to bottom, #ff6d41, #ff5420)',
-          opacity: 0.6
-        }}
-      >
+      <Button disabled className="w-full bg-primary/60 opacity-60">
         <Wallet className="w-4 h-4 mr-2" />
         Wallet Connection Disabled
       </Button>

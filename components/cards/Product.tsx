@@ -1,60 +1,68 @@
-"use client"
+"use client";
 
-import React from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
-import { Package, DollarSign, ExternalLink, Eye, EyeOff, Edit, Trash2 } from "lucide-react"
-import Image from "next/image"
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import {
+  Package,
+  DollarSign,
+  ExternalLink,
+  Eye,
+  EyeOff,
+  Edit,
+  Trash2,
+} from "lucide-react";
+import Image from "next/image";
 
 interface ProductCardProps {
   product: {
-    id: string
-    name: string
-    description: string
-    priceUSD: number
-    priceUSDC: string
-    paymentLink: string
-    isActive: boolean
-    imageUrl?: string
-    category?: string
-    createdAt: string
-  }
-  isOwner?: boolean
-  onToggleStatus?: (productId: string, isActive: boolean) => void
-  onEdit?: (product: any) => void
-  onDelete?: (productId: string) => void
-  onView?: (product: any) => void
+    id: string;
+    name: string;
+    description: string;
+    priceUSD: number;
+    priceUSDC: string;
+    paymentLink: string;
+    isActive: boolean;
+    imageUrl?: string;
+    category?: string;
+    createdAt: string;
+  };
+  isOwner?: boolean;
+  onToggleStatus?: (productId: string, isActive: boolean) => void;
+  onEdit?: (product: any) => void;
+  onDelete?: (productId: string) => void;
+  onView?: (product: any) => void;
 }
 
-export function ProductCard({ 
-  product, 
-  isOwner = false, 
-  onToggleStatus, 
-  onEdit, 
-  onDelete, 
-  onView 
+export function ProductCard({
+  product,
+  isOwner = false,
+  onToggleStatus,
+  onEdit,
+  onDelete,
+  onView,
 }: ProductCardProps) {
   const formatUSDC = (usdcAmount: string) => {
-    const amount = parseInt(usdcAmount) / 1e6 // Convert from wei to USDC
-    return amount.toFixed(2)
-  }
+    const amount = parseInt(usdcAmount) / 1e6; // Convert from wei to USDC
+    return amount.toFixed(2);
+  };
 
   const handleToggleStatus = () => {
     if (onToggleStatus) {
-      onToggleStatus(product.id, !product.isActive)
+      onToggleStatus(product.id, !product.isActive);
     }
-  }
+  };
 
   const handleView = () => {
     if (onView) {
-      onView(product)
+      onView(product);
     } else {
       // Default: open payment page
-      window.open(`/pay/${product.paymentLink}`, '_blank')
+      window.open(`/pay/${product.paymentLink}`, "_blank");
     }
-  }
+  };
 
   return (
     <motion.div
@@ -63,7 +71,9 @@ export function ProductCard({
       whileHover={{ y: -2 }}
       transition={{ duration: 0.3 }}
     >
-      <Card className={`ring-2 ring-pop ${!product.isActive ? 'opacity-60' : ''}`}>
+      <Card
+        className={`ring-2 ring-pop ${!product.isActive ? "opacity-60" : ""}`}
+      >
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -78,11 +88,11 @@ export function ProductCard({
               )}
             </div>
             <div className="flex items-center gap-2">
-              <Badge 
+              <Badge
                 variant={product.isActive ? "default" : "secondary"}
                 className="text-xs"
               >
-                {product.isActive ? 'Active' : 'Inactive'}
+                {product.isActive ? "Active" : "Inactive"}
               </Badge>
             </div>
           </div>
@@ -99,7 +109,7 @@ export function ProductCard({
                 className="object-cover"
                 onError={(e) => {
                   // Hide image if it fails to load
-                  e.currentTarget.style.display = 'none'
+                  e.currentTarget.style.display = "none";
                 }}
               />
             </div>
@@ -132,7 +142,9 @@ export function ProductCard({
 
           {/* Payment Link */}
           <div className="p-2 rounded-lg bg-muted">
-            <div className="text-xs text-muted-foreground mb-1">Payment Link:</div>
+            <div className="text-xs text-muted-foreground mb-1">
+              Payment Link:
+            </div>
             <div className="text-sm font-mono break-all">
               /pay/{product.paymentLink}
             </div>
@@ -160,7 +172,7 @@ export function ProductCard({
                     </>
                   )}
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   size="sm"
@@ -168,7 +180,7 @@ export function ProductCard({
                 >
                   <Edit className="w-3 h-3" />
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   size="sm"
@@ -181,10 +193,7 @@ export function ProductCard({
             ) : (
               <Button
                 onClick={handleView}
-                className="flex-1"
-                style={{ 
-                  background: 'linear-gradient(to bottom, #ff6d41, #ff5420)'
-                }}
+                className="flex-1 bg-primary hover:bg-primary/90"
               >
                 <ExternalLink className="w-3 h-3 mr-1" />
                 View Product
@@ -199,5 +208,5 @@ export function ProductCard({
         </CardContent>
       </Card>
     </motion.div>
-  )
+  );
 }

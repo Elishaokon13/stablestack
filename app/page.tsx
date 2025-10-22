@@ -20,7 +20,7 @@ export default function LoginPage() {
   // Show loading state while checking auth
   if (!isLoaded) {
     return (
-      <div className="min-h-screen !bg-[#ffffff] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mx-auto"></div>
         </div>
@@ -33,18 +33,18 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen !bg-[#ffffff] relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden">
       <div className="relative flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-4xl items-center">
           {/* Tabs */}
           <div className="flex justify-center mb-4">
-            <div className="bg-black border border-white/20 rounded-xl p-1.5 flex gap-1">
+            <div className="bg-card border border-border rounded-xl p-1.5 flex gap-1">
               <button
                 onClick={() => setActiveTab("signup")}
                 className={`px-8 py-2 rounded-md font-semibold transition-all duration-200 ${
                   activeTab === "signup"
-                    ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    ? "bg-primary text-white shadow-lg"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
                 Sign Up
@@ -53,8 +53,8 @@ export default function LoginPage() {
                 onClick={() => setActiveTab("signin")}
                 className={`px-8 py-3 rounded-md font-semibold transition-all duration-200 ${
                   activeTab === "signin"
-                    ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    ? "bg-primary text-white shadow-lg"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
                 Sign In
@@ -65,7 +65,7 @@ export default function LoginPage() {
           {/* Auth Components */}
           <div className="flex justify-center">
             {activeTab === "signup" ? (
-              <SignUp  fallbackRedirectUrl="/dashboard" />
+              <SignUp fallbackRedirectUrl="/dashboard" />
             ) : (
               <SignIn fallbackRedirectUrl="/dashboard" />
             )}

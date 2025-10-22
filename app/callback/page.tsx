@@ -36,34 +36,34 @@ export default function CallbackPage() {
   }, [authLoaded, userLoaded, userId, user, router]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-8">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-card border border-border rounded-2xl shadow-2xl p-8">
         <div className="text-center">
           {/* Status Icon */}
           <div className="mb-6 flex justify-center">
             {status === "loading" && (
-              <Loader2 className="w-16 h-16 text-purple-400 animate-spin" />
+              <Loader2 className="w-16 h-16 text-primary animate-spin" />
             )}
             {status === "success" && (
-              <CheckCircle className="w-16 h-16 text-green-400" />
+              <CheckCircle className="w-16 h-16 text-green-600" />
             )}
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl font-bold text-white mb-3">
+          <h1 className="text-2xl font-bold text-foreground mb-3">
             {status === "loading" && "Verifying Authentication"}
             {status === "success" && "Success!"}
           </h1>
 
           {/* Message */}
-          <p className="text-purple-200 mb-6">
+          <p className="text-muted-foreground mb-6">
             {status === "loading" && "Please wait..."}
             {status === "success" && "Redirecting to dashboard..."}
           </p>
 
           {/* Progress indicator */}
-          <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-purple-500 to-blue-500 animate-pulse"></div>
+          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+            <div className="h-full bg-primary animate-pulse"></div>
           </div>
         </div>
       </div>

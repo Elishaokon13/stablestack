@@ -33,10 +33,10 @@ export default function UserStorePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-white text-lg">Loading products...</p>
+          <p className="text-foreground text-lg">Loading products...</p>
         </div>
       </div>
     );
@@ -44,13 +44,13 @@ export default function UserStorePage() {
 
   if (error || products.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white/5 border border-white/10 rounded-lg p-8 text-center">
-          <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-card border border-border rounded-lg p-8 text-center">
+          <Package className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-foreground mb-2">
             No Products Found
           </h1>
-          <p className="text-gray-400 mb-4">
+          <p className="text-muted-foreground mb-4">
             {error || `@${uniqueName} hasn't listed any products yet.`}
           </p>
         </div>
@@ -59,24 +59,24 @@ export default function UserStorePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 py-8 sm:py-12 px-4">
+    <div className="min-h-screen bg-background py-8 sm:py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center">
               <User className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
             </div>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-3">
             @{uniqueName}
           </h1>
-          <p className="text-gray-400 text-base sm:text-lg mb-2">
+          <p className="text-muted-foreground text-base sm:text-lg mb-2">
             Browse available products
           </p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
-            <ShoppingBag className="w-4 h-4 text-blue-400" />
-            <span className="text-sm text-gray-300">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted border border-border rounded-full">
+            <ShoppingBag className="w-4 h-4 text-primary" />
+            <span className="text-sm text-foreground">
               {total} {total === 1 ? "Product" : "Products"} Available
             </span>
           </div>
@@ -87,11 +87,11 @@ export default function UserStorePage() {
           {products.map((product) => (
             <div
               key={product.id}
-              className="bg-gradient-to-br from-white/[0.07] to-white/[0.03] border border-white/10 rounded-lg overflow-hidden hover:border-white/20 hover:shadow-lg hover:shadow-purple-500/10 transition-all group cursor-pointer"
+              className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group cursor-pointer"
               onClick={() => router.push(`/${uniqueName}/${product.slug}`)}
             >
               {/* Product Image */}
-              <div className="relative h-48 bg-gradient-to-br from-blue-500/10 to-purple-500/10 overflow-hidden">
+              <div className="relative h-48 bg-muted overflow-hidden">
                 {product.image ? (
                   <img
                     src={product.image}
@@ -114,28 +114,28 @@ export default function UserStorePage() {
               {/* Product Details */}
               <div className="p-5 space-y-3">
                 {/* Name */}
-                <h3 className="text-lg font-semibold text-white truncate group-hover:text-blue-400 transition-colors">
+                <h3 className="text-lg font-semibold text-foreground truncate group-hover:text-primary transition-colors">
                   {product.productName}
                 </h3>
 
                 {/* Description */}
-                <p className="text-sm text-gray-400 line-clamp-2 min-h-[2.5rem]">
+                <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem]">
                   {product.description}
                 </p>
 
                 {/* Price */}
                 <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold text-green-400">
+                  <span className="text-2xl font-bold text-primary">
                     ${product.amount}
                   </span>
-                  <span className="text-xs text-gray-500 uppercase">
+                  <span className="text-xs text-muted-foreground uppercase">
                     {product.payoutToken}
                   </span>
                 </div>
 
-                <div className="pt-3 border-t border-white/10">
+                <div className="pt-3 border-t border-border">
                   {/* Meta Info */}
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
                       <span>{formatDate(product.createdAt)}</span>
@@ -149,7 +149,7 @@ export default function UserStorePage() {
                   {/* View Button */}
                   <Button
                     size="sm"
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 group-hover:shadow-lg group-hover:shadow-blue-500/20 transition-all"
+                    className="w-full bg-primary hover:bg-primary/90 group-hover:shadow-lg group-hover:shadow-primary/20 transition-all"
                     onClick={(e) => {
                       e.stopPropagation();
                       router.push(`/${uniqueName}/${product.slug}`);
@@ -166,11 +166,11 @@ export default function UserStorePage() {
 
         {/* Footer */}
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-lg">
-            <Package className="w-5 h-5 text-blue-400" />
-            <p className="text-sm text-gray-400">
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-muted border border-border rounded-lg">
+            <Package className="w-5 h-5 text-primary" />
+            <p className="text-sm text-muted-foreground">
               Powered by{" "}
-              <span className="text-white font-semibold">Stablestack</span>
+              <span className="text-foreground font-semibold">Stablestack</span>
             </p>
           </div>
         </div>

@@ -50,7 +50,7 @@ export default function NotFound() {
           </p>
           <Button
             onClick={handleGoBack}
-            className="mt-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+            className="mt-4 bg-primary hover:bg-primary/90 text-white"
           >
             {isLoaded && user ? "Go to Dashboard" : "Go to Home"}
           </Button>
