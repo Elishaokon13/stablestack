@@ -20,7 +20,7 @@ import {
   useSalesHeatmap,
   useTransactions,
 } from "@/lib/hooks/payment";
-import { useProductStats } from "@/lib/hooks/product";
+import { useProductStats, usePaymentLinkStats } from "@/lib/hooks/product";
 import { useWalletBalance } from "@/lib/hooks/wallet/use-wallet-balance";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -35,10 +35,17 @@ export default function DashboardPage() {
   const { heatmapData } = useSalesHeatmap();
   const { transactions: apiTransactions } = useTransactions({ limit: 5 });
   const { stats: productStats } = useProductStats();
+  const { stats: paymentLinkStats } = usePaymentLinkStats();
   const { balance, loading: balanceLoading } = useWalletBalance({
     chain: "base-sepolia",
     autoFetch: true,
   });
+
+  // Calculate combined stats
+  const totalLinks =
+    (productStats?.total ?? 0) + (paymentLinkStats?.total ?? 0);
+  const activeLinks =
+    (productStats?.active ?? 0) + (paymentLinkStats?.active ?? 0);
   const [isPaymentLinkModalOpen, setIsPaymentLinkModalOpen] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
@@ -47,7 +54,6 @@ export default function DashboardPage() {
   const displayTransactions =
     apiTransactions && apiTransactions.length > 0
       ? apiTransactions.map((tx) => {
-          console.log("📊 Transaction data:", tx);
           return {
             id: tx.id || "unknown",
             customer: tx.customerName || tx.customerEmail || "Anonymous",
@@ -66,16 +72,7 @@ export default function DashboardPage() {
             paymentIntentId: tx.paymentIntentId || "",
           };
         })
-      : [
-          {
-            id: "DEMO-001",
-            customer: "No transactions yet",
-            amount: 0,
-            status: "completed" as const,
-            date: "Create your first product",
-            product: "Demo Product",
-          },
-        ];
+      : [];
 
   // Helper function to get sales value for a specific date from heatmap data
   const getSalesForDate = (date: Date): number => {
@@ -163,7 +160,7 @@ export default function DashboardPage() {
                 <span className="text-base">Loading...</span>
               ) : balance?.balances && balance.balances.length > 0 ? (
                 `$${parseFloat(
-                  balance.balances[0].convertedBalance
+                  balance.balances[1].convertedBalance
                 ).toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -193,22 +190,22 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Active Products Card */}
+          {/* Active Links Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
-              {productStats?.active ?? 0}
+              {activeLinks}
             </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
-              Active products
+              Active links
             </div>
           </div>
-          {/* Total Products Card */}
+          {/* Total Links Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
-              {productStats?.total ?? 0}
+              {totalLinks}
             </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
-              Total products
+              Total links
             </div>
           </div>
         </div>
@@ -364,7 +361,7 @@ export default function DashboardPage() {
                   variant="ghost"
                   size="sm"
                   className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 text-xs sm:text-sm flex-shrink-0"
-                  onClick={() => router.push("/payments")}
+                  onClick={() => router.push("/transactions")}
                 >
                   View All
                 </Button>
@@ -373,63 +370,98 @@ export default function DashboardPage() {
 
             {/* Content */}
             <div className="p-3 sm:p-4 md:p-6">
-              <div className="space-y-3">
-                {displayTransactions.map((transaction, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleTransactionClick(transaction)}
-                    className="group flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
-                      {/* Status Indicator Dot */}
-                      <div className="flex items-center justify-center flex-shrink-0">
-                        <div
-                          className={`w-2 h-2 rounded-full ${
-                            transaction.status === "completed"
-                              ? "bg-green-400"
-                              : transaction.status === "pending"
-                              ? "bg-yellow-400"
-                              : "bg-red-400"
-                          }`}
-                        />
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className="text-white font-semibold text-xs sm:text-sm truncate">
-                            {transaction.customer}
-                          </p>
-                          <span
-                            className={`text-[10px] sm:text-xs font-medium capitalize ${
+              {displayTransactions.length > 0 ? (
+                <div className="space-y-3">
+                  {displayTransactions.map((transaction, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleTransactionClick(transaction)}
+                      className="group flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                        {/* Status Indicator Dot */}
+                        <div className="flex items-center justify-center flex-shrink-0">
+                          <div
+                            className={`w-2 h-2 rounded-full ${
                               transaction.status === "completed"
-                                ? "text-green-400"
+                                ? "bg-green-400"
                                 : transaction.status === "pending"
-                                ? "text-yellow-400"
-                                : "text-red-400"
+                                ? "bg-yellow-400"
+                                : "bg-red-400"
                             }`}
-                          >
-                            • {transaction.status}
-                          </span>
+                          />
                         </div>
-                        <p className="text-gray-400 text-[10px] sm:text-xs mb-0.5 truncate">
-                          {transaction.product}
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <p className="text-white font-semibold text-xs sm:text-sm truncate">
+                              {transaction.customer}
+                            </p>
+                            <span
+                              className={`text-[10px] sm:text-xs font-medium capitalize ${
+                                transaction.status === "completed"
+                                  ? "text-green-400"
+                                  : transaction.status === "pending"
+                                  ? "text-yellow-400"
+                                  : "text-red-400"
+                              }`}
+                            >
+                              • {transaction.status}
+                            </span>
+                          </div>
+                          <p className="text-gray-400 text-[10px] sm:text-xs mb-0.5 truncate">
+                            {transaction.product}
+                          </p>
+                          <p className="text-gray-500 text-[10px] sm:text-xs truncate">
+                            {transaction.date}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0 ml-3">
+                        <p className="text-white font-bold text-sm sm:text-base whitespace-nowrap">
+                          ${transaction.amount.toFixed(2)}
                         </p>
-                        <p className="text-gray-500 text-[10px] sm:text-xs truncate">
-                          {transaction.date}
+                        <p className="text-gray-500 text-[10px] sm:text-xs">
+                          {transaction.id}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right flex-shrink-0 ml-3">
-                      <p className="text-white font-bold text-sm sm:text-base whitespace-nowrap">
-                        ${transaction.amount.toFixed(2)}
-                      </p>
-                      <p className="text-gray-500 text-[10px] sm:text-xs">
-                        {transaction.id}
-                      </p>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                    <div className="w-8 h-8 text-muted-foreground">
+                      <svg
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
                     </div>
                   </div>
-                ))}
-              </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">
+                    No transactions yet
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 max-w-sm">
+                    Start selling to see your transaction history here. Create
+                    your first product or payment link to get started.
+                  </p>
+                  <Button
+                    onClick={() => setIsPaymentLinkModalOpen(true)}
+                    className="bg-primary hover:bg-primary/90"
+                  >
+                    Create Payment Link
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
 
