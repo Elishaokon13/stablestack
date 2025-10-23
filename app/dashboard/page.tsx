@@ -20,7 +20,7 @@ import {
   useSalesHeatmap,
   useTransactions,
 } from "@/lib/hooks/payment";
-import { useProductStats } from "@/lib/hooks/product";
+import { useProductStats, usePaymentLinkStats } from "@/lib/hooks/product";
 import { useWalletBalance } from "@/lib/hooks/wallet/use-wallet-balance";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -35,10 +35,17 @@ export default function DashboardPage() {
   const { heatmapData } = useSalesHeatmap();
   const { transactions: apiTransactions } = useTransactions({ limit: 5 });
   const { stats: productStats } = useProductStats();
+  const { stats: paymentLinkStats } = usePaymentLinkStats();
   const { balance, loading: balanceLoading } = useWalletBalance({
     chain: "base-sepolia",
     autoFetch: true,
   });
+
+  // Calculate combined stats
+  const totalLinks =
+    (productStats?.total ?? 0) + (paymentLinkStats?.total ?? 0);
+  const activeLinks =
+    (productStats?.active ?? 0) + (paymentLinkStats?.active ?? 0);
   const [isPaymentLinkModalOpen, setIsPaymentLinkModalOpen] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
@@ -47,7 +54,6 @@ export default function DashboardPage() {
   const displayTransactions =
     apiTransactions && apiTransactions.length > 0
       ? apiTransactions.map((tx) => {
-          console.log("📊 Transaction data:", tx);
           return {
             id: tx.id || "unknown",
             customer: tx.customerName || tx.customerEmail || "Anonymous",
@@ -66,16 +72,7 @@ export default function DashboardPage() {
             paymentIntentId: tx.paymentIntentId || "",
           };
         })
-      : [
-          {
-            id: "DEMO-001",
-            customer: "No transactions yet",
-            amount: 0,
-            status: "completed" as const,
-            date: "Create your first product",
-            product: "Demo Product",
-          },
-        ];
+      : [];
 
   // Helper function to get sales value for a specific date from heatmap data
   const getSalesForDate = (date: Date): number => {
@@ -157,13 +154,13 @@ export default function DashboardPage() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {/* Wallet Balance Card */}
-          <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+          <div className="bg-green-500/10 border border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-400">
               {balanceLoading ? (
                 <span className="text-base">Loading...</span>
               ) : balance?.balances && balance.balances.length > 0 ? (
                 `$${parseFloat(
-                  balance.balances[0].convertedBalance
+                  balance.balances[1].convertedBalance
                 ).toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -193,22 +190,22 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Active Products Card */}
+          {/* Active Links Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
-              {productStats?.active ?? 0}
+              {activeLinks}
             </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
-              Active products
+              Active links
             </div>
           </div>
-          {/* Total Products Card */}
+          {/* Total Links Card */}
           <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
-              {productStats?.total ?? 0}
+              {totalLinks}
             </div>
             <div className="text-muted-foreground text-xs sm:text-sm">
-              Total products
+              Total links
             </div>
           </div>
         </div>
@@ -343,7 +340,7 @@ export default function DashboardPage() {
         {/* Latest Transactions and Product Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Latest Transactions */}
-          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
+          <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
               <div className="flex items-center justify-between gap-2">
@@ -364,7 +361,7 @@ export default function DashboardPage() {
                   variant="ghost"
                   size="sm"
                   className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 text-xs sm:text-sm flex-shrink-0"
-                  onClick={() => router.push("/payments")}
+                  onClick={() => router.push("/transactions")}
                 >
                   View All
                 </Button>
@@ -373,68 +370,103 @@ export default function DashboardPage() {
 
             {/* Content */}
             <div className="p-3 sm:p-4 md:p-6">
-              <div className="space-y-3">
-                {displayTransactions.map((transaction, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleTransactionClick(transaction)}
-                    className="group flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
-                      {/* Status Indicator Dot */}
-                      <div className="flex items-center justify-center flex-shrink-0">
-                        <div
-                          className={`w-2 h-2 rounded-full ${
-                            transaction.status === "completed"
-                              ? "bg-green-400"
-                              : transaction.status === "pending"
-                              ? "bg-yellow-400"
-                              : "bg-red-400"
-                          }`}
-                        />
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className="text-white font-semibold text-xs sm:text-sm truncate">
-                            {transaction.customer}
-                          </p>
-                          <span
-                            className={`text-[10px] sm:text-xs font-medium capitalize ${
+              {displayTransactions.length > 0 ? (
+                <div className="space-y-3">
+                  {displayTransactions.map((transaction, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleTransactionClick(transaction)}
+                      className="group flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                        {/* Status Indicator Dot */}
+                        <div className="flex items-center justify-center flex-shrink-0">
+                          <div
+                            className={`w-2 h-2 rounded-full ${
                               transaction.status === "completed"
-                                ? "text-green-400"
+                                ? "bg-green-400"
                                 : transaction.status === "pending"
-                                ? "text-yellow-400"
-                                : "text-red-400"
+                                ? "bg-yellow-400"
+                                : "bg-red-400"
                             }`}
-                          >
-                            • {transaction.status}
-                          </span>
+                          />
                         </div>
-                        <p className="text-gray-400 text-[10px] sm:text-xs mb-0.5 truncate">
-                          {transaction.product}
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <p className="text-white font-semibold text-xs sm:text-sm truncate">
+                              {transaction.customer}
+                            </p>
+                            <span
+                              className={`text-[10px] sm:text-xs font-medium capitalize ${
+                                transaction.status === "completed"
+                                  ? "text-green-400"
+                                  : transaction.status === "pending"
+                                  ? "text-yellow-400"
+                                  : "text-red-400"
+                              }`}
+                            >
+                              • {transaction.status}
+                            </span>
+                          </div>
+                          <p className="text-gray-400 text-[10px] sm:text-xs mb-0.5 truncate">
+                            {transaction.product}
+                          </p>
+                          <p className="text-gray-500 text-[10px] sm:text-xs truncate">
+                            {transaction.date}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0 ml-3">
+                        <p className="text-white font-bold text-sm sm:text-base whitespace-nowrap">
+                          ${transaction.amount.toFixed(2)}
                         </p>
-                        <p className="text-gray-500 text-[10px] sm:text-xs truncate">
-                          {transaction.date}
+                        <p className="text-gray-500 text-[10px] sm:text-xs">
+                          {transaction.id}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right flex-shrink-0 ml-3">
-                      <p className="text-white font-bold text-sm sm:text-base whitespace-nowrap">
-                        ${transaction.amount.toFixed(2)}
-                      </p>
-                      <p className="text-gray-500 text-[10px] sm:text-xs">
-                        {transaction.id}
-                      </p>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                    <div className="w-8 h-8 text-muted-foreground">
+                      <svg
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
                     </div>
                   </div>
-                ))}
-              </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">
+                    No transactions yet
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 max-w-sm">
+                    Start selling to see your transaction history here. Create
+                    your first product or payment link to get started.
+                  </p>
+                  <Button
+                    onClick={() => setIsPaymentLinkModalOpen(true)}
+                    className="bg-primary hover:bg-primary/90"
+                  >
+                    Create Payment Link
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Product Performance Analytics */}
-          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
+          <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
               <div className="flex items-center gap-2 sm:gap-3">
@@ -453,192 +485,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Content */}
-            <div className="p-3 sm:p-4 md:p-6">
-              <div className="space-y-4">
-                {/* Pie Chart */}
-                <div className="flex items-center justify-center">
-                  <Chart
-                    options={{
-                      chart: {
-                        type: "donut",
-                        background: "transparent",
-                      },
-                      labels: [
-                        "Digital Courses",
-                        "Software Licenses",
-                        "Consulting Services",
-                        "E-books & Guides",
-                        "Online Workshops",
-                      ],
-                      colors: [
-                        "#3b82f6",
-                        "#10b981",
-                        "#8b5cf6",
-                        "#f59e0b",
-                        "#ef4444",
-                      ],
-                      legend: {
-                        position: "bottom",
-                        labels: {
-                          colors: "#ffffff",
-                        },
-                      },
-                      plotOptions: {
-                        pie: {
-                          donut: {
-                            size: "70%",
-                            labels: {
-                              show: true,
-                              name: {
-                                show: true,
-                                color: "#ffffff",
-                              },
-                              value: {
-                                show: true,
-                                color: "#ffffff",
-                                fontSize: "24px",
-                                fontWeight: "bold",
-                              },
-                              total: {
-                                show: true,
-                                label: "Total Sales",
-                                color: "#ffffff",
-                                formatter: function (w: any) {
-                                  return w.globals.seriesTotals
-                                    .reduce((a: number, b: number) => a + b, 0)
-                                    .toString();
-                                },
-                              },
-                            },
-                          },
-                        },
-                      },
-                      dataLabels: {
-                        enabled: false,
-                      },
-                      tooltip: {
-                        theme: "dark",
-                        y: {
-                          formatter: function (val: number) {
-                            return val + " sales";
-                          },
-                        },
-                      },
-                    }}
-                    series={[342, 218, 156, 428, 189]}
-                    type="donut"
-                    height={280}
-                  />
-                </div>
-
-                {/* Product Performance Stats */}
-                <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6">
-                  <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-xl p-3 sm:p-4 border border-blue-500/20 hover:border-blue-500/40 transition-all">
-                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                        <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
-                      </div>
-                      <p className="text-[10px] sm:text-xs font-medium text-gray-400">
-                        Total Revenue
-                      </p>
-                    </div>
-                    <p className="text-xl sm:text-3xl font-bold text-white mb-1">
-                      $12,450
-                    </p>
-                    <div className="flex items-center gap-1">
-                      <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-green-400" />
-                      <p className="text-[10px] sm:text-xs text-green-400 font-medium">
-                        +18% from last month
-                      </p>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 rounded-xl p-3 sm:p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all">
-                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                        <Package className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
-                      </div>
-                      <p className="text-[10px] sm:text-xs font-medium text-gray-400">
-                        Products Sold
-                      </p>
-                    </div>
-                    <p className="text-xl sm:text-3xl font-bold text-white mb-1">
-                      1,333
-                    </p>
-                    <p className="text-[10px] sm:text-xs text-blue-400 font-medium">
-                      Across all categories
-                    </p>
-                  </div>
-                </div>
-
-                {/* Product Status Breakdown */}
-                <div className="space-y-2 sm:space-y-3 mt-4 sm:mt-6 bg-white/5 rounded-xl p-3 sm:p-4 border border-white/10">
-                  <div className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
-                    <span className="w-1 h-3 sm:h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full block" />
-                    Product Status
-                  </div>
-                  {[
-                    {
-                      name: "Active Products",
-                      count: productStats?.active ?? 0,
-                      color: "bg-green-500",
-                      gradient: "from-green-500/20 to-green-600/5",
-                      icon: "✅",
-                    },
-                    {
-                      name: "Total Products",
-                      count: productStats?.total ?? 0,
-                      color: "bg-blue-500",
-                      gradient: "from-blue-500/20 to-blue-600/5",
-                      icon: "📦",
-                    },
-                    {
-                      name: "Expired Products",
-                      count: productStats?.expired ?? 0,
-                      color: "bg-amber-500",
-                      gradient: "from-amber-500/20 to-amber-600/5",
-                      icon: "⏰",
-                    },
-                    {
-                      name: "Cancelled Products",
-                      count: productStats?.cancelled ?? 0,
-                      color: "bg-red-500",
-                      gradient: "from-red-500/20 to-red-600/5",
-                      icon: "❌",
-                    },
-                  ].map((status, index) => {
-                    const maxCount = Math.max(productStats?.total ?? 0, 1);
-                    const percentage = (status.count / maxCount) * 100;
-
-                    return (
-                      <div
-                        key={index}
-                        className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gradient-to-r ${status.gradient} rounded-lg border border-white/10 hover:border-white/20 transition-all`}
-                      >
-                        <div className="text-base sm:text-lg flex-shrink-0">
-                          {status.icon}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex justify-between items-center mb-1.5 sm:mb-2 gap-2">
-                            <p className="text-xs sm:text-sm font-medium text-white truncate">
-                              {status.name}
-                            </p>
-                            <p className="text-[10px] sm:text-xs font-semibold text-white flex-shrink-0">
-                              {status.count}
-                            </p>
-                          </div>
-                          <div className="relative w-full bg-white/10 rounded-full h-1.5 sm:h-2 overflow-hidden">
-                            <div
-                              className={`${status.color} h-1.5 sm:h-2 rounded-full shadow-lg transition-all duration-500`}
-                              style={{ width: `${percentage}%` }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+            <div className="p-3 sm:p-4 md:p-6"></div>
           </div>
         </div>
       </div>

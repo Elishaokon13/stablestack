@@ -42,7 +42,7 @@ export function MobileHeader() {
 
         {/* Center: Logo */}
         <div className="flex items-center gap-2">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-sidebar-primary/20 to-sidebar-primary/5">
+          <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
             <MonkeyIcon className="size-7" />
           </div>
           <span className="text-lg font-display text-white">Stablestack</span>
@@ -60,4 +60,3 @@ export function MobileHeader() {
     </motion.header>
   );
 }
-

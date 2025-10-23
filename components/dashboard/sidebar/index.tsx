@@ -29,16 +29,16 @@ const getNavItems = (pathname: string) => [
     isActive: pathname === "/dashboard",
   },
   {
-    title: "Products",
-    url: "/products",
+    title: "Links",
+    url: "/links",
     icon: Package,
-    isActive: pathname === "/products",
+    isActive: pathname === "/links",
   },
   {
-    title: "Payments",
-    url: "/payments",
+    title: "Transactions",
+    url: "/transactions",
     icon: CreditCard,
-    isActive: pathname === "/payments",
+    isActive: pathname === "/transactions",
   },
   {
     title: "Wallet",
@@ -91,7 +91,10 @@ export function DashboardSidebar({
   return (
     <Sidebar
       {...props}
-      className={cn("h-screen border-r border-white/10 bg-sidebar w-[280px]", className)}
+      className={cn(
+        "h-screen border-r border-white/10 bg-sidebar w-[280px]",
+        className
+      )}
     >
       {/* Simple Logo Header */}
       <SidebarHeader className="py-4 px-3 md:py-5 border-b border-white/10">

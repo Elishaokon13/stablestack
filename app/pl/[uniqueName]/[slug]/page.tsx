@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { usePublicProduct } from "@/lib/hooks/product";
+import { usePublicProductLink } from "@/lib/hooks/product/use-public-product-link";
 import { usePaymentIntent } from "@/lib/hooks/payment";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -18,15 +18,16 @@ import {
   Shield,
   CreditCard,
   Loader2,
+  Link as LinkIcon,
 } from "lucide-react";
 
-export default function PaymentPage() {
+export default function PaymentLinkPage() {
   const params = useParams();
   const router = useRouter();
   const uniqueName = params.uniqueName as string;
   const slug = params.slug as string;
 
-  const { product, loading, error } = usePublicProduct({
+  const { productLink, loading, error } = usePublicProductLink({
     uniqueName,
     slug,
   });
@@ -47,33 +48,33 @@ export default function PaymentPage() {
     });
   };
 
-  const isExpired = product?.expiresAt
-    ? new Date(product.expiresAt) < new Date()
+  const isExpired = productLink?.expiresAt
+    ? new Date(productLink.expiresAt) < new Date()
     : false;
-  const isActive = product?.status === "active" && !isExpired;
+  const isActive = productLink?.status === "active" && !isExpired;
 
-  // Log product details when loaded
+  // Log product link details when loaded
   useEffect(() => {
-    if (product && !loading) {
-      console.log("📄 Payment Page Loaded");
+    if (productLink && !loading) {
+      console.log("📄 Payment Link Page Loaded");
       console.log("🆔 Unique Name:", uniqueName);
       console.log("🔖 Slug:", slug);
-      console.log("📦 Product Details:", product);
+      console.log("🔗 Product Link Details:", productLink);
       console.log("📅 Expiration Info:", {
-        expiresAt: product.expiresAt,
+        expiresAt: productLink.expiresAt,
         isExpired,
         isActive,
-        status: product.status,
+        status: productLink.status,
       });
     }
-  }, [product, loading]);
+  }, [productLink, loading]);
 
   const handleProceedToPayment = async () => {
     console.log("🚀 Proceed to Payment clicked");
-    console.log("📦 Product:", product);
-    console.log("🔗 Payment Link:", product?.paymentLink);
+    console.log("🔗 Product Link:", productLink);
+    console.log("💳 Payment Link URL:", productLink?.paymentLink);
 
-    if (!product?.paymentLink) {
+    if (!productLink?.paymentLink) {
       console.error("❌ No payment link available");
       return;
     }
@@ -82,7 +83,7 @@ export default function PaymentPage() {
     console.log("⏳ Creating payment intent...");
 
     try {
-      const intent = await createIntent(product.paymentLink);
+      const intent = await createIntent(productLink.paymentLink);
       console.log("✅ Payment intent created:", intent);
 
       if (intent) {
@@ -100,7 +101,7 @@ export default function PaymentPage() {
         // Otherwise, navigate to custom checkout page with clientSecret
         else if (intent.clientSecret) {
           console.log("🔀 Navigating to custom checkout page");
-          const checkoutUrl = `/${uniqueName}/${slug}/checkout?secret=${intent.clientSecret}&intent=${intent.paymentIntentId}`;
+          const checkoutUrl = `/pl/${uniqueName}/${slug}/checkout?secret=${intent.clientSecret}&intent=${intent.paymentIntentId}`;
           console.log("📍 Checkout URL:", checkoutUrl);
           router.push(checkoutUrl);
         } else {
@@ -124,23 +125,23 @@ export default function PaymentPage() {
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-primary/40 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-foreground text-lg">Loading product...</p>
+          <p className="text-foreground text-lg">Loading payment link...</p>
         </div>
       </div>
     );
   }
 
-  if (error || !product) {
+  if (error || !productLink) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-card border border-border rounded-lg p-8 text-center">
           <XCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-foreground mb-2">
-            Product Not Found
+            Payment Link Not Found
           </h1>
           <p className="text-muted-foreground mb-4">
             {error ||
-              "The product you're looking for doesn't exist or has been removed."}
+              "The payment link you're looking for doesn't exist or has been removed."}
           </p>
         </div>
       </div>
@@ -162,23 +163,15 @@ export default function PaymentPage() {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Product Details - Left Side (2 columns) */}
+          {/* Product Link Details - Left Side (2 columns) */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Product Card */}
+            {/* Product Link Card */}
             <div className="bg-card border border-border rounded-lg overflow-hidden">
-              {/* Product Image */}
+              {/* Product Link Image */}
               <div className="relative h-64 bg-muted">
-                {product.image ? (
-                  <img
-                    src={product.image}
-                    alt={product.productName}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <ImageIcon className="w-24 h-24 text-muted-foreground" />
-                  </div>
-                )}
+                <div className="w-full h-full flex items-center justify-center">
+                  <LinkIcon className="w-24 h-24 text-muted-foreground" />
+                </div>
                 {/* Status Badge */}
                 <div className="absolute top-4 right-4">
                   {isActive ? (
@@ -195,45 +188,57 @@ export default function PaymentPage() {
                 </div>
               </div>
 
-              {/* Product Info */}
+              {/* Product Link Info */}
               <div className="p-6 space-y-4">
                 <div>
                   <h2 className="text-2xl font-bold text-foreground mb-2">
-                    {product.productName}
+                    {productLink.name}
                   </h2>
-                  <p className="text-muted-foreground">{product.description}</p>
+                  <p className="text-muted-foreground">
+                    {productLink.description}
+                  </p>
                 </div>
 
                 <Separator className="bg-border" />
 
-                {/* Product Meta */}
+                {/* Product Link Meta */}
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center gap-3 text-muted-foreground">
-                    <Package className="w-4 h-4" />
-                    <span>Product ID: {product.id}</span>
+                    <LinkIcon className="w-4 h-4" />
+                    <span>Payment Link ID: {productLink.id}</span>
                   </div>
                   <div className="flex items-center gap-3 text-muted-foreground">
                     <Calendar className="w-4 h-4" />
-                    <span>Listed: {formatDate(product.createdAt)}</span>
+                    <span>Created: {formatDate(productLink.createdAt)}</span>
                   </div>
-                  {product.expiresAt && (
+                  {productLink.expiresAt && (
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <Clock className="w-4 h-4" />
                       <span>
                         {isExpired ? "Expired" : "Expires"}:{" "}
-                        {formatDate(product.expiresAt)}
+                        {formatDate(productLink.expiresAt)}
                       </span>
                     </div>
                   )}
-                  {product.seller && (
+                  {productLink.seller && (
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <Shield className="w-4 h-4" />
                       <span>
-                        Sold by:{" "}
+                        Created by:{" "}
                         <span className="text-primary">
-                          @{product.seller.uniqueName}
+                          @{productLink.seller.uniqueName}
                         </span>
                       </span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-3 text-muted-foreground">
+                    <Package className="w-4 h-4" />
+                    <span>Purpose: {productLink.purpose}</span>
+                  </div>
+                  {productLink.allowMultiplePayments && (
+                    <div className="flex items-center gap-3 text-muted-foreground">
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>Multiple payments allowed</span>
                     </div>
                   )}
                 </div>
@@ -271,21 +276,29 @@ export default function PaymentPage() {
                   <span className="text-muted-foreground">Amount</span>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-primary">
-                      ${product.amount}
+                      ${productLink.amount}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {product.payoutToken}
+                      {productLink.currency?.toUpperCase()}
                     </span>
                   </div>
                 </div>
 
                 <Separator className="bg-border" />
 
-                {/* Blockchain */}
+                {/* Purpose */}
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-muted-foreground">Purpose</span>
+                  <span className="text-foreground uppercase font-medium">
+                    {productLink.purpose}
+                  </span>
+                </div>
+
+                {/* Network */}
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Network</span>
                   <span className="text-foreground uppercase font-medium">
-                    {product.payoutChain?.replace("-", " ") || "N/A"}
+                    {productLink.payoutChain?.replace("-", " ") || "N/A"}
                   </span>
                 </div>
 
@@ -293,7 +306,7 @@ export default function PaymentPage() {
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Token</span>
                   <span className="text-foreground font-medium">
-                    {product.payoutToken || "N/A"}
+                    {productLink.payoutToken || "N/A"}
                   </span>
                 </div>
 
@@ -302,7 +315,7 @@ export default function PaymentPage() {
                 {/* Total */}
                 <div className="flex justify-between items-center text-lg font-bold">
                   <span className="text-foreground">Total</span>
-                  <span className="text-primary">${product.amount}</span>
+                  <span className="text-primary">${productLink.amount}</span>
                 </div>
               </div>
 
@@ -328,8 +341,8 @@ export default function PaymentPage() {
                     {isActive
                       ? "Proceed to Payment"
                       : isExpired
-                      ? "Product Expired"
-                      : "Product Unavailable"}
+                      ? "Payment Link Expired"
+                      : "Payment Link Unavailable"}
                   </>
                 )}
               </Button>

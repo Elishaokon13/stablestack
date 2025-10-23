@@ -270,7 +270,7 @@ export function WithdrawModal({
                 <Button
                   type="submit"
                   disabled={loading || !address || !amount}
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  className="flex-1 bg-primary hover:bg-primary/90"
                 >
                   {loading ? (
                     <>

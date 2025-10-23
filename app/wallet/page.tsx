@@ -134,7 +134,7 @@ export default function WalletPage() {
           {/* Balance Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* USDC Balance */}
-            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-lg p-6">
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
@@ -159,7 +159,7 @@ export default function WalletPage() {
             </div>
 
             {/* ETH Balance */}
-            <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/20 rounded-lg p-6">
+            <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
@@ -188,7 +188,7 @@ export default function WalletPage() {
           <div className="grid grid-cols-2 gap-4">
             <Button
               size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              className="bg-primary hover:bg-primary/90"
               onClick={() => setIsWithdrawModalOpen(true)}
             >
               <Send className="w-4 h-4 mr-2" />

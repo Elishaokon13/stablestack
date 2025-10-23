@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAuth } from "@clerk/nextjs";
+import { useCreatePaymentLink } from "@/lib/hooks/product/use-create-product";
 import {
   Dialog,
   DialogContent,
@@ -54,9 +54,12 @@ export function PaymentLinkCreatorModal({
   onClose,
   onSuccess,
 }: PaymentLinkCreatorModalProps) {
-  const { getToken } = useAuth();
+  const {
+    createPaymentLink,
+    loading: isCreatingLink,
+    error: createError,
+  } = useCreatePaymentLink();
   const [currentStep, setCurrentStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const [createdLink, setCreatedLink] = useState<string | null>(null);
   const [formData, setFormData] = useState<PaymentLinkData>({
     amount: "",
@@ -109,59 +112,44 @@ export function PaymentLinkCreatorModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
     try {
-      // Get authentication token
-      const token = await getToken();
-      if (!token) {
-        throw new Error("Authentication required");
-      }
+      const payload = {
+        type: "product" as const,
+        name: formData.title,
+        description: formData.description,
+        amount: formData.amount || "0",
+        currency: formData.currency.toLowerCase(),
+        purpose: formData.purpose || "product",
+        expiresIn: formData.expiresIn,
+        allowMultiplePayments: formData.allowMultiplePayments,
+        payoutChain: "base-sepolia",
+        payoutToken: "USDC",
+        slug: formData.title.toLowerCase().replace(/\s+/g, "-"),
+      };
 
-      // Call the actual API to create payment link
-      const response = await fetch("/api/payment-links/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          type: "product", // Using product type for one-time payments
-          name: formData.title,
-          description: formData.description,
-          amount: parseFloat(formData.amount),
-          currency: formData.currency.toLowerCase(),
-          purpose: formData.purpose,
-          expiresIn: formData.expiresIn,
-          allowMultiplePayments: formData.allowMultiplePayments,
-        }),
-      });
+      const paymentLink = await createPaymentLink(payload);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to create payment link");
-      }
+      if (paymentLink) {
+        setCreatedLink(paymentLink.paymentLink);
+        toast.success("Payment link created successfully!");
 
-      const result = await response.json();
-      setCreatedLink(result.url);
-
-      toast.success("Payment link created successfully!");
-
-      if (onSuccess) {
-        onSuccess({
-          link: result.url,
-          id: result.id,
-          slug: result.slug,
-          ...formData,
-        });
+        if (onSuccess) {
+          onSuccess({
+            link: paymentLink.paymentLink,
+            id: paymentLink.id,
+            slug: paymentLink.slug,
+            ...formData,
+          });
+        }
+      } else {
+        toast.error(createError || "Failed to create payment link");
       }
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Failed to create payment link"
       );
       console.error("Error creating payment link:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -205,7 +193,7 @@ export function PaymentLinkCreatorModal({
   const renderAmountStep = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
+        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
           <DollarSign className="w-8 h-8 text-primary" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Payment Amount</h3>
@@ -264,7 +252,7 @@ export function PaymentLinkCreatorModal({
   const renderDetailsStep = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="w-16 h-16 bg-gradient-to-br from-success/20 to-success/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-success/20">
+        <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-success/20">
           <CreditCard className="w-8 h-8 text-success" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Payment Details</h3>
@@ -317,7 +305,7 @@ export function PaymentLinkCreatorModal({
   const renderDescriptionStep = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
+        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
           <Link className="w-8 h-8 text-primary" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Description</h3>
@@ -347,7 +335,7 @@ export function PaymentLinkCreatorModal({
   const renderSettingsStep = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
+        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
           <Check className="w-8 h-8 text-primary" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Payment Settings</h3>
@@ -469,6 +457,13 @@ export function PaymentLinkCreatorModal({
 
         {!createdLink ? (
           <div className="space-y-6">
+            {/* Error Message */}
+            {createError && (
+              <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                <p className="text-sm text-red-400">{createError}</p>
+              </div>
+            )}
+
             {renderStepContent()}
 
             {/* Navigation Buttons */}
@@ -487,10 +482,10 @@ export function PaymentLinkCreatorModal({
               {currentStep === totalSteps ? (
                 <Button
                   onClick={handleSubmit}
-                  disabled={isLoading}
+                  disabled={isCreatingLink}
                   className="bg-primary hover:bg-primary/90 text-white"
                 >
-                  {isLoading ? (
+                  {isCreatingLink ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Creating Link...

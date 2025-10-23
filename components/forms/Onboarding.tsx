@@ -51,9 +51,8 @@ export function OnboardingForm() {
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full bg-primary hover:bg-primary/90"
             disabled={isSubmitting}
-            style={{ background: 'linear-gradient(to bottom, #ff6d41, #ff5420)' }}
           >
             {isSubmitting ? (
               <>
@@ -90,13 +89,7 @@ export function OnboardingForm() {
             onClick={() => {
               router.push("/dashboard");
             }}
-            className="w-full cursor-pointer"
-            style={{
-              background: "linear-gradient(to bottom, #ff6d41, #ff5420)",
-              pointerEvents: "auto",
-              zIndex: 10,
-              position: "relative",
-            }}
+            className="w-full cursor-pointer bg-primary hover:bg-primary/90 pointer-events-auto relative z-10"
           >
             Go to Dashboard
           </Button>
