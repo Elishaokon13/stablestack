@@ -157,7 +157,7 @@ export default function DashboardPage() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {/* Wallet Balance Card */}
-          <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+          <div className="bg-green-500/10 border border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-400">
               {balanceLoading ? (
                 <span className="text-base">Loading...</span>
@@ -343,7 +343,7 @@ export default function DashboardPage() {
         {/* Latest Transactions and Product Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Latest Transactions */}
-          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
+          <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
               <div className="flex items-center justify-between gap-2">
@@ -434,7 +434,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Product Performance Analytics */}
-          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden">
+          <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
               <div className="flex items-center gap-2 sm:gap-3">

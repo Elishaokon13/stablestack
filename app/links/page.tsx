@@ -258,7 +258,7 @@ export default function ProductsPage() {
                     className="bg-card border border-border rounded-md overflow-hidden hover:border-primary/40 hover:shadow-xl transition-all duration-300 group flex flex-col"
                   >
                     {/* Item Image */}
-                    <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden h-48">
+                    <div className="relative bg-muted overflow-hidden h-48">
                       {itemImage ? (
                         <img
                           src={itemImage}
