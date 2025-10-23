@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useProducts, type Product } from "@/lib/hooks/product";
+import { useProducts } from "@/lib/hooks/product";
+import { usePaymentLinks } from "@/lib/hooks/product/use-products";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
   Copy,
@@ -17,9 +19,8 @@ import {
   Clock,
   Link as LinkIcon,
 } from "lucide-react";
-import { usePaymentLinks } from "@/lib/hooks/product/use-products";
 
-export default function ProductsPage() {
+export default function LinksPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,7 +56,11 @@ export default function ProductsPage() {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    fetchPage(newPage);
+    if (dataType === "products") {
+      fetchPage(newPage);
+    } else if (dataType === "payment-links") {
+      fetchPaymentLinksPage(newPage);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -84,17 +89,24 @@ export default function ProductsPage() {
         return { data: filteredProducts, type: "products" as const };
       case "all":
       default:
+        // Combine and sort by creation date (newest first)
+        const combinedData = [
+          ...filteredProducts.map((item) => ({
+            ...item,
+            itemType: "product" as const,
+          })),
+          ...filteredPaymentLinks.map((item) => ({
+            ...item,
+            itemType: "payment-link" as const,
+          })),
+        ].sort((a, b) => {
+          const dateA = new Date(a.createdAt).getTime();
+          const dateB = new Date(b.createdAt).getTime();
+          return dateB - dateA; // Newest first
+        });
+
         return {
-          data: [
-            ...filteredProducts.map((item) => ({
-              ...item,
-              itemType: "product" as const,
-            })),
-            ...filteredPaymentLinks.map((item) => ({
-              ...item,
-              itemType: "payment-link" as const,
-            })),
-          ],
+          data: combinedData,
           type: "all" as const,
         };
     }
@@ -139,11 +151,11 @@ export default function ProductsPage() {
           {/* Search */}
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input
+            <Input
               placeholder="Search links..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 py-3 px-2 text-sm rounded-md w-full bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary"
+              className="pl-10"
             />
           </div>
         </div>
@@ -185,7 +197,7 @@ export default function ProductsPage() {
       {/* Loading State */}
       {(loading || paymentLinksLoading) && (
         <div className="flex flex-col items-center justify-center py-20">
-          <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mb-4"></div>
+          <div className="w-12 h-12 border-4 border-primary/40 border-t-primary rounded-full animate-spin mb-4"></div>
           <p className="text-muted-foreground">Loading...</p>
         </div>
       )}
@@ -411,11 +423,7 @@ export default function ProductsPage() {
                     size="sm"
                     variant="outline"
                     onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={
-                      dataType === "products"
-                        ? currentPage <= 1
-                        : currentPage <= 1
-                    }
+                    disabled={currentPage <= 1}
                     className="disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <ChevronLeft className="w-4 h-4 mr-1" />
@@ -426,10 +434,10 @@ export default function ProductsPage() {
                     variant="outline"
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={
-                      dataType === "products"
-                        ? currentPage >= (pagination?.totalPages || 1)
-                        : currentPage >=
-                          (paymentLinksPagination?.totalPages || 1)
+                      currentPage >=
+                      (dataType === "products"
+                        ? pagination?.totalPages || 1
+                        : paymentLinksPagination?.totalPages || 1)
                     }
                     className="disabled:opacity-50 disabled:cursor-not-allowed"
                   >
