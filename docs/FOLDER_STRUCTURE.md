@@ -7,7 +7,7 @@ This project follows a clean, modular architecture with clear separation of conc
 ## Directory Structure
 
 ```
-stablestack/
+openly/
 ├── app/                           # Next.js App Router
 │   ├── (routes)/
 │   │   ├── page.tsx               # Login/Signup page

@@ -1,12 +1,12 @@
 # Product Requirements Document (PRD)
 
-## StableStack Payment Platform
+## Openly Payment Platform
 
 ---
 
 ## 📋 Document Information
 
-**Product Name:** StableStack  
+**Product Name:** Openly  
 **Version:** 1.0  
 **Last Updated:** October 15, 2025  
 **Document Owner:** Product Team  
@@ -16,7 +16,7 @@
 
 ## 🎯 Executive Summary
 
-StableStack is a modern payment platform that bridges traditional finance and cryptocurrency. It enables merchants to accept card payments from customers worldwide and automatically receive stablecoins, eliminating the volatility risk of cryptocurrency while leveraging blockchain's benefits.
+Openly is a modern payment platform that bridges traditional finance and cryptocurrency. It enables merchants to accept card payments from customers worldwide and automatically receive stablecoins, eliminating the volatility risk of cryptocurrency while leveraging blockchain's benefits.
 
 **One-Line Pitch:** _Accept card payments, receive stablecoins._
 
@@ -42,7 +42,7 @@ StableStack is a modern payment platform that bridges traditional finance and cr
 
 ### The Solution
 
-StableStack provides a seamless bridge between traditional and crypto payments:
+Openly provides a seamless bridge between traditional and crypto payments:
 
 - ✅ **Simple Payment Links** - No complex integration needed
 - ✅ **Card Payment Acceptance** - Customers pay with any card
@@ -1132,7 +1132,7 @@ User Action → Hook → API Client → Backend API
 
 **Channels:**
 
-- Email: support@stablestack.xyz
+- Email: support@openly.xyz
 - Live chat (planned)
 - Help center (planned)
 - Community forum (planned)

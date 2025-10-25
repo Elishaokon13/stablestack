@@ -446,7 +446,7 @@ To add new sidebar features:
 
 **Last Updated:** October 20, 2025  
 **Version:** 1.0.0  
-**Author:** StableStack Team
+**Author:** Openly Team
 
 ---
 

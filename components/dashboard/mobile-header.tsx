@@ -45,7 +45,7 @@ export function MobileHeader() {
           <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
             <MonkeyIcon className="size-7" />
           </div>
-          <span className="text-lg font-display text-white">Stablestack</span>
+          <span className="text-lg font-display text-white">Openly</span>
         </div>
 
         {/* Right: User Button */}

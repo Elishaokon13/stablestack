@@ -170,7 +170,7 @@ export default function UserStorePage() {
             <Package className="w-5 h-5 text-primary" />
             <p className="text-sm text-muted-foreground">
               Powered by{" "}
-              <span className="text-foreground font-semibold">Stablestack</span>
+              <span className="text-foreground font-semibold">Openly</span>
             </p>
           </div>
         </div>

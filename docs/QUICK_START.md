@@ -1,6 +1,6 @@
 ## Quick Start Guide
 
-Get up and running with StableStack in 5 minutes.
+Get up and running with Openly in 5 minutes.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Get up and running with StableStack in 5 minutes.
 
 ```bash
 git clone <your-repo-url>
-cd stablestack
+cd openly
 npm install
 ```
 

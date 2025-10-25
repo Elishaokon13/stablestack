@@ -326,4 +326,4 @@ Your application now features:
 
 ---
 
-_UI Improvements v1.0.0 - StableStack_
+_UI Improvements v1.0.0 - Openly_

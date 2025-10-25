@@ -1,4 +1,4 @@
-# StableStack - Modern Web3 Payment Platform
+# Openly - Modern Web3 Payment Platform
 
 > **Accept card payments, receive stablecoins. Simple. Fast. Secure.**
 
@@ -83,7 +83,7 @@ A professional payment platform that bridges traditional finance and cryptocurre
 ## 📁 Project Structure
 
 ```
-stablestack/
+openly/
 ├── app/                          # Next.js App Router
 │   ├── (routes)/                 # Application routes
 │   │   ├── page.tsx              # Login/Signup
@@ -163,7 +163,7 @@ stablestack/
 
    ```bash
    git clone <repository-url>
-   cd stablestack
+   cd openly
    ```
 
 2. **Install dependencies**
@@ -571,6 +571,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for the payment community**
 
-_StableStack - Where traditional payments meet crypto_
+_Openly - Where traditional payments meet crypto_
 
 **Version 2.0** - Optimized, Responsive, Production-Ready

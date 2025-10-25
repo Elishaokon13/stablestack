@@ -40,7 +40,7 @@ The sidebar has been completely redesigned to be clean, minimal, and functional 
 
 ```
 ┌────────────────────┐
-│ 🐵 Stablestack     │ ← Logo header (85px height)
+│ 🐵 Openly     │ ← Logo header (85px height)
 │    WEB3 PAYMENTS   │
 ├────────────────────┤ ← Border separator
 │                    │

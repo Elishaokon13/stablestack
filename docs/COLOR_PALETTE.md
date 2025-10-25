@@ -5,7 +5,7 @@
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
-│         🎨 StableStack Colors           │
+│         🎨 Openly Colors           │
 │                                         │
 └─────────────────────────────────────────┘
 ```
@@ -43,6 +43,7 @@
 ## 🌈 Light Mode Palette
 
 ### Backgrounds
+
 ```
 Background:  ▓▓▓▓▓▓▓▓▓▓ #ffffff (White)
 Cards:       ▓▓▓▓▓▓▓▓▓▓ #ffffff (White)
@@ -52,6 +53,7 @@ Accent:      ▓▓▓▓▓▓▓▓▓▓ #e6f0ff (Light blue)
 ```
 
 ### Text
+
 ```
 Foreground:  ████████ #0a0a0a (Almost black)
 Muted:       ████░░░░ #6b7280 (Gray)
@@ -59,6 +61,7 @@ Primary:     ████████ #003e91 (Your blue)
 ```
 
 ### Borders
+
 ```
 Border:      ▓░░░░░░░ #e5e7eb (Light gray)
 Input:       ▓░░░░░░░ #e5e7eb (Light gray)
@@ -70,6 +73,7 @@ Ring:        ████████ #003e91 (Focus - your blue)
 ## 🌙 Dark Mode Palette
 
 ### Backgrounds
+
 ```
 Background:  ████████ #111111 (Your dark) ⭐
 Cards:       ████████ #1a1a1a (Slightly lighter)
@@ -79,6 +83,7 @@ Accent:      ████▒▒▒▒ rgba(0,62,145,0.15) (Blue tint)
 ```
 
 ### Text
+
 ```
 Foreground:  ▓▓▓▓▓▓▓▓ #f5f5f5 (Off-white)
 Muted:       ▓▓▓▓░░░░ #9ca3af (Gray)
@@ -87,6 +92,7 @@ Accent Text: ████████ #66a3ff (Light blue)
 ```
 
 ### Borders
+
 ```
 Border:      ████░░░░ rgba(255,255,255,0.1) (Subtle)
 Input:       ████░░░░ rgba(255,255,255,0.1) (Subtle)
@@ -105,6 +111,7 @@ Info:        ██████ #3b82f6 (Blue)
 ```
 
 **Visual Examples:**
+
 - ✅ Success: `#10b981` - "Payment completed successfully"
 - ⚠️ Warning: `#f59e0b` - "Link expires in 24 hours"
 - ❌ Error: `#ef4444` - "Payment failed"
@@ -125,6 +132,7 @@ Progressive blue palette for charts:
 ```
 
 **Use for:**
+
 - Bar charts
 - Line charts
 - Pie charts
@@ -138,6 +146,7 @@ Progressive blue palette for charts:
 ### Light Mode
 
 **High Contrast (Text):**
+
 ```
 #0a0a0a on #ffffff  ✅ 16.7:1 (AAA)
 █████ Text
@@ -145,6 +154,7 @@ Progressive blue palette for charts:
 ```
 
 **Primary Action:**
+
 ```
 #ffffff on #003e91  ✅ 8.6:1 (AAA)
 ▓▓▓▓▓ Text
@@ -152,6 +162,7 @@ Progressive blue palette for charts:
 ```
 
 **Subtle Accent:**
+
 ```
 #003e91 on #e6f0ff  ✅ 9.2:1 (AAA)
 █████ Text
@@ -161,6 +172,7 @@ Progressive blue palette for charts:
 ### Dark Mode
 
 **High Contrast (Text):**
+
 ```
 #f5f5f5 on #111111  ✅ 14.8:1 (AAA)
 ▓▓▓▓▓ Text
@@ -168,6 +180,7 @@ Progressive blue palette for charts:
 ```
 
 **Primary Action:**
+
 ```
 #ffffff on #0052cc  ✅ 7.2:1 (AAA)
 ▓▓▓▓▓ Text
@@ -175,6 +188,7 @@ Progressive blue palette for charts:
 ```
 
 **Subtle Accent:**
+
 ```
 #66a3ff on rgba(0,62,145,0.15)  ✅ 4.5:1 (AA)
 █████ Text
@@ -186,6 +200,7 @@ Progressive blue palette for charts:
 ## 🎨 Gradient Recipes
 
 ### Brand Gradient (Full)
+
 ```
 linear-gradient(135deg, #003e91 0%, #0052cc 100%)
 
@@ -194,9 +209,10 @@ Dark Blue          Bright Blue
 ```
 
 ### Soft Brand Gradient
+
 ```
-linear-gradient(135deg, 
-  rgba(0,62,145,0.1) 0%, 
+linear-gradient(135deg,
+  rgba(0,62,145,0.1) 0%,
   rgba(0,82,204,0.05) 100%)
 
 ████▒▒▒▒▒▒▒▒▒ → ███▒▒▒▒▒▒▒▒▒▒
@@ -204,6 +220,7 @@ Subtle Blue        Almost Transparent
 ```
 
 ### Radial Glow
+
 ```
 radial-gradient(circle at center,
   #003e91 0%,
@@ -223,6 +240,7 @@ radial-gradient(circle at center,
 ### Buttons
 
 **Primary:**
+
 ```
 Background: #003e91
 Text: #ffffff
@@ -230,6 +248,7 @@ Hover: #001f4d (Darker)
 ```
 
 **Secondary:**
+
 ```
 Light Mode:
   Background: #f5f5f5
@@ -245,6 +264,7 @@ Dark Mode:
 ### Cards
 
 **Default:**
+
 ```
 Light Mode:
   Background: #ffffff
@@ -256,6 +276,7 @@ Dark Mode:
 ```
 
 **Accent:**
+
 ```
 Light Mode:
   Background: #e6f0ff
@@ -269,6 +290,7 @@ Dark Mode:
 ### Sidebar
 
 **Active Item:**
+
 ```
 Light Mode:
   Background: #f0f7ff
@@ -282,6 +304,7 @@ Dark Mode:
 ```
 
 **Hover:**
+
 ```
 Light Mode:
   Background: #f0f7ff (lighter)
@@ -295,6 +318,7 @@ Dark Mode:
 ## 🎯 Usage Patterns
 
 ### Hero Section
+
 ```
 Background: Gradient Brand
 Text: White (#ffffff)
@@ -302,6 +326,7 @@ Accent: Light blue (#66a3ff)
 ```
 
 ### Dashboard Cards
+
 ```
 Background: Card color
 Border: Border color
@@ -311,6 +336,7 @@ Subtitle: Muted foreground
 ```
 
 ### Forms
+
 ```
 Input Background: Background
 Input Border: Input/Border color
@@ -325,6 +351,7 @@ Error: Destructive (#ef4444)
 ## 🔍 Finding Colors in Code
 
 ### CSS Variables
+
 ```css
 /* In your components */
 background-color: var(--primary);
@@ -333,17 +360,19 @@ border-color: var(--border);
 ```
 
 ### Tailwind Classes
+
 ```tsx
-className="bg-primary text-primary-foreground"
-className="border-border hover:bg-accent"
-className="text-muted-foreground"
+className = "bg-primary text-primary-foreground";
+className = "border-border hover:bg-accent";
+className = "text-muted-foreground";
 ```
 
 ### Custom Classes
+
 ```tsx
-className="bg-brand-blue"
-className="bg-gradient-brand"
-className="text-brand-blue"
+className = "bg-brand-blue";
+className = "bg-gradient-brand";
+className = "text-brand-blue";
 ```
 
 ---
@@ -390,11 +419,13 @@ When designing a new component:
 For design tools (Figma, Sketch, etc.):
 
 ### Brand Blue (#003e91)
+
 - **RGB:** rgb(0, 62, 145)
 - **HSL:** hsl(214, 100%, 28%)
 - **HSV:** hsv(214, 100%, 57%)
 
 ### Brand Dark (#111111)
+
 - **RGB:** rgb(17, 17, 17)
 - **HSL:** hsl(0, 0%, 7%)
 - **HSV:** hsv(0, 0%, 7%)
@@ -404,6 +435,7 @@ For design tools (Figma, Sketch, etc.):
 ## 📱 Preview
 
 ### Light Mode
+
 ```
 ┌─────────────────────────────────┐
 │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ White bg
@@ -419,6 +451,7 @@ For design tools (Figma, Sketch, etc.):
 ```
 
 ### Dark Mode
+
 ```
 ┌─────────────────────────────────┐
 │ ████████████████████████████████ │ #111111 bg
@@ -438,4 +471,3 @@ For design tools (Figma, Sketch, etc.):
 **Your professional color scheme is ready! 🎨✨**
 
 Test at: `http://localhost:3000`
-
