@@ -25,12 +25,13 @@ const isV0 = process.env["VERCEL_URL"]?.includes("vusercontent.net") ?? false;
 
 export const metadata: Metadata = {
   title: {
-    template: "%s – Openly",
-    default: "Openly - Web3 Payments",
+    template: "Openly",
+    default: "Openly - Card Payments, Stablecoins",
   },
-  description:
-    "The ultimate rebel payment platform for Web3. Accept USDC payments with style.",
-  generator: "v0.app",
+  description: "Accept card payments, receive stablecoins. Simple. Fast. Secure.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default async function RootLayout({
@@ -43,7 +44,7 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider>
-      <html lang="en" className="dark">
+      <html lang="en">
         <head>
           <link
             rel="preload"

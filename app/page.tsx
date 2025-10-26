@@ -33,17 +33,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       <div className="relative flex items-center justify-center min-h-screen p-4">
-        <div className="w-full max-w-4xl items-center">
+        <div className="w-full flex flex-col gap-3 items-center">
           {/* Tabs */}
-          <div className="flex justify-center mb-4">
-            <div className="bg-card border border-border rounded-xl p-1.5 flex gap-1">
+          <div className="flex justify-center">
+            <div className="flex gap-1">
               <button
                 onClick={() => setActiveTab("signup")}
-                className={`px-8 py-2 rounded-md font-semibold transition-all duration-200 ${
+                className={`px-4 py-2 rounded-md font-semibold transition-all duration-200 text-xs cursor-pointer ${
                   activeTab === "signup"
-                    ? "bg-primary text-white shadow-lg"
+                    ? "bg-primary text-white"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
@@ -51,9 +51,9 @@ export default function LoginPage() {
               </button>
               <button
                 onClick={() => setActiveTab("signin")}
-                className={`px-8 py-3 rounded-md font-semibold transition-all duration-200 ${
+                className={`px-4 py-2 rounded-md font-semibold transition-all duration-200 text-xs cursor-pointer ${
                   activeTab === "signin"
-                    ? "bg-primary text-white shadow-lg"
+                    ? "bg-primary text-white"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
