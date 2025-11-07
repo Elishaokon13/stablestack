@@ -17,8 +17,6 @@ import {
   Link as LinkIcon,
   Copy,
   X,
-  CreditCard,
-  Clock,
 } from "lucide-react";
 
 interface ProductLinkModalProps {
@@ -171,7 +169,6 @@ export function ProductLinkModal({
 
   const isStep1Valid = formData.productName && formData.imagePreview;
   const isStep2Valid = formData.description && formData.amount && formData.slug;
-  const isFormValid = isStep1Valid && isStep2Valid;
 
   const nextStep = () => {
     if (currentStep < 2) {
@@ -189,24 +186,24 @@ export function ProductLinkModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-background rounded-lg max-w-xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl border border-border"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6 border-b border-border">
+        <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-semibold">Create Payment Link</h2>
-              <p className="text-sm text-muted-foreground mt-1">
-                Step {currentStep} of 2
-              </p>
+            <div className="flex flex-col gap-1">
+              <h2 className="text-lg font-semibold text-foreground">
+                Create Product Link
+              </h2>
+              <p className="text-sm text-gray-500">Step {currentStep} of 2</p>
             </div>
             <Button
               variant="ghost"
@@ -220,7 +217,7 @@ export function ProductLinkModal({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="px-4 py-3 space-y-6">
           {generatedLink ? (
             // Success State
             <motion.div
@@ -229,16 +226,18 @@ export function ProductLinkModal({
               className="space-y-4"
             >
               <div className="text-center">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
+                <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle2 className="h-6 w-6 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-1">Link Created!</h3>
+                <h3 className="text-lg font-semibold mb-1 text-foreground">
+                  Link Created!
+                </h3>
                 <p className="text-sm text-muted-foreground">
                   Your payment link is ready to share
                 </p>
               </div>
 
-              <Card>
+              <Card className="bg-white border border-gray-200">
                 <CardContent className="p-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
@@ -247,15 +246,17 @@ export function ProductLinkModal({
                         ${generatedLink.price} USD
                       </p>
                     </div>
-                    <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                    <Badge className="bg-green-50 text-green-700 border border-green-200">
                       Active
                     </Badge>
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">Payment Link:</p>
-                    <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg">
-                      <code className="flex-1 text-xs font-mono text-muted-foreground truncate">
+                    <p className="text-sm font-medium text-foreground">
+                      Payment Link:
+                    </p>
+                    <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                      <code className="flex-1 text-xs font-mono text-gray-700 truncate">
                         {generatedLink.url}
                       </code>
                       <Button
@@ -288,8 +289,8 @@ export function ProductLinkModal({
             >
               {/* Error Message */}
               {(errorMessage || createError) && (
-                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                  <p className="text-sm text-red-400">
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-600">
                     {errorMessage || createError}
                   </p>
                 </div>
@@ -297,25 +298,18 @@ export function ProductLinkModal({
 
               {/* Step 1: Image and Product Name */}
               {currentStep === 1 && (
-                <div className="space-y-6">
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">
-                      Product Details
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Upload an image and name your product
-                    </p>
-                  </div>
+                <div className="flex flex-col gap-4">
+                  <h3 className="text-md font-semibold">Product details</h3>
 
                   {/* Image Upload */}
-                  <div className="flex flex-col items-start gap-3">
-                    <Label>Product Image *</Label>
+                  <div className="flex flex-col gap-3">
+                    <Label>Product image *</Label>
                     {formData.imagePreview ? (
-                      <div className="w-full h-[200px] relative group">
+                      <div className="w-full h-[240px] relative group">
                         <img
                           src={formData.imagePreview}
                           alt="Product preview"
-                          className="w-full h-full object-contain rounded-lg border"
+                          className="w-fit h-full object-cover rounded-lg border border-gray-200"
                         />
                         <input
                           type="file"
@@ -326,17 +320,17 @@ export function ProductLinkModal({
                         />
                         <label
                           htmlFor="change-image-upload"
-                          className="absolute inset-0 flex items-center justify-center bg-black/50 bg-opacity-60 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                          className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                           style={{ transition: "opacity 0.2s" }}
                         >
-                          <span className="bg-white/80 text-black px-3 py-1 rounded text-sm font-medium shadow flex items-center gap-2">
+                          <span className="bg-white text-gray-900 px-3 py-1.5 rounded-md text-sm font-medium shadow-lg flex items-center gap-2">
                             <Upload className="h-4 w-4" />
                             Change image
                           </span>
                         </label>
                       </div>
                     ) : (
-                      <div className="border-2 w-full border-dashed border-muted-foreground/25 rounded-lg p-4 h-[200px] flex items-center justify-center hover:border-primary/50 transition-colors">
+                      <div className="border-2 w-full border-dashed border-gray-300 rounded-lg p-4 h-[200px] flex items-center justify-center hover:border-primary transition-colors bg-gray-50/50">
                         <input
                           type="file"
                           accept="image/*"
@@ -348,11 +342,11 @@ export function ProductLinkModal({
                           htmlFor="image-upload"
                           className="cursor-pointer flex flex-col items-center gap-2"
                         >
-                          <Upload className="h-6 w-6 text-muted-foreground" />
-                          <div className="text-sm font-medium">
+                          <Upload className="h-6 w-6 text-gray-400" />
+                          <div className="text-sm font-medium text-gray-700">
                             Upload Image
                           </div>
-                          <div className="text-xs text-muted-foreground">
+                          <div className="text-xs text-gray-500">
                             Max 5MB, png or jpg
                           </div>
                         </label>
@@ -361,8 +355,8 @@ export function ProductLinkModal({
                   </div>
 
                   {/* Product Name */}
-                  <div className="flex flex-col items-start gap-3">
-                    <Label htmlFor="product-name">Product Name *</Label>
+                  <div className="flex flex-col gap-3">
+                    <Label htmlFor="product-name">Product name *</Label>
                     <Input
                       id="product-name"
                       value={formData.productName}
@@ -377,18 +371,11 @@ export function ProductLinkModal({
 
               {/* Step 2: Remaining Fields */}
               {currentStep === 2 && (
-                <div className="space-y-6">
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">
-                      Payment Settings
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Configure pricing and link options
-                    </p>
-                  </div>
+                <div className="flex flex-col gap-4">
+                  <h3 className="text-md font-semibold">Payment settings</h3>
 
                   {/* Description */}
-                  <div className="flex flex-col items-start gap-3">
+                  <div className="flex flex-col gap-3">
                     <Label htmlFor="description">Description *</Label>
                     <Textarea
                       id="description"
@@ -401,12 +388,12 @@ export function ProductLinkModal({
                     />
                   </div>
 
-                  <div className="flex flex-col md:flex-row items-start md:items-center gap-3 w-full">
+                  <div className="flex flex-col md:flex-row gap-3 w-full">
                     {/* Amount */}
-                    <div className="flex flex-col w-full items-start gap-3">
+                    <div className="flex flex-col w-full gap-3">
                       <Label htmlFor="amount">Amount (USD) *</Label>
                       <div className="relative w-full">
-                        <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <Input
                           id="amount"
                           type="number"
@@ -423,12 +410,10 @@ export function ProductLinkModal({
                     </div>
 
                     {/* Slug */}
-                    <div className="flex flex-col w-full items-start gap-3">
+                    <div className="flex flex-col w-full gap-3">
                       <Label htmlFor="slug">Link Slug *</Label>
                       <div className="flex items-center gap-2 w-full">
-                        <span className="text-sm text-muted-foreground">
-                          /pay/
-                        </span>
+                        <span className="text-sm text-gray-500">/pay/</span>
                         <Input
                           id="slug"
                           value={formData.slug}
@@ -458,7 +443,7 @@ export function ProductLinkModal({
                       ].map((chain) => (
                         <label
                           key={chain.value}
-                          className="flex items-center space-x-2 cursor-pointer p-2 border rounded-lg hover:bg-muted/50"
+                          className="flex items-center space-x-2 cursor-pointer p-3 border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-primary/50 transition-colors"
                         >
                           <input
                             type="radio"

@@ -18,7 +18,7 @@ import { Loader2, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 export function UniqueNameModal() {
   const { uniqueName, loading: fetchingName, setUniqueName } = useUniqueName();
   const { loading: checking, result, checkAvailability } = useCheckUniqueName();
-  
+
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
@@ -86,24 +86,58 @@ export function UniqueNameModal() {
 
   const getInputStatus = () => {
     if (!inputValue) return null;
-    if (inputValue.length < 3) return { icon: XCircle, text: "Too short (min 3 characters)", color: "text-red-500" };
-    if (!/^[a-zA-Z0-9_-]+$/.test(inputValue)) return { icon: XCircle, text: "Invalid characters", color: "text-red-500" };
-    if (checking) return { icon: Loader2, text: "Checking...", color: "text-blue-500", spin: true };
-    if (result?.available) return { icon: CheckCircle2, text: "Available!", color: "text-green-500" };
-    if (result && !result.available) return { icon: XCircle, text: result.reason || "Not available", color: "text-red-500" };
+    if (inputValue.length < 3)
+      return {
+        icon: XCircle,
+        text: "Too short (min 3 characters)",
+        color: "text-red-500",
+      };
+    if (!/^[a-zA-Z0-9_-]+$/.test(inputValue))
+      return {
+        icon: XCircle,
+        text: "Invalid characters",
+        color: "text-red-500",
+      };
+    if (checking)
+      return {
+        icon: Loader2,
+        text: "Checking...",
+        color: "text-blue-500",
+        spin: true,
+      };
+    if (result?.available)
+      return {
+        icon: CheckCircle2,
+        text: "Available!",
+        color: "text-green-500",
+      };
+    if (result && !result.available)
+      return {
+        icon: XCircle,
+        text: result.reason || "Not available",
+        color: "text-red-500",
+      };
     return null;
   };
 
   const status = getInputStatus();
-  const canSubmit = inputValue.length >= 3 && result?.available && !saving && !checking;
+  const canSubmit =
+    inputValue.length >= 3 && result?.available && !saving && !checking;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md !shadow-none" onInteractOutside={(e) => e.preventDefault()}>
+      <DialogContent
+        className="sm:max-w-md bg-white border border-gray-200 shadow-xl text-foreground"
+        overlayClassName="bg-black/40 backdrop-blur-0"
+        onInteractOutside={(e) => e.preventDefault()}
+      >
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Welcome! 🎉</DialogTitle>
-          <DialogDescription className="text-base">
-            Let's get you set up with a unique name. This will be used for your payment links.
+          <DialogTitle className="text-xl font-bold text-foreground">
+            Welcome! 🎉
+          </DialogTitle>
+          <DialogDescription className="text-base text-gray-600">
+            Let's get you set up with a unique name. This will be used for your
+            payment links.
           </DialogDescription>
         </DialogHeader>
 
@@ -121,10 +155,12 @@ export function UniqueNameModal() {
               autoFocus
               disabled={saving}
             />
-            
+
             {/* Status indicator */}
             {status && (
-              <div className={`flex items-center gap-2 text-sm ${status.color}`}>
+              <div
+                className={`flex items-center gap-2 text-sm ${status.color}`}
+              >
                 {status.spin ? (
                   <status.icon className="h-4 w-4 animate-spin" />
                 ) : (
@@ -145,7 +181,9 @@ export function UniqueNameModal() {
             {/* Example URL */}
             {inputValue && (
               <div className="mt-2 p-3 bg-muted rounded-md">
-                <p className="text-xs text-muted-foreground mb-1">Your payment links will look like:</p>
+                <p className="text-xs text-muted-foreground mb-1">
+                  Your payment links will look like:
+                </p>
                 <code className="text-sm font-mono break-all">
                   {window.location.origin}/{inputValue}/your-product
                 </code>
@@ -154,11 +192,7 @@ export function UniqueNameModal() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Button 
-              type="submit" 
-              disabled={!canSubmit}
-              className="w-full"
-            >
+            <Button type="submit" disabled={!canSubmit} className="w-full">
               {saving ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -177,4 +211,3 @@ export function UniqueNameModal() {
     </Dialog>
   );
 }
-

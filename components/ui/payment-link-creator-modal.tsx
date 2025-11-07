@@ -196,13 +196,15 @@ export function PaymentLinkCreatorModal({
         <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
           <DollarSign className="w-8 h-8 text-primary" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">Payment Amount</h3>
-        <p className="text-gray-300">How much do you want to charge?</p>
+        <h3 className="text-xl font-bold text-foreground mb-2">
+          Payment Amount
+        </h3>
+        <p className="text-gray-600">How much do you want to charge?</p>
       </div>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="amount" className="text-white font-medium">
+          <Label htmlFor="amount" className="text-foreground font-medium">
             Amount *
           </Label>
           <div className="relative">
@@ -215,30 +217,26 @@ export function PaymentLinkCreatorModal({
               placeholder="0.00"
               value={formData.amount}
               onChange={(e) => handleInputChange("amount", e.target.value)}
-              className="pl-10 bg-white/5 border-white/20 text-white placeholder-gray-400 focus:border-blue-500"
+              className="pl-10"
               required
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="currency" className="text-white font-medium">
+          <Label htmlFor="currency" className="text-foreground font-medium">
             Currency *
           </Label>
           <Select
             value={formData.currency}
             onValueChange={(value) => handleInputChange("currency", value)}
           >
-            <SelectTrigger className="bg-white/5 border-white/20 text-white">
+            <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-slate-800 border-white/20">
+            <SelectContent>
               {currencyOptions.map((option) => (
-                <SelectItem
-                  key={option.value}
-                  value={option.value}
-                  className="text-white"
-                >
+                <SelectItem key={option.value} value={option.value}>
                   {option.label}
                 </SelectItem>
               ))}
@@ -255,13 +253,15 @@ export function PaymentLinkCreatorModal({
         <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-success/20">
           <CreditCard className="w-8 h-8 text-success" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">Payment Details</h3>
-        <p className="text-gray-300">What is this payment for?</p>
+        <h3 className="text-xl font-bold text-foreground mb-2">
+          Payment Details
+        </h3>
+        <p className="text-gray-600">What is this payment for?</p>
       </div>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="title" className="text-white font-medium">
+          <Label htmlFor="title" className="text-foreground font-medium">
             Payment Title *
           </Label>
           <Input
@@ -269,29 +269,24 @@ export function PaymentLinkCreatorModal({
             placeholder="e.g., Website Development, Consulting Session"
             value={formData.title}
             onChange={(e) => handleInputChange("title", e.target.value)}
-            className="bg-white/5 border-white/20 text-white placeholder-gray-400 focus:border-primary"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="purpose" className="text-white font-medium">
+          <Label htmlFor="purpose" className="text-foreground font-medium">
             Purpose
           </Label>
           <Select
             value={formData.purpose}
             onValueChange={(value) => handleInputChange("purpose", value)}
           >
-            <SelectTrigger className="bg-white/5 border-white/20 text-white">
+            <SelectTrigger>
               <SelectValue placeholder="Select purpose" />
             </SelectTrigger>
-            <SelectContent className="bg-slate-800 border-white/20">
+            <SelectContent>
               {purposeOptions.map((option) => (
-                <SelectItem
-                  key={option.value}
-                  value={option.value}
-                  className="text-white"
-                >
+                <SelectItem key={option.value} value={option.value}>
                   {option.label}
                 </SelectItem>
               ))}
@@ -308,15 +303,15 @@ export function PaymentLinkCreatorModal({
         <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
           <Link className="w-8 h-8 text-primary" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">Description</h3>
-        <p className="text-gray-300">
+        <h3 className="text-xl font-bold text-foreground mb-2">Description</h3>
+        <p className="text-gray-600">
           Add more details about this payment (optional)
         </p>
       </div>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="description" className="text-white font-medium">
+          <Label htmlFor="description" className="text-foreground font-medium">
             Description
           </Label>
           <Textarea
@@ -324,7 +319,7 @@ export function PaymentLinkCreatorModal({
             placeholder="Describe what this payment is for, any special instructions, or additional details..."
             value={formData.description}
             onChange={(e) => handleInputChange("description", e.target.value)}
-            className="bg-white/5 border-white/20 text-white placeholder-gray-400 focus:border-blue-500 min-h-[120px]"
+            className="min-h-[120px]"
             rows={4}
           />
         </div>
@@ -338,29 +333,27 @@ export function PaymentLinkCreatorModal({
         <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 ring-2 ring-primary/20">
           <Check className="w-8 h-8 text-primary" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">Payment Settings</h3>
-        <p className="text-gray-300">Configure your payment link</p>
+        <h3 className="text-xl font-bold text-foreground mb-2">
+          Payment Settings
+        </h3>
+        <p className="text-gray-600">Configure your payment link</p>
       </div>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="expiresIn" className="text-white font-medium">
+          <Label htmlFor="expiresIn" className="text-foreground font-medium">
             Expires In
           </Label>
           <Select
             value={formData.expiresIn}
             onValueChange={(value) => handleInputChange("expiresIn", value)}
           >
-            <SelectTrigger className="bg-white/5 border-white/20 text-white">
+            <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-slate-800 border-white/20">
+            <SelectContent>
               {expiresOptions.map((option) => (
-                <SelectItem
-                  key={option.value}
-                  value={option.value}
-                  className="text-white"
-                >
+                <SelectItem key={option.value} value={option.value}>
                   {option.label}
                 </SelectItem>
               ))}
@@ -369,9 +362,9 @@ export function PaymentLinkCreatorModal({
         </div>
 
         <div className="space-y-2">
-          <Label className="text-white font-medium">Payment Options</Label>
+          <Label className="text-foreground font-medium">Payment Options</Label>
           <div className="space-y-3">
-            <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg border border-white/10">
+            <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
               <input
                 type="checkbox"
                 id="allowMultiple"
@@ -379,16 +372,16 @@ export function PaymentLinkCreatorModal({
                 onChange={(e) =>
                   handleInputChange("allowMultiplePayments", e.target.checked)
                 }
-                className="rounded border-white/20 bg-white/5 text-blue-600 focus:ring-blue-500"
+                className="rounded border-gray-300 bg-white text-primary focus:ring-primary"
               />
               <div>
                 <Label
                   htmlFor="allowMultiple"
-                  className="text-white font-medium"
+                  className="text-foreground font-medium"
                 >
                   Allow multiple payments
                 </Label>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-500">
                   Let customers pay multiple times with the same link
                 </p>
               </div>
@@ -429,9 +422,12 @@ export function PaymentLinkCreatorModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl mx-auto bg-[#111111] backdrop-blur-lg border border-white/10 text-white max-h-[90vh] overflow-y-auto">
+      <DialogContent
+        className="max-w-2xl mx-auto bg-white border border-gray-200 text-foreground max-h-[90vh] overflow-y-auto shadow-xl"
+        overlayClassName="bg-black/40 backdrop-blur-0"
+      >
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-white flex items-center gap-2">
+          <DialogTitle className="text-xl font-bold text-foreground flex items-center gap-2">
             <CreditCard className="w-5 h-5" />
             Create Payment Link
           </DialogTitle>
@@ -445,7 +441,7 @@ export function PaymentLinkCreatorModal({
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
                     i + 1 <= currentStep
                       ? "bg-primary text-white ring-2 ring-primary/30"
-                      : "bg-white/10 text-gray-400"
+                      : "bg-gray-100 text-gray-400"
                   }`}
                 >
                   {i + 1 < currentStep ? <Check className="w-4 h-4" /> : i + 1}
@@ -459,21 +455,21 @@ export function PaymentLinkCreatorModal({
           <div className="space-y-6">
             {/* Error Message */}
             {createError && (
-              <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                <p className="text-sm text-red-400">{createError}</p>
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-600">{createError}</p>
               </div>
             )}
 
             {renderStepContent()}
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between pt-6 border-t border-white/10">
+            <div className="flex justify-between pt-6 border-t border-gray-200">
               <Button
                 type="button"
                 onClick={prevStep}
                 disabled={currentStep === 1}
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 disabled:opacity-50"
+                className="disabled:opacity-50"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Previous
@@ -513,24 +509,24 @@ export function PaymentLinkCreatorModal({
           /* Success State */
           <div className="space-y-6">
             <div className="text-center">
-              <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-white mb-2">
+              <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-foreground mb-2">
                 Payment Link Created!
               </h3>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 Your payment link is ready to share
               </p>
             </div>
 
-            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <Label className="text-white font-medium mb-2 block">
+            <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+              <Label className="text-foreground font-medium mb-2 block">
                 Payment Link
               </Label>
               <div className="flex gap-2">
                 <Input
                   value={createdLink}
                   readOnly
-                  className="bg-white/10 border-white/20 text-white font-mono text-sm"
+                  className="bg-white border-gray-200 font-mono text-sm text-gray-700"
                 />
                 <Button
                   onClick={handleCopyLink}
@@ -544,14 +540,14 @@ export function PaymentLinkCreatorModal({
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-gray-400">Amount</p>
-                <p className="text-white font-semibold">
+                <p className="text-gray-500">Amount</p>
+                <p className="text-foreground font-semibold">
                   {formData.currency} {formData.amount}
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">Purpose</p>
-                <p className="text-white font-semibold">
+                <p className="text-gray-500">Purpose</p>
+                <p className="text-foreground font-semibold">
                   {formData.purpose || "General"}
                 </p>
               </div>
@@ -567,7 +563,7 @@ export function PaymentLinkCreatorModal({
               <Button
                 onClick={() => setCreatedLink(null)}
                 variant="outline"
-                className="flex-1 border-white/20 text-white hover:bg-white/10"
+                className="flex-1"
               >
                 Create Another
               </Button>
