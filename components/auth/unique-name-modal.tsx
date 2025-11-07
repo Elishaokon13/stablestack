@@ -99,18 +99,18 @@ export function UniqueNameModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
+      <DialogContent className="sm:max-w-md !shadow-none" onInteractOutside={(e) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Welcome! 🎉</DialogTitle>
+          <DialogTitle className="text-xl font-bold">Welcome! 🎉</DialogTitle>
           <DialogDescription className="text-base">
             Let's get you set up with a unique name. This will be used for your payment links.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <Label htmlFor="uniqueName" className="text-sm font-medium">
-              Choose Your Unique Name
+              Choose your unique name
             </Label>
             <Input
               id="uniqueName"
