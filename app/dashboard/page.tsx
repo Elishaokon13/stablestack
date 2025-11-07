@@ -4,14 +4,7 @@ import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  CreditCard,
-  BarChart3,
-  Package,
-  ArrowUpRight,
-  DollarSign,
-} from "lucide-react";
-import dynamic from "next/dynamic";
+import { CreditCard, BarChart3 } from "lucide-react";
 import { ProductLinkModal } from "@/components/payment/product-link-modal";
 import { TransactionReceiptModal } from "@/components/ui/transaction-receipt-modal";
 import { PaymentLinkCreatorModal } from "@/components/ui/payment-link-creator-modal";
@@ -22,8 +15,6 @@ import {
 } from "@/lib/hooks/payment";
 import { useProductStats, usePaymentLinkStats } from "@/lib/hooks/product";
 import { useWalletBalance } from "@/lib/hooks/wallet/use-wallet-balance";
-
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
@@ -132,30 +123,29 @@ export default function DashboardPage() {
     <>
       <div className="w-full space-y-6 mx-auto">
         {/* Header */}
-        <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-          <h1 className="text-lg sm:text-xl font-bold text-white">
+        <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4">
+          <h1 className="text-lg md:text-xl font-bold">
             Welcome back, {user.firstName || user.username}!
           </h1>
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto whitespace-nowrap font-semibold"
+          <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+            <button
+              className="px-4 py-2.5 rounded-lg text-sm bg-primary hover:bg-primary/90 text-white w-full cursor-pointer md:w-auto whitespace-nowrap font-semibold"
               onClick={() => setIsPaymentLinkModalOpen(true)}
             >
               Create Payment Link
-            </Button>
-            <Button
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 w-full sm:w-auto whitespace-nowrap"
+            </button>
+            <button
+              className="px-4 py-2.5 rounded-lg text-sm bg-gray-200 text-black hover:bg-primary/10 w-full cursor-pointer md:w-auto whitespace-nowrap"
               onClick={() => setIsProductLinkModalOpen(true)}
             >
               Create Product Link
-            </Button>
+            </button>
           </div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           {/* Wallet Balance Card */}
-          <div className="bg-green-500/10 border border-green-500/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-400">
+          <div className="bg-gradient-to-br from-primary to-black p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
               {balanceLoading ? (
                 <span className="text-base">Loading...</span>
               ) : balance?.balances && balance.balances.length > 0 ? (
@@ -169,12 +159,13 @@ export default function DashboardPage() {
                 "$0.00"
               )}
             </div>
-            <div className="text-muted-foreground text-xs sm:text-sm">
+            <div className="text-white/80 text-xs sm:text-sm">
               Wallet Balance
             </div>
           </div>
+
           {/* Total Revenue Card */}
-          <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+          <div className="bg-white border border-gray-200 p-3 md:p-4 rounded-md flex flex-col gap-2 md:gap-4 h-28 md:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
               $
               {parseFloat(earnings?.succeeded?.amount || "0").toLocaleString(
@@ -191,7 +182,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Active Links Card */}
-          <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+          <div className="bg-white border border-gray-200 p-3 md:p-4 rounded-md flex flex-col gap-2 md:gap-4 h-28 md:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
               {activeLinks}
             </div>
@@ -199,8 +190,9 @@ export default function DashboardPage() {
               Active links
             </div>
           </div>
+
           {/* Total Links Card */}
-          <div className="bg-white/10 border-white/20 p-3 sm:p-4 rounded-md flex flex-col gap-2 sm:gap-4 h-28 sm:h-32 justify-center">
+          <div className="bg-white border border-gray-200 p-3 md:p-4 rounded-md flex flex-col gap-2 md:gap-4 h-28 md:h-32 justify-center">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold">
               {totalLinks}
             </div>
@@ -211,11 +203,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Sales Activity Heatmap */}
-        <div>
-          <h2 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 px-1">
+        <div className="space-y-3">
+          <h2 className="text-base md:text-lg font-semibold px-1">
             Sales Activity Heatmap (Last 6 Months)
           </h2>
-          <div className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 md:p-6">
+          <div className="bg-white border border-gray-200 rounded-lg p-4">
             <div className="overflow-x-auto">
               <div className="inline-block min-w-full">
                 {/* Month labels - showing last 6 months */}
@@ -338,33 +330,28 @@ export default function DashboardPage() {
         </div>
 
         {/* Latest Transactions and Product Analytics */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Latest Transactions */}
-          <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
             {/* Header */}
-            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
+            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
+                  <div className="rounded-lg flex items-center justify-center flex-shrink-0">
+                    <CreditCard className="text-primary" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-base sm:text-lg font-semibold text-white truncate">
-                      Latest Transactions
-                    </h3>
-                    <p className="text-xs text-gray-400 hidden sm:block">
+                    <h3 className="text-md font-semibold truncate">
                       Recent payment activity
-                    </p>
+                    </h3>
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 text-xs sm:text-sm flex-shrink-0"
+                <button
+                  className="px-3 py-1.5 rounded-lg cursor-pointer text-primary hover:text-primary/90 hover:bg-primary/10 flex-shrink-0 text-sm font-medium"
                   onClick={() => router.push("/transactions")}
                 >
                   View All
-                </Button>
+                </button>
               </div>
             </div>
 
@@ -376,7 +363,7 @@ export default function DashboardPage() {
                     <div
                       key={index}
                       onClick={() => handleTransactionClick(transaction)}
-                      className="group flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
+                      className="group flex items-center justify-between p-3 sm:p-4 rounded-lg bg-white border border-gray-200 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
                     >
                       <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
                         {/* Status Indicator Dot */}
@@ -466,20 +453,17 @@ export default function DashboardPage() {
           </div>
 
           {/* Product Performance Analytics */}
-          <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
             {/* Header */}
-            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-white/5">
+            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
+                <div className="rounded-lg flex items-center justify-center flex-shrink-0">
+                  <BarChart3 className="text-primary" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-base sm:text-lg font-semibold text-white truncate">
-                    Product Performance
+                  <h3 className="text-md font-semibold truncate">
+                    Product sales performance
                   </h3>
-                  <p className="text-xs text-gray-400 hidden sm:block">
-                    Sales performance by product
-                  </p>
                 </div>
               </div>
             </div>
