@@ -423,7 +423,7 @@ export function PaymentLinkCreatorModal({
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
-        className="max-w-2xl mx-auto bg-white border border-gray-200 text-foreground max-h-[90vh] overflow-y-auto shadow-xl"
+        className="max-w-lg mx-auto bg-white border border-gray-200 text-foreground max-h-[90vh] overflow-y-auto shadow-xl"
         overlayClassName="bg-black/40 backdrop-blur-0"
       >
         <DialogHeader>
@@ -434,19 +434,66 @@ export function PaymentLinkCreatorModal({
 
           {/* Progress Indicator */}
           {!createdLink && (
-            <div className="flex items-center justify-center space-x-2 mt-4">
-              {Array.from({ length: totalSteps }, (_, i) => (
-                <div
-                  key={i}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
-                    i + 1 <= currentStep
-                      ? "bg-primary text-white ring-2 ring-primary/30"
-                      : "bg-gray-100 text-gray-400"
-                  }`}
-                >
-                  {i + 1 < currentStep ? <Check className="w-4 h-4" /> : i + 1}
+            <div className="mt-6">
+              <div className="flex items-center justify-between relative">
+                {/* Connecting Lines */}
+                <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-200 -z-10">
+                  <div
+                    className="h-full bg-primary transition-all duration-300"
+                    style={{
+                      width: `${((currentStep - 1) / (totalSteps - 1)) * 100}%`,
+                    }}
+                  />
                 </div>
-              ))}
+
+                {/* Step Indicators */}
+                {[
+                  { number: 1, label: "Amount" },
+                  { number: 2, label: "Details" },
+                  { number: 3, label: "Description" },
+                  { number: 4, label: "Settings" },
+                ].map((step) => {
+                  const stepNumber = step.number;
+                  const isCompleted = stepNumber < currentStep;
+                  const isCurrent = stepNumber === currentStep;
+
+                  return (
+                    <div
+                      key={stepNumber}
+                      className="flex flex-col items-center relative z-10"
+                    >
+                      {/* Step Circle */}
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                          isCompleted
+                            ? "bg-primary text-white shadow-md"
+                            : isCurrent
+                            ? "bg-primary text-white ring-4 ring-primary/20 shadow-lg scale-110"
+                            : "bg-gray-100 text-gray-400 border-2 border-gray-200"
+                        }`}
+                      >
+                        {isCompleted ? (
+                          <Check className="w-4 h-4" />
+                        ) : (
+                          stepNumber
+                        )}
+                      </div>
+                      {/* Step Label */}
+                      <span
+                        className={`mt-2 text-xs font-medium transition-colors ${
+                          isCurrent
+                            ? "text-primary font-semibold"
+                            : isCompleted
+                            ? "text-gray-600"
+                            : "text-gray-400"
+                        }`}
+                      >
+                        {step.label}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </DialogHeader>
