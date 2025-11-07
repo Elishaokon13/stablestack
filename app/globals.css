@@ -72,11 +72,11 @@
 
 :root {
   --radius: 0.625rem;
-  
+
   /* Core Brand Colors */
-  --primary-blue: #003e91;
+  --primary-blue: #0062ff;
   --primary-dark: #111111;
-  
+
   /* Light Mode Colors */
   --background: #ffffff;
   --foreground: #0a0a0a;
@@ -84,18 +84,18 @@
   --card-foreground: #0a0a0a;
   --popover: #ffffff;
   --popover-foreground: #0a0a0a;
-  --primary: #003e91;
+  --primary: #0062ff;
   --primary-foreground: #ffffff;
   --secondary: #f5f5f5;
   --secondary-foreground: #111111;
   --muted: #f5f5f5;
   --muted-foreground: #6b7280;
   --accent: #e6f0ff;
-  --accent-foreground: #003e91;
+  --accent-foreground: #0062ff;
   --border: #e5e7eb;
   --pop: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #003e91;
+  --ring: #0062ff;
 
   /* Status Colors */
   --success: #10b981;
@@ -104,21 +104,21 @@
   --info: #3b82f6;
 
   /* Chart Colors (Blue palette) */
-  --chart-1: #003e91;
+  --chart-1: #0062ff;
   --chart-2: #0052cc;
   --chart-3: #0066ff;
   --chart-4: #3385ff;
   --chart-5: #66a3ff;
-  
+
   /* Sidebar Colors (Light) */
   --sidebar: #ffffff;
   --sidebar-foreground: #111111;
-  --sidebar-primary: #003e91;
+  --sidebar-primary: #0062ff;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f0f7ff;
   --sidebar-accent-foreground: #111111;
   --sidebar-border: #e5e7eb;
-  --sidebar-ring: #003e91;
+  --sidebar-ring: #0062ff;
 
   --gap: 2rem;
   --sides: 1rem;
@@ -178,31 +178,35 @@
   body {
     @apply bg-background text-foreground font-mono;
   }
-  
+
   /* Custom utility classes for brand colors */
   .bg-brand-blue {
     background-color: var(--primary-blue);
   }
-  
+
   .bg-brand-dark {
     background-color: var(--primary-dark);
   }
-  
+
   .text-brand-blue {
     color: var(--primary-blue);
   }
-  
+
   .border-brand-blue {
     border-color: var(--primary-blue);
   }
-  
+
   /* Gradient utilities */
   .bg-gradient-brand {
-    background: linear-gradient(135deg, #003e91 0%, #0052cc 100%);
+    background: linear-gradient(135deg, #0062ff 0%, #0052cc 100%);
   }
-  
+
   .bg-gradient-brand-soft {
-    background: linear-gradient(135deg, rgba(0, 62, 145, 0.1) 0%, rgba(0, 82, 204, 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(0, 62, 145, 0.1) 0%,
+      rgba(0, 82, 204, 0.05) 100%
+    );
   }
 }
 

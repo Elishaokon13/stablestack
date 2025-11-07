@@ -7,7 +7,6 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -18,7 +17,6 @@ import {
 import { cn } from "@/lib/utils";
 import MonkeyIcon from "@/components/icons/monkey";
 import { Package, CreditCard, BarChart3, Wallet } from "lucide-react";
-import { useIsV0 } from "@/lib/v0-context";
 import { UserButton, useUser } from "@clerk/nextjs";
 
 const getNavItems = (pathname: string) => [
@@ -52,30 +50,12 @@ const getNavItems = (pathname: string) => [
     icon: BarChart3,
     isActive: pathname === "/analytics",
   },
-  // {
-  //   title: "Development",
-  //   items: [
-  //     {
-  //       title: "Test Wallet",
-  //       url: "/test-wallet",
-  //       icon: TestTube,
-  //       isActive: false,
-  //     },
-  //     {
-  //       title: "API Docs",
-  //       url: "/api-docs",
-  //       icon: GearIcon,
-  //       isActive: false,
-  //     },
-  //   ],
-  // },
 ];
 
 export function DashboardSidebar({
   className,
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  const isV0 = useIsV0();
   const pathname = usePathname();
   const navMain = getNavItems(pathname);
   const { user } = useUser();
@@ -92,31 +72,22 @@ export function DashboardSidebar({
     <Sidebar
       {...props}
       className={cn(
-        "h-screen border-r border-white/10 bg-sidebar w-[280px]",
+        " w-[260px] !sticky top-0 border-r border-r-white/10 h-screen flex flex-col justify-between bg-[#0f0f0f]",
         className
       )}
     >
-      {/* Simple Logo Header */}
-      <SidebarHeader className="py-4 px-3 md:py-5 border-b border-white/10">
-        <div className="flex items-center gap-2 md:gap-3">
-          <div className="flex items-center justify-center">
-            <MonkeyIcon className="size-9 md:size-10" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-lg md:text-xl font-display text-sidebar-foreground">
-              Openly
-            </span>
-            <span className="text-[9px] md:text-[10px] uppercase tracking-wider text-sidebar-foreground/60">
-              Web3 Payments
-            </span>
-          </div>
+      <div className="py-5 px-3 flex items-center gap-2 border-b border-b-white/10 h-[70px]">
+        <div
+          className={`w-full h-full px-3 py-3 flex items-center justify-left`}
+        >
+          <img src="/openly-logo.svg" alt="" className="w-24" />
         </div>
-      </SidebarHeader>
+      </div>
 
-      <SidebarContent className="overflow-y-auto">
-        <SidebarGroup className="border-b border-white/10 pb-3 mb-0 last:border-b-0">
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-1 pr-2 md:pr-3">
+      <div className="">
+        <div className="">
+          <div>
+            <div className="space-y-1 pr-2 md:pr-3">
               {navMain.map((item) => {
                 const isLocked = "locked" in item && item.locked;
                 const isActive = Boolean(item.isActive);
@@ -124,7 +95,7 @@ export function DashboardSidebar({
                 return (
                   <SidebarMenuItem
                     key={item.title}
-                    className={cn("flex", isV0 && "pointer-events-none")}
+                    className={cn("flex items-center justify-center")}
                   >
                     {/* Left indicator - only show when active */}
                     <div
@@ -161,10 +132,10 @@ export function DashboardSidebar({
                   </SidebarMenuItem>
                 );
               })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Simple Footer */}
       <SidebarFooter className="mt-auto px-3 py-3 md:py-4 border-t border-white/10">

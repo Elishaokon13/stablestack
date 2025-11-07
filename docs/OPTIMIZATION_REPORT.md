@@ -120,7 +120,7 @@ Complete audit and optimization of all Openly pages and components. All code has
 
 ### Brand Colors Applied:
 
-**Primary Blue (#003e91):**
+**Primary Blue (#0062FF):**
 
 - ✅ All primary buttons
 - ✅ Active states

@@ -8,7 +8,7 @@ Your Openly application now has a **professional color scheme** using your brand
 
 ## 🎯 Your Brand Colors
 
-### Primary Blue: `#003e91`
+### Primary Blue: `#0062FF`
 
 ```
 ████████ Deep Professional Blue
@@ -47,6 +47,8 @@ Your Openly application now has a **professional color scheme** using your brand
 ```css
 .bg-brand-blue        /* Your blue background */
 /* Your blue background */
+/* Your blue background */
+/* Your blue background */
 .bg-brand-dark        /* Your dark background */
 .text-brand-blue      /* Blue text */
 .border-brand-blue    /* Blue border */
@@ -70,7 +72,7 @@ Your Openly application now has a **professional color scheme** using your brand
 ```
 Background:  White (#ffffff)
 Text:        Almost Black (#0a0a0a)
-Primary:     Your Blue (#003e91)
+Primary:     Your Blue (#0062FF)
 Accent:      Light Blue (#e6f0ff)
 Borders:     Light Gray (#e5e7eb)
 ```
@@ -88,7 +90,7 @@ Borders:     Subtle White (rgba(255,255,255,0.1))
 ### Charts (Progressive Blue)
 
 ```
-█████ #003e91  Darkest (Your blue)
+█████ #0062FF  Darkest (Your blue)
 █████ #0052cc  Dark
 █████ #0066ff  Medium
 █████ #3385ff  Light
@@ -121,7 +123,7 @@ Borders:     Subtle White (rgba(255,255,255,0.1))
 <button className="bg-primary text-primary-foreground">Click Me</button>
 ```
 
-Result: Blue (#003e91) button with white text
+Result: Blue (#0062FF) button with white text
 
 **Card with Accent:**
 
@@ -145,7 +147,7 @@ Result: Gradient from dark blue to bright blue
 <div className="bg-brand-blue text-white">Brand section</div>
 ```
 
-Result: Your exact blue (#003e91)
+Result: Your exact blue (#0062FF)
 
 ---
 
@@ -257,7 +259,7 @@ Inconsistent colors
 ### After:
 
 ```
-✨ Your professional blue (#003e91)
+✨ Your professional blue (#0062FF)
 ✨ Your sophisticated dark (#111111)
 ✨ Cohesive color system
 ✨ Perfect dark mode
@@ -332,8 +334,8 @@ Edit `app/globals.css`:
 
 ```css
 :root {
-  --primary-blue: #003e91; /* Change to your new blue */
-  --primary: #003e91;
+  --primary-blue: #0062ff; /* Change to your new blue */
+  --primary: #0062ff;
 }
 ```
 
@@ -372,7 +374,7 @@ Edit `app/globals.css`:
 
 ### DON'T ❌
 
-- Hardcode colors (`#003e91` in components)
+- Hardcode colors (`#0062FF` in components)
 - Use arbitrary color values
 - Ignore dark mode
 - Forget accessibility
@@ -447,7 +449,7 @@ http://localhost:3000
 
 ### Brand Identity:
 
-- 🎯 Your blue (#003e91) everywhere
+- 🎯 Your blue (#0062FF) everywhere
 - 🎯 Professional appearance
 - 🎯 Memorable design
 - 🎯 Trust and reliability
@@ -490,7 +492,7 @@ Your application now features:
 
 ```
 Brand Colors:
-  Primary: #003e91 (Deep Blue) ⭐
+  Primary: #0062FF (Deep Blue) ⭐
   Dark: #111111 (Rich Dark) ⭐
 
 Features:

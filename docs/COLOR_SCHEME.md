@@ -11,10 +11,10 @@ Your application now uses a professional blue and dark color palette.
 ### Primary Blue
 
 ```css
-#003e91
+#0062FF
 ```
 
-<div style="background: #003e91; color: white; padding: 20px; border-radius: 8px;">
+<div style="background: #0062FF; color: white; padding: 20px; border-radius: 8px;">
   Deep Professional Blue - Primary Brand Color
 </div>
 
@@ -64,7 +64,7 @@ Your application now uses a professional blue and dark color palette.
 ```css
 --foreground: #0a0a0a        /* Primary text */
 --muted-foreground: #6b7280  /* Secondary text */
---primary: #003e91           /* Primary color (your blue) */
+--primary: #0062FF           /* Primary color (your blue) */
 ```
 
 #### Borders & Inputs
@@ -72,7 +72,7 @@ Your application now uses a professional blue and dark color palette.
 ```css
 --border: #e5e7eb           /* Border color */
 --input: #e5e7eb            /* Input borders */
---ring: #003e91             /* Focus rings */
+--ring: #0062FF             /* Focus rings */
 ```
 
 ---
@@ -113,7 +113,7 @@ Your application now uses a professional blue and dark color palette.
 Progressive blue palette for data visualization:
 
 ```css
---chart-1: #003e91  /* Darkest - Your brand blue */
+--chart-1: #0062FF  /* Darkest - Your brand blue */
 --chart-2: #0052cc  /* Dark */
 --chart-3: #0066ff  /* Medium */
 --chart-4: #3385ff  /* Light */
@@ -123,7 +123,7 @@ Progressive blue palette for data visualization:
 **Visual Scale:**
 
 ```
-█████ #003e91  Darkest
+█████ #0062FF  Darkest
 ████░ #0052cc  Dark
 ███░░ #0066ff  Medium
 ██░░░ #3385ff  Light
@@ -159,7 +159,7 @@ Consistent across light and dark modes:
 ```css
 --sidebar: #ffffff              /* Background */
 --sidebar-foreground: #111111   /* Text */
---sidebar-primary: #003e91      /* Active state */
+--sidebar-primary: #0062FF      /* Active state */
 --sidebar-accent: #f0f7ff       /* Hover state (light blue) */
 --sidebar-border: #e5e7eb       /* Borders */
 ```
@@ -188,7 +188,7 @@ Consistent across light and dark modes:
 </button>
 ```
 
-Result: Blue (#003e91) button with white text
+Result: Blue (#0062FF) button with white text
 
 **Secondary Button:**
 
@@ -404,7 +404,7 @@ All combinations meet WCAG 2.1 AA standards minimum!
 
 ## 🎨 Color Psychology
 
-### Blue (#003e91)
+### Blue (#0062FF)
 
 - **Trust & Reliability:** Perfect for finance
 - **Professional:** Corporate and serious
@@ -433,7 +433,7 @@ All combinations meet WCAG 2.1 AA standards minimum!
 ### DON'T ❌
 
 - Don't use `text-blue-500` (use `text-primary`)
-- Don't hardcode colors (`#003e91` in components)
+- Don't hardcode colors (`#0062FF` in components)
 - Don't mix gray scales arbitrarily
 - Don't forget hover/focus states
 - Don't ignore accessibility
@@ -448,8 +448,8 @@ Edit in `globals.css`:
 
 ```css
 :root {
-  --primary-blue: #003e91; /* Change this */
-  --primary: #003e91; /* And this */
+  --primary-blue: #0062ff; /* Change this */
+  --primary: #0062ff; /* And this */
 }
 ```
 
@@ -491,7 +491,7 @@ Use: https://webaim.org/resources/contrastchecker/
 
 Test combinations:
 
-- #003e91 on #ffffff
+- #0062FF on #ffffff
 - #f5f5f5 on #111111
 - #6b7280 on #ffffff
 
@@ -521,7 +521,7 @@ const chartOptions = {
 | -------------- | --------- | ----------------------- |
 | **Background** | `#ffffff` | `#111111`               |
 | **Text**       | `#0a0a0a` | `#f5f5f5`               |
-| **Primary**    | `#003e91` | `#0052cc`               |
+| **Primary**    | `#0062FF` | `#0052cc`               |
 | **Border**     | `#e5e7eb` | `rgba(255,255,255,0.1)` |
 | **Accent**     | `#e6f0ff` | `rgba(0,62,145,0.15)`   |
 

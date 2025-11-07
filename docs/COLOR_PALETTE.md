@@ -16,7 +16,7 @@
 
 ```
 ██████████ #001f4d  Darkest (Hover dark)
-██████████ #003e91  Brand Primary ⭐
+██████████ #0062FF  Brand Primary ⭐
 ██████████ #0052cc  Medium (Dark mode primary)
 ██████████ #0066ff  Bright
 ██████████ #3385ff  Light
@@ -57,7 +57,7 @@ Accent:      ▓▓▓▓▓▓▓▓▓▓ #e6f0ff (Light blue)
 ```
 Foreground:  ████████ #0a0a0a (Almost black)
 Muted:       ████░░░░ #6b7280 (Gray)
-Primary:     ████████ #003e91 (Your blue)
+Primary:     ████████ #0062FF (Your blue)
 ```
 
 ### Borders
@@ -65,7 +65,7 @@ Primary:     ████████ #003e91 (Your blue)
 ```
 Border:      ▓░░░░░░░ #e5e7eb (Light gray)
 Input:       ▓░░░░░░░ #e5e7eb (Light gray)
-Ring:        ████████ #003e91 (Focus - your blue)
+Ring:        ████████ #0062FF (Focus - your blue)
 ```
 
 ---
@@ -124,7 +124,7 @@ Info:        ██████ #3b82f6 (Blue)
 Progressive blue palette for charts:
 
 ```
-██████ Chart 1: #003e91  (Darkest - Brand)
+██████ Chart 1: #0062FF  (Darkest - Brand)
 ██████ Chart 2: #0052cc  (Dark)
 ██████ Chart 3: #0066ff  (Medium)
 ██████ Chart 4: #3385ff  (Light)
@@ -156,7 +156,7 @@ Progressive blue palette for charts:
 **Primary Action:**
 
 ```
-#ffffff on #003e91  ✅ 8.6:1 (AAA)
+#ffffff on #0062FF  ✅ 8.6:1 (AAA)
 ▓▓▓▓▓ Text
 █████ Background
 ```
@@ -164,7 +164,7 @@ Progressive blue palette for charts:
 **Subtle Accent:**
 
 ```
-#003e91 on #e6f0ff  ✅ 9.2:1 (AAA)
+#0062FF on #e6f0ff  ✅ 9.2:1 (AAA)
 █████ Text
 ▓▓▓▓▓ Background
 ```
@@ -202,7 +202,7 @@ Progressive blue palette for charts:
 ### Brand Gradient (Full)
 
 ```
-linear-gradient(135deg, #003e91 0%, #0052cc 100%)
+linear-gradient(135deg, #0062FF 0%, #0052cc 100%)
 
 █████████████ → ████████████░
 Dark Blue          Bright Blue
@@ -223,7 +223,7 @@ Subtle Blue        Almost Transparent
 
 ```
 radial-gradient(circle at center,
-  #003e91 0%,
+  #0062FF 0%,
   transparent 70%)
 
     ████
@@ -242,7 +242,7 @@ radial-gradient(circle at center,
 **Primary:**
 
 ```
-Background: #003e91
+Background: #0062FF
 Text: #ffffff
 Hover: #001f4d (Darker)
 ```
@@ -280,7 +280,7 @@ Dark Mode:
 ```
 Light Mode:
   Background: #e6f0ff
-  Border: #003e91 (20% opacity)
+  Border: #0062FF (20% opacity)
 
 Dark Mode:
   Background: rgba(0,62,145,0.15)
@@ -294,7 +294,7 @@ Dark Mode:
 ```
 Light Mode:
   Background: #f0f7ff
-  Left Border: #003e91 (4px)
+  Left Border: #0062FF (4px)
   Text: #111111
 
 Dark Mode:
@@ -331,7 +331,7 @@ Accent: Light blue (#66a3ff)
 Background: Card color
 Border: Border color
 Title: Foreground color
-Value: Primary color (#003e91)
+Value: Primary color (#0062FF)
 Subtitle: Muted foreground
 ```
 
@@ -381,7 +381,7 @@ className = "text-brand-blue";
 
 ```
 Primary Palette:
-#003e91 ──┬── #0052cc (Brighter)
+#0062FF ──┬── #0052cc (Brighter)
           ├── #0066ff (More saturated)
           ├── #3385ff (Lighter)
           └── #66a3ff (Much lighter)
@@ -418,7 +418,7 @@ When designing a new component:
 
 For design tools (Figma, Sketch, etc.):
 
-### Brand Blue (#003e91)
+### Brand Blue (#0062FF)
 
 - **RGB:** rgb(0, 62, 145)
 - **HSL:** hsl(214, 100%, 28%)
@@ -445,7 +445,7 @@ For design tools (Figma, Sketch, etc.):
 │ ┌──────────────────────────┐  │
 │ │ ▓▓▓ Card (#ffffff)       │  │
 │ │ ████ Content             │  │
-│ │ ████████ Button          │  │ #003e91
+│ │ ████████ Button          │  │ #0062FF
 │ └──────────────────────────┘  │
 └─────────────────────────────────┘
 ```

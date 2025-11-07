@@ -93,7 +93,7 @@ The sidebar has been completely redesigned to be clean, minimal, and functional 
 
 - **Height:** 50px fixed
 - **Left Indicator:** 5px wide, rounded-r-lg
-- **Active Color:** `bg-primary` (your #003e91 blue)
+- **Active Color:** `bg-primary` (your #0062FF blue)
 - **Font:** Light weight (font-light)
 - **Hover:** Opacity 60% transition
 - **Padding:** `px-3 ml-2` (2px gap from indicator)
@@ -246,7 +246,7 @@ border-white/10  /* All borders */
 ### Active State:
 
 ```css
-bg-primary       /* #003e91 - Your brand blue */
+bg-primary       /* #0062FF - Your brand blue */
 text-white       /* White text on blue */
 ```
 

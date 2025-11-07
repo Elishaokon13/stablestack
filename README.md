@@ -405,7 +405,7 @@ The platform features a professional brand identity with:
 
 ### **Brand Colors**
 
-- **Primary Blue**: `#003e91` - Deep professional blue for trust and reliability
+- **Primary Blue**: `#0062FF` - Deep professional blue for trust and reliability
 - **Primary Dark**: `#111111` - Rich dark background for modern aesthetic
 - **Status Colors**: Success (#10b981), Warning (#f59e0b), Error (#ef4444)
 - **Chart Palette**: Progressive blue gradient (5 shades)
@@ -424,7 +424,7 @@ All design tokens are in `app/globals.css`:
 
 ```css
 :root {
-  --primary: #003e91; /* Your brand blue */
+  --primary: #0062ff; /* Your brand blue */
   --background: #ffffff; /* Light mode */
 }
 
@@ -485,7 +485,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### **Complete Redesign**
 
-- ✅ Professional brand colors (#003e91 blue, #111111 dark)
+- ✅ Professional brand colors (#0062FF blue, #111111 dark)
 - ✅ Fully responsive mobile-first design
 - ✅ Clean minimal sidebar with edge-to-edge layout
 - ✅ Modern card-based UI across all pages

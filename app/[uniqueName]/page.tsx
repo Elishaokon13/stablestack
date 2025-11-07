@@ -35,7 +35,7 @@ export default function UserStorePage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#003e91]/40 border-t-[#003e91] rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#0062FF]/40 border-t-[#0062FF] rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-foreground text-lg">Loading products...</p>
         </div>
       </div>

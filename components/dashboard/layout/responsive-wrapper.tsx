@@ -16,26 +16,27 @@ export function ResponsiveLayoutWrapper({
   showUniqueNameModal = false,
 }: ResponsiveLayoutWrapperProps) {
   return (
-    <SidebarProvider>
+    <div className="">
+      {/* <SidebarProvider> */}
       {showUniqueNameModal && <UniqueNameModal />}
-      
+
       {/* Mobile Header */}
       <MobileHeader />
 
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full relative">
         {/* Desktop Sidebar */}
         <div className="hidden lg:block">
           <DashboardSidebar />
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 w-full">
+        <main className="flex-1 w-full relative">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-7xl">
             {children}
           </div>
         </main>
       </div>
-    </SidebarProvider>
+      {/* </SidebarProvider> */}
+    </div>
   );
 }
-
