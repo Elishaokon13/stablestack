@@ -23,15 +23,15 @@ export function ResponsiveLayoutWrapper({
       {/* Mobile Header */}
       <MobileHeader />
 
-      <div className="flex min-h-screen w-full relative">
+      <div className="flex h-full w-full relative">
         {/* Desktop Sidebar */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:block h-full sticky top-0">
           <DashboardSidebar />
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 w-full relative">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-7xl">
+        <main className="flex-1 w-full relative h-full">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-7xl h-full">
             {children}
           </div>
         </main>

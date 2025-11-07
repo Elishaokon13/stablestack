@@ -113,7 +113,7 @@ export function DashboardSidebar({
       </div>
 
       {/* Simple Footer */}
-      <SidebarFooter className="mt-auto px-3 py-3 md:py-4 border-t border-white/10">
+      <SidebarFooter className="mt-auto px-4 py-3 md:py-4 border-t border-white/10">
         <div className="flex items-center gap-2 md:gap-3">
           <UserButton
             appearance={{
