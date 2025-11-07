@@ -1,8 +1,7 @@
-import { Roboto_Mono } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
 import { V0Provider } from "../lib/v0-context";
-import localFont from "next/font/local";
 import { SidebarProvider } from "../components/ui/sidebar";
 import { DashboardSidebar } from "../components/dashboard/sidebar";
 import { Providers } from "../components/providers";
@@ -10,14 +9,15 @@ import { headers } from "next/headers";
 import React from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
   subsets: ["latin"],
-});
-
-const rebelGrotesk = localFont({
-  src: "../public/fonts/Rebels-Fett.woff2",
-  variable: "--font-rebels",
   display: "swap",
 });
 
@@ -45,17 +45,8 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <head>
-          <link
-            rel="preload"
-            href="/fonts/Rebels-Fett.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-          />
-        </head>
         <body
-          className={`${rebelGrotesk.variable} ${robotoMono.variable} antialiased`}
+          className={`${inter.variable} ${robotoMono.variable} antialiased font-sans`}
         >
           <Providers cookies={cookies}>
             <V0Provider isV0={isV0}>

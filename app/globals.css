@@ -1,18 +1,11 @@
-@font-face {
-  font-family: "Rebels";
-  src: url("/fonts/Rebels-Fett.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: var(--font-rebels);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-inter);
   --font-mono: var(--font-roboto-mono);
 
   --color-background: var(--background);
@@ -176,7 +169,7 @@
     @apply border-border outline-ring/50 overscroll-none;
   }
   body {
-    @apply bg-background text-foreground font-mono;
+    @apply bg-background text-foreground font-sans;
   }
 
   /* Custom utility classes for brand colors */

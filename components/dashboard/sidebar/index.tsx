@@ -4,50 +4,48 @@ import * as React from "react";
 import { usePathname } from "next/navigation";
 import {
   Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarHeader,
-  SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import MonkeyIcon from "@/components/icons/monkey";
-import { Package, CreditCard, BarChart3, Wallet } from "lucide-react";
 import { UserButton, useUser } from "@clerk/nextjs";
+import { TbLayoutGridFilled, TbLink } from "react-icons/tb";
+import { PiListFill } from "react-icons/pi";
+import { IoWallet } from "react-icons/io5";
+import { FaChartPie } from "react-icons/fa";
+import Link from "next/link";
 
 const getNavItems = (pathname: string) => [
   {
     title: "Dashboard",
     url: "/dashboard",
-    icon: BarChart3,
+    icon: TbLayoutGridFilled,
     isActive: pathname === "/dashboard",
   },
   {
     title: "Links",
     url: "/links",
-    icon: Package,
+    icon: TbLink,
     isActive: pathname === "/links",
   },
   {
     title: "Transactions",
     url: "/transactions",
-    icon: CreditCard,
+    icon: PiListFill,
     isActive: pathname === "/transactions",
   },
   {
     title: "Wallet",
     url: "/wallet",
-    icon: Wallet,
+    icon: IoWallet,
     isActive: pathname === "/wallet",
   },
   {
     title: "Analytics",
     url: "/analytics",
-    icon: BarChart3,
+    icon: FaChartPie,
     isActive: pathname === "/analytics",
   },
 ];
@@ -72,69 +70,46 @@ export function DashboardSidebar({
     <Sidebar
       {...props}
       className={cn(
-        " w-[260px] !sticky top-0 border-r border-r-white/10 h-screen flex flex-col justify-between bg-[#0f0f0f]",
+        " w-[240px] !sticky top-0 border-r border-r-white/10 h-screen flex flex-col justify-between bg-[#0f0f0f]",
         className
       )}
     >
       <div className="py-5 px-3 flex items-center gap-2 border-b border-b-white/10 h-[70px]">
         <div
-          className={`w-full h-full px-3 py-3 flex items-center justify-left`}
+          className={`w-full h-full px-4 py-3 flex items-center justify-left`}
         >
           <img src="/openly-logo.svg" alt="" className="w-24" />
         </div>
       </div>
 
-      <div className="">
-        <div className="">
-          <div>
-            <div className="space-y-1 pr-2 md:pr-3">
-              {navMain.map((item) => {
-                const isLocked = "locked" in item && item.locked;
-                const isActive = Boolean(item.isActive);
+      <div className="flex flex-col gap-2 w-full px-4 py-3">
+        {navMain.map((item) => {
+          const isActive = Boolean(item.isActive);
 
-                return (
-                  <SidebarMenuItem
-                    key={item.title}
-                    className={cn("flex items-center justify-center")}
-                  >
-                    {/* Left indicator - only show when active */}
-                    <div
-                      className={cn(
-                        "w-[5px] h-[50px] rounded-r-lg transition-colors",
-                        isActive && "bg-primary"
-                      )}
-                    />
-
-                    <SidebarMenuButton
-                      asChild={!isLocked}
-                      isActive={isActive}
-                      className={cn(
-                        "flex items-center w-full h-[50px] px-2 md:px-3 ml-2 text-sm font-light rounded-lg hover:opacity-60 active:opacity-50 transition-opacity",
-                        isActive && "bg-primary text-white"
-                      )}
-                    >
-                      {isLocked ? (
-                        <div className="flex items-center gap-2 md:gap-3">
-                          <item.icon className="size-5 flex-shrink-0" />
-                          <span className="truncate">{item.title}</span>
-                        </div>
-                      ) : (
-                        <a
-                          href={item.url}
-                          onClick={handleNavClick}
-                          className="flex items-center gap-2 md:gap-3 w-full min-w-0"
-                        >
-                          <item.icon className="size-5 flex-shrink-0" />
-                          <span className="truncate">{item.title}</span>
-                        </a>
-                      )}
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+          return (
+            <SidebarMenuItem
+              key={item.title}
+              className={cn("flex items-center justify-center")}
+            >
+              <SidebarMenuButton
+                isActive={isActive}
+                className={cn(
+                  "flex items-center w-full text-white/60 px-2 md:px-3 text-sm font-light rounded-[8px] hover:opacity-60 active:opacity-50 transition-opacity",
+                  isActive && "bg-primary text-white"
+                )}
+              >
+                <Link
+                  href={item.url}
+                  onClick={handleNavClick}
+                  className="flex items-center gap-2 md:gap-3 w-full min-w-0"
+                >
+                  <item.icon className="size-5 flex-shrink-0" />
+                  <span className="truncate">{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          );
+        })}
       </div>
 
       {/* Simple Footer */}
